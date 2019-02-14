@@ -42,38 +42,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        {{--  User Firstname  --}}
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">person</i>
-                            <input type="text" id="name" name="name" value="{{ old('name') }}">
-                            <label for="name">Name</label>
-                            @if ($errors->has('name'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                            @endif
-                        </div>
 
-                        {{--  User EMAIL  --}}
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">email</i>
-                            <input class="validate" type="email" id="email" name="email" value="{{ old('email') }}">
-                            <label for="email">Email</label>
-                            @if ($errors->has('email'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                        {{--  PICTURE  --}}
-                        <div class="input-field col s12">
-                            <img-fileinput imgsrc="{{ $defaultImg }}"></img-fileinput>
-                            @if ($errors->has('pic'))
-                                <span class="help-block">
-                                    <strong>{{ $errors->first('pic') }}</strong>
-                                </span>
-                            @endif
-                        </div>
+                        @foreach($form['inputs'] as $item)
+                            @include('commons.form.'.$item['type'], $item['attr'])
+                        @endforeach
+
                     </div>
                     <div class="row">
                         <div class="input-field col s12 right-align">

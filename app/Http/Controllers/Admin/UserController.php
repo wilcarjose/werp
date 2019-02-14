@@ -82,8 +82,9 @@ class UserController extends Controller
         if (Gate::denies('developerOnly') && Gate::denies('user.create')) {
             return back();
         }
+
         return view('admin.users.add', [
-            'defaultImg' => url('/images/square/admin.png')
+            'form' => config('form.user')
         ]);
     }
 
