@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\PageService;
 use Gate;
 use App\User;
 use Illuminate\Http\Request;
@@ -16,11 +17,13 @@ class UserController extends Controller
 
     protected $user;
     protected $userTransformer;
+    protected $pageService;
 
-    public function __construct(User $user, UsersTransformer $userTransformer)
+    public function __construct(User $user, UsersTransformer $userTransformer, PageService $pageService)
     {
         $this->user            = $user;
         $this->userTransformer = $userTransformer;
+        $this->pageService     = $pageService;
     }
 
     /**
@@ -83,9 +86,7 @@ class UserController extends Controller
             return back();
         }
 
-        return view('admin.users.add', [
-            'form' => config('form.user')
-        ]);
+        return $this->pageService->showPage('user', 'new');
     }
 
     /**
@@ -162,7 +163,8 @@ class UserController extends Controller
             return back();
         }
         $picture = $user->profile_pic?$this->getFileUrl($user->profile_pic):url('/images/square/admin.png');
-        return view('admin.users.edit', compact('user', 'picture'));
+
+        return $this->pageService->showPage('user', 'edit', $user->toArray());
     }
 
     /**
@@ -184,9 +186,7 @@ class UserController extends Controller
             return back();
         }
 
-        $picture = $user->profile_pic?$this->getFileUrl($user->profile_pic):url('/images/square/admin.png');
-
-        return view('admin.users.edit', compact('user', 'picture'));
+        return $this->pageService->editUserPage($user->toArray());
     }
 
     /**

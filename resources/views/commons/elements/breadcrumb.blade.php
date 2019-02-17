@@ -1,0 +1,1 @@
+<a class="breadcrumb" href="{{ $route }}">{{ $text  }}</a>

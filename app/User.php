@@ -35,4 +35,14 @@ class User extends Authenticatable
     {
         $this->attributes['email'] = strtolower($email);
     }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'pic'   => $this->profile_pic
+        ];
+    }
 }

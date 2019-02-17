@@ -33,7 +33,7 @@ Route::resource('/administrator','Admin\AdminController');
 /**
  * USERS
  */
-Route::put('/user/status','Admin\UserController@switchStatus');
+Route::put('/user/status','Admin\UserController@switchStatus')->name('user_status');
 Route::post('/user/removeBulk','Admin\UserController@destroyBulk');
 Route::put('/user/statusBulk','Admin\UserController@switchStatusBulk');
 Route::get('/user/{id}/cellar','Admin\UserController@showUserCellar');
