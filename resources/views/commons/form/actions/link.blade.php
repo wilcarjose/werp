@@ -1,3 +1,3 @@
-<a type="{{ $type }}" href="{{ $page->getListRoute() }}" class="btn waves-effect waves-set info-bg">
-    {{ $text }}
+<a type="{{ $action->getType() }}" href="{{ $action->getRoute() }}" class="btn waves-effect waves-set info-bg">
+    {{ $action->getText() }}
 </a>

@@ -1,1 +1,1 @@
-<a class="breadcrumb" href="{{ $route }}">{{ $text  }}</a>
+<a class="breadcrumb" href="{{ $breadcrumb->getRoute() }}">{{ $breadcrumb->getText()  }}</a>

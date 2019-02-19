@@ -9,7 +9,7 @@
           <div class="page-options">
             <a class="waves-effect waves-set page-opt-dropBtn setWave btn-floating" href="#"><i class="material-icons">perm_data_setting</i></a>
             <a class="waves-effect waves-set page-opt-dropBtn setWave btn-floating" href="#"><i class="material-icons">chat_bubble_outline</i></a>
-        </div>
+          </div>
         </div>
         <!-- ============================-->
         <!-- breadcrumb-->
@@ -18,8 +18,8 @@
           <nav class="breadcrumbs-nav left">
             <div class="nav-wrapper">
               <div class="col s12">
-                  @foreach($page->getBreadcrums() as $breadcrumb)
-                      @include('commons.elements.breadcrumb', $breadcrumb)
+                  @foreach($page->getBreadcrumbs() as $breadcrumb)
+                      @include('commons.elements.breadcrumb', compact('breadcrumb'))
                   @endforeach
               </div>
             </div>
@@ -44,15 +44,15 @@
                     </div>
                     <div class="row">
 
-                        @foreach($page->getInputs() as $item)
-                            @include('commons.form.inputs.'.$item['type'], $item['attr'])
+                        @foreach($page->getInputs() as $input)
+                            @include('commons.form.inputs.'.$input->getType(), compact('input'))
                         @endforeach
 
                     </div>
                     <div class="row">
                         <div class="input-field col s12 right-align">
                             @foreach($page->getActions() as $action)
-                                @include('commons.form.actions.'.$action['type'], $action['attr'])
+                                @include('commons.form.actions.'.$action->getType(), compact('action'))
                             @endforeach
                         </div>
                     </div>

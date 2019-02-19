@@ -21,10 +21,15 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Forge Admin') }}</title>
+        <title>{{ config('app.name', 'Werp') }}</title>
         <!-- FONTS-->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Inconsolata" type="text/css">
-        <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+        @if ($noInternet = true)
+            <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/icons.css') }}">
+        @else
+            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Inconsolata" type="text/css">
+            <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+        @endif
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/dynamic.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/scrollbar/perfect-scrollbar.min.css') }}">

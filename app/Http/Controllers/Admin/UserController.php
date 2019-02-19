@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\PageService;
+use App\Builders\User\UserForm;
+use App\Builders\User\UserList;
 use Gate;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,13 +18,15 @@ class UserController extends Controller
 
     protected $user;
     protected $userTransformer;
-    protected $pageService;
+    protected $userForm;
+    protected $userList;
 
-    public function __construct(User $user, UsersTransformer $userTransformer, PageService $pageService)
+    public function __construct(User $user, UsersTransformer $userTransformer, UserForm $userForm, UserList $userList)
     {
         $this->user            = $user;
         $this->userTransformer = $userTransformer;
-        $this->pageService     = $pageService;
+        $this->userForm     = $userForm;
+        $this->userList     = $userList;
     }
 
     /**
@@ -72,7 +75,8 @@ class UserController extends Controller
                 'status_code' => 200
             ], 200);
         }
-        return view('admin.users.list');
+        return $this->userList->view();
+        //return view('admin.users.list');
     }
 
     /**
@@ -86,7 +90,7 @@ class UserController extends Controller
             return back();
         }
 
-        return $this->pageService->showPage('user', 'new');
+        return $this->userForm->showPage();
     }
 
     /**
@@ -164,7 +168,7 @@ class UserController extends Controller
         }
         $picture = $user->profile_pic?$this->getFileUrl($user->profile_pic):url('/images/square/admin.png');
 
-        return $this->pageService->showPage('user', 'edit', $user->toArray());
+        return $this->userForm->showPage('edit', $user->toArray());
     }
 
     /**
@@ -186,7 +190,7 @@ class UserController extends Controller
             return back();
         }
 
-        return $this->pageService->editUserPage($user->toArray());
+        return $this->userForm->editUserPage($user->toArray());
     }
 
     /**

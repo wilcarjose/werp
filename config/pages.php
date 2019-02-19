@@ -20,8 +20,8 @@ return [
             'pic'   => ['type' => 'image', 'attr' => ['name' => 'pic', 'default' => '/images/square/admin.png', 'value' => '']],
         ],
         'actions' => [
-            'save'   => ['type' => 'button', 'attr' => ['name' => 'update_profile', 'type' => 'submit', 'text' => 'User', 'icon' => 'add']],
-            'cancel' => ['type' => 'link', 'attr' => ['name' => '', 'type' => 'button', 'text' => 'Cancel', 'icon' => '', 'route' => '/admin/user']]
+            'save'   => ['type' => 'button', 'attr' => ['name' => 'update_profile', 'event' => 'submit', 'text' => 'User', 'icon' => 'add']],
+            'cancel' => ['type' => 'link', 'attr' => ['name' => '', 'event' => 'button', 'text' => 'Cancel', 'icon' => '', 'route' => '/admin/user']]
         ],
         'breadcrumb' => [
             'home'   => ['route' => '/admin/home', 'text' => 'Home'],
