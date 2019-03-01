@@ -9,7 +9,7 @@
         <div class="card-panel">
           <div class="row box-title">
             <div class="col s12">
-              <h5 class="content-headline">Users</h5>
+              <h5 class="content-headline">Usuarios</h5>
             </div>
             <div class="col s12 m8">
               <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
