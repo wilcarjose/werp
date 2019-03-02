@@ -33,7 +33,7 @@
                 @include('flash')
             </div>
             {{--  PROFILE UPDATE  --}}
-            <form class="col m8 push-m2 s12 profile-info-form" role="form" method="POST" action="{{ $page->getActionRoute() }}" enctype="multipart/form-data">
+            <form class="col m8 push-m2 s12 profile-info-form" role="form" method="POST" action="{{ $page->getSaveRoute() }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 @if ($page->edit()) {{ method_field('PUT') }} @endif
                 <div class="card-panel profile-form-cardpanel">

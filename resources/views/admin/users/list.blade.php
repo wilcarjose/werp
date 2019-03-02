@@ -21,7 +21,7 @@
             <div class="nav-wrapper">
               <div class="col s12">
                 <a class="breadcrumb" href="{{ url('admin/') }}">Home</a>
-                <a class="breadcrumb" href="#">Users</a>
+                <a class="breadcrumb" href="#">{{route('admin.user.create')}}</a>
               </div>
             </div>
           </nav>
@@ -29,7 +29,8 @@
     </div>
 
     <div class="main-container">
-        <users headline='User'></users>
+
+        <users headline='User' route="{{route('admin.user.create')}}"></users>
     </div>
 @endsection
 

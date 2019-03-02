@@ -8,17 +8,18 @@
 
 namespace App\Builders\User;
 
-use App\Builders\ListBuilder;
-use App\Builders\BreadcrumbBuilder;
+use App\Builders\Main\MainList;
 
-class UserList extends ListBuilder
+class UserList extends MainList
 {
     public function __construct()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), 'Home');
         $this->setTitle('Usuarios')
             ->setRoute('admin.user')
-            ->addBreadcrumb($homeBreadcrumb)
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->getTitle()));
+            ->setShowStatus(true)
+            ->setFields(['fullname' => 'Nombre', 'email' => 'Email'])
+            ->makeConfig();
+
+        parent::__construct();
     }
 }

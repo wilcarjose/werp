@@ -51,7 +51,7 @@ class FormBuilder extends ModuleBuilder
         return $this->edit;
     }
 
-    public function getUpdateRoute()
+    public function getEditRoute()
     {
         return route($this->route.'.edit', $this->getObjectId());
     }
@@ -63,7 +63,22 @@ class FormBuilder extends ModuleBuilder
 
     public function getActionRoute()
     {
-        return $this->edit ? $this->getUpdateRoute() : $this->getCreateRoute();
+        return $this->edit ? $this->getEditRoute() : $this->getCreateRoute();
+    }
+
+    public function getUpdateRoute()
+    {
+        return route($this->route.'.update', $this->getObjectId());
+    }
+
+    public function getStoreRoute()
+    {
+        return route($this->route.'.store');
+    }
+
+    public function getSaveRoute()
+    {
+        return $this->edit ? $this->getUpdateRoute() : $this->getStoreRoute();
     }
 
     public function view()

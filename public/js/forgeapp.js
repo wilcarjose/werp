@@ -36682,6 +36682,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -36690,18 +36698,36 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__["a" /* tableData */]],
+    props: ['config'],
     data: function data() {
         return {
             pupupMod: 'add',
             showAdd: false,
             // Component
-            gridColumns: ['first', 'email', 'status', 'action'],
+            columns: this.config.fields,
             escapeSort: ['action'],
             sortOrder: { field: 'created_at', order: 'desc' },
-            showpages: 10
+            showpages: 10,
+            route: this.config.route,
+            title: this.config.title,
+            show_status: this.config.show_status
         };
     },
+
+    computed: {
+        fieldList: function fieldList() {
+            var list = '(';
+            this.columns.forEach(function (value, key) {
+                if (key != 0) {
+                    list = list + ',';
+                }
+                list = list + value.field;
+            });
+            return list + ')';
+        }
+    },
     mounted: function mounted() {
+        this.test();
         this.all();
         this.showAdd = true;
     },
@@ -36713,7 +36739,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
             this.resetAlert();
-            var uri = '/admin/user?page=' + page + '&sort=' + this.sortOrder.field + '&order=' + this.sortOrder.order;
+            var uri = this.route + '?page=' + page + '&sort=' + this.sortOrder.field + '&order=' + this.sortOrder.order + '&fields=' + this.fieldList;
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
@@ -36730,7 +36756,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
             this.componentData.splice(index, 1);
-            var uri = '/admin/user/' + obj.id;
+            var uri = this.route + '/' + obj.id;
             axios.delete(uri).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
@@ -36747,7 +36773,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this3 = this;
 
             this.resetAlert();
-            var uri = '/admin/user/removeBulk';
+            var uri = this.route + '/removeBulk';
             if (this.multiSelection.length) {
                 axios.post(uri, this.multiSelection).then(function (response) {
                     var res = response.data;
@@ -36769,7 +36795,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
             this.resetAlert();
             var newStat = obj.status == 'active' ? 'inactive' : 'active';
-            var uri = '/admin/user/status';
+            var uri = this.route + '/status';
             axios.put(uri, obj).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
@@ -36783,7 +36809,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this5 = this;
 
             this.resetAlert();
-            var uri = '/admin/user/statusBulk';
+            var uri = this.route + '/statusBulk';
             axios.put(uri, this.multiSelection).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
@@ -36798,7 +36824,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this6 = this;
 
             var searchQuery = this.searchQuery;
-            var uri = '/admin/user?searchQuery=' + searchQuery + '&sort=' + this.sortOrder.field + '&order=' + this.sortOrder.order;
+            var uri = this.route + '?searchQuery=' + searchQuery + '&sort=' + this.sortOrder.field + '&order=' + this.sortOrder.order;
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
@@ -36808,6 +36834,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }).catch(function (error) {
                 console.log(error);
             });
+        },
+        test: function test() {
+            console.log('**********************************************************************');
+            console.log(this.fieldList);
         }
     }
 });
@@ -36838,7 +36868,11 @@ var render = function() {
     _c("div", { staticClass: "col s12 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
         _c("div", { staticClass: "row box-title" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "col s12" }, [
+            _c("h5", { staticClass: "content-headline" }, [
+              _vm._v(_vm._s(_vm.title))
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -36866,7 +36900,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "btn btn-default pull-right btn-floating",
-                      attrs: { href: "user/create" }
+                      attrs: { href: _vm.route + "/create" }
                     },
                     [
                       _c("i", { staticClass: "material-icons" }, [
@@ -36897,29 +36931,31 @@ var render = function() {
                 [_c("i", { staticClass: "material-icons" }, [_vm._v("delete")])]
               ),
               _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn info-bg btn-floating tooltipped",
-                  attrs: {
-                    type: "button",
-                    "data-position": "righht",
-                    "data-delay": "50",
-                    "data-tooltip": "Change Status",
-                    disabled: _vm.multiSelection.length == 0
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.switchStatusBulkConfirm()
-                    }
-                  }
-                },
-                [
-                  _c("i", { staticClass: "material-icons" }, [
-                    _vm._v("compare_arrows")
-                  ])
-                ]
-              )
+              _vm.show_status
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "btn info-bg btn-floating tooltipped",
+                      attrs: {
+                        type: "button",
+                        "data-position": "righht",
+                        "data-delay": "50",
+                        "data-tooltip": "Change Status",
+                        disabled: _vm.multiSelection.length == 0
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.switchStatusBulkConfirm()
+                        }
+                      }
+                    },
+                    [
+                      _c("i", { staticClass: "material-icons" }, [
+                        _vm._v("compare_arrows")
+                      ])
+                    ]
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -36939,7 +36975,7 @@ var render = function() {
               [
                 _c("div", { staticClass: "form-group" }, [
                   _c("div", { staticClass: "input-group" }, [
-                    _vm._m(1),
+                    _vm._m(0),
                     _vm._v(" "),
                     _c("input", {
                       directives: [
@@ -37045,34 +37081,65 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._l(_vm.gridColumns, function(cols, index) {
+                    _vm._l(_vm.columns, function(col, index) {
                       return _c(
                         "th",
                         {
                           on: {
                             click: function($event) {
-                              _vm.sortBy(cols)
+                              _vm.sortBy(col.name)
                             }
                           }
                         },
                         [
                           _vm._v(
                             "\n                  " +
-                              _vm._s(_vm._f("capitalize")(cols)) +
+                              _vm._s(_vm._f("capitalize")(col.name)) +
                               "\n                  "
                           ),
-                          _vm.escapeSort.indexOf(cols) < 0
+                          _vm.escapeSort.indexOf(col.name) < 0
                             ? _c("span", {
                                 staticClass: "arrow",
                                 class:
-                                  _vm.sortOrder.field == cols
+                                  _vm.sortOrder.field == col.name
                                     ? _vm.sortOrder.order
                                     : "asc"
                               })
                             : _vm._e()
                         ]
                       )
-                    })
+                    }),
+                    _vm._v(" "),
+                    _vm.show_status
+                      ? _c(
+                          "th",
+                          {
+                            on: {
+                              click: function($event) {
+                                _vm.sortBy("status")
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                  Estatus\n                  "
+                            ),
+                            _vm.escapeSort.indexOf("status") < 0
+                              ? _c("span", {
+                                  staticClass: "arrow",
+                                  class:
+                                    _vm.sortOrder.field == "status"
+                                      ? _vm.sortOrder.order
+                                      : "asc"
+                                })
+                              : _vm._e()
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("th", [
+                      _vm._v("\n                  Acciones\n                ")
+                    ])
                   ],
                   2
                 )
@@ -37082,143 +37149,158 @@ var render = function() {
                 ? _c(
                     "tbody",
                     _vm._l(_vm.componentData, function(runningData) {
-                      return _c("tr", [
-                        _c("th", { staticClass: "multiple-cb" }, [
-                          _c("p", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.multiSelection,
-                                  expression: "multiSelection"
-                                }
-                              ],
-                              attrs: { type: "checkbox", id: runningData.id },
-                              domProps: {
-                                value: runningData.id,
-                                checked: Array.isArray(_vm.multiSelection)
-                                  ? _vm._i(_vm.multiSelection, runningData.id) >
-                                    -1
-                                  : _vm.multiSelection
-                              },
-                              on: {
-                                change: function($event) {
-                                  var $$a = _vm.multiSelection,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = runningData.id,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        (_vm.multiSelection = $$a.concat([$$v]))
+                      return _c(
+                        "tr",
+                        [
+                          _c("th", { staticClass: "multiple-cb" }, [
+                            _c("p", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.multiSelection,
+                                    expression: "multiSelection"
+                                  }
+                                ],
+                                attrs: { type: "checkbox", id: runningData.id },
+                                domProps: {
+                                  value: runningData.id,
+                                  checked: Array.isArray(_vm.multiSelection)
+                                    ? _vm._i(
+                                        _vm.multiSelection,
+                                        runningData.id
+                                      ) > -1
+                                    : _vm.multiSelection
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.multiSelection,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = runningData.id,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          (_vm.multiSelection = $$a.concat([
+                                            $$v
+                                          ]))
+                                      } else {
+                                        $$i > -1 &&
+                                          (_vm.multiSelection = $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1)))
+                                      }
                                     } else {
-                                      $$i > -1 &&
-                                        (_vm.multiSelection = $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1)))
+                                      _vm.multiSelection = $$c
                                     }
-                                  } else {
-                                    _vm.multiSelection = $$c
                                   }
                                 }
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("label", { attrs: { for: runningData.id } })
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("td", {
-                          domProps: {
-                            textContent: _vm._s(runningData.fullname)
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("td", {
-                          domProps: { textContent: _vm._s(runningData.email) }
-                        }),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "button",
-                            {
-                              class:
-                                runningData.status == "active"
-                                  ? "btn success-bg"
-                                  : "btn error-bg",
-                              on: {
-                                click: function($event) {
-                                  _vm.switchStatus(runningData)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    " +
-                                  _vm._s(
-                                    _vm._f("capitalize")(runningData.status)
-                                  ) +
-                                  "\n                  "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "btn-group",
-                              attrs: { role: "group", "aria-label": "..." }
-                            },
-                            [
-                              _c(
-                                "a",
-                                {
-                                  staticClass: "btn btn-floating btn-flat",
-                                  attrs: {
-                                    type: "button",
-                                    href: "user/" + runningData.id + "/edit"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "i",
-                                    {
-                                      staticClass: "material-icons warning-text"
-                                    },
-                                    [_vm._v("mode_edit")]
-                                  )
-                                ]
-                              ),
+                              }),
                               _vm._v(" "),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "bt btn-floating btn-flat",
-                                  attrs: { type: "button" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.removeConfirm(runningData)
+                              _c("label", { attrs: { for: runningData.id } })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.columns, function(cols, index) {
+                            return _c("td", {
+                              domProps: {
+                                textContent: _vm._s(runningData[cols.field])
+                              }
+                            })
+                          }),
+                          _vm._v(" "),
+                          _vm.show_status
+                            ? _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    class:
+                                      runningData.status == "active"
+                                        ? "btn success-bg"
+                                        : "btn error-bg",
+                                    on: {
+                                      click: function($event) {
+                                        _vm.switchStatus(runningData)
+                                      }
                                     }
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "i",
-                                    {
-                                      staticClass: "material-icons error-text"
-                                    },
-                                    [_vm._v("delete")]
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ])
-                      ])
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                    " +
+                                        _vm._s(
+                                          _vm._f("capitalize")(
+                                            runningData.status
+                                          )
+                                        ) +
+                                        "\n                  "
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "div",
+                              {
+                                staticClass: "btn-group",
+                                attrs: { role: "group", "aria-label": "..." }
+                              },
+                              [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "btn btn-floating btn-flat",
+                                    attrs: {
+                                      type: "button",
+                                      href:
+                                        _vm.route +
+                                        "/" +
+                                        runningData.id +
+                                        "/edit"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "i",
+                                      {
+                                        staticClass:
+                                          "material-icons warning-text"
+                                      },
+                                      [_vm._v("mode_edit")]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "bt btn-floating btn-flat",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.removeConfirm(runningData)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "i",
+                                      {
+                                        staticClass: "material-icons error-text"
+                                      },
+                                      [_vm._v("delete")]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        ],
+                        2
+                      )
                     })
                   )
                 : _vm._e()
@@ -37393,14 +37475,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s12" }, [
-      _c("h5", { staticClass: "content-headline" }, [_vm._v("Usuarios")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -30,7 +30,7 @@
     </div>
 
     <div class="main-container">
-        <users headline='User'></users>
+        <users headline='User' v-bind:config="{{$page->getConfig()}}"></users>
     </div>
 @endsection
 

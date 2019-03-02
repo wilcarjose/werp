@@ -14,8 +14,8 @@ class AdminsTableSeeder extends Seeder
     {
         DB::table('admins')->insert([
             [
-				'name'       => 'Hexesis',
-				'email'      => 'hexesist@gmail.com',
+				'name'       => 'admin',
+				'email'      => 'admin@mail.com',
 				'password'   => bcrypt('123456'),
 				'status'     => 'active',
 				'created_at' => Carbon::now()->format('Y-m-d H:i:s'),

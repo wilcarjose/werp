@@ -9,11 +9,11 @@
         <div class="card-panel">
           <div class="row box-title">
             <div class="col s12">
-              <h5 class="content-headline">Usuarios</h5>
+              <h5 class="content-headline">{{ title }}</h5>
             </div>
             <div class="col s12 m8">
               <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
-                <a class="btn btn-default pull-right btn-floating" href="user/create" v-show="showAdd">
+                <a class="btn btn-default pull-right btn-floating" :href="route + '/create'" v-show="showAdd">
                   <i class="material-icons">add</i>
                 </a>
               </transition>
@@ -22,7 +22,7 @@
                 :disabled="multiSelection.length == 0">
                 <i class="material-icons">delete</i>
               </button>
-              <button type="button" class="btn info-bg btn-floating tooltipped"
+              <button v-if="show_status" type="button" class="btn info-bg btn-floating tooltipped"
                 @click="switchStatusBulkConfirm()" data-position="righht" data-delay="50" data-tooltip="Change Status"
                 :disabled="multiSelection.length == 0">
                 <i class="material-icons">compare_arrows</i>
@@ -50,11 +50,20 @@
                         <label for="toggleAll"></label>
                       </p>
                     </th>
-                    <th v-for="(cols,index) in gridColumns" @click="sortBy(cols)">
-                      {{ cols | capitalize }}
+                    <th v-for="(col,index) in columns" @click="sortBy(col.name)">
+                      {{ col.name | capitalize }}
                       <span class="arrow"
-                        :class="sortOrder.field == cols ? sortOrder.order : 'asc'"
-                        v-if="escapeSort.indexOf(cols) < 0"></span>
+                        :class="sortOrder.field == col.name ? sortOrder.order : 'asc'"
+                        v-if="escapeSort.indexOf(col.name) < 0"></span>
+                    </th>
+                    <th v-if="show_status" @click="sortBy('status')">
+                      Estatus
+                      <span class="arrow"
+                            :class="sortOrder.field == 'status' ? sortOrder.order : 'asc'"
+                            v-if="escapeSort.indexOf('status') < 0"></span>
+                    </th>
+                    <th>
+                      Acciones
                     </th>
                   </tr>
                 </thead>
@@ -66,9 +75,8 @@
                         <label :for="runningData.id"></label>
                       </p>
                     </th>
-                    <td v-text="runningData.fullname"></td>
-                    <td v-text="runningData.email"></td>
-                    <td>
+                    <td v-for="(cols,index) in columns" v-text="runningData[cols.field]"></td>
+                    <td v-if="show_status">
                       <button :class="runningData.status == 'active'? 'btn success-bg': 'btn error-bg'"
                         @click="switchStatus(runningData)">
                         {{runningData.status | capitalize}}
@@ -76,7 +84,7 @@
                     </td>
                     <td>
                       <div class="btn-group" role="group" aria-label="...">
-                        <a type="button" class="btn btn-floating btn-flat" :href="'user/'+runningData.id+'/edit'">
+                        <a type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/edit'">
                           <i class="material-icons warning-text">mode_edit</i>
                         </a>
                         <button type="button" class="bt btn-floating btn-flat" @click="removeConfirm(runningData)">
@@ -133,25 +141,42 @@ let funcHelp = new FunctionHelper;
 
 export default {
     mixins: [tableData],
+    props: ['config'],
     data() {
         return {
             pupupMod: 'add',
             showAdd: false,
             // Component
-            gridColumns: ['first', 'email', 'status', 'action'],
+            columns: this.config.fields,
             escapeSort: ['action'],
             sortOrder: { field: 'created_at', order: 'desc' },
-            showpages: 10
+            showpages: 10,
+            route: this.config.route,
+            title: this.config.title,
+            show_status: this.config.show_status
         };
     },
+    computed: {
+        fieldList: function () {
+            let list = '(';
+            this.columns.forEach(function (value, key) {
+                if (key != 0) {
+                    list = list + ','
+                }
+                list = list + value.field;
+            });
+            return list + ')';
+        }
+    },
     mounted() {
+        this.test();
         this.all();
         this.showAdd = true;
     },
     methods: {
         all(page = 1) {
             this.resetAlert();
-            let uri = `/admin/user?page=${page}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}`;
+            let uri = `${this.route}?page=${page}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}&fields=${this.fieldList}`;
             axios.get(uri).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
@@ -165,7 +190,7 @@ export default {
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
             this.componentData.splice(index, 1);
-            let uri = `/admin/user/${obj.id}`;
+            let uri = `${this.route}/${obj.id}`;
             axios.delete(uri).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
@@ -179,7 +204,7 @@ export default {
         },
         removeMultiple() {
             this.resetAlert();
-            let uri = `/admin/user/removeBulk`;
+            let uri = `${this.route}/removeBulk`;
             if (this.multiSelection.length) {
                 axios.post(uri, this.multiSelection).then((response) => {
                         let res = response.data;
@@ -198,7 +223,7 @@ export default {
         switchStatus(obj) {
             this.resetAlert();
             let newStat = (obj.status == 'active') ? 'inactive' : 'active';
-            let uri = `/admin/user/status`;
+            let uri = `${this.route}/status`;
             axios.put(uri, obj).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
@@ -211,7 +236,7 @@ export default {
         },
         switchStatusSelected() {
             this.resetAlert();
-            let uri = `/admin/user/statusBulk`;
+            let uri = `${this.route}/statusBulk`;
             axios.put(uri, this.multiSelection).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
@@ -225,7 +250,7 @@ export default {
         },
         searchInput() {
             let searchQuery = this.searchQuery;
-            let uri = `/admin/user?searchQuery=${searchQuery}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}`;
+            let uri = `${this.route}?searchQuery=${searchQuery}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}`;
             axios.get(uri).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
@@ -234,6 +259,10 @@ export default {
                     }
                 })
                 .catch((error) => { console.log(error) });
+        },
+        test() {
+          console.log('**********************************************************************')
+          console.log(this.fieldList)
         }
     }
 }

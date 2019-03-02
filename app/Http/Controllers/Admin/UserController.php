@@ -42,14 +42,14 @@ class UserController extends Controller
 
         // If there is an Ajax request or any request wants json data
         if (request()->ajax() || request()->wantsJson()) {
-            $sort   = request()->has('sort')?request()->get('sort'):'first';
+            $sort   = request()->has('sort')?request()->get('sort'):'fullname';
             $order  = request()->has('order')?request()->get('order'):'asc';
             $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
 
             $users = $this->user->where(function ($query) use ($search) {
                 if ($search) {
-                    $query->where('first', 'like', "$search%")
-                        ->orWhere('last', 'like', "$search%")
+                    $query->where('name', 'like', "$search%")
+                        //->orWhere('last', 'like', "$search%")
                         ->orWhere('email', 'like', "$search%");
                 }
             })
@@ -142,7 +142,7 @@ class UserController extends Controller
 
         //  Send mail for password
         $mail = new AdminCreatedUserMail($user, $setPassword);
-        \Mail::to($user->email)->send($mail);
+        //\Mail::to($user->email)->send($mail);
 
         flash(trans('messages.user-add'), 'success', 'success');
         return back();

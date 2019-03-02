@@ -15,12 +15,12 @@
         <!-- LOGO Set-->
         <a class="animated brand-logo hide-on-large-only nav-logo" href="javascript:void(0)">
             <i class="material-icons logo-icon left base-text">whatshot</i>
-            <span class="left" style="margin-left:20px;">FORGE</span>
+            <span class="left" style="margin-left:20px;">WERP</span>
         </a>
 
         <a class="animated brand-logo hide-on-med-and-down defaultMenu-logo" href="javascript:void(0)">
             <i class="material-icons logo-icon left white-text">whatshot</i>
-            <span class="left" style="margin-left:20px;">FORGE</span>
+            <span class="left" style="margin-left:20px;">WERP</span>
         </a>
 
         <!-- Left menu options at top-nav-->
