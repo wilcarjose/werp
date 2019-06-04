@@ -35,6 +35,8 @@ class ModuleServiceProvider extends ServiceProvider
     public function register()
     {
         \Config::set('products', require app_path('Modules/Core/Products/config/products.php'));
+
+        \Config::set('menu', array_merge(config('menus.modules'), config('products.menu')));
     }
 
     /**

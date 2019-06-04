@@ -52,19 +52,23 @@
         @endif
 
         @if(auth()->user()->can('developerOnly') || auth()->user()->can('role'))
-        <li>
-            <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.categories.index'])?'active current':'' }}" href="#">
-                <i class="material-icons">security</i><span>Products</span>
-                <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
-            </a>
-            <div class="collapsible-body">
-              <ul>
-                <li class="menu-item">
-                    <a class="waves-effect waves-set {{ $current_route_name=='admin.categories.index'?'active':'' }}" href="{{ route('admin.products.categories.index') }}"><span>Categories</span></a>
+            @foreach (config('menu') as $module) 
+                <li>
+                    <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name, $module['routes'])?'active current':'' }}" href="#">
+                        <i class="material-icons">{{ $module['icon'] }}</i><span>{{ $module['module'] }}</span>
+                        <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
+                    </a>
+                    <div class="collapsible-body">
+                      <ul>
+                        @foreach ($module['items'] as $item)
+                            <li class="menu-item">
+                                <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><span>{{ $item['name'] }}</span></a>
+                            </li>
+                        @endforeach
+                      </ul>
+                    </div>
                 </li>
-              </ul>
-            </div>
-        </li>
+            @endforeach
         @endif
 
         @if(auth()->user()->can('developerOnly') || auth()->user()->can('role'))
