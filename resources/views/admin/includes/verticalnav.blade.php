@@ -60,7 +60,7 @@
             <div class="collapsible-body">
               <ul>
                 <li class="menu-item">
-                    <a class="waves-effect waves-set {{ $current_route_name=='admin.categories.index'?'active':'' }}" href="{{ route('admin.categories.index') }}"><span>Categories</span></a>
+                    <a class="waves-effect waves-set {{ $current_route_name=='admin.categories.index'?'active':'' }}" href="{{ route('admin.products.categories.index') }}"><span>Categories</span></a>
                 </li>
               </ul>
             </div>

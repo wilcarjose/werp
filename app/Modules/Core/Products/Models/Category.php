@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Models;
+namespace Werp\Modules\Core\Products\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

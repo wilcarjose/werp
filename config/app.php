@@ -165,6 +165,11 @@ return [
          */
         Hesto\MultiAuth\MultiAuthServiceProvider::class,
 
+        /**
+         * Core Products module
+         */
+        Werp\Modules\Core\Products\Providers\RouteServiceProvider::class,
+
     ],
 
     /*

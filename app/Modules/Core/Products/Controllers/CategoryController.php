@@ -1,13 +1,13 @@
 <?php
 
-namespace Werp\Modules\Core\Controllers;
+namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
-use Werp\Modules\Core\Models\Category;
-use Werp\Modules\Core\Builders\CategoryForm;
-use Werp\Modules\Core\Builders\CategoryList;
-use Werp\Modules\Core\Transformers\CategoryTransformer;
+use Werp\Modules\Core\Products\Models\Category;
+use Werp\Modules\Core\Products\Builders\CategoryForm;
+use Werp\Modules\Core\Products\Builders\CategoryList;
+use Werp\Modules\Core\Products\Transformers\CategoryTransformer;
 
 class CategoryController extends Controller
 {
