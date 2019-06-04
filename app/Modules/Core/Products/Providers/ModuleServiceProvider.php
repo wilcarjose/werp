@@ -5,7 +5,7 @@ namespace Werp\Modules\Core\Products\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RouteServiceProvider extends ServiceProvider
+class ModuleServiceProvider extends ServiceProvider
 {
     /**
      * This namespace is applied to your controller routes.
@@ -24,8 +24,17 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
         parent::boot();
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        \Config::set('products', require app_path('Modules/Core/Products/config/products.php'));
     }
 
     /**

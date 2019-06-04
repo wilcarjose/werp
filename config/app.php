@@ -168,7 +168,7 @@ return [
         /**
          * Core Products module
          */
-        Werp\Modules\Core\Products\Providers\RouteServiceProvider::class,
+        Werp\Modules\Core\Products\Providers\ModuleServiceProvider::class,
 
     ],
 
