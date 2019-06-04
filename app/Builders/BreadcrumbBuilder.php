@@ -6,7 +6,7 @@
  * Time: 02:05 PM
  */
 
-namespace App\Builders;
+namespace Werp\Builders;
 
 
 class BreadcrumbBuilder

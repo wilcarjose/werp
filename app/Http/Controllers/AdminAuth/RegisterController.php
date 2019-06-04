@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\AdminAuth;
+namespace Werp\Http\Controllers\AdminAuth;
 
-use App\Admin;
+use Werp\Admin;
 use Validator;
-use App\Http\Controllers\Controller;
+use Werp\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 

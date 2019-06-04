@@ -6,7 +6,7 @@
  * Time: 04:03 PM
  */
 
-namespace App\Builders;
+namespace Werp\Builders;
 
 class PageBuilder
 {

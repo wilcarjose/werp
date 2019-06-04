@@ -6,7 +6,7 @@
  * Time: 01:59 PM
  */
 
-namespace App\Builders;
+namespace Werp\Builders;
 
 
 class InputBuilder

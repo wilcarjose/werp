@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Werp\Http\Controllers\Admin;
 
 use Gate;
-use App\Admin;
+use Werp\Admin;
 use Illuminate\Http\Request;
-use App\Mail\WelcomeNewAdmin;
-use App\Http\Controllers\Controller;
-use App\Traits\FileManipulationTrait;
-use App\Transformers\AdminTransformer;
+use Werp\Mail\WelcomeNewAdmin;
+use Werp\Http\Controllers\Controller;
+use Werp\Traits\FileManipulationTrait;
+use Werp\Transformers\AdminTransformer;
 
 class AdminController extends Controller
 {

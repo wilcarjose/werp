@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Traits;
+namespace Werp\Traits;
 
-use App\Role;
+use Werp\Role;
 
 trait HasRoles
 {

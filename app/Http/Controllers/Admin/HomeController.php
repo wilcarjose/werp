@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Werp\Http\Controllers\Admin;
 
-use App\User;
-use App\Role;
-use App\Admin;
-use App\Permission;
+use Werp\User;
+use Werp\Role;
+use Werp\Admin;
+use Werp\Permission;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Werp\Http\Controllers\Controller;
 
 class HomeController extends Controller
 {

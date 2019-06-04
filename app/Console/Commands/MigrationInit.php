@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Werp\Console\Commands;
 
 use Illuminate\Console\Command;
 

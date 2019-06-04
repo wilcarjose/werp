@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Transformers;
+namespace Werp\Transformers;
 
 class UsersTransformer extends Transformer
 {

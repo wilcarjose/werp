@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace Werp;
 
-use App\Traits\HasRoles;
+use Werp\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

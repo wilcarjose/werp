@@ -53,6 +53,22 @@
 
         @if(auth()->user()->can('developerOnly') || auth()->user()->can('role'))
         <li>
+            <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.categories.index'])?'active current':'' }}" href="#">
+                <i class="material-icons">security</i><span>Products</span>
+                <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
+            </a>
+            <div class="collapsible-body">
+              <ul>
+                <li class="menu-item">
+                    <a class="waves-effect waves-set {{ $current_route_name=='admin.categories.index'?'active':'' }}" href="{{ route('admin.categories.index') }}"><span>Categories</span></a>
+                </li>
+              </ul>
+            </div>
+        </li>
+        @endif
+
+        @if(auth()->user()->can('developerOnly') || auth()->user()->can('role'))
+        <li>
             <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.roles.index','admin.permissions.index','admin.myrolepermission'])?'active current':'' }}" href="#">
                 <i class="material-icons">security</i><span>Role Manager</span>
                 <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\AdminAuth;
+namespace Werp\Http\Controllers\AdminAuth;
 
-use App\Admin;
+use Werp\Admin;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Werp\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Hesto\MultiAuth\Traits\LogsoutGuard;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;

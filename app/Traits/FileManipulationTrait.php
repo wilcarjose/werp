@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Werp\Traits;
 
 use Image;
 use Illuminate\Http\File;

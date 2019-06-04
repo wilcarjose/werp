@@ -39,3 +39,12 @@ Route::put('/user/statusBulk','Admin\UserController@switchStatusBulk');
 Route::get('/user/{id}/cellar','Admin\UserController@showUserCellar');
 Route::resource('/user','Admin\UserController');
 
+/**
+ * CATEGORIES
+ */
+Route::put('/categories/status','\Werp\Modules\Core\Controllers\CategoryController@switchStatus')->name('category_status');
+Route::post('/categories/removeBulk','\Werp\Modules\Core\Controllers\CategoryController@destroyBulk');
+Route::put('/categories/statusBulk','\Werp\Modules\Core\Controllers\CategoryController@switchStatusBulk');
+Route::get('/categories/{id}/cellar','\Werp\Modules\Core\Controllers\CategoryController@showCategoryCellar');
+Route::resource('/categories','\Werp\Modules\Core\Controllers\CategoryController');
+

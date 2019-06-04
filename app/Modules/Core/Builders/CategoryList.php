@@ -6,18 +6,18 @@
  * Time: 06:33 PM
  */
 
-namespace Werp\Builders\User;
+namespace Werp\Modules\Core\Builders;
 
 use Werp\Builders\Main\MainList;
 
-class UserList extends MainList
+class CategoryList extends MainList
 {
     public function __construct()
     {
-        $this->setTitle('Usuarios')
-            ->setRoute('admin.user')
+        $this->setTitle('Categorias')
+            ->setRoute('admin.categories')
             ->setShowStatus(true)
-            ->setFields(['fullname' => 'Nombre', 'email' => 'Email'])
+            ->setFields(['name' => 'Nombre'])
             ->makeConfig();
 
         parent::__construct();

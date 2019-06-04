@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Providers;
+namespace Werp\Providers;
 
-use App\Permission;
+use Werp\Permission;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -14,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        'Werp\Model' => 'Werp\Policies\ModelPolicy',
     ];
 
     /**
@@ -25,12 +25,13 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
+        
         foreach ($this->getPermissions() as $permission) {
             Gate::define($permission->name, function ($user) use ($permission) {
                 return $user->hasRole($permission->roles);
             });
         }
+        
     }
 
     protected function getPermissions()

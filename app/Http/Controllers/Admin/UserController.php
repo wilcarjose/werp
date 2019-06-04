@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Werp\Http\Controllers\Admin;
 
-use App\Builders\User\UserForm;
-use App\Builders\User\UserList;
+use Werp\Builders\User\UserForm;
+use Werp\Builders\User\UserList;
 use Gate;
-use App\User;
+use Werp\User;
 use Illuminate\Http\Request;
-use App\Mail\AdminCreatedUserMail;
-use App\Http\Controllers\Controller;
-use App\Traits\FileManipulationTrait;
-use App\Transformers\UsersTransformer;
+use Werp\Mail\AdminCreatedUserMail;
+use Werp\Http\Controllers\Controller;
+use Werp\Traits\FileManipulationTrait;
+use Werp\Transformers\UsersTransformer;
 
 class UserController extends Controller
 {

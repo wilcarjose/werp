@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Werp;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Werp\Http\Controllers\Admin;
 
 use Gate;
-use App\Role;
-use App\Permission;
+use Werp\Role;
+use Werp\Permission;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Transformers\RolesTransformer;
-use App\Transformers\PermissionsTransformer;
+use Werp\Http\Controllers\Controller;
+use Werp\Transformers\RolesTransformer;
+use Werp\Transformers\PermissionsTransformer;
 
 class RoleController extends Controller
 {

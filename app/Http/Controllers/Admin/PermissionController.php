@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace Werp\Http\Controllers\Admin;
 
 use Gate;
-use App\Permission;
+use Werp\Permission;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Transformers\PermissionsTransformer;
+use Werp\Http\Controllers\Controller;
+use Werp\Transformers\PermissionsTransformer;
 
 class PermissionController extends Controller
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Mail;
+namespace Werp\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Admin;
+use Werp\Admin;
 
 class WelcomeNewAdmin extends Mailable
 {

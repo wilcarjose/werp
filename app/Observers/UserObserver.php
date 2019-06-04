@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Observers;
+namespace Werp\Observers;
 
-use App\User;
+use Werp\User;
 
 class UserObserver
 {

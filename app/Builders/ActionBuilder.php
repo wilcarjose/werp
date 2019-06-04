@@ -6,7 +6,7 @@
  * Time: 06:37 PM
  */
 
-namespace App\Builders;
+namespace Werp\Builders;
 
 
 class ActionBuilder

@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace Werp;
 
-use App\Traits\HasRoles;
-use App\Notifications\AdminResetPassword;
+use Werp\Traits\HasRoles;
+use Werp\Notifications\AdminResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

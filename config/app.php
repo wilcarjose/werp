@@ -154,11 +154,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Werp\Providers\AppServiceProvider::class,
+        Werp\Providers\AuthServiceProvider::class,
+        // Werp\Providers\BroadcastServiceProvider::class,
+        Werp\Providers\EventServiceProvider::class,
+        Werp\Providers\RouteServiceProvider::class,
 
         /**
          * Packages added by Forge Admin template

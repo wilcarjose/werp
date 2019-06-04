@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace Werp\Providers;
 
-use App\User;
-use App\Observers\UserObserver;
+use Werp\User;
+use Werp\Observers\UserObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 

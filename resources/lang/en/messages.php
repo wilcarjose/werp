@@ -37,4 +37,11 @@ return [
     'user-status'      =>"User's account (:status)status updated successfully",
     'user-update-fail' =>'Fail to update the record!',
     'user-not-found'   =>'No user found with this ID!',
+
+    'category-add'         =>'Category added successfully',
+    'category-update'      =>'Category updated successfully',
+    'category-distroy'     =>'Category removed successfully',
+    'category-status'      =>"Category's account (:status)status updated successfully",
+    'category-update-fail' =>'Fail to update the record!',
+    'category-not-found'   =>'No category found with this ID!',
 ];

@@ -6,7 +6,7 @@
  * Time: 05:33 PM
  */
 
-namespace App\Builders;
+namespace Werp\Builders;
 
 
 class ListBuilder extends ModuleBuilder
