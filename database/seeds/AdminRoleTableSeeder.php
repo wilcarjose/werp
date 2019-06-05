@@ -1,7 +1,7 @@
 <?php
 
-use App\Role;
-use App\Admin;
+use Werp\Role;
+use Werp\Admin;
 use Illuminate\Database\Seeder;
 
 class AdminRoleTableSeeder extends Seeder
