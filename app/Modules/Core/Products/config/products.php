@@ -12,6 +12,10 @@ return [
                     'name' => 'Categories',
                     'route' => 'admin.products.categories.index',
                 ],
+                [
+                    'name' => 'Products',
+                    'route' => 'admin.products.products.index',
+                ],
             ],
         ],
     ],
