@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('login')); //view('welcome');
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -29,6 +29,6 @@ Route::group(['prefix' => 'admin'], function () {
   Route::get('/password/reset/{token}', 'AdminAuth\ResetPasswordController@showResetForm');
 });
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
