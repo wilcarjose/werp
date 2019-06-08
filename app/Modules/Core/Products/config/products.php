@@ -16,6 +16,10 @@ return [
                     'name' => 'Products',
                     'route' => 'admin.products.products.index',
                 ],
+                [
+                    'name' => 'Warehouses',
+                    'route' => 'admin.products.warehouses.index',
+                ],
             ],
         ],
     ],
