@@ -10,6 +10,7 @@ namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\InputBuilder;
+use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 
@@ -24,16 +25,16 @@ class ProductForm extends FormBuilder
             ->addBreadcrumb($homeBreadcrumb);
     }
 
-    public function showPage($action = 'new', $data = [])
+    public function showPage($action = 'new', $data = [], $selects = [])
     {
         if ($action == 'edit') {
-            return $this->editProductPage($data);
+            return $this->editProductPage($data, $selects = []);
         }
 
-        return $this->createProductPage();
+        return $this->createProductPage($selects = []);
     }
 
-    public function createProductPage()
+    public function createProductPage($selects = null)
     {
         $this->setAction('Nuevo producto')
             ->setShortAction('Nuevo')
@@ -41,7 +42,7 @@ class ProductForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new InputBuilder('name', 'input', 'Name', 'person'))
             ->addInput(new InputBuilder('description', 'input', 'Description', 'person'))
-            ->addInput(new InputBuilder('category_id', 'input', 'Category', 'person'))
+            ->addSelect(new SelectBuilder('category_id', 'select', 'Categoría', 'person', $selects['categories']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Guardar', 'add', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.products.index')))
         ;
@@ -49,7 +50,7 @@ class ProductForm extends FormBuilder
         return $this->view();
     }
 
-    public function editProductPage($data)
+    public function editProductPage($data, $selects = null)
     {
         $this->data = $data;
 
@@ -60,7 +61,7 @@ class ProductForm extends FormBuilder
             ->setEdit()
             ->addInput(new InputBuilder('name', 'input', 'Name', 'person', $data['name']))
             ->addInput(new InputBuilder('description', 'input', 'Description', 'person', $data['description']))
-            ->addInput(new InputBuilder('category_id', 'input', 'Category', 'person', $data['category_id']))
+            ->addSelect(new SelectBuilder('category_id', 'select', 'Category', 'person', $selects['categories'], $data['category_id']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Actualizar', 'save', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.products.index')))
         ;

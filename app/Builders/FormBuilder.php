@@ -95,6 +95,13 @@ class FormBuilder extends ModuleBuilder
         return $this;
     }
 
+    public function addSelect(SelectBuilder $input)
+    {
+        $this->inputs = $this->to_collection($this->inputs);
+        $this->inputs->push($input);
+        return $this;
+    }
+
     public function getInputs()
     {
         return $this->inputs;

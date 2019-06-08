@@ -17,9 +17,10 @@ class ProductController extends Controller
     protected $productForm;
     protected $productList;
 
-    public function __construct(Product $product, ProductTransformer $productTransformer, ProductForm $productForm, ProductList $productList)
+    public function __construct(Product $product, ProductTransformer $productTransformer, ProductForm $productForm, ProductList $productList, Category $category)
     {
         $this->product            = $product;
+        $this->category            = $category;
         $this->productTransformer = $productTransformer;
         $this->productForm     = $productForm;
         $this->productList     = $productList;
@@ -76,7 +77,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return $this->productForm->showPage();
+        $selects = [
+            'categories' => $this->category->all()
+        ];
+
+        return $this->productForm->createProductPage($selects);
     }
 
     /**
@@ -135,7 +140,11 @@ class ProductController extends Controller
             return back();
         }
 
-        return $this->productForm->editProductPage($product->toArray());
+        $selects = [
+            'categories' => $this->category->all()
+        ];
+
+        return $this->productForm->editProductPage($product->toArray(), $selects);
     }
 
     /**
@@ -164,10 +173,12 @@ class ProductController extends Controller
         }
 
         // Prepare input
-        $input = array_only($request->all(), ['name']);
+        $input = array_only($request->all(), ['name', 'description', 'category_id']);
         extract($input);
 
         $product->name = $name;
+        $product->description = $description;
+        $product->category_id = $category_id;
         $product->save();
 
         flash(trans('messages.product-update'), 'success', 'success');
