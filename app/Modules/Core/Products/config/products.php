@@ -20,6 +20,10 @@ return [
                     'name' => 'Warehouses',
                     'route' => 'admin.products.warehouses.index',
                 ],
+                [
+                    'name' => 'Inventarios',
+                    'route' => 'admin.products.inventories.index',
+                ],
             ],
         ],
     ],
