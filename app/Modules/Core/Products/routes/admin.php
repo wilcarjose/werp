@@ -23,6 +23,12 @@
 
 	// Inventories
 	Route::post('/inventories/removeBulk','\Werp\Modules\Core\Products\Controllers\InventoryController@destroyBulk');
+	Route::get('/inventories/{id}/detail', '\Werp\Modules\Core\Products\Controllers\InventoryController@indexDetail')->name('inventories.detail.index');
+	Route::get('/inventories/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\InventoryController@showDetail')->name('inventories.detail.show');
+	Route::put('/inventories/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\InventoryController@updateDetail')->name('inventories.detail.update');
+	Route::post('/inventories/{id}/detail', '\Werp\Modules\Core\Products\Controllers\InventoryController@storeDetail')->name('inventories.detail.update');
+	Route::delete('/inventories/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\InventoryController@destroyDetail')->name('inventories.detail.update');
 	Route::resource('/inventories','\Werp\Modules\Core\Products\Controllers\InventoryController');
+
 
 

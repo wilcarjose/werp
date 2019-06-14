@@ -109,7 +109,7 @@ class AdminController extends Controller
 
         // Mailing for password
         $mail = new WelcomeNewAdmin($admin, $setPassword);
-        \Mail::to($admin->email)->send($mail);
+        //\Mail::to($admin->email)->send($mail);
 
         $newAdmin          = $admin->toArray();
         $newAdmin['roles'] = $admin->roles;

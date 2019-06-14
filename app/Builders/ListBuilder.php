@@ -15,7 +15,20 @@ class ListBuilder extends ModuleBuilder
 
     protected $showStatus;
 
+    protected $showSearch = true;
+
     protected $fields;
+
+    protected $filter = null;
+
+    protected $emptyList = false;
+
+    protected $useModal = false;
+
+    protected $deleteMultiple = true;
+
+    protected $showMessages = true;
+
 
     public function view()
     {
@@ -57,6 +70,24 @@ class ListBuilder extends ModuleBuilder
     /**
      * @return mixed
      */
+    public function getShowSearch()
+    {
+        return $this->showSearch;
+    }
+
+    /**
+     * @param mixed $showSearch
+     * @return ListBuilder
+     */
+    public function setShowSearch($showSearch)
+    {
+        $this->showSearch = $showSearch;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getFields()
     {
         return $this->fields;
@@ -72,6 +103,95 @@ class ListBuilder extends ModuleBuilder
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    /**
+     * @param mixed $filter
+     * @return ListBuilder
+     */
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmptyList()
+    {
+        return $this->emptyList;
+    }
+
+    /**
+     * @param mixed $emptyList
+     * @return ListBuilder
+     */
+    public function setEmptyList($emptyList)
+    {
+        $this->emptyList = $emptyList;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUseModal()
+    {
+        return $this->useModal;
+    }
+
+    /**
+     * @param mixed $useModal
+     * @return ListBuilder
+     */
+    public function setUseModal($useModal)
+    {
+        $this->useModal = $useModal;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeleteMultiple()
+    {
+        return $this->deleteMultiple;
+    }
+
+    /**
+     * @param mixed $deleteMultiple
+     * @return ListBuilder
+     */
+    public function setDeleteMultiple($deleteMultiple)
+    {
+        $this->deleteMultiple = $deleteMultiple;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShowMessages()
+    {
+        return $this->showMessages;
+    }
+
+    /**
+     * @param mixed $showMessages
+     * @return ListBuilder
+     */
+    public function setShowMessages($showMessages)
+    {
+        $this->showMessages = $showMessages;
+        return $this;
+    }
 
     public function makeConfig()
     {
@@ -85,9 +205,23 @@ class ListBuilder extends ModuleBuilder
             'title'  => $this->getTitle(),
             'route'  => $this->getListRoute(),
             'show_status' => $this->getShowStatus(),
+            'show_search' => $this->getShowSearch(),
+            'use_modal' => $this->getUseModal(),
+            'filter'    => $this->getFilter(),
+            'empty_list'    => $this->getEmptyList(),
+            'delete_multiple'    => $this->getDeleteMultiple(),
+            'show_messages' => $this->getShowMessages(),
             'fields' => $fields
         ];
 
         $this->setConfig(json_encode($config));
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return 'list';
     }
 }

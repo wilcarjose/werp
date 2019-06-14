@@ -17,6 +17,8 @@ class FormBuilder extends ModuleBuilder
     protected $data = [];
     protected $inputs;
     protected $actions;
+    protected $maxWidth = false;
+    protected $midWidth = true;
 
     public function getObjectId()
     {
@@ -131,5 +133,36 @@ class FormBuilder extends ModuleBuilder
         $this->actions = $this->to_collection($actions);
 
         return $this;
+    }
+
+    public function addList($input)
+    {
+        $this->inputs = $this->to_collection($this->inputs);
+        $this->inputs->push($input);
+        return $this;
+    }
+
+    public function maxWidth()
+    {
+        return $this->maxWidth;
+    }
+
+    public function midWidth()
+    {
+        return $this->midWidth;
+    }
+
+    public function setMaxWidth()
+    {
+        $this->maxWidth = true;
+        $this->midWidth = false;
+        return $this;    
+    }
+
+    public function setMidWidth()
+    {
+        $this->midWidth = true;
+        $this->maxWidth = false;
+        return $this;    
     }
 }

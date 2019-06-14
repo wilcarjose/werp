@@ -14,7 +14,6 @@ use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 
-
 class InventoryForm extends FormBuilder
 {
     public function __construct()
@@ -46,6 +45,8 @@ class InventoryForm extends FormBuilder
             ->addSelect(new SelectBuilder('doctype_id', 'select', 'Tipo de Documento', 'person', $selects['doctypes']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Guardar', 'add', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.inventories.index')))
+            //->addList(new InventoryDetailList(true))
+            ->setMaxWidth()
         ;
 
         return $this->view();
@@ -66,6 +67,8 @@ class InventoryForm extends FormBuilder
             ->addSelect(new SelectBuilder('doctype_id', 'select', 'Tipo de Documento', 'person', $selects['doctypes'], $data['doctype_id']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Actualizar', 'save', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.inventories.index')))
+            ->addList(new InventoryDetailList(false, $data['id']))
+            ->setMaxWidth()
         ;
 
         return $this->view();

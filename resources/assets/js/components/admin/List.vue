@@ -1,8 +1,8 @@
 <template>
     <div class="row">
       <div class="s12 col">
-        <div v-if="showAlert && show_messages">
-          <alert :type="alertType">{{ alertText }} </alert>
+        <div v-if="showAlert">
+          <alert :type="alertType">{{ alertText }}</alert>
         </div>
       </div>
       <div class="col s12 mr-top-10">
@@ -16,13 +16,13 @@
                 <a class="btn btn-default pull-right btn-floating" :href="route + '/create'" v-show="showAdd" v-if="!use_modal">
                   <i class="material-icons">add</i>
                 </a>
-                <button type="button" class="btn btn-default pull-right btn-floating" @click="create()" v-show="showAdd" v-if="use_modal">
+                <button class="btn btn-default pull-right btn-floating" @click="create()" v-show="showAdd" v-if="use_modal">
                     <i class="material-icons">add</i>
                 </button>
               </transition>
               <button type="button" class="btn error-bg btn-floating tooltipped"
                 @click="removeBulkConfirm()" data-position="righht" data-delay="50" data-tooltip="Delete Selected"
-                :disabled="multiSelection.length == 0" v-if="delete_multiple">
+                :disabled="multiSelection.length == 0">
                 <i class="material-icons">delete</i>
               </button>
               <button v-if="show_status" type="button" class="btn info-bg btn-floating tooltipped"
@@ -31,7 +31,7 @@
                 <i class="material-icons">compare_arrows</i>
               </button>
             </div>
-            <div class="col s12 m4" v-if="show_search">
+            <div class="col s12 m4">
               <form class="form-inline" @submit.prevent="searchInput">
                 <div class="form-group">
                   <div class="input-group">
@@ -47,11 +47,10 @@
               <table class="responsive-table bordered">
                 <thead>
                   <tr>
-                    <th  class="multiple-cb" v-if="delete_multiple">
+                    <th  class="multiple-cb">
                       <p>
                         <input type="checkbox" value="1" id="toggleAll" @click="toggleAll()" v-model="isAll">
-                        <label for="toggleAll" v-if="use_modal" style="left: -0.25rem;top: -0.5rem;"></label>
-                        <label for="toggleAll" v-else></label>
+                        <label for="toggleAll"></label>
                       </p>
                     </th>
                     <th v-for="(col,index) in columns" @click="sortBy(col.name)">
@@ -73,11 +72,10 @@
                 </thead>
                 <tbody  v-if="componentData.length">
                   <tr v-for="runningData in componentData">
-                    <th class="multiple-cb" v-if="delete_multiple">
+                    <th class="multiple-cb">
                       <p>
                         <input type="checkbox" :value="runningData.id" :id="runningData.id" v-model="multiSelection">
-                        <label :for="runningData.id" v-if="use_modal" style="left: -0.25rem;top: -0.5rem;"></label>
-                        <label :for="runningData.id" v-else></label>
+                        <label :for="runningData.id"></label>
                       </p>
                     </th>
                     <td v-for="(cols,index) in columns" v-text="runningData[cols.field]"></td>
@@ -89,12 +87,9 @@
                     </td>
                     <td>
                       <div class="btn-group" role="group" aria-label="...">
-                        <a type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/edit'" v-if="!use_modal">
+                        <a type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/edit'">
                           <i class="material-icons warning-text">mode_edit</i>
                         </a>
-                        <button type="button" class="btn btn-floating btn-flat" @click="show(runningData)" v-if="use_modal">
-                            <i class="material-icons warning-text">mode_edit</i>
-                        </button>
                         <button type="button" class="bt btn-floating btn-flat" @click="removeConfirm(runningData)">
                           <i class="material-icons error-text">delete</i>
                         </button>
@@ -144,32 +139,29 @@
       <div id="componentDataModal" class="modal modal-fixed-footer large" v-if="use_modal">
         <div class="modal-content">
           <div class="col s12">
-            <h5>{{pupupMod | capitalize}} Productos</h5>
+            <h5>{{pupupMod | capitalize}} Admin</h5>
           </div>
           <form @submit.prevent="isNotValidateForm" name="callback" class="col s12">
-              <div class="input-field">
-                  <select class="forge-select box-select" name="product_id" id="productsSelectBox" v-model="singleObj.product_id">
-                      <option class="default-selected" value="" disabled="">Seleccione...</option>
-                      <option :value="product.id" v-for="product in dependencies.products">{{ product.name }}</option>
-                  </select>
-                  <label for="productsSelectBox">Producto</label>
-              </div>
-              <div class="input-field">
-                  <input type="text" id="admin-description" name="description" v-model="singleObj.description">
-                  <label for="admin-description">Descripción</label>
-              </div>
-              <div class="input-field">
-                  <input type="text" id="admin-qty" name="qty" v-model="singleObj.qty">
-                  <label for="admin-qty">Cantidad</label>
-              </div>
-              <div class="input-field">
-                  <select class="forge-select box-select" name="warehouse_id" id="warehousesSelectBox" v-model="singleObj.warehouse_id">
-                      <option class="default-selected" value="" disabled="">Seleccione...</option>
-                      <option :value="warehouse.id" v-for="warehouse in dependencies.warehouses">{{ warehouse.name }}</option>
-                  </select>
-                  <label for="warehousesSelectBox">Almacén</label>
-              </div>
-          </form>
+            <div class="input-field">
+                <input type="text" id="admin-name" name="name" v-model="singleObj.name">
+                <label for="admin-name">Name</label>
+            </div>
+            <div class="input-field">
+                <input type="email" id="admin-email" name="email" v-model="singleObj.email">
+                <label for="admin-email">Email</label>
+            </div>
+            <div class="input-field">
+                <input type="text" id="admin-designation" name="designation" v-model="singleObj.designation">
+                <label for="admin-designation">Designation</label>
+            </div>
+            <div class="input-field">
+                <select class="forge-select box-select" name="inrole" id="rolesSelectBox" v-model="singleObj.inrole">
+                    <option class="default-selected" value="" disabled="">Choose your option</option>
+                    <option :value="role.name" v-for="role in rolesList">{{ role.name }}</option>
+                </select>
+                <label for="rolesSelectBox">Assign Role</label>
+            </div>
+        </form>
       </div>
       <div class="modal-footer">
           <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
@@ -190,7 +182,6 @@ export default {
     props: ['config'],
     data() {
         return {
-            singleObj: { id: Number, product_id: Number, warehouse_id: Number, description: String, qty: Number },
             pupupMod: 'add',
             showAdd: false,
             // Component
@@ -201,12 +192,7 @@ export default {
             route: this.config.route,
             title: this.config.title,
             show_status: this.config.show_status,
-            use_modal: this.config.use_modal,
-            show_search: this.config.show_search,
-            filter: this.config.filter,
-            empty_list: this.config.empty_list,
-            show_messages: this.config.show_messages,
-            dependencies: []
+            use_modal: this.config.use_modal
         };
     },
     computed: {
@@ -221,20 +207,18 @@ export default {
             return list + ')';
         },
         isNotValidateForm() {
-            /*
             if (this.singleObj.name == "" ||
                 this.singleObj.email == '' ||
                 this.singleObj.designation == '' ||
                 funcHelp.validateEmail(this.singleObj.email) == false) {
                 return true;
             }
-            */
             return false;
         }
     },
     mounted() {
+        this.test();
         this.all();
-        this.loadDependencies();
         this.showAdd = true;
         let vm = this;
 
@@ -246,65 +230,36 @@ export default {
               },
               complete: function() { vm.resetSingleObj(); } // Callback for Modal close
           });
-
-          $("#warehousesSelectBox").on('change', function() {
-              let $this = $(this);
-              let myValueIs = $this.val();
-              vm.singleObj.warehouse_id = myValueIs;
-          });
-
-          $("#productsSelectBox").on('change', function() {
-              let $this = $(this);
-              let myValueIs = $this.val();
-              vm.singleObj.product_id = myValueIs;
-          });
         }
     },
     methods: {
-        resetSingleObj() {
-            this.singleObj = {};
-            this.showLoader = false;
-        },
         all(page = 1) {
             this.resetAlert();
-            if (!this.empty_list) {
-              let suffix = this.filter ? `/${this.filter}/detail` : '';
-              let uri = `${this.route}${suffix}?page=${page}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}&fields=${this.fieldList}`;
-              axios.get(uri).then((response) => {
-                      let res = response.data;
-                      if (res.status_code == 200) {
-                          this.componentData = res.data;
-                          this.pagination = res.paginator;
-                      }
-                  })
-                  .catch(error => this.alertHandler('info', `No ${this.headline} to list!`, true));
-            }
+            let uri = `${this.route}?page=${page}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}&fields=${this.fieldList}`;
+            axios.get(uri).then((response) => {
+                    let res = response.data;
+                    if (res.status_code == 200) {
+                        this.componentData = res.data;
+                        this.pagination = res.paginator;
+                    }
+                })
+                .catch(error => this.alertHandler('info', `No ${this.headline} to list!`, true));
         },
         show(obj) {
-            console.log(obj);
             this.singleObj = obj;
             this.pupupMod = 'edit';
             this.resetAlert();
-            if (obj.warehouse_id != '') {
-                $(`#warehousesSelectBox option[value=${obj.warehouse_id}]`).attr('selected', 'selected');
-                $('#warehousesSelectBox').material_select('destroy');
-                //$('#warehousesSelectBox').material_select();
-                setTimeout(() => {$('#warehousesSelectBox').material_select()}, 250);
+
+            if (obj.inrole != '') {
+                $(`#rolesSelectBox option[value=${obj.inrole}]`).attr('selected', 'selected');
+                $('#rolesSelectBox').material_select('destroy');
+                setTimeout(() => {$('#rolesSelectBox').material_select()}, 2000);
             }
-            if (obj.product_id != '') {
-                $(`#productsSelectBox option[value=${obj.product_id}]`).attr('selected', 'selected');
-                $('#productsSelectBox').material_select('destroy');
-                //$('#productsSelectBox').material_select();
-                setTimeout(() => {$('#productsSelectBox').material_select()}, 250);
-            }
-            //$('#componentDataModal').modal('open');
-            setTimeout(() => {$('#componentDataModal').modal('open')}, 250);
+            setTimeout(() => {$('#componentDataModal').modal('open')}, 2000);
         },
         update() {
-            if (this.filter) {
-              let suffix = `${this.filter}/detail/`;
-              let uri = `${this.route}/${suffix}${this.singleObj.id}`;
-              axios.put(uri, this.singleObj).then((response) => {
+            let uri = `/admin/administrator/${this.singleObj.id}`;
+            axios.put(uri, this.singleObj).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
@@ -315,66 +270,47 @@ export default {
                     $('#componentDataModal').modal('close');
                 })
                 .catch((error) => {});
-            }
-
-            if (!this.filter) {
-              $('#componentDataModal').modal('close');
-            }
         },
-        create(event) {
+        create() {
             this.resetSingleObj();
             this.resetAlert();
             this.pupupMod = 'add';
-            $('#warehousesSelectBox').material_select();
-            $('#productsSelectBox').material_select();
+            $('#rolesSelectBox').material_select();
             $('#componentDataModal').modal('open');
         },
         store() {
             this.showLoader = true;
-            this.componentData.push(this.singleObj);
-            if (this.filter) {
-              let suffix = `${this.filter}/detail`;
-              let uri = `${this.route}/${suffix}`;
-              axios.post(uri, this.singleObj).then((response) => {
-                      let res = response.data;
-                      if (res.status_code == 201) {
-                          this.resetSingleObj(); // reset store input form
-                          this.all(); // fetch updated list
-                          $('#componentDataModal').modal('close'); // Hide modal
-                          // Handling alert
-                          this.alertHandler('success', res.message, true);
-                      } else {
-                          this.alertHandler('error', res.message, true);
-                      }
-                      this.showLoader = false;
-                  })
-                  .catch((error) => { console.log(error) });
-              
-            }
-
-            if (!this.filter) {
-              $('#componentDataModal').modal('close'); // Hide modal
-            }
-            
+            // this.categories.push(this.singleObj);
+            axios.post('/admin/administrator', this.singleObj).then((response) => {
+                    let res = response.data;
+                    if (res.status_code == 201) {
+                        this.resetSingleObj(); // reset store input form
+                        this.all(); // fetch updated list
+                        $('#componentDataModal').modal('close'); // Hide modal
+                        // Handling alert
+                        this.alertHandler('success', res.message, true);
+                    } else {
+                        this.alertHandler('error', res.message, true);
+                    }
+                    this.showLoader = false;
+                })
+                .catch((error) => { console.log(error) });
         },
         remove(obj) {
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
             this.componentData.splice(index, 1);
-            if (!this.empty_list) {
-              let suffix = this.filter ? `${this.filter}/detail/` : '';
-              let uri = `${this.route}/${suffix}${obj.id}`;
-              axios.delete(uri).then((response) => {
-                      let res = response.data;
-                      if (res.status_code == 200) {
-                          // Handling alert
-                          this.alertHandler('success', res.message, true);
-                      } else {
-                          this.alertHandler('error', res.message, true);
-                      }
-                  })
-                  .catch((error) => { console.log(error) });
-            }
+            let uri = `${this.route}/${obj.id}`;
+            axios.delete(uri).then((response) => {
+                    let res = response.data;
+                    if (res.status_code == 200) {
+                        // Handling alert
+                        this.alertHandler('success', res.message, true);
+                    } else {
+                        this.alertHandler('error', res.message, true);
+                    }
+                })
+                .catch((error) => { console.log(error) });
         },
         removeMultiple() {
             this.resetAlert();
@@ -434,28 +370,9 @@ export default {
                 })
                 .catch((error) => { console.log(error) });
         },
-        loadDependencies() {
-            
-            var uri = ``;
-
-            uri = `/admin/products/warehouses`;
-            axios.get(uri).then((response) => {
-                    let res = response.data;
-                    if (res.status_code == 200) {
-                        this.dependencies.warehouses = res.data;
-                    }
-                })
-                .catch((error) => { console.log(error) });
-
-            uri = `/admin/products/products`;
-            axios.get(uri).then((response) => {
-                    let res = response.data;
-                    if (res.status_code == 200) {
-                        this.dependencies.products = res.data;
-                    }
-                })
-                .catch((error) => { console.log(error) });
-
+        test() {
+          console.log('**********************************************************************')
+          console.log(this.fieldList)
         }
     }
 }

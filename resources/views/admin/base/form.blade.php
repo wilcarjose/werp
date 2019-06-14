@@ -1,5 +1,7 @@
 @extends('admin.layout.default')
-
+@section('css')
+    <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
+@endsection
 @section('content')
     <div class="main-header">
         <div class="sec-page">
@@ -33,7 +35,7 @@
                 @include('flash')
             </div>
             {{--  PROFILE UPDATE  --}}
-            <form class="col m8 push-m2 s12 profile-info-form" role="form" method="POST" action="{{ $page->getSaveRoute() }}" enctype="multipart/form-data">
+            <form class="col @if ($page->maxWidth()) m12 @endif @if ($page->midWidth()) m8 push-m2 @endif s12 profile-info-form" role="form" method="POST" action="{{ $page->getSaveRoute() }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 @if ($page->edit()) {{ method_field('PUT') }} @endif
                 <div class="card-panel profile-form-cardpanel">

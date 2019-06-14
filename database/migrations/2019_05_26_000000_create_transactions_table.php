@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->string('reference');
             $table->string('type');
             $table->dateTime('date');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->double('qty');
             $table->enum('sign',['add','sub'])->default('add');
             $table->integer('product_id')->unsigned();
