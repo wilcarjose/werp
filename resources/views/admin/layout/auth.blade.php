@@ -21,7 +21,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Forge Admin') }}</title>
+        <title>{{ config('app.name', 'Werrp') }}</title>
         <!-- FONTS-->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Inconsolata" type="text/css">
         <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">

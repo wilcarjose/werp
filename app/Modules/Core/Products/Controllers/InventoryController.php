@@ -245,12 +245,10 @@ class InventoryController extends Controller
         }
 
         // Prepare input
-        $input = array_only($request->all(), ['code', 'description', 'doctype_id', 'warehouse_id']);
+        $input = array_only($request->all(), ['description', 'warehouse_id']);
         extract($input);
 
-        $inventory->code = $code;
         $inventory->description = $description;
-        $inventory->doctype_id = $doctype_id;
         $inventory->warehouse_id = $warehouse_id;
         $inventory->save();
 

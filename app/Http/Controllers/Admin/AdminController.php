@@ -351,11 +351,11 @@ class AdminController extends Controller
         // If has pic then upload new pic
         if ($request->hasFile('pic')) {
             if ($admin->pic != '' && $admin->pic != 'admin.png') {
-                $this->destoryFile("public/$admin->pic");
+                $this->destoryFile("public/storage/$admin->pic");
             }
 
             $pic        = $request->file('pic');
-            $path       = $this->uploadAs($pic, 'admin/'.$admin->id);
+            $path       = $this->uploadAs($pic, '');
             $admin->pic = $path;
         }
 

@@ -36763,6 +36763,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             filter: this.config.filter,
             empty_list: this.config.empty_list,
             show_messages: this.config.show_messages,
+            delete_multiple: this.config.delete_multiple,
             dependencies: []
         };
     },
