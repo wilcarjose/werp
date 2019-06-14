@@ -16,6 +16,7 @@ class InputBuilder
     protected $icon;
     protected $text;
     protected $value;
+    protected $disabled = false;
 
     /**
      * InputBuilder constructor.
@@ -25,13 +26,14 @@ class InputBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($name = null, $type = null, $text = null, $icon = null, $value = null)
+    public function __construct($name = null, $type = null, $text = null, $icon = null, $value = null, $disabled = false)
     {
         $this->name = $name;
         $this->type = $type;
         $this->icon = $icon;
         $this->text = $text;
         $this->value = $value;
+        $this->disabled = $disabled;
     }
 
     /**
@@ -124,7 +126,23 @@ class InputBuilder
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
+    }
 
+    /**
+     * @param mixed $disabled
+     * @return InputBuilder
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+        return $this;
+    }
 
 
 }

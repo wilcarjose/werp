@@ -27,7 +27,12 @@ class Doctype extends Model
             'name' => $this->name,
             'basedoc_id' => $this->basedoc_id,
             'status' => $this->status,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'prefix' => $this->prefix,
+            'increment_number' => $this->increment_number,
+            'last_number' => $this->last_number,
+            'use_zeros' => $this->use_zeros,
+            'number_long' => $this->number_long,
         ];
     }
 }

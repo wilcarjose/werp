@@ -11,6 +11,7 @@ use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Products\Models\InventoryDetail;
 use Werp\Modules\Core\Products\Builders\InventoryForm;
 use Werp\Modules\Core\Products\Builders\InventoryList;
+use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Transformers\InventoryTransformer;
 use Werp\Modules\Core\Products\Transformers\InventoryDetailTransformer;
 
@@ -24,6 +25,7 @@ class InventoryController extends Controller
     protected $inventoryDetailTransformer;
     protected $inventoryForm;
     protected $inventoryList;
+    protected $doctypeService;
 
     public function __construct(
         Product $product,
@@ -33,7 +35,9 @@ class InventoryController extends Controller
         InventoryDetailTransformer $inventoryDetailTransformer,
         InventoryForm $inventoryForm,
         InventoryList $inventoryList,
-        Doctype $doctype, Warehouse $warehouse
+        Doctype $doctype,
+        Warehouse $warehouse,
+        DoctypeService $doctypeService
     ) {
         $this->inventory            = $inventory;
         $this->inventoryDetail      = $inventoryDetail;
@@ -44,6 +48,7 @@ class InventoryController extends Controller
         $this->inventoryDetailTransformer = $inventoryDetailTransformer;
         $this->inventoryForm        = $inventoryForm;
         $this->inventoryList        = $inventoryList;
+        $this->doctypeService       = $doctypeService;
     }
 
     /**
@@ -114,7 +119,6 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $validator = validator()->make($request->all(), [
-            'code'    => 'required|max:255',
             'doctype_id' => 'required',
             'warehouse_id'    => 'required',
         ]);
@@ -124,7 +128,9 @@ class InventoryController extends Controller
             return back()->withErrors($validator)->withInput();
         }
         
+        // use transctions
         $data = array_only($request->all(), ['code', 'description', 'doctype_id', 'warehouse_id']);
+        $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
         $data['date'] = date('Y-m-d');
         $inventory = $this->inventory->create($data);
 
@@ -229,7 +235,6 @@ class InventoryController extends Controller
         }
 
         $validator = validator()->make($request->all(), [
-            'code'  => 'required|max:255',
             'doctype_id' => 'required',
             'warehouse_id'    => 'required',
         ]);
