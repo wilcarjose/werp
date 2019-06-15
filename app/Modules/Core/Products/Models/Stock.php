@@ -4,7 +4,7 @@ namespace Werp\Modules\Core\Products\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class Stock extends Model
 {
     protected $table = 'stock';
 

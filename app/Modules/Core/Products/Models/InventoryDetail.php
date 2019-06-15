@@ -37,4 +37,9 @@ class InventoryDetail extends Model
             'created_at' => $this->created_at
         ];
     }
+
+    public function inventory()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Inventory');
+    }
 }

@@ -28,7 +28,9 @@
 	Route::put('/inventories/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\InventoryController@updateDetail')->name('inventories.detail.update');
 	Route::post('/inventories/{id}/detail', '\Werp\Modules\Core\Products\Controllers\InventoryController@storeDetail')->name('inventories.detail.update');
 	Route::delete('/inventories/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\InventoryController@destroyDetail')->name('inventories.detail.update');
+	Route::get('/inventories/{id}/process', '\Werp\Modules\Core\Products\Controllers\InventoryController@process')->name('inventories.process');
 	Route::resource('/inventories','\Werp\Modules\Core\Products\Controllers\InventoryController');
+
 
 
 

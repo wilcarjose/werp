@@ -8,6 +8,8 @@ class Inventory extends Model
 {
     protected $table = 'inventories';
 
+    protected $type = 'INV';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +24,19 @@ class Inventory extends Model
 
     ];
 
+    /**
+     * Get the detail for the inventory.
+     */
+    public function detail()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryDetail', 'inventory_id', 'id');
+    }
+
+    public function getDetail()
+    {
+        return $this->detail()->get(); 
+    }
+
     public function toArray()
     {
         return [
@@ -33,5 +48,10 @@ class Inventory extends Model
             'date' => $this->date,
             'created_at' => $this->created_at
         ];
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 }

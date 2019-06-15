@@ -65,8 +65,9 @@ class InventoryForm extends FormBuilder
             ->addInput(new InputBuilder('description', 'textarea', 'Description', 'person', $data['description']))
             ->addSelect(new SelectBuilder('warehouse_id', 'select', 'Almacén', 'person', $selects['warehouses'], $data['warehouse_id']))
             ->addSelect(new SelectBuilder('doctype_id', 'select', 'Tipo de Documento', 'person', $selects['doctypes'], $data['doctype_id']))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Actualizar', 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.inventories.index')))
+            ->addAction(new ActionBuilder('process', ActionBuilder::TYPE_LINK, 'Procesar', '', 'button', route('admin.products.inventories.process', $data['id'])))
+            ->addAction(new ActionBuilder('save', ActionBuilder::TYPE_BUTTON, 'Actualizar', 'save', 'submit'))
+            ->addAction(new ActionBuilder('cancel', ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.inventories.index')))
             ->addList(new InventoryDetailList(false, $data['id']))
             ->setMaxWidth()
         ;

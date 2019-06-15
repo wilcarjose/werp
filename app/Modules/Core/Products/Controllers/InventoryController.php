@@ -12,6 +12,7 @@ use Werp\Modules\Core\Products\Models\InventoryDetail;
 use Werp\Modules\Core\Products\Builders\InventoryForm;
 use Werp\Modules\Core\Products\Builders\InventoryList;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
+use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Products\Transformers\InventoryTransformer;
 use Werp\Modules\Core\Products\Transformers\InventoryDetailTransformer;
 
@@ -37,7 +38,8 @@ class InventoryController extends Controller
         InventoryList $inventoryList,
         Doctype $doctype,
         Warehouse $warehouse,
-        DoctypeService $doctypeService
+        DoctypeService $doctypeService,
+        TransactionService $transactionService
     ) {
         $this->inventory            = $inventory;
         $this->inventoryDetail      = $inventoryDetail;
@@ -49,6 +51,7 @@ class InventoryController extends Controller
         $this->inventoryForm        = $inventoryForm;
         $this->inventoryList        = $inventoryList;
         $this->doctypeService       = $doctypeService;
+        $this->transactionService   = $transactionService;
     }
 
     /**
@@ -398,5 +401,13 @@ class InventoryController extends Controller
             'paginator'   => $paginator,
             'status_code' => 200
         ], 200);
+    }
+
+    public function process($id)
+    {
+        $this->transactionService->setDocument($this->inventory->find($id))
+            ->process();
+
+        return redirect(route('admin.products.inventories.edit', $id));
     }
 }
