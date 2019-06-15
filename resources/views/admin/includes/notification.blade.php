@@ -1,3 +1,4 @@
+@if(config('werp.show_elements'))
 <div class="other-verticalSections">
     <!-- ============================-->
     <!-- THEME SETTING-->
@@ -207,3 +208,4 @@
         </div>
     </div>
 </div>
+@endif

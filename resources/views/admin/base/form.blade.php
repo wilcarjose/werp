@@ -8,10 +8,14 @@
           <div class="page-title">
             <h2>{{ $page->getTitle() }}</h2>
           </div>
+
+          @if(config('werp.show_elements'))
           <div class="page-options">
             <a class="waves-effect waves-set page-opt-dropBtn setWave btn-floating" href="#"><i class="material-icons">perm_data_setting</i></a>
             <a class="waves-effect waves-set page-opt-dropBtn setWave btn-floating" href="#"><i class="material-icons">chat_bubble_outline</i></a>
           </div>
+          @endif
+
         </div>
         <!-- ============================-->
         <!-- breadcrumb-->

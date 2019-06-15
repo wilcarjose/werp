@@ -31,7 +31,7 @@
         <link href="{{ asset('css/admin/app.css') }}" rel="stylesheet">
         @yield('css')
     </head>
-    <body class="signin">
+    <body class="signin" style="background: darkgrey;">
         @yield('appPre')
         <div id="app">
             @yield('content')

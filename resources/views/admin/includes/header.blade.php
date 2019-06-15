@@ -43,12 +43,14 @@
             </li>
 
             <!-- MESSAGE SECTION-->
+            @if (config('werp.show_elements'))
             <li class="hide-on-med-and-down">
                 <a class="dropdown-button waves-effect waves-set" href="#" data-beloworigin="true" data-activates="top-nav-msgsweb">
                     <i class="material-icons">email</i>
                     <span class="badge-count">5</span>
                 </a>
             </li>
+            @endif
 
             <!-- ADMIN SETTINGS SECTION-->
             <li>
@@ -56,6 +58,8 @@
                     <img class="circle admin-profile-img-small" src="{{ Auth::user()->pic?Storage::url(Auth::user()->pic):url('/images/square/male_6.jpg') }}" alt="">
                 </a>
             </li>
+
+            @if (config('werp.show_elements'))
             <li class="hide-on-med-and-down">
                 <a class="morph notify small notification-toggle-open waves-effect waves-light" href="javascript:void(0)">
                     <span>
@@ -65,9 +69,12 @@
                     </span>
                 </a>
             </li>
+            @endif
+
             <li class="hide-on-large-only">
                 <a class="waves-effect waves-set toggle-topnav-hidden-menu" href="javascript:void(0);"><i class="material-icons">more_vert</i></a>
             </li>
+            
         </ul>
         <!-- Mobile Screen Nav Options-->
         <ul class="right hide-on-large-only topnav-hidden-menu hide">
@@ -90,6 +97,7 @@
                     </span>
                 </a>
             </li>
+
             <li class="right">
                 <a class="dropdown-button waves-effect waves-set" href="#" data-beloworigin="true" data-activates="top-nav-msgs">
                     <i class="material-icons">email</i>
@@ -174,6 +182,7 @@
                     </a>
                 </li>
             </ul>
+            
             <ul class="collection dropdown-content" id="top-nav-msgs">
                 <li class="collection-item msg-header">
                     <ul>
@@ -268,6 +277,7 @@
                                     <span class="text-items">Profile</span>
                                 </a>
                             </li>
+                            @if (config('werp.show_elements'))
                             <li class="profile-li">
                                 <a class="btn waves-light collection-item" href="#">
                                     <i class="material-icons left">inbox</i>
@@ -275,6 +285,7 @@
                                     <span class="text-items">Inbox</span>
                                 </a>
                             </li>
+                            @endif
                             <li class="profile-li">
                                 <a class="btn waves-light collection-item" href="{{ url('/admin/logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -288,6 +299,7 @@
                     </div>
                 </li>
             </ul>
+
         </div>
         <!-- Searchbar-->
         <form class="inactive animated" id="app-search">
