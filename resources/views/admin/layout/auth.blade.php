@@ -23,8 +23,13 @@
 
         <title>{{ config('app.name', 'Werrp') }}</title>
         <!-- FONTS-->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Inconsolata" type="text/css">
-        <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+        @if ($noInternet = true)
+            <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/icons.css') }}">
+        @else
+            <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Inconsolata" type="text/css">
+            <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+        @endif
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/dynamic.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/scrollbar/perfect-scrollbar.min.css') }}">
