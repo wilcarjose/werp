@@ -15,7 +15,7 @@ class MainList extends ListBuilder
 {
     public function __construct()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), 'Home');
+        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
         $this->addBreadcrumb($homeBreadcrumb)
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->getTitle()));
     }

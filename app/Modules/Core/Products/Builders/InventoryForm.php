@@ -18,7 +18,7 @@ class InventoryForm extends FormBuilder
 {
     public function __construct()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), 'Home');
+        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
         $this->setTitle('Inventarios')
             ->setRoute('admin.products.inventories')
             ->addBreadcrumb($homeBreadcrumb);
@@ -40,11 +40,11 @@ class InventoryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new InputBuilder('code', 'input', 'Código', 'person', null, true))
-            ->addInput(new InputBuilder('description', 'textarea', 'Description', 'person'))
+            ->addInput(new InputBuilder('description', 'textarea', 'Descripción', 'person'))
             ->addSelect(new SelectBuilder('warehouse_id', 'select', 'Almacén', 'person', $selects['warehouses']))
             ->addSelect(new SelectBuilder('doctype_id', 'select', 'Tipo de Documento', 'person', $selects['doctypes']))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Guardar', 'add', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.inventories.index')))
+            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
+            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
             //->addList(new InventoryDetailList(true))
             ->setMaxWidth()
         ;
@@ -62,12 +62,12 @@ class InventoryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
             ->addInput(new InputBuilder('code', 'input', 'Código', 'person', $data['code'], true))
-            ->addInput(new InputBuilder('description', 'textarea', 'Description', 'person', $data['description']))
+            ->addInput(new InputBuilder('description', 'textarea', 'Descripción', 'person', $data['description']))
             ->addSelect(new SelectBuilder('warehouse_id', 'select', 'Almacén', 'person', $selects['warehouses'], $data['warehouse_id']))
             ->addSelect(new SelectBuilder('doctype_id', 'select', 'Tipo de Documento', 'person', $selects['doctypes'], $data['doctype_id']))
-            ->addAction(new ActionBuilder('process', ActionBuilder::TYPE_LINK, 'Procesar', '', 'button', route('admin.products.inventories.process', $data['id'])))
-            ->addAction(new ActionBuilder('save', ActionBuilder::TYPE_BUTTON, 'Actualizar', 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel', ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.inventories.index')))
+            ->addAction(new ActionBuilder('process', ActionBuilder::TYPE_LINK, trans('view.process'), '', 'button', route('admin.products.inventories.process', $data['id'])))
+            ->addAction(new ActionBuilder('save', ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
+            ->addAction(new ActionBuilder('cancel', ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
             ->addList(new InventoryDetailList(false, $data['id']))
             ->setMaxWidth()
         ;

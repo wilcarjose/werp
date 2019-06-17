@@ -37158,7 +37158,7 @@ var render = function() {
                         type: "button",
                         "data-position": "righht",
                         "data-delay": "50",
-                        "data-tooltip": "Delete Selected",
+                        "data-tooltip": "Borrar seleccionados",
                         disabled: _vm.multiSelection.length == 0
                       },
                       on: {
@@ -37184,7 +37184,7 @@ var render = function() {
                         type: "button",
                         "data-position": "righht",
                         "data-delay": "50",
-                        "data-tooltip": "Change Status",
+                        "data-tooltip": "Cambiar estatus",
                         disabled: _vm.multiSelection.length == 0
                       },
                       on: {
@@ -37235,7 +37235,7 @@ var render = function() {
                           attrs: {
                             type: "text",
                             id: "searchInputUser",
-                            placeholder: "Search"
+                            placeholder: "Buscar"
                           },
                           domProps: { value: _vm.searchQuery },
                           on: {
@@ -37501,9 +37501,9 @@ var render = function() {
                                     _vm._v(
                                       "\n                    " +
                                         _vm._s(
-                                          _vm._f("capitalize")(
-                                            runningData.status
-                                          )
+                                          runningData.status == "active"
+                                            ? "Activo"
+                                            : "Inactivo"
                                         ) +
                                         "\n                  "
                                     )

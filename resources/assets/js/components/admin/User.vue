@@ -21,12 +21,12 @@
                 </button>
               </transition>
               <button type="button" class="btn error-bg btn-floating tooltipped"
-                @click="removeBulkConfirm()" data-position="righht" data-delay="50" data-tooltip="Delete Selected"
+                @click="removeBulkConfirm()" data-position="righht" data-delay="50" data-tooltip="Borrar seleccionados"
                 :disabled="multiSelection.length == 0" v-if="delete_multiple">
                 <i class="material-icons">delete</i>
               </button>
               <button v-if="show_status" type="button" class="btn info-bg btn-floating tooltipped"
-                @click="switchStatusBulkConfirm()" data-position="righht" data-delay="50" data-tooltip="Change Status"
+                @click="switchStatusBulkConfirm()" data-position="righht" data-delay="50" data-tooltip="Cambiar estatus"
                 :disabled="multiSelection.length == 0">
                 <i class="material-icons">compare_arrows</i>
               </button>
@@ -36,7 +36,7 @@
                 <div class="form-group">
                   <div class="input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
-                    <input type="text" v-model="searchQuery" class="form-control" id="searchInputUser" placeholder="Search" @keyup.delete="searchChanges">
+                    <input type="text" v-model="searchQuery" class="form-control" id="searchInputUser" placeholder="Buscar" @keyup.delete="searchChanges">
                   </div>
                 </div>
               </form>
@@ -84,7 +84,7 @@
                     <td v-if="show_status">
                       <button :class="runningData.status == 'active'? 'btn success-bg': 'btn error-bg'"
                         @click="switchStatus(runningData)">
-                        {{runningData.status | capitalize}}
+                        {{runningData.status == 'active' ? 'Activo' : 'Inactivo'}}
                       </button>
                     </td>
                     <td>
@@ -144,7 +144,7 @@
       <div id="componentDataModal" class="modal modal-fixed-footer large" v-if="use_modal">
         <div class="modal-content">
           <div class="col s12">
-            <h5>{{pupupMod | capitalize}} Productos</h5>
+            <h5>{{pupupMod | capitalize}} Producto</h5>
           </div>
           <form @submit.prevent="isNotValidateForm" name="callback" class="col s12">
               <div class="input-field">

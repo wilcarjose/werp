@@ -17,7 +17,7 @@ class ProductList extends MainList
         $this->setTitle('Productos')
             ->setRoute('admin.products.products')
             ->setShowStatus(true)
-            ->setFields(['name' => 'Nombre', 'description' => 'Descripción', 'category_id' => 'Category'])
+            ->setFields(['name' => trans('view.name'), 'description' => trans('view.description'), 'category_id' => trans('view.products.category')])
             ->makeConfig();
 
         parent::__construct();

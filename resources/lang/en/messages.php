@@ -44,4 +44,25 @@ return [
     'category-status'      =>"Category's account (:status)status updated successfully",
     'category-update-fail' =>'Fail to update the record!',
     'category-not-found'   =>'No category found with this ID!',
+
+    'product-add'         =>'Product added successfully',
+    'product-update'      =>'Product updated successfully',
+    'product-distroy'     =>'Product removed successfully',
+    'product-status'      =>"Product's account (:status)status updated successfully",
+    'product-update-fail' =>'Fail to update the record!',
+    'product-not-found'   =>'No product found with this ID!',
+
+    'warehouse-add'         =>'Warehouse added successfully',
+    'warehouse-update'      =>'Warehouse updated successfully',
+    'warehouse-distroy'     =>'Warehouse removed successfully',
+    'warehouse-status'      =>"Warehouse's account (:status)status updated successfully",
+    'warehouse-update-fail' =>'Fail to update the record!',
+    'warehouse-not-found'   =>'No warehouse found with this ID!',
+
+    'inventory-add'         =>'Inventory added successfully',
+    'inventory-update'      =>'Inventory updated successfully',
+    'inventory-distroy'     =>'Inventory removed successfully',
+    'inventory-status'      =>"Inventory's account (:status)status updated successfully",
+    'inventory-update-fail' =>'Fail to update the record!',
+    'inventory-not-found'   =>'No inventory found with this ID!',
 ];

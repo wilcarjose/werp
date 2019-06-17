@@ -40,13 +40,13 @@
         <li>
             <a class="collapsible-header no-col-body waves-effect waves-set" href="{{ url('/admin') }}">
                 <i class="material-icons">dashboard</i>
-                <span>Dashboard</span>
+                <span>@lang('view.dashboard')</span>
             </a>
         </li>
 
         @if(auth()->user()->can('developerOnly') || auth()->user()->can('role') || auth()->user()->can('admin.list'))
         <li class="navigation-header">
-            <span class="no-col-body">Administrating</span>
+            <span class="no-col-body">@lang('view.modules')</span>
             <i class="material-icons tooltipped" data-position="right" data-delay="50" data-tooltip="ADMINISTRATING">more_horiz</i>
         </li>
         @endif
@@ -55,14 +55,14 @@
             @foreach (config('menu') as $module) 
                 <li>
                     <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name, $module['routes'])?'active current':'' }}" href="#">
-                        <i class="material-icons">{{ $module['icon'] }}</i><span>{{ $module['module'] }}</span>
+                        <i class="material-icons">{{ $module['icon'] }}</i><span>@lang($module['module'])</span>
                         <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
                     </a>
                     <div class="collapsible-body">
                       <ul>
                         @foreach ($module['items'] as $item)
                             <li class="menu-item">
-                                <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><span>{{ $item['name'] }}</span></a>
+                                <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><span>@lang($item['name'])</span></a>
                             </li>
                         @endforeach
                       </ul>
@@ -74,22 +74,22 @@
         @if(auth()->user()->can('developerOnly') || auth()->user()->can('role'))
         <li>
             <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.roles.index','admin.permissions.index','admin.myrolepermission'])?'active current':'' }}" href="#">
-                <i class="material-icons">security</i><span>Role Manager</span>
+                <i class="material-icons">security</i><span>@lang('view.menu.roles')</span>
                 <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
             </a>
             <div class="collapsible-body">
               <ul>
                 <li class="menu-item">
-                    <a class="waves-effect waves-set {{ $current_route_name=='admin.roles.index'?'active':'' }}" href="{{ url('/admin/roles') }}"><span>Roles</span></a>
+                    <a class="waves-effect waves-set {{ $current_route_name=='admin.roles.index'?'active':'' }}" href="{{ url('/admin/roles') }}"><span>@lang('view.menu.roles')</span></a>
                 </li>
                 @can('developerOnly')
                 <li class="menu-item">
-                    <a class="waves-effect waves-set {{ $current_route_name=='admin.permissions.index'?'active':'' }}" href="{{ url('/admin/permissions') }}"><span>Permissions</span></a>
+                    <a class="waves-effect waves-set {{ $current_route_name=='admin.permissions.index'?'active':'' }}" href="{{ url('/admin/permissions') }}"><span>@lang('view.menu.permissions')</span></a>
                 </li>
                 @endcan
                 <li class="menu-item">
                     <a class="waves-effect waves-set {{ $current_route_name == 'admin.myrolepermission'? 'active': '' }}" href="{{ url('/admin/rolePermissions') }}">
-                        <span>Assign Permissions</span>
+                        <span>@lang('view.menu.assign_permissions')</span>
                     </a>
                 </li>
               </ul>
@@ -101,7 +101,7 @@
         <li>
             <a class="collapsible-header no-col-body waves-effect waves-set {{ $current_route_name=='admin.administrator.index'?'active':'' }}"
                 href="{{ url('/admin/administrator') }}">
-                <i class="material-icons">verified_user</i><span>Admin User</span>
+                <i class="material-icons">verified_user</i><span>@lang('view.menu.administrators')</span>
             </a>
         </li>
         @endif
@@ -109,16 +109,16 @@
         @if(auth()->user()->can('developerOnly') || auth()->user()->can('user'))
         <li>
             <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.user.index', 'admin.user.create', 'admin.user.store', 'admin.user.update', 'admin.user.edit'])?'active current':'' }}" href="#">
-                <i class="material-icons">group</i><span>Users Manager</span>
+                <i class="material-icons">group</i><span>@lang('view.menu.users')</span>
                 <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
             </a>
             <div class="collapsible-body">
               <ul>
                 <li class="menu-item">
-                    <a class="waves-effect waves-set {{ $current_route_name=='admin.user.index'?'active':'' }}" href="{{ url('/admin/user') }}"><span>User List</span></a>
+                    <a class="waves-effect waves-set {{ $current_route_name=='admin.user.index'?'active':'' }}" href="{{ url('/admin/user') }}"><span>@lang('view.menu.list')</span></a>
                 </li>
                 <li class="menu-item">
-                    <a class="waves-effect waves-set {{ $current_route_name=='admin.user.create'?'active':'' }}" href="{{ url('/admin/user/create') }}"><span>Add User</span></a>
+                    <a class="waves-effect waves-set {{ $current_route_name=='admin.user.create'?'active':'' }}" href="{{ url('/admin/user/create') }}"><span>@lang('view.menu.add')</span></a>
                 </li>
               </ul>
             </div>

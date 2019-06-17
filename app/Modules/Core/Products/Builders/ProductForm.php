@@ -19,7 +19,7 @@ class ProductForm extends FormBuilder
 {
     public function __construct()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), 'Home');
+        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'),  trans('view.dashboard'));
         $this->setTitle('Products')
             ->setRoute('admin.products.products')
             ->addBreadcrumb($homeBreadcrumb);
@@ -40,11 +40,11 @@ class ProductForm extends FormBuilder
             ->setShortAction('Nuevo')
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->addInput(new InputBuilder('name', 'input', 'Name', 'person'))
-            ->addInput(new InputBuilder('description', 'input', 'Description', 'person'))
-            ->addSelect(new SelectBuilder('category_id', 'select', 'Categoría', 'person', $selects['categories']))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Guardar', 'add', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.products.index')))
+            ->addInput(new InputBuilder('name', 'input',  trans('view.name'), 'person'))
+            ->addInput(new InputBuilder('description', 'input',  trans('view.description'), 'person'))
+            ->addSelect(new SelectBuilder('category_id', 'select', trans('view.products.category'), 'person', $selects['categories']))
+            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
+            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.products.index')))
         ;
 
         return $this->view();
@@ -59,11 +59,11 @@ class ProductForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
-            ->addInput(new InputBuilder('name', 'input', 'Name', 'person', $data['name']))
-            ->addInput(new InputBuilder('description', 'input', 'Description', 'person', $data['description']))
-            ->addSelect(new SelectBuilder('category_id', 'select', 'Category', 'person', $selects['categories'], $data['category_id']))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Actualizar', 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.products.index')))
+            ->addInput(new InputBuilder('name', 'input',  trans('view.name'), 'person', $data['name']))
+            ->addInput(new InputBuilder('description', 'input',  trans('view.description'), 'person', $data['description']))
+            ->addSelect(new SelectBuilder('category_id', 'select', trans('view.products.category'), 'person', $selects['categories'], $data['category_id']))
+            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
+            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.products.index')))
         ;
 
         return $this->view();

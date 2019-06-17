@@ -18,7 +18,7 @@ class CategoryForm extends FormBuilder
 {
     public function __construct()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), 'Home');
+        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
         $this->setTitle('Categorias')
             ->setRoute('admin.products.categories')
             ->addBreadcrumb($homeBreadcrumb);
@@ -39,9 +39,9 @@ class CategoryForm extends FormBuilder
             ->setShortAction('Nuevo')
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->addInput(new InputBuilder('name', 'input', 'Name', 'person'))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Guardar', 'add', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.categories.index')))
+            ->addInput(new InputBuilder('name', 'input', trans('view.name'), 'person'))
+            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
+            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.categories.index')))
         ;
 
         return $this->view();
@@ -56,9 +56,9 @@ class CategoryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
-            ->addInput(new InputBuilder('name', 'input', 'Name', 'person', $data['name']))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, 'Actualizar', 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, 'Cancelar', '', 'button', route('admin.products.categories.index')))
+            ->addInput(new InputBuilder('name', 'input', trans('view.name'), 'person', $data['name']))
+            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
+            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.categories.index')))
         ;
 
         return $this->view();

@@ -4,24 +4,24 @@ return [
 
     'menu' => [
         [
-            'module' => 'Products',
+            'module' => 'view.menu.products',
             'icon' => 'security',
             'routes' => ['admin.products.categories.index'],
             'items' => [
                 [
-                    'name' => 'Categories',
+                    'name' => 'view.menu.categories',
                     'route' => 'admin.products.categories.index',
                 ],
                 [
-                    'name' => 'Products',
+                    'name' => 'view.menu.products',
                     'route' => 'admin.products.products.index',
                 ],
                 [
-                    'name' => 'Warehouses',
+                    'name' => 'view.menu.warehouses',
                     'route' => 'admin.products.warehouses.index',
                 ],
                 [
-                    'name' => 'Inventarios',
+                    'name' => 'view.menu.inventories',
                     'route' => 'admin.products.inventories.index',
                 ],
             ],

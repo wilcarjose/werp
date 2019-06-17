@@ -274,7 +274,7 @@
                             <li class="profile-li">
                                 <a class="btn waves-light collection-item" href="{{ url('/admin/profile') }}">
                                     <i class="material-icons left">settings</i>
-                                    <span class="text-items">Profile</span>
+                                    <span class="text-items">@lang('view.profile.profile')</span>
                                 </a>
                             </li>
                             @if (config('werp.show_elements'))
@@ -289,7 +289,7 @@
                             <li class="profile-li">
                                 <a class="btn waves-light collection-item" href="{{ url('/admin/logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    <i class="material-icons left">power_settings_new</i><span class="text-items">Sign Out</span>
+                                    <i class="material-icons left">power_settings_new</i><span class="text-items">@lang('view.signout')</span>
                                 </a>
                                 <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
                                     {{ csrf_field() }}
