@@ -20,6 +20,8 @@ return [
     'canceled' => 'Cancelado',
     'pending' => 'Pendiente',
     'reopen' => 'Reabrir',
+    'none' => 'Ninguno',
+    'advanced_options' => 'Opciones avanzadas',
     'menu' => [
         'products' => 'Productos',
         'categories' => 'Categorias',
@@ -32,6 +34,7 @@ return [
         'users' => 'Usuarios',
         'list' => 'Lista',
         'add' => 'Crear',
+        'config' => 'Configuración',
     ],
     'profile' => [
         'profile' => 'Perfil',
@@ -44,5 +47,7 @@ return [
     ],
     'products' => [
         'category' => 'Categoría',
+        'default_inventory_doc' => 'Tipo de documento de inventario por defecto',
+        'default_warehouse' => 'Almacén por defecto',
     ]
 ];

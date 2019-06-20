@@ -38243,3 +38243,7 @@ table tbody .multiple-cb p {
   line-height: 20px;
 }
 
+.advanced-option {
+  display: none;
+}
+

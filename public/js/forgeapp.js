@@ -37638,28 +37638,32 @@ var render = function() {
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "bt btn-floating btn-flat",
-                                        attrs: { type: "button" },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.removeConfirm(runningData)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "i",
+                                    !_vm.show_state ||
+                                    runningData.state.key == "pending"
+                                      ? _c(
+                                          "button",
                                           {
                                             staticClass:
-                                              "material-icons error-text"
+                                              "bt btn-floating btn-flat",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.removeConfirm(runningData)
+                                              }
+                                            }
                                           },
-                                          [_vm._v("delete")]
+                                          [
+                                            _c(
+                                              "i",
+                                              {
+                                                staticClass:
+                                                  "material-icons error-text"
+                                              },
+                                              [_vm._v("delete")]
+                                            )
+                                          ]
                                         )
-                                      ]
-                                    )
+                                      : _vm._e()
                                   ]
                                 )
                               ])

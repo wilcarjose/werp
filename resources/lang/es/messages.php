@@ -65,4 +65,6 @@ return [
     'inventory-status'      =>"Estatus actualizado exitosamente",
     'inventory-update-fail' =>'Falló al actualizar el registro!',
     'inventory-not-found'   =>'Ningún inventario encontrado con este ID!',
+
+    'config-update' => 'Configuración actualizada exitosamente',
 ];

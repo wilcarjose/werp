@@ -24,6 +24,10 @@ return [
                     'name' => 'view.menu.inventories',
                     'route' => 'admin.products.inventories.index',
                 ],
+                [
+                    'name' => 'view.menu.config',
+                    'route' => 'admin.products.config.edit',
+                ],
             ],
         ],
     ],

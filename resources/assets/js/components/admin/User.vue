@@ -104,7 +104,7 @@
                         <button type="button" class="btn btn-floating btn-flat" @click="show(runningData)" v-if="use_modal">
                             <i class="material-icons warning-text">mode_edit</i>
                         </button>
-                        <button type="button" class="bt btn-floating btn-flat" @click="removeConfirm(runningData)">
+                        <button type="button" class="bt btn-floating btn-flat" @click="removeConfirm(runningData)" v-if="!show_state || runningData.state.key == 'pending'">
                           <i class="material-icons error-text">delete</i>
                         </button>
                       </div>

@@ -32,6 +32,12 @@
 	Route::get('/inventories/{id}/reverse', '\Werp\Modules\Core\Products\Controllers\InventoryController@reverse')->name('inventories.reverse');
 	Route::resource('/inventories','\Werp\Modules\Core\Products\Controllers\InventoryController');
 
+	// Config
+	Route::get('/config/edit', '\Werp\Modules\Core\Products\Controllers\ConfigController@edit')->name('config.edit');
+	Route::put('/config/update', '\Werp\Modules\Core\Products\Controllers\ConfigController@update')->name('config.update');
+
+
+
 
 
 

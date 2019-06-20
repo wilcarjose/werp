@@ -65,4 +65,6 @@ return [
     'inventory-status'      =>"Inventory's account (:status)status updated successfully",
     'inventory-update-fail' =>'Fail to update the record!',
     'inventory-not-found'   =>'No inventory found with this ID!',
+
+    'config-update' => 'Congig updated successfully',
 ];

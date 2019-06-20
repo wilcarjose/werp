@@ -27,6 +27,7 @@ class InventoryTransformer extends Transformer
         return [
             'name' => trans($data['after_name']),
             'color' => $data['color'],
+            'key' => $data['key'],
         ];
     }
 }

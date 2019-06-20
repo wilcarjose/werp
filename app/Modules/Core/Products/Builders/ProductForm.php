@@ -42,7 +42,7 @@ class ProductForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new InputBuilder('name', 'input',  trans('view.name')))
             ->addInput(new InputBuilder('description', 'input',  trans('view.description')))
-            ->addSelect(new SelectBuilder('category_id', 'select', trans('view.products.category'), null, $selects['categories']))
+            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), null, $selects['categories']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.products.index')))
         ;
@@ -61,7 +61,7 @@ class ProductForm extends FormBuilder
             ->setEdit()
             ->addInput(new InputBuilder('name', 'input',  trans('view.name'), null, $data['name']))
             ->addInput(new InputBuilder('description', 'input',  trans('view.description'), null, $data['description']))
-            ->addSelect(new SelectBuilder('category_id', 'select', trans('view.products.category'), null, $selects['categories'], $data['category_id']))
+            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), null, $selects['categories'], $data['category_id']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.products.index')))
         ;

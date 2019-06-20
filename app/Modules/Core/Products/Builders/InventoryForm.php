@@ -24,16 +24,7 @@ class InventoryForm extends FormBuilder
             ->addBreadcrumb($homeBreadcrumb);
     }
 
-    public function showPage($action = 'new', $data = [], $selects = [])
-    {
-        if ($action == 'edit') {
-            return $this->editProductPage($data, $selects = []);
-        }
-
-        return $this->createProductPage($selects = []);
-    }
-
-    public function createInventoryPage($selects = null)
+    public function createInventoryPage($selects, $defaults)
     {
         $this->setAction('Nuevo inventario')
             ->setShortAction('Nuevo')
@@ -41,12 +32,13 @@ class InventoryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new InputBuilder('code', 'input', 'Código', null, null, true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción'))
-            ->addSelect(new SelectBuilder('warehouse_id', 'select', 'Almacén', null, $selects['warehouses']))
-            ->addSelect(new SelectBuilder('doctype_id', 'select', 'Tipo de Documento', null, $selects['doctypes']))
+            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', null, $selects['warehouses'], $defaults['warehouse']))
+            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', null, $selects['doctypes'], $defaults['doctype'], false, false, true))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
-            //->addList(new InventoryDetailList(true))
+            //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
+            //->setList(new InventoryDetailList(true))
             ->setMaxWidth()
+            ->setAdvancedOptions()
         ;
 
         return $this->view();
@@ -66,8 +58,9 @@ class InventoryForm extends FormBuilder
             ->setEdit()
             ->addInput(new InputBuilder('code', 'input', 'Código', null, $data['code'], true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción', null, $data['description'], $disable))
-            ->addSelect(new SelectBuilder('warehouse_id', 'select', 'Almacén', null, $selects['warehouses'], $data['warehouse_id'], $disable))
-            ->addSelect(new SelectBuilder('doctype_id', 'select', 'Tipo de Documento', null, $selects['doctypes'], $data['doctype_id'], $disable));
+            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', null, $selects['warehouses'], $data['warehouse_id'], false, $disable))
+            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', null, $selects['doctypes'], $data['doctype_id'], false, $disable, true))
+            ->setAdvancedOptions();
 
         if ($noProcessed) {
             $this->addAction(new ActionBuilder('save', ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'));
@@ -75,7 +68,8 @@ class InventoryForm extends FormBuilder
 
         //$this->addAction(new ActionBuilder('cancel', ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')));
 
-        $this->addList(new InventoryDetailList(false, $data['id'], $disable))
+        $this
+            ->setList(new InventoryDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
             ->setState(trans(config('products.document.actions.inv.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.inv.'.$data['state'].'.color'));

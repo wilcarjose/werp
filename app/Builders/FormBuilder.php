@@ -21,6 +21,8 @@ class FormBuilder extends ModuleBuilder
     protected $midWidth = true;
     protected $state = null;
     protected $stateColor = null;
+    protected $advanced = false;
+    protected $list = null;
 
     public function getObjectId()
     {
@@ -137,11 +139,31 @@ class FormBuilder extends ModuleBuilder
         return $this;
     }
 
-    public function addList($input)
+    public function setList($list)
     {
-        $this->inputs = $this->to_collection($this->inputs);
-        $this->inputs->push($input);
+        $this->list = $list;
         return $this;
+    }
+
+    public function getList()
+    {
+        return $this->list;
+    }
+
+    public function hasList()
+    {
+        return !is_null($this->list);
+    }
+
+    public function setAdvancedOptions($advanced = true)
+    {
+        $this->advanced = $advanced;
+        return $this;
+    }
+
+    public function advancedOption()
+    {
+        return $this->advanced;
     }
 
     public function maxWidth()

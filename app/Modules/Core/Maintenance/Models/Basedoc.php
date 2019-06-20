@@ -29,4 +29,12 @@ class Basedoc extends Model
             'created_at' => $this->created_at
         ];
     }
+
+    /**
+     * Get the detail for the inventory.
+     */
+    public function doctypes()
+    {
+        return $this->hasMany('Werp\Modules\Core\Maintenance\Models\Doctype', 'basedoc_id', 'id');
+    }
 }

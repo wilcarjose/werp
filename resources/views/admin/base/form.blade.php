@@ -59,6 +59,17 @@
                             @include('commons.form.inputs.'.$input->getType(), compact('input'))
                         @endforeach
 
+                        @if ($page->advancedOption())
+                          <div class="col s12">
+                            <a type="link" href="#" onclick="showAdvancedOption(); return false;" style="margin-left: 45px;">
+                                {{ trans('view.advanced_options') }}
+                            </a>
+                          </div>
+                        @endif
+
+                        @if ($page->hasList())
+                            @include('commons.form.inputs.list', ['input' => $page->getList()])
+                        @endif
                     </div>
                     @if (count($page->getActions()) > 0)
                     <div class="row">
@@ -85,12 +96,24 @@
       $('select').material_select();
     });
 
+    
     function confirmAction(route) {
       var result = confirm("¿Está seguro?");
       if (result == true) {
         window.location=route;
       }
     };
+
+    var showAdvanced = false;
+    function showAdvancedOption() {
+      if (showAdvanced) {
+        showAdvanced = false;
+        $('.advanced-option').hide(500);
+      } else {
+        showAdvanced = true;
+        $('.advanced-option').show(500);
+      }
+    }
     
   </script>
 

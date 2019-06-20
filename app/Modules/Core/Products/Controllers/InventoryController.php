@@ -11,6 +11,7 @@ use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Products\Models\InventoryDetail;
 use Werp\Modules\Core\Products\Builders\InventoryForm;
 use Werp\Modules\Core\Products\Builders\InventoryList;
+use Werp\Modules\Core\Products\Services\ConfigService;
 use Werp\Modules\Core\Products\Services\InventoryService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Services\TransactionService;
@@ -29,9 +30,9 @@ class InventoryController extends Controller
     protected $inventoryDetailTransformer;
     protected $inventoryForm;
     protected $inventoryList;
+    protected $configService;
     protected $doctypeService;
     protected $inventoryService;
-
 
     public function __construct(
         Product $product,
@@ -43,6 +44,7 @@ class InventoryController extends Controller
         InventoryList $inventoryList,
         Doctype $doctype,
         Warehouse $warehouse,
+        ConfigService $configService,
         DoctypeService $doctypeService,
         TransactionService $transactionService,
         InventoryService $inventoryService
@@ -56,9 +58,10 @@ class InventoryController extends Controller
         $this->inventoryDetailTransformer = $inventoryDetailTransformer;
         $this->inventoryForm        = $inventoryForm;
         $this->inventoryList        = $inventoryList;
+        $this->configService        = $configService;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
-        $this->inventoryService   = $inventoryService;
+        $this->inventoryService     = $inventoryService;
     }
 
     /**
@@ -117,7 +120,12 @@ class InventoryController extends Controller
             'warehouses' => $this->warehouse->all(),
         ];
 
-        return $this->inventoryForm->createInventoryPage($selects);
+        $defaults = [
+            'doctype' => $this->configService->getDefaultInventaryDoctype(),
+            'warehouse' => $this->configService->getDefaultWarehouse(),
+        ];
+
+        return $this->inventoryForm->createInventoryPage($selects, $defaults);
     }
 
     /**

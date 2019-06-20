@@ -18,6 +18,8 @@ class SelectBuilder
     protected $value;
     protected $data;
     protected $disable;
+    protected $none;
+    protected $advancedOption;
 
     /**
      * InputBuilder constructor.
@@ -27,15 +29,17 @@ class SelectBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($name = null, $type = null, $text = null, $icon = null, $data = [], $value = null, $disable = false)
+    public function __construct($name = null, $text = null, $icon = null, $data = [], $value = null, $none = false, $disable = false, $advancedOption = false)
     {
         $this->name  = $name;
-        $this->type  = $type;
+        $this->type  = 'select';
         $this->icon  = $icon;
         $this->text  = $text;
         $this->value = $value;
         $this->data  = $data;
         $this->disable  = $disable;
+        $this->none = $none;
+        $this->advancedOption = $advancedOption;
     }
 
     /**
@@ -62,16 +66,6 @@ class SelectBuilder
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * @param mixed $type
-     * @return InputBuilder
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
     }
 
     /**
@@ -165,11 +159,47 @@ class SelectBuilder
     }
 
     /**
+     * @return mixed
+     */
+    public function hasNone()
+    {
+        return $this->none;
+    }
+
+    /**
+     * @param mixed $none
+     * @return InputBuilder
+     */
+    public function setNone($none)
+    {
+        $this->none = $none;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isAdvancedOption()
+    {
+        return $this->advancedOption;
+    }
+
+    /**
+     * @param mixed $advancedOption
+     * @return InputBuilder
+     */
+    public function setAdvancedOption($advancedOption)
+    {
+        $this->advancedOption = $advancedOption;
+        return $this;
+    }
+
+    /**
      * @param mixed $value
      * @return bool
      */
     public function isValue($value)
     {
-        return !is_null($this->value) && $this->value === $value;
+        return !is_null($this->value) && $this->value == $value;
     }
 }
