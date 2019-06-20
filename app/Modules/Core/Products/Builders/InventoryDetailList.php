@@ -12,7 +12,7 @@ use Werp\Builders\Main\MainList;
 
 class InventoryDetailList extends MainList
 {
-    public function __construct($empty = false, $filter = null)
+    public function __construct($empty = false, $filter = null, $disable = false)
     {
         $this->setTitle('Productos')
             ->setRoute('admin.products.inventories')
@@ -24,6 +24,8 @@ class InventoryDetailList extends MainList
             ->setFields(['product_name' => 'Producto', 'qty' => 'Cantidad'])
             ->setFilter($filter)
             ->setEmptyList($empty)
+            ->setPaginate(false)
+            ->setDisable($disable)
             ->makeConfig();
 
         parent::__construct();

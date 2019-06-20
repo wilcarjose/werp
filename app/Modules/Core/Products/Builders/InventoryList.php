@@ -18,6 +18,7 @@ class InventoryList extends MainList
             ->setRoute('admin.products.inventories')
             ->setShowStatus(false)
             ->setFields(['code' => 'Código', 'date' => 'Fecha'])
+            ->setShowState(true)
             ->makeConfig();
 
         parent::__construct();

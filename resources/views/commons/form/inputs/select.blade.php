@@ -1,7 +1,7 @@
 <div class="input-field col s12">
     <i class="material-icons prefix">{{ $input->getIcon() }}</i>
     
-	<select name="{{ $input->getName() }}" id="{{ $input->getName() }}" class="basic-select">
+	<select name="{{ $input->getName() }}" id="{{ $input->getName() }}" class="basic-select" @if($input->isDisable()) disabled="disabled" style="font-weight: 600; background-color: #f5f4f4 !important;" @endif>
 	  	<option value="" disabled="disabled" selected="selected">Seleccione ...</option>
 	  	@foreach($input->getData() as $option)
 	  		<option value="{{ $option->id }}" @if ($input->isValue($option->id)) selected="selected" @endif>{{ $option->name }}</option>
@@ -16,15 +16,3 @@
         </span>
     @endif
 </div>
-
-@section('jsPostApp')
-
-<script>
-
-	$(document).ready(function() {
-	  $('select').material_select();
-	});
-	
-</script>
-
-@endsection

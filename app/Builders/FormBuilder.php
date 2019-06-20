@@ -16,9 +16,11 @@ class FormBuilder extends ModuleBuilder
     protected $short_action;
     protected $data = [];
     protected $inputs;
-    protected $actions;
+    protected $actions = [];
     protected $maxWidth = false;
     protected $midWidth = true;
+    protected $state = null;
+    protected $stateColor = null;
 
     public function getObjectId()
     {
@@ -163,6 +165,28 @@ class FormBuilder extends ModuleBuilder
     {
         $this->midWidth = true;
         $this->maxWidth = false;
-        return $this;    
+        return $this;
+    }
+
+    public function setState($state)
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setStateColor($stateColor)
+    {
+        $this->stateColor = $stateColor;
+        return $this;
+    }
+
+    public function getStateColor()
+    {
+        return $this->stateColor;
     }
 }

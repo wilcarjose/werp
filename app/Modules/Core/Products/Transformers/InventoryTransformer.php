@@ -15,7 +15,18 @@ class InventoryTransformer extends Transformer
             'doctype_id'        => $item['doctype_id'],
             'warehouse_id'      => $item['warehouse_id'],
             'date'              => $item['date'],
+            'state'             => $this->makeState($item),
             'created_at'        => $item['created_at']
+        ];
+    }
+
+    protected function makeState($item)
+    {
+        $data = config('products.document.actions.inv.'.$item['state']);
+
+        return [
+            'name' => trans($data['after_name']),
+            'color' => $data['color'],
         ];
     }
 }

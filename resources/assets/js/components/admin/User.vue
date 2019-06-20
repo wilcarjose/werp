@@ -11,7 +11,7 @@
             <div class="col s12">
               <h5 class="content-headline">{{ title }}</h5>
             </div>
-            <div class="col s12 m8">
+            <div class="col s12 m8" v-if="!disable">
               <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
                 <a class="btn btn-default pull-right btn-floating" :href="route + '/create'" v-show="showAdd" v-if="!use_modal">
                   <i class="material-icons">add</i>
@@ -60,13 +60,19 @@
                         :class="sortOrder.field == col.name ? sortOrder.order : 'asc'"
                         v-if="escapeSort.indexOf(col.name) < 0"></span>
                     </th>
+                    <th v-if="show_state" @click="sortBy('state')">
+                      Estado
+                      <span class="arrow"
+                            :class="sortOrder.field == 'state' ? sortOrder.order : 'asc'"
+                            v-if="escapeSort.indexOf('state') < 0"></span>
+                    </th>
                     <th v-if="show_status" @click="sortBy('status')">
                       Estatus
                       <span class="arrow"
                             :class="sortOrder.field == 'status' ? sortOrder.order : 'asc'"
                             v-if="escapeSort.indexOf('status') < 0"></span>
                     </th>
-                    <th>
+                    <th v-if="!disable">
                       Acciones
                     </th>
                   </tr>
@@ -81,13 +87,16 @@
                       </p>
                     </th>
                     <td v-for="(cols,index) in columns" v-text="runningData[cols.field]"></td>
+                    <td v-if="show_state">
+                      <h5 :style="'background: ' + runningData.state.color + '; text-align: center; border-radius: 9px; padding: 3px 0px; width: 120px; font-size: medium;'"> {{ runningData.state.name }}</h5>
+                    </td>
                     <td v-if="show_status">
                       <button :class="runningData.status == 'active'? 'btn success-bg': 'btn error-bg'"
                         @click="switchStatus(runningData)">
                         {{runningData.status == 'active' ? 'Activo' : 'Inactivo'}}
                       </button>
                     </td>
-                    <td>
+                    <td v-if="!disable">
                       <div class="btn-group" role="group" aria-label="...">
                         <a type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/edit'" v-if="!use_modal">
                           <i class="material-icons warning-text">mode_edit</i>
@@ -106,7 +115,7 @@
             </div>
           </div>
           <!-- PAGINATION -->
-          <div class="row">
+          <div class="row" v-if="paginate">
             <div class="s12 col">
               <ul class="pagination pagination-sm no-margin pull-right">
                 <li v-show="pagination.total_pages > 0 && pagination.current_page != 1">
@@ -207,6 +216,9 @@ export default {
             empty_list: this.config.empty_list,
             show_messages: this.config.show_messages,
             delete_multiple: this.config.delete_multiple,
+            disable: this.config.disable,
+            paginate: this.config.paginate,
+            show_state: this.config.show_state,
             dependencies: []
         };
     },

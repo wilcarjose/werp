@@ -44,8 +44,13 @@
                 @if ($page->edit()) {{ method_field('PUT') }} @endif
                 <div class="card-panel profile-form-cardpanel">
                     <div class="row box-title">
-                        <div class="col s12">
+                        <div class="col s10">
                             <h5>{{ $page->getAction() }}</h5>
+                        </div>
+                        <div class="col s2">
+                            @if ($page->getState())
+                              <h5 style="background: {{ $page->getStateColor() }}; text-align: center; border-radius: 9px; padding: 3px 0px; font-weight: 300;">{{ $page->getState() }}</h5>
+                            @endif
                         </div>
                     </div>
                     <div class="row">
@@ -55,6 +60,7 @@
                         @endforeach
 
                     </div>
+                    @if (count($page->getActions()) > 0)
                     <div class="row">
                         <div class="input-field col s12 right-align">
                             @foreach($page->getActions() as $action)
@@ -62,9 +68,30 @@
                             @endforeach
                         </div>
                     </div>
+                    @endif 
                 </div>
             </form>
         </div>
     </div>
+
+@endsection
+
+
+@section('jsPostApp')
+
+  <script>
+
+    $(document).ready(function() {
+      $('select').material_select();
+    });
+
+    function confirmAction(route) {
+      var result = confirm("¿Está seguro?");
+      if (result == true) {
+        window.location=route;
+      }
+    };
+    
+  </script>
 
 @endsection

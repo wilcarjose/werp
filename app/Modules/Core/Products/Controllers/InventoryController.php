@@ -11,8 +11,11 @@ use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Products\Models\InventoryDetail;
 use Werp\Modules\Core\Products\Builders\InventoryForm;
 use Werp\Modules\Core\Products\Builders\InventoryList;
+use Werp\Modules\Core\Products\Services\InventoryService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Services\TransactionService;
+use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Transformers\InventoryTransformer;
 use Werp\Modules\Core\Products\Transformers\InventoryDetailTransformer;
 
@@ -27,6 +30,8 @@ class InventoryController extends Controller
     protected $inventoryForm;
     protected $inventoryList;
     protected $doctypeService;
+    protected $inventoryService;
+
 
     public function __construct(
         Product $product,
@@ -39,7 +44,8 @@ class InventoryController extends Controller
         Doctype $doctype,
         Warehouse $warehouse,
         DoctypeService $doctypeService,
-        TransactionService $transactionService
+        TransactionService $transactionService,
+        InventoryService $inventoryService
     ) {
         $this->inventory            = $inventory;
         $this->inventoryDetail      = $inventoryDetail;
@@ -52,6 +58,7 @@ class InventoryController extends Controller
         $this->inventoryList        = $inventoryList;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
+        $this->inventoryService   = $inventoryService;
     }
 
     /**
@@ -405,9 +412,24 @@ class InventoryController extends Controller
 
     public function process($id)
     {
-        $this->transactionService->setDocument($this->inventory->find($id))
-            ->process();
+        try {
 
-        return redirect(route('admin.products.inventories.edit', $id));
+            $this->inventoryService->inventoryId($id)
+                ->check()
+                ->process();
+
+            flash('Inventario procesado exitosamente', 'success', 'success');
+            return redirect(route('admin.products.inventories.edit', $id));
+
+        } catch (NotDetailException $e) {
+            flash($e->getMessage(), 'error', 'error');
+            return redirect(route('admin.products.inventories.edit', $id));
+        } catch (CanNotProcessException $e) {
+            flash($e->getMessage(), 'error', 'error');
+            return redirect(route('admin.products.inventories.edit', $id));
+        } catch (\Exception $e) {
+            flash($e->getMessage(), 'error', 'error');
+            return redirect(route('admin.products.inventories.edit', $id));
+        }
     }
 }

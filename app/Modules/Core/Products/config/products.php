@@ -28,6 +28,45 @@ return [
         ],
     ],
 
+    'document' => [
+        'actions' => [
+            'inv' => [
+                'pe' => [
+                    'key' => 'pending',
+                    'name' => 'view.pending',
+                    'after_name' => 'view.pending',
+                    'new_actions' => ['pr'],
+                    'actions_from' => [],
+                    'color' => 'gold',
+                ],
+                'pr' => [
+                    'key' => 'process',
+                    'name' => 'view.process',
+                    'after_name' => 'view.processed',
+                    'new_actions' => [],
+                    'actions_from' => ['pe'],
+                    'color' => 'limegreen',
+                ],
+                'ca' => [
+                    'key' => 'cancel',
+                    'name' => 'view.cancel',
+                    'after_name' => 'view.canceled',
+                    'new_actions' => [],
+                    'actions_from' => [],
+                    'color' => 'tomato',
+                ],
+                're' => [ // reverse document at the same date
+                    'key' => 'reverse',
+                    'name' => 'view.reverse',
+                    'after_name' => 'view.reversed',
+                    'new_actions' => [],
+                    'actions_from' => [],
+                    'color' => 'wheat',
+                ]
+            ]
+        ],
+    ],
+
     'pages' => [
         'category' => [
             'title'  => 'Categories',

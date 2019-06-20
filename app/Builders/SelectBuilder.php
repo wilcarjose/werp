@@ -17,6 +17,7 @@ class SelectBuilder
     protected $text;
     protected $value;
     protected $data;
+    protected $disable;
 
     /**
      * InputBuilder constructor.
@@ -26,7 +27,7 @@ class SelectBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($name = null, $type = null, $text = null, $icon = null, $data = [], $value = null)
+    public function __construct($name = null, $type = null, $text = null, $icon = null, $data = [], $value = null, $disable = false)
     {
         $this->name  = $name;
         $this->type  = $type;
@@ -34,6 +35,7 @@ class SelectBuilder
         $this->text  = $text;
         $this->value = $value;
         $this->data  = $data;
+        $this->disable  = $disable;
     }
 
     /**
@@ -141,6 +143,24 @@ class SelectBuilder
     public function setData($data)
     {
         $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isDisable()
+    {
+        return $this->disable;
+    }
+
+    /**
+     * @param mixed $disable
+     * @return InputBuilder
+     */
+    public function setDisable($disable)
+    {
+        $this->disable = $disable;
         return $this;
     }
 

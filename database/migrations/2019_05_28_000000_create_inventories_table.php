@@ -18,6 +18,8 @@ class CreateInventoriesTable extends Migration
             $table->string('code');
             $table->dateTime('date');
             $table->text('description')->nullable();
+            $table->string('reference')->nullable();
+            $table->string('state', 2)->default('pe');
             $table->integer('doctype_id')->unsigned();
             $table->foreign('doctype_id')
                 ->references('id')

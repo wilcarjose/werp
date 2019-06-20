@@ -10,6 +10,8 @@ class Inventory extends Model
 
     protected $type = 'INV';
 
+    protected $stateArray = ['jj'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +23,8 @@ class Inventory extends Model
         'doctype_id',
         'warehouse_id',
         'date',
+        'state',
+        'reference'
 
     ];
 
@@ -46,6 +50,8 @@ class Inventory extends Model
             'doctype_id' => $this->doctype_id,
             'warehouse_id' => $this->warehouse_id,
             'date' => $this->date,
+            'state' => $this->state,
+            'reference' => $this->reference,
             'created_at' => $this->created_at
         ];
     }
@@ -53,5 +59,14 @@ class Inventory extends Model
     public function getType()
     {
         return $this->type;
+    }
+
+    public function getState($state = null)
+    {
+        if ($state) {
+            return config('products.document.actions.inv.'.$state);
+        }
+
+        return config('products.document.actions.inv.'.$this->state);
     }
 }

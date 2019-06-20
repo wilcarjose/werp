@@ -29,6 +29,11 @@ class ListBuilder extends ModuleBuilder
 
     protected $showMessages = true;
 
+    protected $disable = false;
+
+    protected $paginate = true;
+
+    protected $showState = false;
 
     public function view()
     {
@@ -193,6 +198,60 @@ class ListBuilder extends ModuleBuilder
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDisable()
+    {
+        return $this->disable;
+    }
+
+    /**
+     * @param mixed $disable
+     * @return ListBuilder
+     */
+    public function setDisable($disable)
+    {
+        $this->disable = $disable;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPaginate()
+    {
+        return $this->paginate;
+    }
+
+    /**
+     * @param mixed $paginate
+     * @return ListBuilder
+     */
+    public function setPaginate($paginate)
+    {
+        $this->paginate = $paginate;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShowState()
+    {
+        return $this->showState;
+    }
+
+    /**
+     * @param mixed $showState
+     * @return ListBuilder
+     */
+    public function setShowState($showState)
+    {
+        $this->showState = $showState;
+        return $this;
+    }
+
     public function makeConfig()
     {
         // "{ title: 'Usuarios', fields: [{ field: 'fullname', name: 'nombre'}, {field: 'email', name: 'email'}], route: '/admin/user', show_status: true }";
@@ -211,6 +270,9 @@ class ListBuilder extends ModuleBuilder
             'empty_list'    => $this->getEmptyList(),
             'delete_multiple'    => $this->getDeleteMultiple(),
             'show_messages' => $this->getShowMessages(),
+            'show_state' => $this->getShowState(),
+            'paginate'    => $this->getPaginate(),
+            'disable'    => $this->getDisable(),
             'fields' => $fields
         ];
 

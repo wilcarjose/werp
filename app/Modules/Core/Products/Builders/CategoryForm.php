@@ -39,7 +39,7 @@ class CategoryForm extends FormBuilder
             ->setShortAction('Nuevo')
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->addInput(new InputBuilder('name', 'input', trans('view.name'), 'person'))
+            ->addInput(new InputBuilder('name', 'input', trans('view.name')))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.categories.index')))
         ;
@@ -56,7 +56,7 @@ class CategoryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
-            ->addInput(new InputBuilder('name', 'input', trans('view.name'), 'person', $data['name']))
+            ->addInput(new InputBuilder('name', 'input', trans('view.name'), null, $data['name']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.categories.index')))
         ;
