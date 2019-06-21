@@ -6,7 +6,7 @@ return [
         [
             'module' => 'view.menu.products',
             'icon' => 'security',
-            'routes' => ['admin.products.categories.index'],
+            'route' => ['admin.products'],
             'items' => [
                 [
                     'name' => 'view.menu.categories',

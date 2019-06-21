@@ -29,7 +29,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   //dd(config('menu'));
         if (Gate::denies('developerOnly') && Gate::denies('admin.list')) {
             return back();
         }

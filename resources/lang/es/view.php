@@ -23,6 +23,7 @@ return [
     'none' => 'Ninguno',
     'advanced_options' => 'Opciones avanzadas',
     'menu' => [
+        'security' => 'Seguridad',
         'products' => 'Productos',
         'categories' => 'Categorias',
         'warehouses' => 'Almacenes',
