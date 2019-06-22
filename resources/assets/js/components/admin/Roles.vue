@@ -14,7 +14,7 @@
             </div>
             <div class="col s12 m8">
               <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
-                <button class="btn btn-default pull-right" @click="create()" v-show="showAdd">New</button>
+                <button class="btn btn-default pull-right" @click="create()" v-show="showAdd">Nuevo</button>
               </transition>
             </div>
             <div class="col s12 m4">
@@ -33,11 +33,11 @@
               <table class="responsive-table bordered">
                 <thead>
                   <tr>
-                    <th v-for="(cols,index) in gridColumns" @click="sortBy(cols)">
-                      {{ cols | capitalize }}
+                    <th v-for="(cols,index) in gridColumns" @click="sortBy(index)">
+                      {{ cols }}
                       <span class="arrow"
-                        :class="sortOrder.field == cols ? sortOrder.order : 'asc'"
-                        v-if="escapeSort.indexOf(cols) < 0"></span>
+                        :class="sortOrder.field == index ? sortOrder.order : 'asc'"
+                        v-if="escapeSort.indexOf(index) < 0"></span>
                     </th>
                   </tr>
                 </thead>
@@ -99,23 +99,23 @@
       <div id="componentDataModal" class="modal modal-fixed-footer medium">
         <div class="modal-content">
           <div class="col s12">
-            <h5>{{ pupupMod | capitalize}} Role</h5>
+            <h5>Rol</h5>
           </div>
           <form @submit.prevent="isNotValidateForm" name="callback" class="col s12">
             <div class="input-field">
               <input type="text" id="role-name" name="role-name" v-model="singleObj.name">
-              <label for="role-name">Name</label>
+              <label for="role-name">Nombre</label>
             </div>
             <div class="input-field">
               <input type="text" id="label-text" name="role-label" v-model="singleObj.label">
-              <label for="role-label">Label</label>
+              <label for="role-label">Descripción</label>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-          <a href="#!" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Edit</a>
-          <a href="#!" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Add</a>
+          <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+          <a href="#!" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Editar</a>
+          <a href="#!" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Añadir</a>
         </div>
       </div>
     </div>
@@ -131,7 +131,7 @@ export default {
             singleObj: { id: Number, name: String, label: String },
             pupupMod: 'add',
             showAdd: false,
-            gridColumns: ['name', 'label', 'action'],
+            gridColumns: {name:'Nombre', label:'Descripción', action:'Acciones'},
             escapeSort: ['action'],
             sortOrder: { field: 'name', order: 'asc' }
         };

@@ -4,31 +4,72 @@ return [
 
     'menu' => [
         [
-            'module' => 'view.menu.products',
-            'icon' => 'security',
-            'route' => ['admin.products'],
+            'name' => 'view.menu.products',
+            'icon' => 'domain',
+            'route' => 'admin.products',
+            'routes' => [
+                'admin.products.categories.index',
+                'admin.products.products.index',
+                'admin.products.warehouses.index',
+                'admin.products.inventories.index',
+                'admin.products.config.edit'
+            ],
             'items' => [
-                [
-                    'name' => 'view.menu.categories',
-                    'route' => 'admin.products.categories.index',
-                ],
-                [
-                    'name' => 'view.menu.products',
-                    'route' => 'admin.products.products.index',
-                ],
-                [
-                    'name' => 'view.menu.warehouses',
-                    'route' => 'admin.products.warehouses.index',
-                ],
-                [
-                    'name' => 'view.menu.inventories',
-                    'route' => 'admin.products.inventories.index',
-                ],
                 [
                     'name' => 'view.menu.config',
                     'route' => 'admin.products.config.edit',
                 ],
             ],
+            'submodules' => [
+                [
+                    'name' => 'view.menu.general',
+                    'icon' => '',
+                    'route' => 'admin.products.general',
+                    'routes' => [
+                        'admin.products.categories.index',
+                        'admin.products.products.index',
+                        'admin.products.warehouses.index',
+                    ],
+                    'items' => [
+                        [
+                            'name' => 'view.menu.categories',
+                            'route' => 'admin.products.categories.index',
+                        ],
+                        [
+                            'name' => 'view.menu.products',
+                            'route' => 'admin.products.products.index',
+                        ],
+                        [
+                            'name' => 'view.menu.warehouses',
+                            'route' => 'admin.products.warehouses.index',
+                        ],
+                    ],
+                ],
+                [
+                    'name' => 'view.menu.processes',
+                    'icon' => '',
+                    'route' => 'admin.products.processes',
+                    'routes' => [
+                        'admin.products.inventories.index',
+                    ],
+                    'items' => [
+                        [
+                            'name' => 'view.menu.inventories',
+                            'route' => 'admin.products.inventories.index',
+                        ],
+                    ],
+                ],
+                [
+                    'name' => 'view.menu.reports',
+                    'icon' => '',
+                    'route' => 'admin.products.reports',
+                    'routes' => [
+
+                    ],
+                    'items' => [
+                    ],
+                ],
+            ]
         ],
     ],
 

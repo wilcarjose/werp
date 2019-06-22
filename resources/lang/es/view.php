@@ -36,6 +36,9 @@ return [
         'list' => 'Lista',
         'add' => 'Crear',
         'config' => 'Configuración',
+        'general' => 'General',
+        'processes' => 'Procesos',
+        'reports' => 'Reportes',
     ],
     'profile' => [
         'profile' => 'Perfil',

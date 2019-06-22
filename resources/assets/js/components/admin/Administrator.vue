@@ -10,7 +10,7 @@
             <div class="card-panel">
                 <div class="row box-title">
                     <div class="col s12">
-                        <h5 class="content-headline">Admin Users</h5>
+                        <h5 class="content-headline">Usuarios</h5>
                     </div>
                     <div class="col s12 m8">
                         <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
@@ -47,9 +47,9 @@
                                             <label for="toggleAll"></label>
                                         </p>
                                     </th>
-                                    <th v-for="(cols,index) in gridColumns" @click="sortBy(cols)">
-                                        {{ cols | capitalize }}
-                                        <span class="arrow" :class="sortOrder.field == cols ? sortOrder.order : 'asc'" v-if="escapeSort.indexOf(cols) < 0"></span>
+                                    <th v-for="(cols,index) in gridColumns" @click="sortBy(index)">
+                                        {{ cols }}
+                                        <span class="arrow" :class="sortOrder.field == index ? sortOrder.order : 'asc'" v-if="escapeSort.indexOf(index) < 0"></span>
                                     </th>
                                 </tr>
                             </thead>
@@ -64,7 +64,7 @@
                                     <td v-text="runningData.name"></td>
                                     <td v-text="runningData.email"></td>
                                     <td v-text="runningData.inrole"></td>
-                                    <td v-text="runningData.designation"></td>
+                                    <!-- <td v-text="runningData.designation"></td> -->
                                     <td>
                                         <button :class="runningData.status=='active'?'btn success-bg':'btn error-bg'" @click="switchStatus(runningData)">
                                             {{runningData.status | capitalize}}
@@ -118,34 +118,40 @@
         <div id="componentDataModal" class="modal modal-fixed-footer large">
             <div class="modal-content">
                 <div class="col s12">
-                    <h5>{{pupupMod | capitalize}} Admin</h5>
+                    <h5>Usuario</h5>
                 </div>
                 <form @submit.prevent="isNotValidateForm" name="callback" class="col s12">
                     <div class="input-field">
                         <input type="text" id="admin-name" name="name" v-model="singleObj.name">
-                        <label for="admin-name">Name</label>
+                        <label for="admin-name">Nombre</label>
                     </div>
                     <div class="input-field">
                         <input type="email" id="admin-email" name="email" v-model="singleObj.email">
                         <label for="admin-email">Email</label>
                     </div>
+                    <!--
                     <div class="input-field">
                         <input type="text" id="admin-designation" name="designation" v-model="singleObj.designation">
                         <label for="admin-designation">Designation</label>
                     </div>
+                    -->
                     <div class="input-field">
                         <select class="forge-select box-select" name="inrole" id="rolesSelectBox" v-model="singleObj.inrole">
-                            <option class="default-selected" value="" disabled="">Choose your option</option>
+                            <option class="default-selected" value="" disabled="">Seleccione...</option>
                             <option :value="role.name" v-for="role in rolesList">{{ role.name }}</option>
                         </select>
-                        <label for="rolesSelectBox">Assign Role</label>
+                        <label for="rolesSelectBox">Rol de usuario</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="password" id="admin-password" name="password" v-model="singleObj.password">
+                        <label for="admin-password">Password</label>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Edit</a>
-                <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Add</a>
+                <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn-flat">Carrar</a>
+                <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Editar</a>
+                <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Agregar</a>
             </div>
         </div>
     </div>
@@ -160,10 +166,12 @@ export default {
     mixins: [tableData],
     data() {
         return {
-            singleObj: { id: Number, name: String, email: String, status: String, inrole: '', designation: String },
+            //singleObj: { id: Number, name: String, email: String, status: String, inrole: '', designation: String },
+            singleObj: { id: Number, name: String, email: String, status: String, inrole: '', password: String },
             pupupMod: 'add',
             showAdd: false,
-            gridColumns: ['name', 'email', 'role', 'designation', 'status', 'action'],
+            //gridColumns: ['name', 'email', 'role', 'designation', 'status', 'action'],
+            gridColumns: {name:'Nombre', email:'Email', role:'Rol', status:'Estatus', action:'Acciones'},
             escapeSort: ['role', 'action'],
             sortOrder: { field: 'name', order: 'asc' },
             // Module Specific
@@ -215,15 +223,16 @@ export default {
         },
         show(obj) {
             this.singleObj = obj;
+            this.singleObj.password = '';
             this.pupupMod = 'edit';
             this.resetAlert();
 
             if (obj.inrole != '') {
                 $(`#rolesSelectBox option[value=${obj.inrole}]`).attr('selected', 'selected');
                 $('#rolesSelectBox').material_select('destroy');
-                setTimeout(() => {$('#rolesSelectBox').material_select()}, 2000);
+                setTimeout(() => {$('#rolesSelectBox').material_select()}, 500);
             }
-            setTimeout(() => {$('#componentDataModal').modal('open')}, 2000);
+            setTimeout(() => {$('#componentDataModal').modal('open')}, 500);
         },
         remove(obj) {
             this.resetAlert();
@@ -355,7 +364,7 @@ export default {
         isNotValidateForm() {
             if (this.singleObj.name == "" ||
                 this.singleObj.email == '' ||
-                this.singleObj.designation == '' ||
+                //this.singleObj.designation == '' ||
                 funcHelp.validateEmail(this.singleObj.email) == false) {
                 return true;
             }

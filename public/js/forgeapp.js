@@ -33140,7 +33140,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             singleObj: { id: Number, name: String, label: String },
             pupupMod: 'add',
             showAdd: false,
-            gridColumns: ['name', 'label', 'action'],
+            gridColumns: { name: 'Nombre', label: 'Descripción', action: 'Acciones' },
             escapeSort: ['action'],
             sortOrder: { field: 'name', order: 'asc' }
         };
@@ -33426,7 +33426,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("New")]
+                    [_vm._v("Nuevo")]
                   )
                 ]
               )
@@ -33509,21 +33509,21 @@ var render = function() {
                       {
                         on: {
                           click: function($event) {
-                            _vm.sortBy(cols)
+                            _vm.sortBy(index)
                           }
                         }
                       },
                       [
                         _vm._v(
                           "\n                  " +
-                            _vm._s(_vm._f("capitalize")(cols)) +
+                            _vm._s(cols) +
                             "\n                  "
                         ),
-                        _vm.escapeSort.indexOf(cols) < 0
+                        _vm.escapeSort.indexOf(index) < 0
                           ? _c("span", {
                               staticClass: "arrow",
                               class:
-                                _vm.sortOrder.field == cols
+                                _vm.sortOrder.field == index
                                   ? _vm.sortOrder.order
                                   : "asc"
                             })
@@ -33782,11 +33782,7 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "modal-content" }, [
-          _c("div", { staticClass: "col s12" }, [
-            _c("h5", [
-              _vm._v(_vm._s(_vm._f("capitalize")(_vm.pupupMod)) + " Role")
-            ])
-          ]),
+          _vm._m(2),
           _vm._v(" "),
           _c(
             "form",
@@ -33823,7 +33819,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "role-name" } }, [_vm._v("Name")])
+                _c("label", { attrs: { for: "role-name" } }, [_vm._v("Nombre")])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "input-field" }, [
@@ -33848,7 +33844,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "role-label" } }, [_vm._v("Label")])
+                _c("label", { attrs: { for: "role-label" } }, [
+                  _vm._v("Descripción")
+                ])
               ])
             ]
           )
@@ -33862,7 +33860,7 @@ var render = function() {
                 "modal-action modal-close waves-effect waves-green btn-flat",
               attrs: { href: "#!" }
             },
-            [_vm._v("Close")]
+            [_vm._v("Cerrar")]
           ),
           _vm._v(" "),
           _vm.pupupMod == "edit"
@@ -33877,7 +33875,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Edit")]
+                [_vm._v("Editar")]
               )
             : _c(
                 "a",
@@ -33890,7 +33888,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Add")]
+                [_vm._v("Añadir")]
               )
         ])
       ]
@@ -33913,6 +33911,12 @@ var staticRenderFns = [
     return _c("div", { staticClass: "input-group-addon" }, [
       _c("span", { staticClass: "glyphicon glyphicon-search" })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12" }, [_c("h5", [_vm._v("Rol")])])
   }
 ]
 render._withStripped = true
@@ -34110,7 +34114,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             pupupMod: 'add',
             showAdd: false,
             // Component
-            gridColumns: ['name', 'label', 'action'],
+            gridColumns: { name: 'Nombre', label: 'Descripción', action: 'Acciones' },
             escapeSort: ['action'],
             sortOrder: { field: 'name', order: 'asc' }
         };
@@ -34305,7 +34309,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("New")]
+                    [_vm._v("Nuevo")]
                   )
                 ]
               )
@@ -34388,21 +34392,21 @@ var render = function() {
                       {
                         on: {
                           click: function($event) {
-                            _vm.sortBy(cols)
+                            _vm.sortBy(index)
                           }
                         }
                       },
                       [
                         _vm._v(
                           "\n                  " +
-                            _vm._s(_vm._f("capitalize")(cols)) +
+                            _vm._s(cols) +
                             "\n                  "
                         ),
-                        _vm.escapeSort.indexOf(cols) < 0
+                        _vm.escapeSort.indexOf(index) < 0
                           ? _c("span", {
                               staticClass: "arrow",
                               class:
-                                _vm.sortOrder.field == cols
+                                _vm.sortOrder.field == index
                                   ? _vm.sortOrder.order
                                   : "asc"
                             })
@@ -34661,11 +34665,7 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "modal-content" }, [
-          _c("div", { staticClass: "col s12" }, [
-            _c("h5", [
-              _vm._v(_vm._s(_vm._f("capitalize")(_vm.pupupMod)) + " Permission")
-            ])
-          ]),
+          _vm._m(2),
           _vm._v(" "),
           _c(
             "form",
@@ -34702,7 +34702,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "role-name" } }, [_vm._v("Name")])
+                _c("label", { attrs: { for: "role-name" } }, [_vm._v("Nombre")])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "input-field" }, [
@@ -34727,7 +34727,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "label-text" } }, [_vm._v("Label")])
+                _c("label", { attrs: { for: "label-text" } }, [
+                  _vm._v("Descripción")
+                ])
               ])
             ]
           )
@@ -34741,7 +34743,7 @@ var render = function() {
                 "modal-action modal-close waves-effect waves-green btn-flat",
               attrs: { href: "#!" }
             },
-            [_vm._v("Close")]
+            [_vm._v("Cerrar")]
           ),
           _vm._v(" "),
           _vm.pupupMod == "edit"
@@ -34756,7 +34758,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Edit")]
+                [_vm._v("Editar")]
               )
             : _c(
                 "a",
@@ -34769,7 +34771,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Add")]
+                [_vm._v("Añadir")]
               )
         ])
       ]
@@ -34782,7 +34784,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col s12" }, [
-      _c("h5", { staticClass: "content-headline" }, [_vm._v("Permissions")])
+      _c("h5", { staticClass: "content-headline" }, [_vm._v("Permisos")])
     ])
   },
   function() {
@@ -34791,6 +34793,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-addon" }, [
       _c("span", { staticClass: "glyphicon glyphicon-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12" }, [
+      _c("h5", [_vm._v("Permiso")])
     ])
   }
 ]
@@ -35082,7 +35092,7 @@ var render = function() {
                     _c("li", { staticClass: "collection-header" }, [
                       _c("h5", [
                         _vm._v(
-                          "Role Permissions :" +
+                          "Rol: " +
                             _vm._s(_vm._f("capitalize")(_vm.selectedRole.name))
                         )
                       ])
@@ -35122,16 +35132,26 @@ var render = function() {
                   ],
                   2
                 )
-              : _c("ul", { staticClass: "collection with-header" }, [_vm._m(1)])
+              : _c("ul", { staticClass: "collection with-header" }, [
+                  _c("li", { staticClass: "collection-header" }, [
+                    _c("h5", [
+                      _vm._v(
+                        "El rol " +
+                          _vm._s(_vm._f("capitalize")(_vm.selectedRole.name)) +
+                          " aún no tiene permisos asignados"
+                      )
+                    ])
+                  ])
+                ])
           ])
-        : _c("div", { staticClass: "col m4 s12" }, [_vm._m(2)]),
+        : _c("div", { staticClass: "col m4 s12" }, [_vm._m(1)]),
       _vm._v(" "),
       _c("div", { staticClass: "col m4 s12" }, [
         _c(
           "ul",
           { staticClass: "collection with-header" },
           [
-            _vm._m(3),
+            _vm._m(2),
             _vm._v(" "),
             _vm._l(_vm.filteredPermissions, function(permission) {
               return _c(
@@ -35178,17 +35198,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "collection-header" }, [
-      _c("h5", [_vm._v("Aha! No permission assigned yet!")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("ul", { staticClass: "collection with-header" }, [
       _c("li", { staticClass: "collection-header" }, [
-        _c("h5", [_vm._v("Select Role to assign permission!")])
+        _c("h5", [_vm._v("Seleccione un Rol y asigne o remueva permisos")])
       ])
     ])
   },
@@ -35197,7 +35209,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "collection-header" }, [
-      _c("h5", [_vm._v("Permissions")])
+      _c("h5", [_vm._v("Permisos")])
     ])
   }
 ]
@@ -35417,6 +35429,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -35427,10 +35445,12 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__["a" /* tableData */]],
     data: function data() {
         return {
-            singleObj: { id: Number, name: String, email: String, status: String, inrole: '', designation: String },
+            //singleObj: { id: Number, name: String, email: String, status: String, inrole: '', designation: String },
+            singleObj: { id: Number, name: String, email: String, status: String, inrole: '', password: String },
             pupupMod: 'add',
             showAdd: false,
-            gridColumns: ['name', 'email', 'role', 'designation', 'status', 'action'],
+            //gridColumns: ['name', 'email', 'role', 'designation', 'status', 'action'],
+            gridColumns: { name: 'Nombre', email: 'Email', role: 'Rol', status: 'Estatus', action: 'Acciones' },
             escapeSort: ['role', 'action'],
             sortOrder: { field: 'name', order: 'asc' },
             // Module Specific
@@ -35487,6 +35507,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
         },
         show: function show(obj) {
             this.singleObj = obj;
+            this.singleObj.password = '';
             this.pupupMod = 'edit';
             this.resetAlert();
 
@@ -35495,11 +35516,11 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 $('#rolesSelectBox').material_select('destroy');
                 setTimeout(function () {
                     $('#rolesSelectBox').material_select();
-                }, 2000);
+                }, 500);
             }
             setTimeout(function () {
                 $('#componentDataModal').modal('open');
-            }, 2000);
+            }, 500);
         },
         remove: function remove(obj) {
             var _this2 = this;
@@ -35648,7 +35669,9 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
     },
     computed: {
         isNotValidateForm: function isNotValidateForm() {
-            if (this.singleObj.name == "" || this.singleObj.email == '' || this.singleObj.designation == '' || funcHelp.validateEmail(this.singleObj.email) == false) {
+            if (this.singleObj.name == "" || this.singleObj.email == '' ||
+            //this.singleObj.designation == '' ||
+            funcHelp.validateEmail(this.singleObj.email) == false) {
                 return true;
             }
             return false;
@@ -35899,21 +35922,21 @@ var render = function() {
                         {
                           on: {
                             click: function($event) {
-                              _vm.sortBy(cols)
+                              _vm.sortBy(index)
                             }
                           }
                         },
                         [
                           _vm._v(
                             "\n                                    " +
-                              _vm._s(_vm._f("capitalize")(cols)) +
+                              _vm._s(cols) +
                               "\n                                    "
                           ),
-                          _vm.escapeSort.indexOf(cols) < 0
+                          _vm.escapeSort.indexOf(index) < 0
                             ? _c("span", {
                                 staticClass: "arrow",
                                 class:
-                                  _vm.sortOrder.field == cols
+                                  _vm.sortOrder.field == index
                                     ? _vm.sortOrder.order
                                     : "asc"
                               })
@@ -35988,12 +36011,6 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", {
                           domProps: { textContent: _vm._s(runningData.inrole) }
-                        }),
-                        _vm._v(" "),
-                        _c("td", {
-                          domProps: {
-                            textContent: _vm._s(runningData.designation)
-                          }
                         }),
                         _vm._v(" "),
                         _c("td", [
@@ -36257,11 +36274,7 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "modal-content" }, [
-          _c("div", { staticClass: "col s12" }, [
-            _c("h5", [
-              _vm._v(_vm._s(_vm._f("capitalize")(_vm.pupupMod)) + " Admin")
-            ])
-          ]),
+          _vm._m(2),
           _vm._v(" "),
           _c(
             "form",
@@ -36298,7 +36311,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "admin-name" } }, [_vm._v("Name")])
+                _c("label", { attrs: { for: "admin-name" } }, [
+                  _vm._v("Nombre")
+                ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "input-field" }, [
@@ -36325,41 +36340,6 @@ var render = function() {
                 _vm._v(" "),
                 _c("label", { attrs: { for: "admin-email" } }, [
                   _vm._v("Email")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "input-field" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.singleObj.designation,
-                      expression: "singleObj.designation"
-                    }
-                  ],
-                  attrs: {
-                    type: "text",
-                    id: "admin-designation",
-                    name: "designation"
-                  },
-                  domProps: { value: _vm.singleObj.designation },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(
-                        _vm.singleObj,
-                        "designation",
-                        $event.target.value
-                      )
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "admin-designation" } }, [
-                  _vm._v("Designation")
                 ])
               ]),
               _vm._v(" "),
@@ -36404,7 +36384,7 @@ var render = function() {
                         staticClass: "default-selected",
                         attrs: { value: "", disabled: "" }
                       },
-                      [_vm._v("Choose your option")]
+                      [_vm._v("Seleccione...")]
                     ),
                     _vm._v(" "),
                     _vm._l(_vm.rolesList, function(role) {
@@ -36417,7 +36397,38 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("label", { attrs: { for: "rolesSelectBox" } }, [
-                  _vm._v("Assign Role")
+                  _vm._v("Rol de usuario")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.singleObj.password,
+                      expression: "singleObj.password"
+                    }
+                  ],
+                  attrs: {
+                    type: "password",
+                    id: "admin-password",
+                    name: "password"
+                  },
+                  domProps: { value: _vm.singleObj.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.singleObj, "password", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "admin-password" } }, [
+                  _vm._v("Password")
                 ])
               ])
             ]
@@ -36432,7 +36443,7 @@ var render = function() {
                 "modal-action modal-close waves-effect waves-green btn-flat",
               attrs: { href: "javascript:void(0);" }
             },
-            [_vm._v("Close")]
+            [_vm._v("Carrar")]
           ),
           _vm._v(" "),
           _vm.pupupMod == "edit"
@@ -36450,7 +36461,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Edit")]
+                [_vm._v("Editar")]
               )
             : _c(
                 "a",
@@ -36466,7 +36477,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Add")]
+                [_vm._v("Agregar")]
               )
         ])
       ]
@@ -36479,7 +36490,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col s12" }, [
-      _c("h5", { staticClass: "content-headline" }, [_vm._v("Admin Users")])
+      _c("h5", { staticClass: "content-headline" }, [_vm._v("Usuarios")])
     ])
   },
   function() {
@@ -36488,6 +36499,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-addon" }, [
       _c("span", { staticClass: "glyphicon glyphicon-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12" }, [
+      _c("h5", [_vm._v("Usuario")])
     ])
   }
 ]

@@ -29,7 +29,7 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   //dd(config('menu'));
+    {
         if (Gate::denies('developerOnly') && Gate::denies('admin.list')) {
             return back();
         }
@@ -87,16 +87,17 @@ class AdminController extends Controller
         $validator = validator()->make($request->all(), [
             'name'   => 'required|max:255',
             'email'  => 'required|email|max:255|unique:admins',
-            'inrole' => 'required'
+            'inrole' => 'required',
+            'password' => 'required',
         ]);
         if ($validator->fails()) {
-            return response(['error' => trans('messages.parameters-fail-validation')], 422);
+            return response(['error' => $validator->errors()], 422);
         }
 
         // Prepare Input
-        $setPassword       = randomInteger();
+        //$setPassword       = randomInteger();
         $input             = array_only($request->all(), ['name', 'email']);
-        $input['password'] = bcrypt($setPassword);
+        $input['password'] = bcrypt($request->password);
         $input['status']   = Admin::STATE_ACTIVE;
 
         // Create Admin
@@ -108,7 +109,7 @@ class AdminController extends Controller
         }
 
         // Mailing for password
-        $mail = new WelcomeNewAdmin($admin, $setPassword);
+        $mail = new WelcomeNewAdmin($admin, $request->password);
         //\Mail::to($admin->email)->send($mail);
 
         $newAdmin          = $admin->toArray();
@@ -144,7 +145,7 @@ class AdminController extends Controller
         $validator = validator()->make($request->all(), [
             'name'        => 'required|max:255',
             'email'       => 'required|email|max:255|unique:admins,email,'.$admin->id.',id',
-            'designation' => 'max:255',
+            //'designation' => 'max:255',
             'inrole'      => 'required'
         ]);
 
@@ -168,7 +169,15 @@ class AdminController extends Controller
         // Set new updated profile contents to admin
         $admin->name        = $name;
         $admin->email       = $email;
-        $admin->designation = $designation;
+
+        if (isset($designation)) {
+            $admin->designation = $designation;
+        }
+
+        if (isset($password)) {
+            $admin->password    = bcrypt($password);
+        }
+
         $admin->save();
 
         if ($request->wantsJson()) {

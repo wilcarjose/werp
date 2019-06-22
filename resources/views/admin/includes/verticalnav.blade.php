@@ -54,8 +54,8 @@
         @foreach (config('menu') as $module) 
             {{--  @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route'])) --}}
                 <li>
-                    <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name, $module['route']) ? 'active current' : '' }}" href="#">
-                        <i class="material-icons">{{ $module['icon'] }}</i><span>@lang($module['module'])</span>
+                    <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name, $module['routes']) ? 'active current' : '' }}" href="#">
+                        <i class="material-icons">{{ $module['icon'] }}</i><span>@lang($module['name'])</span>
                         <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
                     </a>
                     <div class="collapsible-body">
@@ -67,6 +67,29 @@
                                 </li>
                             @endif
                         @endforeach
+                        @foreach ($module['submodules'] as $submodule)
+                            <li class="menu-item">
+                                <ul class="collapsible">
+                                    <li>
+                                        <div class="collapsible-header {{ in_array($current_route_name, $submodule['routes']) ? 'active current' : '' }}">
+                                             <span>@lang($submodule['name'])</span>
+                                             <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
+                                        </div>
+                                        <div class="collapsible-body">
+                                            <ul>
+                                                @foreach ($submodule['items'] as $item)
+                                                    @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route']) || auth()->user()->can($item['route']))
+                                                        <li class="menu-item">
+                                                            <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="material-icons">arrow_right</i><span>@lang($item['name'])</span></a>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endforeach
                       </ul>
                     </div>
                 </li>
@@ -74,7 +97,7 @@
         @endforeach
 
         <li>
-            <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.roles.index','admin.permissions.index','admin.myrolepermission'])?'active current':'' }}" href="#">
+            <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.administrator.index','admin.roles.index','admin.permissions.index','admin.myrolepermission'])?'active current':'' }}" href="#">
                 <i class="material-icons">security</i><span>@lang('view.menu.security')</span>
                 <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
             </a>
@@ -102,28 +125,9 @@
                         </a>
                     </li>
                 @endif
-                <li class="menu-item">
-                    <ul class="collapsible">
-                    <li>
-                        <div class="collapsible-header">
-                             <span>@lang('view.menu.users')</span>
-                             <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
-                        </div>
-                        <div class="collapsible-body">
-                            <ul>
-                                <li class="menu-item">
+                
 
-                                    <a class="waves-effect waves-set {{ $current_route_name=='admin.user.index'?'active':'' }}" href="{{ url('/admin/user') }}"><i class="material-icons">keyboard_arrow_right</i><span>@lang('view.menu.list')</span></a>
-                                </li>
-                                <li class="menu-item">
-                                    <a class="waves-effect waves-set {{ $current_route_name=='admin.user.create'?'active':'' }}" href="{{ url('/admin/user/create') }}"><i class="material-icons">keyboard_arrow_right</i><span>@lang('view.menu.add')</span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                  </ul>
-                </li>
+                  
               </ul>
             </div>
         </li>

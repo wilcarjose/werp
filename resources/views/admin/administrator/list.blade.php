@@ -9,7 +9,7 @@
         <div class="sec-page">
 
             <div class="page-title">
-                <h2>Admin Users</h2>
+                <h2>Usuarios</h2>
             </div>
 
             <div class="page-options">
@@ -28,8 +28,8 @@
             <nav class="breadcrumbs-nav left">
                 <div class="nav-wrapper">
                     <div class="col s12">
-                        <a class="breadcrumb" href="{{ url('admin/') }}">Home</a>
-                        <a class="breadcrumb" href="#">Admin Users</a>
+                        <a class="breadcrumb" href="{{ url('admin/') }}">Inicio</a>
+                        <a class="breadcrumb" href="#">Usuarios</a>
                     </div>
                 </div>
             </nav>

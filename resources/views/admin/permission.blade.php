@@ -6,7 +6,7 @@
 	<div class="main-header">
         <div class="sec-page">
           <div class="page-title">
-            <h2>Permission Manager</h2>
+            <h2>Permisos</h2>
           </div>
           <div class="page-options">
             <a class="waves-effect waves-set page-opt-dropBtn setWave btn-floating" href="#"><i class="material-icons">perm_data_setting</i></a>
@@ -20,8 +20,8 @@
           <nav class="breadcrumbs-nav left">
             <div class="nav-wrapper">
               <div class="col s12">
-                <a class="breadcrumb" href="{{ url('admin/') }}">Home</a>
-                <a class="breadcrumb" href="#">Permission</a>
+                <a class="breadcrumb" href="{{ url('admin/') }}">Inicio</a>
+                <a class="breadcrumb" href="#">Permisos</a>
               </div>
             </div>
           </nav>

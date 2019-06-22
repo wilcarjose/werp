@@ -14,7 +14,7 @@
         </div>
         <div class="col m4 s12" v-if="selectedRole.length != 0">
             <ul class="collection with-header" v-if="selectedRolePermissions.length!=0">
-                <li class="collection-header"><h5>Role Permissions :{{selectedRole.name | capitalize }}</h5></li>
+                <li class="collection-header"><h5>Rol: {{selectedRole.name | capitalize }}</h5></li>
                 <li href="javascript:void(0);" class="collection-item"
                     v-for="rolePermission in selectedRolePermissions"
                     @click="detach(rolePermission)">
@@ -22,17 +22,17 @@
                 </li>
             </ul>
             <ul class="collection with-header" v-else>
-                <li class="collection-header"><h5>Aha! No permission assigned yet!</h5></li>
+                <li class="collection-header"><h5>El rol {{selectedRole.name | capitalize }} aún no tiene permisos asignados</h5></li>
             </ul>
         </div>
         <div class="col m4 s12" v-else>
             <ul class="collection with-header">
-                <li class="collection-header"><h5>Select Role to assign permission!</h5></li>
+                <li class="collection-header"><h5>Seleccione un Rol y asigne o remueva permisos</h5></li>
             </ul>
         </div>
         <div class="col m4 s12">
             <ul class="collection with-header">
-                <li class="collection-header"><h5>Permissions</h5></li>
+                <li class="collection-header"><h5>Permisos</h5></li>
                 <li href="javascript:void(0);" class="collection-item"
                     v-for="permission in filteredPermissions"
                     @click="attach(permission)">
