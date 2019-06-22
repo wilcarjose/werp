@@ -36874,7 +36874,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         _this.pagination = res.paginator;
                     }
                 }).catch(function (error) {
-                    return _this.alertHandler('info', 'No ' + _this.headline + ' to list!', true);
+                    return _this.alertHandler('info', 'No hay registros a\xFAn', true);
                 });
             }
         },

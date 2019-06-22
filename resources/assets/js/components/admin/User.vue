@@ -290,7 +290,7 @@ export default {
                           this.pagination = res.paginator;
                       }
                   })
-                  .catch(error => this.alertHandler('info', `No ${this.headline} to list!`, true));
+                  .catch(error => this.alertHandler('info', `No hay registros aún`, true));
             }
         },
         show(obj) {
