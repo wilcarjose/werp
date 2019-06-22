@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Providers;
+namespace Werp\Modules\Core\Purchases\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,7 +14,7 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Werp\Modules\Core\Products\Controllers';
+    protected $namespace = 'Werp\Modules\Core\Purchases\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -34,10 +34,10 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \Config::set('products', require app_path('Modules/Core/Products/config/products.php'));
+        \Config::set('purchases', require app_path('Modules/Core/Purchases/config/purchases.php'));
         $menu = config('menu');
-        $products = config('products.menu');
-        $menu[] = $products;
+        $purchases = config('purchases.menu');
+        $menu[] = $purchases;
         \Config::set('menu', $menu);
     }
 
@@ -69,17 +69,17 @@ class ModuleServiceProvider extends ServiceProvider
         
         Route::group([
             'middleware' => ['web', 'admin', 'auth:admin'],
-            'prefix' => 'admin/products',
-            'as' => 'admin.products.',
+            'prefix' => 'admin/purchases',
+            'as' => 'admin.purchases.',
             'namespace' => $this->namespace,
         ], function () {
-            require(base_path('app/Modules/Core/Products/routes/admin.php'));
+            require(base_path('app/Modules/Core/Purchases/routes/admin.php'));
         });
         
         /*
         Route::middleware('web')
              ->namespace($this->namespace)
-             ->group(base_path('app/Modules/Core/Products/routes/admin.php'));
+             ->group(base_path('app/Modules/Core/Purchases/routes/admin.php'));
         */
     }
 
@@ -94,7 +94,7 @@ class ModuleServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
              ->namespace($this->namespace)
-             ->group(base_path('app/Modules/Core/Products/routes/web.php'));
+             ->group(base_path('app/Modules/Core/Purchases/routes/web.php'));
     }
 
     /**
@@ -109,6 +109,6 @@ class ModuleServiceProvider extends ServiceProvider
         Route::prefix('api')
              ->middleware('api')
              ->namespace($this->namespace)
-             ->group(base_path('app/Modules/Core/Products/routes/api.php'));
+             ->group(base_path('app/Modules/Core/Purchases/routes/api.php'));
     }
 }

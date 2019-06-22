@@ -3,7 +3,6 @@
 return [
 
     'menu' => [
-        [
             'name' => 'view.menu.products',
             'icon' => 'domain',
             'route' => 'admin.products',
@@ -70,7 +69,6 @@ return [
                     ],
                 ],
             ]
-        ],
     ],
 
     'document' => [

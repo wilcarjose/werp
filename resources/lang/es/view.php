@@ -39,6 +39,8 @@ return [
         'general' => 'General',
         'processes' => 'Procesos',
         'reports' => 'Reportes',
+        'purchases' => 'Compras',
+        'suppliers' => 'Proveedores',
     ],
     'profile' => [
         'profile' => 'Perfil',
