@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBranchOfficesTable extends Migration
+class CreatePriceListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateBranchOfficesTable extends Migration
      */
     public function up()
     {
-        Schema::create('branch_offices', function (Blueprint $table) {
+        Schema::create('price_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('logo')->nullable();
-            $table->text('description')->nullable();
-            $table->integer('company_id')->unsigned();
-            $table->foreign('company_id')
+            $table->dateTime('date');
+            $table->double('price');
+            $table->string('currency');
+            $table->integer('product_id')->unsigned();
+            $table->foreign('product_id')
                 ->references('id')
-                ->on('companies');
-            $table->integer('address_id')->unsigned()->nullable();
-            $table->foreign('address_id')
+                ->on('products');
+            $table->integer('list_type_id')->unsigned();
+            $table->foreign('list_type_id')
                 ->references('id')
-                ->on('addresses');
+                ->on('list_types');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
@@ -38,6 +38,6 @@ class CreateBranchOfficesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branch_offices');
+        Schema::dropIfExists('price_lists');
     }
 }

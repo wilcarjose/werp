@@ -24,6 +24,11 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('label')->nullable();
+            $table->enum('is_group',['y','n'])->default('n');
+            $table->integer('permission_id')->unsigned()->nullable();
+            $table->foreign('permission_id')
+                ->references('id')
+                ->on('permissions');
             $table->timestamps();
         });
 

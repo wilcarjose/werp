@@ -16,6 +16,10 @@ class CreateWarehousesTable extends Migration
         Schema::create('warehouses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('address_id')->unsigned()->nullable();
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('addresses');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });

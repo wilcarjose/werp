@@ -15,12 +15,27 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code');
             $table->string('name');
+            $table->string('part_number')->nullable();
             $table->text('description')->nullable();
-            $table->integer('category_id')->unsigned();
+            $table->string('barcode')->nullable();
+            $table->string('qrcode')->nullable();
+            $table->string('link')->nullable();
+            $table->integer('category_id')->unsigned()->nullable();
+            $table->string('image')->nullable();
+            $table->enum('is_service', ['y','n'])->default('n');
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');
+            $table->integer('brand_id')->unsigned()->nullable();
+            $table->foreign('brand_id')
+                ->references('id')
+                ->on('brands');
+            $table->integer('partner_id')->unsigned()->nullable();
+            $table->foreign('partner_id')
+                ->references('id')
+                ->on('partners');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
