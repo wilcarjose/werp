@@ -17,7 +17,16 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
+        'code',
         'name',
+        'part_number',
+        'barcode',
+        'qrcode',
+        'link',
+        'image',
+        'is_service',
+        'brand_id',
+        'partner_id',
         'description',
         'category_id'
     ];
@@ -26,11 +35,25 @@ class Product extends Model
     {
         return [
             'id' => $this->id,
+            'code' => $this->code,
             'name' => $this->name,
+            'part_number' => $this->part_number,
+            'barcode' => $this->barcode,
+            'qrcode' => $this->qrcode,
+            'link' => $this->link,
+            'image' => $this->image,
+            'is_service' => $this->is_service,
+            'brand_id' => $this->brand_id,
+            'partner_id' => $this->partner_id,
             'description' => $this->description,
             'category_id' => $this->category_id,
             'status' => $this->status,
             'created_at' => $this->created_at
         ];
+    }
+
+    public function isService()
+    {
+        return $this->is_service == 'y';
     }
 }

@@ -29,6 +29,7 @@ return [
     'web' => 'Web',
     'contact_person' => 'Persona de contacto',
     'economic_activity' => 'Actividad económica',
+    'code' => 'Código',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -62,5 +63,10 @@ return [
         'category' => 'Categoría',
         'default_inventory_doc' => 'Tipo de documento de inventario por defecto',
         'default_warehouse' => 'Almacén por defecto',
+        'part_number' => 'Número de parte',
+        'supplier' => 'Proveedor',
+        'brand' => 'Marca',
+        'barcode' => 'Código de barra',
+        'link' => 'Enlace',
     ]
 ];

@@ -29,6 +29,7 @@ return [
     'web' => 'Web',
     'contact_person' => 'Contact person',
     'economic_activity' => 'Economic activity',
+    'code' => 'Code',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -62,5 +63,10 @@ return [
         'category' => 'Category',
         'default_inventory_doc' => 'Default inventory doctype',
         'default_warehouse' => 'Default warehouse',
+        'part_number' => 'Part number',
+        'supplier' => 'Supplier',
+        'brand' => 'Brand',
+        'barcode' => 'Barcode',
+        'link' => 'Link',
     ]
 ];

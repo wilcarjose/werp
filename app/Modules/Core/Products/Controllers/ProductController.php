@@ -4,7 +4,9 @@ namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
+use Werp\Modules\Core\Products\Models\Brand;
 use Werp\Modules\Core\Products\Models\Product;
+use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Category;
 use Werp\Modules\Core\Products\Builders\ProductForm;
 use Werp\Modules\Core\Products\Builders\ProductList;
@@ -13,14 +15,26 @@ use Werp\Modules\Core\Products\Transformers\ProductTransformer;
 class ProductController extends Controller
 {
     protected $product;
+    protected $category;
+    protected $brand;
+    protected $supplier;
     protected $productTransformer;
     protected $productForm;
     protected $productList;
 
-    public function __construct(Product $product, ProductTransformer $productTransformer, ProductForm $productForm, ProductList $productList, Category $category)
-    {
+    public function __construct(
+        Product $product,
+        ProductTransformer $productTransformer,
+        ProductForm $productForm,
+        ProductList $productList,
+        Category $category,
+        Partner $supplier,
+        Brand $brand
+    ) {
         $this->product            = $product;
         $this->category            = $category;
+        $this->supplier            = $supplier;
+        $this->brand            = $brand;
         $this->productTransformer = $productTransformer;
         $this->productForm     = $productForm;
         $this->productList     = $productList;
@@ -78,10 +92,12 @@ class ProductController extends Controller
     public function create()
     {
         $selects = [
-            'categories' => $this->category->where('type', 'product')->get()
+            'categories' => $this->category->where('type', 'product')->get(),
+            'suppliers' => $this->supplier->where('is_supplier', 'y')->get(),
+            'brands' => $this->brand->where('status', 'active')->get(),
         ];
 
-        return $this->productForm->createProductPage($selects);
+        return $this->productForm->createPage($selects);
     }
 
     /**
@@ -93,6 +109,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {   
         $validator = validator()->make($request->all(), [
+            'code'    => 'required|max:255',
             'name'    => 'required|max:255',
         ]);
     
@@ -100,8 +117,20 @@ class ProductController extends Controller
             flash(trans('messages.parameters-fail-validation'), 'error', 'error');
             return back()->withErrors($validator)->withInput();
         }
-        //  Create Product
-        $product = $this->product->create(array_only($request->all(), ['name', 'description', 'category_id']));
+        
+        $data = array_only($request->all(), [
+            'code',
+            'name',
+            'description',
+            'part_number',
+            'partner_id',
+            'brand_id',
+            'category_id',
+            'barcode',
+            'link',
+        ]);
+
+        $product = $this->product->create($data);
 
         flash(trans('messages.product-add'), 'success', 'success');
         return back();
@@ -141,10 +170,12 @@ class ProductController extends Controller
         }
 
         $selects = [
-            'categories' => $this->category->where('type', 'product')->get()
+            'categories' => $this->category->where('type', 'product')->get(),
+            'suppliers' => $this->supplier->where('is_supplier', 'y')->get(),
+            'brands' => $this->brand->where('status', 'active')->get(),
         ];
 
-        return $this->productForm->editProductPage($product->toArray(), $selects);
+        return $this->productForm->editPage($product->toArray(), $selects);
     }
 
     /**
@@ -172,14 +203,19 @@ class ProductController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        // Prepare input
-        $input = array_only($request->all(), ['name', 'description', 'category_id']);
-        extract($input);
+        $data = array_only($request->all(), [
+            'code',
+            'name',
+            'description',
+            'part_number',
+            'partner_id',
+            'brand_id',
+            'category_id',
+            'barcode',
+            'link',
+        ]);
 
-        $product->name = $name;
-        $product->description = $description;
-        $product->category_id = $category_id;
-        $product->save();
+        $this->product->where('id', $id)->update($data);
 
         flash(trans('messages.product-update'), 'success', 'success');
         return back();
