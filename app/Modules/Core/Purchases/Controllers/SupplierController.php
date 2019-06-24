@@ -1,28 +1,35 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Controllers;
+namespace Werp\Modules\Core\Purchases\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
 use Werp\Modules\Core\Products\Models\Category;
-use Werp\Modules\Core\Products\Builders\CategoryForm;
-use Werp\Modules\Core\Products\Builders\CategoryList;
-use Werp\Modules\Core\Products\Transformers\CategoryTransformer;
+use Werp\Modules\Core\Purchases\Models\Partner;
+use Werp\Modules\Core\Purchases\Builders\SupplierForm;
+use Werp\Modules\Core\Purchases\Builders\SupplierList;
+use Werp\Modules\Core\Purchases\Transformers\SupplierTransformer;
 
-class CategoryController extends Controller
+class SupplierController extends Controller
 {
+    protected $supplier;
     protected $category;
-    protected $categoryTransformer;
-    protected $categoryForm;
-    protected $categoryList;
-    protected $type = 'product';
+    protected $supplierTransformer;
+    protected $supplierForm;
+    protected $supplierList;
 
-    public function __construct(Category $category, CategoryTransformer $categoryTransformer, CategoryForm $categoryForm, CategoryList $categoryList)
-    {
+    public function __construct(
+        Partner $supplier,
+        Category $category,
+        SupplierTransformer $supplierTransformer,
+        SupplierForm $supplierForm,
+        SupplierList $supplierList
+    ) {
+        $this->supplier            = $supplier;
         $this->category            = $category;
-        $this->categoryTransformer = $categoryTransformer;
-        $this->categoryForm     = $categoryForm;
-        $this->categoryList     = $categoryList;
+        $this->supplierTransformer = $supplierTransformer;
+        $this->supplierForm        = $supplierForm;
+        $this->supplierList        = $supplierList;
     }
 
     /**
@@ -38,8 +45,8 @@ class CategoryController extends Controller
             $order  = request()->has('order')?request()->get('order'):'asc';
             $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
 
-            $categories = $this->category
-                ->where('type', $this->type)
+            $suppliers = $this->supplier
+                ->where('is_supplier', 'y')
                 ->where(function ($query) use ($search) {
                     if ($search) {
                         $query->where('name', 'like', "$search%");
@@ -47,7 +54,7 @@ class CategoryController extends Controller
                 })
                 ->orderBy("$sort", "$order")->paginate(10);
 
-            if ($categories->count()<=0) {
+            if ($suppliers->count()<=0) {
                 return response([
                     'status_code' => 404,
                     'message'     => trans('messages.not-found')
@@ -55,20 +62,20 @@ class CategoryController extends Controller
             }
 
             $paginator=[
-                'total_count'  => $categories->total(),
-                'total_pages'  => $categories->lastPage(),
-                'current_page' => $categories->currentPage(),
-                'limit'        => $categories->perPage()
+                'total_count'  => $suppliers->total(),
+                'total_pages'  => $suppliers->lastPage(),
+                'current_page' => $suppliers->currentPage(),
+                'limit'        => $suppliers->perPage()
             ];
 
             return response([
-                'data'        => $this->categoryTransformer->transformCollection($categories->all()),
+                'data'        => $this->supplierTransformer->transformCollection($suppliers->all()),
                 'paginator'   => $paginator,
                 'status_code' => 200
             ], 200);
         }
-        return $this->categoryList->view();
-        //return view('admin.categories.list');
+        return $this->supplierList->view();
+        //return view('admin.suppliers.list');
     }
 
     /**
@@ -78,7 +85,11 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return $this->categoryForm->showPage();
+        $selects = [
+            'categories' => $this->category->where('type', 'supplier')->get(),
+        ];
+
+        return $this->supplierForm->createPage($selects);
     }
 
     /**
@@ -91,6 +102,7 @@ class CategoryController extends Controller
     {   
         $validator = validator()->make($request->all(), [
             'name'    => 'required|max:255',
+            'document'    => 'required|max:255',
         ]);
     
         if ($validator->fails()) {
@@ -98,12 +110,26 @@ class CategoryController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $data = array_only($request->all(), ['name']);
-        $data['type'] = $this->type;
+        $data = array_only($request->all(), [
+            'name',
+            'document',
+            'phone',
+            'mobile',
+            'email',
+            'web',
+            'photo',
+            'description',
+            'contact_person',
+            'economic_activity',
+            'category_id',
+        ]);
 
-        $category = $this->category->create($data);
+        $data['is_supplier'] = 'y';
+        $data['type'] = 'supplier';
+        //  Create Supplier
+        $supplier = $this->supplier->create($data);
 
-        flash(trans('messages.category-add'), 'success', 'success');
+        flash(trans('messages.supplier-add'), 'success', 'success');
         return back();
     }
 
@@ -115,14 +141,14 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = $this->category->find($id);
+        $supplier = $this->supplier->find($id);
 
-        if (!$category || !$category->isType($this->type)) {
-            flash(trans('messages.category-not-found'), 'info');
+        if (!$supplier) {
+            flash(trans('messages.supplier-not-found'), 'info');
             return back();
         }
 
-        return $this->categoryForm->showPage('edit', $category->toArray());
+        return $this->supplierForm->showPage('edit', $supplier->toArray());
     }
 
     /**
@@ -133,14 +159,18 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = $this->category->find($id);
+        $supplier = $this->supplier->find($id);
 
-        if (!$category || !$category->isType($this->type)) {
-            flash(trans('messages.category-not-found'), 'info');
+        if (!$supplier || $supplier->isNotSupplier()) {
+            flash(trans('messages.supplier-not-found'), 'info');
             return back();
         }
 
-        return $this->categoryForm->editCategoryPage($category->toArray());
+        $selects = [
+            'categories' => $this->category->where('type', 'supplier')->get(),
+        ];
+
+        return $this->supplierForm->editPage($supplier->toArray(), $selects );
     }
 
     /**
@@ -152,15 +182,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = $this->category->find($id);
+        $supplier = $this->supplier->find($id);
 
-        if (!$category || !$category->isType($this->type)) {
-            flash(trans('messages.category-not-found'), 'info');
+        if (!$supplier) {
+            flash(trans('messages.supplier-not-found'), 'info');
             return back();
         }
 
         $validator = validator()->make($request->all(), [
             'name'  => 'required|max:255',
+            'document'  => 'required|max:255',
         ]);
         
         if ($validator->fails()) {
@@ -168,12 +199,28 @@ class CategoryController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $data = array_only($request->all(), ['name']);
-        $data['type'] = $this->type;
+        $data = array_only($request->all(), [
+                'name',
+                'document',
+                'phone',
+                'mobile',
+                'email',
+                'web',
+                'photo',
+                'description',
+                'contact_person',
+                'economic_activity',
+                'category_id',
+            ]
+        );
 
-        $this->category->where('id', $id)->update($data);
+        $data['is_supplier'] = 'y';
+        $data['type'] = 'supplier';
 
-        flash(trans('messages.category-update'), 'success', 'success');
+        $this->supplier->where('id', $id)
+            ->update($data);
+
+        flash(trans('messages.supplier-update'), 'success', 'success');
         return back();
     }
 
@@ -185,11 +232,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = $this->category->find($id);
-        $category->delete();
+        $supplier = $this->supplier->find($id);
+        $supplier->delete();
         return response([
             'data'        => [],
-            'message'     => trans('messages.category-distroy'),
+            'message'     => trans('messages.supplier-distroy'),
             'status_code' => 200
         ], 200);
     }
@@ -202,17 +249,17 @@ class CategoryController extends Controller
      */
     public function destroyBulk(Request $request)
     {
-        $this->category->destroy($request->all());
+        $this->supplier->destroy($request->all());
 
         return response([
             'data'        => [],
-            'message'     => trans('messages.category-distroy'),
+            'message'     => trans('messages.supplier-distroy'),
             'status_code' => 200
         ], 200);
     }
 
     /**
-     * Switch specified category's active status
+     * Switch specified supplier's active status
      *
      * @param  Request $request [description]
      * @return \Illuminate\Http\Response
@@ -228,20 +275,20 @@ class CategoryController extends Controller
         }
 
         extract($request->all());
-        $category = $this->category->find($id);
+        $supplier = $this->supplier->find($id);
 
-        if ($category) {
-            $newStatus = ($category->status == Category::STATE_ACTIVE)? Category::STATE_INACTIVE: Category::STATE_ACTIVE;
-            $category->status = $newStatus;
-            $category->save();
+        if ($supplier) {
+            $newStatus = ($supplier->status == Supplier::STATE_ACTIVE)? Supplier::STATE_INACTIVE: Supplier::STATE_ACTIVE;
+            $supplier->status = $newStatus;
+            $supplier->save();
 
-            // Get New updated Object of Category
-            $updated          = $category->toArray();
+            // Get New updated Object of Supplier
+            $updated          = $supplier->toArray();
 
             if ($request->wantsJson()) {
                 return response([
-                    'data'        => $this->categoryTransformer->transform($updated),
-                    'message'     => trans('messages.category-status', ['status' => $newStatus]),
+                    'data'        => $this->supplierTransformer->transform($updated),
+                    'message'     => trans('messages.supplier-status', ['status' => $newStatus]),
                     'status_code' => 200
                 ], 200);
             }
@@ -255,7 +302,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Switch bulk categories' active status
+     * Switch bulk suppliers' active status
      *
      * @param  Request $request [description]
      * @return \Illuminate\Http\Response
@@ -268,28 +315,28 @@ class CategoryController extends Controller
             return response(['error' => trans('messages.parameters-fail-validation')], 422);
         }
 
-        $categories = $this->category->whereIn('id', $request->all())->get();
+        $suppliers = $this->supplier->whereIn('id', $request->all())->get();
 
-        if ($categories->count() > 0) {
-            foreach ($categories as $category) {
-                $newStatus    = ($category->status == Category::STATE_ACTIVE)? Category::STATE_INACTIVE: Category::STATE_ACTIVE;
-                $category->status = $newStatus;
-                $category->save();
+        if ($suppliers->count() > 0) {
+            foreach ($suppliers as $supplier) {
+                $newStatus    = ($supplier->status == Supplier::STATE_ACTIVE)? Supplier::STATE_INACTIVE: Supplier::STATE_ACTIVE;
+                $supplier->status = $newStatus;
+                $supplier->save();
             }
 
             if ($request->wantsJson()) {
                 return response([
                     'data'        => [],
-                    'message'     => trans('messages.category-status', ['status' => 'updated']),
+                    'message'     => trans('messages.supplier-status', ['status' => 'updated']),
                     'status_code' => 200
                 ], 200);
             }
 
-            flash(trans('messages.category-status', ['status' => 'updated']), 'success');
+            flash(trans('messages.supplier-status', ['status' => 'updated']), 'success');
             return back();
         }
 
-        flash(trans('messages.category-update-fail'), 'error');
+        flash(trans('messages.supplier-update-fail'), 'error');
         return back();
     }
 }

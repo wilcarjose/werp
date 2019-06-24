@@ -22,6 +22,13 @@ return [
     'reopen' => 'Reabrir',
     'none' => 'None',
     'advanced_options' => 'Advanced options',
+    'document' => 'Document',
+    'mobile' => 'Mobile',
+    'phone' => 'Phone',
+    'email' => 'Email',
+    'web' => 'Web',
+    'contact_person' => 'Contact person',
+    'economic_activity' => 'Economic activity',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',

@@ -78,7 +78,7 @@ class ProductController extends Controller
     public function create()
     {
         $selects = [
-            'categories' => $this->category->all()
+            'categories' => $this->category->where('type', 'product')->get()
         ];
 
         return $this->productForm->createProductPage($selects);
@@ -141,7 +141,7 @@ class ProductController extends Controller
         }
 
         $selects = [
-            'categories' => $this->category->all()
+            'categories' => $this->category->where('type', 'product')->get()
         ];
 
         return $this->productForm->editProductPage($product->toArray(), $selects);

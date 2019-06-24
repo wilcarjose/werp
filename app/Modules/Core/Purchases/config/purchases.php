@@ -23,8 +23,13 @@ return [
                     'route' => 'admin.purchases.general',
                     'routes' => [
                         'admin.purchases.suppliers.index',
+                        'admin.purchases.categories.index'
                     ],
                     'items' => [
+                        [
+                            'name' => 'view.menu.categories',
+                            'route' => 'admin.purchases.categories.index',
+                        ],
                         [
                             'name' => 'view.menu.suppliers',
                             'route' => 'admin.purchases.suppliers.index',

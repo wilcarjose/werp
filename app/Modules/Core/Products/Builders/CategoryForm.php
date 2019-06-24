@@ -16,11 +16,14 @@ use Werp\Builders\BreadcrumbBuilder;
 
 class CategoryForm extends FormBuilder
 {
+    protected $moduleRoute = 'admin.products.categories';
+    protected $listRoute = 'admin.products.categories.index';
+
     public function __construct()
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
         $this->setTitle('Categorias')
-            ->setRoute('admin.products.categories')
+            ->setRoute($this->moduleRoute)
             ->addBreadcrumb($homeBreadcrumb);
     }
 
@@ -41,7 +44,7 @@ class CategoryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new InputBuilder('name', 'input', trans('view.name')))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.categories.index')))
+            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route($this->listRoute)))
         ;
 
         return $this->view();
@@ -58,7 +61,7 @@ class CategoryForm extends FormBuilder
             ->setEdit()
             ->addInput(new InputBuilder('name', 'input', trans('view.name'), null, $data['name']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.categories.index')))
+            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route($this->listRoute)))
         ;
 
         return $this->view();

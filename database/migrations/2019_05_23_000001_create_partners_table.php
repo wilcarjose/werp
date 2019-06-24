@@ -23,8 +23,9 @@ class CreatePartnersTable extends Migration
             $table->string('email')->nullable();
             $table->string('web')->nullable();
             $table->string('photo')->nullable();
+            $table->string('type')->nullable();
             $table->enum('is_supplier',['y','n'])->default('n');
-            $table->enum('is_scustomer',['y','n'])->default('n');
+            $table->enum('is_customer',['y','n'])->default('n');
             $table->text('description')->nullable();
             $table->date('birthdate')->nullable();
             $table->string('contact_person')->nullable();

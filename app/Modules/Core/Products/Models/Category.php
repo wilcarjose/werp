@@ -17,7 +17,7 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name', 'type'
     ];
 
     public function toArray()
@@ -25,8 +25,24 @@ class Category extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'type' => $this->type,
             'status' => $this->status,
             'created_at' => $this->created_at
         ];
+    }
+
+    public function isProduct()
+    {
+        return $this->type == 'product';
+    }
+
+    public function isNotProduct()
+    {
+        return !$this->isProduct();
+    }
+
+    public function isType($type)
+    {
+        return $this->type == $type;
     }
 }
