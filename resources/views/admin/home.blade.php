@@ -24,16 +24,56 @@
         <div class="col s12 m6">
             <div class="card horizontal">
                 <div class="card-image valign-wrapper pad-lr-20">
+                    <i class="material-icons medium valign primary-text">domain</i>
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content right-align">
+                        <div class="card-title" style="font-weight:bold;">{{ $data->productsCount }}</div>
+                        <p>Productos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card horizontal">
+                <div class="card-image valign-wrapper pad-lr-20">
+                    <i class="material-icons medium valign primary-text">local_shipping</i>
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content right-align">
+                        <div class="card-title" style="font-weight:bold;">{{ $data->suppliersCount }}</div>
+                        <p>Proveedores</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card horizontal">
+                <div class="card-image valign-wrapper pad-lr-20">
+                    <i class="material-icons medium valign primary-text">store</i>
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content right-align">
+                        <div class="card-title" style="font-weight:bold;">{{ $data->warehousesCount }}</div>
+                        <p>Almacenes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="card horizontal">
+                <div class="card-image valign-wrapper pad-lr-20">
                     <i class="material-icons medium valign primary-text">supervisor_account</i>
                 </div>
                 <div class="card-stacked">
                     <div class="card-content right-align">
                         <div class="card-title" style="font-weight:bold;">{{ $data->adminCount }}</div>
-                        <p>Administrators</p>
+                        <p>Usuarios</p>
                     </div>
                 </div>
             </div>
         </div>
+        {{-- 
         <div class="col s12 m6">
             <div class="card horizontal">
                 <div class="card-image valign-wrapper pad-lr-20">
@@ -47,19 +87,21 @@
                 </div>
             </div>
         </div>
+         --}}
         <div class="col s12 m6">
             <div class="card horizontal">
                 <div class="card-image valign-wrapper pad-lr-20">
-                    <i class="material-icons medium valign warning-text">accessibility</i>
+                    <i class="material-icons medium valign warning-text">lock</i>
                 </div>
                 <div class="card-stacked">
                     <div class="card-content right-align">
                         <div class="card-title" style="font-weight:bold;">{{$data->roleCount}}</div>
-                        <p>Total Roles</p>
+                        <p>Roles</p>
                     </div>
                 </div>
             </div>
         </div>
+        {{-- 
         <div class="col s12 m6">
             <div class="card horizontal">
                 <div class="card-image valign-wrapper pad-lr-20">
@@ -68,13 +110,15 @@
                 <div class="card-stacked">
                     <div class="card-content right-align">
                         <div class="card-title" style="font-weight:bold;">{{$data->permissionCount}}</div>
-                        <p>Total Permissions</p>
+                        <p>Total Permisos</p>
                     </div>
                 </div>
             </div>
         </div>
+         --}}
     </div>
     {{-- Tables --}}
+    {{-- 
     <div class="row">
         <div class="col s12 l6">
             <div class="card">
@@ -141,5 +185,7 @@
             </div>
         </div>
     </div>
+    --}}
+
 </div>
 @endsection

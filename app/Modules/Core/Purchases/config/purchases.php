@@ -5,7 +5,7 @@ return [
     'menu' => [
         
             'name' => 'view.menu.purchases',
-            'icon' => 'domain',
+            'icon' => 'local_offer',
             'route' => 'admin.purchases',
             'routes' => [
                 'admin.purchases.suppliers.index',
