@@ -12,7 +12,7 @@
     <!-- ============================-->
     <div class="signin-wrapper auth-wrap transparent">
       <div class="signup-form card-dash grey-transparent">
-        <div class="card-header primary-bg z-depth-2"><a class="animated app-logo" href="javascript:void(0)"><i class="material-icons app-icon left white-text">whatshot</i><span class="left" style="margin-left:25px;">WERP</span></a></div>
+        <div class="card-header primary-bg z-depth-2"><a class="animated app-logo" href="javascript:void(0)"><i class="material-icons app-icon left white-text">layers</i><span class="left" style="margin-left:25px;">{{ config('app.name') }}</span></a></div>
         <div class="row">
           <form class="col s12" role="form" method="POST" action="{{ url('/admin/login') }}">
             {{ csrf_field() }}

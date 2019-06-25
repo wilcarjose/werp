@@ -10,14 +10,14 @@ namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\Main\MainList;
 
-class ProductList extends MainList
+class BrandList extends MainList
 {
     public function __construct()
     {
-        $this->setTitle('Productos')
-            ->setRoute('admin.products.products')
+        $this->setTitle('Marcas')
+            ->setRoute('admin.products.brands')
             ->setShowStatus(true)
-            ->setFields(['code' => trans('view.code'), 'name' => trans('view.name'), 'description' => trans('view.description')])
+            ->setFields(['name' => trans('view.name')])
             ->makeConfig();
 
         parent::__construct();

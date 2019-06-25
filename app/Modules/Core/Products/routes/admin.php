@@ -21,6 +21,12 @@
 	//Route::get('/warehouses/{id}/cellar','\Werp\Modules\Core\Products\Controllers\WarehouseController@showCellar');
 	Route::resource('/warehouses','\Werp\Modules\Core\Products\Controllers\WarehouseController');
 
+	// Warehouses
+	Route::put('/brands/status','\Werp\Modules\Core\Products\Controllers\BrandController@switchStatus')->name('warehouse_status');
+	Route::post('/brands/removeBulk','\Werp\Modules\Core\Products\Controllers\BrandController@destroyBulk');
+	Route::put('/brands/statusBulk','\Werp\Modules\Core\Products\Controllers\BrandController@switchStatusBulk');
+	Route::resource('/brands','\Werp\Modules\Core\Products\Controllers\BrandController');
+
 	// Inventories
 	Route::post('/inventories/removeBulk','\Werp\Modules\Core\Products\Controllers\InventoryController@destroyBulk');
 	Route::get('/inventories/{id}/detail', '\Werp\Modules\Core\Products\Controllers\InventoryController@indexDetail')->name('inventories.detail.index');

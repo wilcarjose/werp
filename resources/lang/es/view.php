@@ -30,6 +30,7 @@ return [
     'contact_person' => 'Persona de contacto',
     'economic_activity' => 'Actividad económica',
     'code' => 'Código',
+    'country' => 'Country',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -49,6 +50,7 @@ return [
         'reports' => 'Reportes',
         'purchases' => 'Compras',
         'suppliers' => 'Proveedores',
+        'brands' => 'Marcas',
     ],
     'profile' => [
         'profile' => 'Perfil',

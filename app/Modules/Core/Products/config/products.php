@@ -11,6 +11,7 @@ return [
                 'admin.products.products.index',
                 'admin.products.warehouses.index',
                 'admin.products.inventories.index',
+                'admin.products.brands.index',
                 'admin.products.config.edit'
             ],
             'items' => [
@@ -28,11 +29,16 @@ return [
                         'admin.products.categories.index',
                         'admin.products.products.index',
                         'admin.products.warehouses.index',
+                        'admin.products.brands.index',
                     ],
                     'items' => [
                         [
                             'name' => 'view.menu.categories',
                             'route' => 'admin.products.categories.index',
+                        ],
+                        [
+                            'name' => 'view.menu.brands',
+                            'route' => 'admin.products.brands.index',
                         ],
                         [
                             'name' => 'view.menu.products',

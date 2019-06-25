@@ -30,6 +30,7 @@ return [
     'contact_person' => 'Contact person',
     'economic_activity' => 'Economic activity',
     'code' => 'Code',
+    'country' => 'Country',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -49,6 +50,7 @@ return [
 	    'reports' => 'Reports',
 	    'purchases' => 'Purchases',
 	    'suppliers' => 'Suppliers',
+	    'brands' => 'Brands',
     ],
     'profile' => [
         'profile' => 'Profile',

@@ -13,7 +13,7 @@ return [
             'items' => [
                 [
                     'name' => 'view.menu.config',
-                    'route' => 'admin.purchases.config.edit',
+                    'route' => 'admin.home',
                 ],
             ],
             'submodules' => [
