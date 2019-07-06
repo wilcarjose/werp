@@ -36,7 +36,7 @@ class ConfigForm extends FormBuilder
 
             if (isset($data['selects'])) {
                 foreach ($data['selects'] as $select) {
-                    $this->addSelect(new SelectBuilder($select['key'], trans($select['translate_key']), null, $selects[$select['options']], $select['value'], true));
+                    $this->addSelect(new SelectBuilder($select['key'], trans($select['translate_key']), $selects[$select['options']], $select['value'], true));
                 }
             }
             

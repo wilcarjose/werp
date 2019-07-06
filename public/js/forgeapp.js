@@ -36752,18 +36752,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -36775,7 +36763,6 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
     props: ['config'],
     data: function data() {
         return {
-            singleObj: { id: Number, product_id: Number, warehouse_id: Number, description: String, qty: Number },
             pupupMod: 'add',
             showAdd: false,
             // Component
@@ -36795,7 +36782,9 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             disable: this.config.disable,
             paginate: this.config.paginate,
             show_state: this.config.show_state,
-            dependencies: []
+            runningData: null,
+            dependencies: [],
+            modal: this.config.modal
         };
     },
 
@@ -36812,10 +36801,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
         },
         isNotValidateForm: function isNotValidateForm() {
             /*
-            if (this.singleObj.name == "" ||
-                this.singleObj.email == '' ||
-                this.singleObj.designation == '' ||
-                funcHelp.validateEmail(this.singleObj.email) == false) {
+            if (this.modal.object.name == "" ||
+                this.modal.object.email == '' ||
+                this.modal.object.designation == '' ||
+                funcHelp.validateEmail(this.modal.object.email) == false) {
                 return true;
             }
             */
@@ -36824,11 +36813,12 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
     },
     mounted: function mounted() {
         this.all();
-        this.loadDependencies();
+
         this.showAdd = true;
         var vm = this;
 
         if (vm.use_modal) {
+
             $('#componentDataModal').modal({
                 dismissible: false,
                 ready: function ready(modal, trigger) {
@@ -36837,25 +36827,42 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 complete: function complete() {
                     vm.resetSingleObj();
                 } // Callback for Modal close
+
             });
 
-            $("#warehousesSelectBox").on('change', function () {
-                var $this = $(this);
-                var myValueIs = $this.val();
-                vm.singleObj.warehouse_id = myValueIs;
-            });
+            if (vm.modal.fields.length > 0) {
 
-            $("#productsSelectBox").on('change', function () {
-                var $this = $(this);
-                var myValueIs = $this.val();
-                vm.singleObj.product_id = myValueIs;
-            });
+                vm.modal.fields.forEach(function (item, index) {
+
+                    if (item.type == 'select') {
+
+                        $('#modal-' + item.id).on('select2:select', function () {
+                            var $this = $(this);
+                            var myValueIs = $this.val();
+                            console.log('on change');
+                            console.log(myValueIs);
+                            vm.modal.object[item.name] = myValueIs;
+                        });
+
+                        axios.get(item.endpoint + '?paginate=off').then(function (response) {
+                            var res = response.data;
+                            if (res.status_code == 200) {
+                                vm.dependencies[item.items] = res.data;
+                            }
+                        }).catch(function (error) {
+                            console.log('Error cargando ' + item.items + ' - ' + error);
+                        });
+                    }
+                });
+            };
+
+            //this.loadDependencies();
         }
     },
 
     methods: {
         resetSingleObj: function resetSingleObj() {
-            this.singleObj = {};
+            this.modal.object = {};
             this.showLoader = false;
         },
         all: function all() {
@@ -36879,26 +36886,21 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
         },
         show: function show(obj) {
-            console.log(obj);
-            this.singleObj = obj;
+            this.modal.object = obj;
             this.pupupMod = 'edit';
             this.resetAlert();
-            if (obj.warehouse_id != '') {
-                $('#warehousesSelectBox option[value=' + obj.warehouse_id + ']').attr('selected', 'selected');
-                $('#warehousesSelectBox').material_select('destroy');
-                //$('#warehousesSelectBox').material_select();
-                setTimeout(function () {
-                    $('#warehousesSelectBox').material_select();
-                }, 250);
-            }
-            if (obj.product_id != '') {
-                $('#productsSelectBox option[value=' + obj.product_id + ']').attr('selected', 'selected');
-                $('#productsSelectBox').material_select('destroy');
-                //$('#productsSelectBox').material_select();
-                setTimeout(function () {
-                    $('#productsSelectBox').material_select();
-                }, 250);
-            }
+
+            this.modal.fields.forEach(function (item, index) {
+
+                if (item.type == 'select') {
+                    if (obj[item.name] != '') {
+                        var id = parseInt(obj[item.name]);
+                        $('#modal-' + item.id).val(id);
+                        $('#modal-' + item.id).select2().trigger('change');
+                    }
+                }
+            });
+
             //$('#componentDataModal').modal('open');
             setTimeout(function () {
                 $('#componentDataModal').modal('open');
@@ -36909,8 +36911,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
             if (this.filter) {
                 var suffix = this.filter + '/detail/';
-                var uri = this.route + '/' + suffix + this.singleObj.id;
-                axios.put(uri, this.singleObj).then(function (response) {
+                var uri = this.route + '/' + suffix + this.modal.object.id;
+                axios.put(uri, this.modal.object).then(function (response) {
                     var res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
@@ -36930,19 +36932,18 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.resetSingleObj();
             this.resetAlert();
             this.pupupMod = 'add';
-            $('#warehousesSelectBox').material_select();
-            $('#productsSelectBox').material_select();
             $('#componentDataModal').modal('open');
         },
         store: function store() {
             var _this3 = this;
 
             this.showLoader = true;
-            this.componentData.push(this.singleObj);
+            this.componentData.push(this.modal.object);
             if (this.filter) {
                 var suffix = this.filter + '/detail';
                 var uri = this.route + '/' + suffix;
-                axios.post(uri, this.singleObj).then(function (response) {
+                console.log(this.modal.object);
+                axios.post(uri, this.modal.object).then(function (response) {
                     var res = response.data;
                     if (res.status_code == 201) {
                         _this3.resetSingleObj(); // reset store input form
@@ -37051,31 +37052,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 console.log(error);
             });
         },
-        loadDependencies: function loadDependencies() {
-            var _this9 = this;
-
-            var uri = '';
-
-            uri = '/admin/products/warehouses';
-            axios.get(uri).then(function (response) {
-                var res = response.data;
-                if (res.status_code == 200) {
-                    _this9.dependencies.warehouses = res.data;
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-
-            uri = '/admin/products/products';
-            axios.get(uri).then(function (response) {
-                var res = response.data;
-                if (res.status_code == 200) {
-                    _this9.dependencies.products = res.data;
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-        }
+        loadDependencies: function loadDependencies() {}
     }
 });
 
@@ -37887,6 +37864,7 @@ var render = function() {
                 "form",
                 {
                   staticClass: "col s12",
+                  staticStyle: { "margin-top": "10px" },
                   attrs: { name: "callback" },
                   on: {
                     submit: function($event) {
@@ -37895,194 +37873,125 @@ var render = function() {
                     }
                   }
                 },
-                [
-                  _c("div", { staticClass: "input-field" }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.singleObj.product_id,
-                            expression: "singleObj.product_id"
-                          }
-                        ],
-                        staticClass: "forge-select box-select",
-                        attrs: { name: "product_id", id: "productsSelectBox" },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
-                              })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.singleObj,
-                              "product_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "option",
-                          {
-                            staticClass: "default-selected",
-                            attrs: { value: "", disabled: "" }
-                          },
-                          [_vm._v("Seleccione...")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.dependencies.products, function(product) {
-                          return _c(
-                            "option",
-                            { domProps: { value: product.id } },
-                            [_vm._v(_vm._s(product.name))]
+                _vm._l(_vm.modal.fields, function(field) {
+                  return _c(
+                    "div",
+                    {
+                      staticClass: "input-field col s12",
+                      style:
+                        field.type == "select"
+                          ? "margin-bottom: 10px;"
+                          : "margin-bottom: 0px;"
+                    },
+                    [
+                      field.type == "select"
+                        ? _c(
+                            "label",
+                            {
+                              staticStyle: {
+                                top: "-22px",
+                                "font-size": "0.8rem"
+                              },
+                              attrs: { for: "modal-" + field.id }
+                            },
+                            [_vm._v(_vm._s(field.label))]
                           )
-                        })
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "productsSelectBox" } }, [
-                      _vm._v("Producto")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-field" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.singleObj.description,
-                          expression: "singleObj.description"
-                        }
-                      ],
-                      attrs: {
-                        type: "text",
-                        id: "admin-description",
-                        name: "description"
-                      },
-                      domProps: { value: _vm.singleObj.description },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(
-                            _vm.singleObj,
-                            "description",
-                            $event.target.value
-                          )
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "admin-description" } }, [
-                      _vm._v("Descripción")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-field" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.singleObj.qty,
-                          expression: "singleObj.qty"
-                        }
-                      ],
-                      attrs: { type: "text", id: "admin-qty", name: "qty" },
-                      domProps: { value: _vm.singleObj.qty },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.singleObj, "qty", $event.target.value)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "admin-qty" } }, [
-                      _vm._v("Cantidad")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-field" }, [
-                    _c(
-                      "select",
-                      {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.singleObj.warehouse_id,
-                            expression: "singleObj.warehouse_id"
-                          }
-                        ],
-                        staticClass: "forge-select box-select",
-                        attrs: {
-                          name: "warehouse_id",
-                          id: "warehousesSelectBox"
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$selectedVal = Array.prototype.filter
-                              .call($event.target.options, function(o) {
-                                return o.selected
+                        : _vm._e(),
+                      _vm._v(" "),
+                      field.type == "select"
+                        ? _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.modal.object[field.name],
+                                  expression: "modal.object[field.name]"
+                                }
+                              ],
+                              staticClass: "select2_select",
+                              attrs: {
+                                id: "modal-" + field.id,
+                                name: field.name
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.modal.object,
+                                    field.name,
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v("=>Seleccione..."),
+                              _vm._v(" "),
+                              _vm._l(_vm.dependencies[field.items], function(
+                                item
+                              ) {
+                                return _c(
+                                  "option",
+                                  { domProps: { value: item[field.id_key] } },
+                                  [_vm._v(_vm._s(item[field.value_key]))]
+                                )
                               })
-                              .map(function(o) {
-                                var val = "_value" in o ? o._value : o.value
-                                return val
-                              })
-                            _vm.$set(
-                              _vm.singleObj,
-                              "warehouse_id",
-                              $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
-                            )
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "option",
-                          {
-                            staticClass: "default-selected",
-                            attrs: { value: "", disabled: "" }
-                          },
-                          [_vm._v("Seleccione...")]
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.dependencies.warehouses, function(
-                          warehouse
-                        ) {
-                          return _c(
-                            "option",
-                            { domProps: { value: warehouse.id } },
-                            [_vm._v(_vm._s(warehouse.name))]
+                            ],
+                            2
                           )
-                        })
-                      ],
-                      2
-                    ),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "warehousesSelectBox" } }, [
-                      _vm._v("Almacén")
-                    ])
-                  ])
-                ]
+                        : _vm._e(),
+                      _vm._v(" "),
+                      field.type == "text"
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.modal.object[field.name],
+                                expression: "modal.object[field.name]"
+                              }
+                            ],
+                            attrs: {
+                              type: "text",
+                              name: field.name,
+                              id: "modal-" + field.id
+                            },
+                            domProps: { value: _vm.modal.object[field.name] },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.modal.object,
+                                  field.name,
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      field.type != "select"
+                        ? _c("label", { attrs: { for: "modal-" + field.id } }, [
+                            _vm._v(_vm._s(field.label))
+                          ])
+                        : _vm._e()
+                    ]
+                  )
+                })
               )
             ]),
             _vm._v(" "),

@@ -12,6 +12,7 @@ return [
                 'admin.products.warehouses.index',
                 'admin.products.inventories.index',
                 'admin.products.brands.index',
+                'admin.products.prices.index',
                 'admin.products.config.edit'
             ],
             'items' => [
@@ -56,11 +57,16 @@ return [
                     'route' => 'admin.products.processes',
                     'routes' => [
                         'admin.products.inventories.index',
+                        'admin.products.prices.index',
                     ],
                     'items' => [
                         [
                             'name' => 'view.menu.inventories',
                             'route' => 'admin.products.inventories.index',
+                        ],
+                        [
+                            'name' => 'view.menu.price_list',
+                            'route' => 'admin.products.prices.index',
                         ],
                     ],
                 ],

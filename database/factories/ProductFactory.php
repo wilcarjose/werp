@@ -17,10 +17,13 @@ use Werp\Modules\Core\Products\Models\Category;
 
 $factory->define(Product::class, function (Faker $faker) {
     return [
-        'name' => $faker->word,
-        'description' => $faker->word,
+        'code' => $faker->numberBetween($min = 10000, $max = 99999),
+        'name' => $faker->text($maxNbChars = 30),
+        'description' => $faker->text,
         'category_id' => function () {
-            return factory(Category::class)->create()->id;
+            return Category::where('type', 'product')->count() > 0 ?
+            	Category::where('type', 'product')->first()->id :
+            	factory(Category::class)->create(['type' => 'product'])->id;
         },
         'status' => 'active',
     ];

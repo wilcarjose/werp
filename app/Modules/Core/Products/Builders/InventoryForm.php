@@ -32,8 +32,8 @@ class InventoryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new InputBuilder('code', 'input', 'Código', null, null, true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción'))
-            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', null, $selects['warehouses'], $defaults['warehouse']))
-            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', null, $selects['doctypes'], $defaults['doctype'], false, false, true))
+            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $defaults['warehouse']))
+            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', $selects['doctypes'], $defaults['doctype'], false, false, true))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
             //->setList(new InventoryDetailList(true))
@@ -58,8 +58,8 @@ class InventoryForm extends FormBuilder
             ->setEdit()
             ->addInput(new InputBuilder('code', 'input', 'Código', null, $data['code'], true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción', null, $data['description'], $disable))
-            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', null, $selects['warehouses'], $data['warehouse_id'], false, $disable))
-            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', null, $selects['doctypes'], $data['doctype_id'], false, $disable, true))
+            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $data['warehouse_id'], false, $disable))
+            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', $selects['doctypes'], $data['doctype_id'], false, $disable, true))
             ->setAdvancedOptions();
 
         if ($noProcessed) {

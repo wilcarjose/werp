@@ -16,8 +16,9 @@ class CreatePriceListsTable extends Migration
         Schema::create('price_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->dateTime('date');
-            $table->double('price');
-            $table->string('currency');
+            $table->double('price')->default(0);
+            $table->string('currency')->default('USD');
+            $table->text('description')->nullable();
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')
                 ->references('id')

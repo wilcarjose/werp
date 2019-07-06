@@ -72,6 +72,9 @@ $(function() {
     $(window).on('resize', () => {
         $('ul.tabs').tabs();
     });
+
+    
+
 });
 $(window).on('load', () => {
     // Load Tab Elements

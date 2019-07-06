@@ -1,6 +1,7 @@
 @extends('admin.layout.default')
 @section('css')
     <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
+    <link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet" />
 @endsection
 @section('content')
     <div class="main-header">
@@ -38,6 +39,7 @@
             <div class="col s12">
                 @include('flash')
             </div>
+
             {{--  PROFILE UPDATE  --}}
             <form class="col @if ($page->maxWidth()) m12 @endif @if ($page->midWidth()) m8 push-m2 @endif s12 profile-info-form" role="form" method="POST" action="{{ $page->getSaveRoute() }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
@@ -53,6 +55,7 @@
                             @endif
                         </div>
                     </div>
+
                     <div class="row">
 
                         @foreach($page->getInputs() as $input)
@@ -91,11 +94,6 @@
 @section('jsPostApp')
 
   <script>
-
-    $(document).ready(function() {
-      $('select').material_select();
-    });
-
     
     function confirmAction(route) {
       var result = confirm("¿Está seguro?");
@@ -114,6 +112,12 @@
         $('.advanced-option').show(500);
       }
     }
+
+    $('select.select2_select').select2();
+    $('select.select2-placeholder').select2({
+      placeholder: "Select a state",
+      allowClear: true
+    });
     
   </script>
 

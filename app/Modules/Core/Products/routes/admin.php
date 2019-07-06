@@ -21,8 +21,8 @@
 	//Route::get('/warehouses/{id}/cellar','\Werp\Modules\Core\Products\Controllers\WarehouseController@showCellar');
 	Route::resource('/warehouses','\Werp\Modules\Core\Products\Controllers\WarehouseController');
 
-	// Warehouses
-	Route::put('/brands/status','\Werp\Modules\Core\Products\Controllers\BrandController@switchStatus')->name('warehouse_status');
+	// Brands
+	Route::put('/brands/status','\Werp\Modules\Core\Products\Controllers\BrandController@switchStatus')->name('brand_status');
 	Route::post('/brands/removeBulk','\Werp\Modules\Core\Products\Controllers\BrandController@destroyBulk');
 	Route::put('/brands/statusBulk','\Werp\Modules\Core\Products\Controllers\BrandController@switchStatusBulk');
 	Route::resource('/brands','\Werp\Modules\Core\Products\Controllers\BrandController');
@@ -41,6 +41,16 @@
 	// Config
 	Route::get('/config/edit', '\Werp\Modules\Core\Products\Controllers\ConfigController@edit')->name('config.edit');
 	Route::put('/config/update', '\Werp\Modules\Core\Products\Controllers\ConfigController@update')->name('config.update');
+
+	// Prices
+	Route::put('/prices/status','\Werp\Modules\Core\Products\Controllers\PriceController@switchStatus')->name('price_status');
+	Route::post('/prices/removeBulk','\Werp\Modules\Core\Products\Controllers\PriceController@destroyBulk');
+	Route::put('/prices/statusBulk','\Werp\Modules\Core\Products\Controllers\PriceController@switchStatusBulk');
+	Route::resource('/prices','\Werp\Modules\Core\Products\Controllers\PriceController');
+	Route::get('/prices/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceController@showDetail')->name('prices.detail.show');
+	Route::put('/prices/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceController@updateDetail')->name('prices.detail.update');
+	Route::post('/prices/{id}/detail', '\Werp\Modules\Core\Products\Controllers\PriceController@storeDetail')->name('prices.detail.update');
+	Route::delete('/prices/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceController@destroyDetail')->name('prices.detail.update');
 
 
 

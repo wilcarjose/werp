@@ -9,10 +9,13 @@
 namespace Werp\Modules\Core\Purchases\Builders;
 
 use Werp\Builders\FormBuilder;
-use Werp\Builders\InputBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
+use Werp\Builders\TextInputBuilder;
+use Werp\Builders\NameInputBuilder;
+use Werp\Builders\EmailInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
+use Werp\Builders\DescriptionInputBuilder;
 
 
 class SupplierForm extends FormBuilder
@@ -40,16 +43,16 @@ class SupplierForm extends FormBuilder
             ->setShortAction('Nuevo')
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->addInput(new InputBuilder('document', 'input', trans('view.document')))
-            ->addInput(new InputBuilder('name', 'input', trans('view.name')))
-            ->addInput(new InputBuilder('description', 'textarea', trans('view.description')))
-            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), null, $selects['categories']))
-            ->addInput(new InputBuilder('contact_person', 'input', trans('view.contact_person')))
-            ->addInput(new InputBuilder('economic_activity', 'input', trans('view.economic_activity')))
-            ->addInput(new InputBuilder('mobile', 'input', trans('view.mobile')))
-            ->addInput(new InputBuilder('phone', 'input', trans('view.phone')))
-            ->addInput(new InputBuilder('email', 'input', trans('view.email')))
-            ->addInput(new InputBuilder('web', 'input', trans('view.web')))
+            ->addInput(new TextInputBuilder('document', trans('view.document')))
+            ->addInput(new NameInputBuilder())
+            ->addInput(new DescriptionInputBuilder())
+            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), $selects['categories']))
+            ->addInput(new TextInputBuilder('contact_person', trans('view.contact_person')))
+            ->addInput(new TextInputBuilder('economic_activity', trans('view.economic_activity')))
+            ->addInput(new TextInputBuilder('mobile', trans('view.mobile')))
+            ->addInput(new TextInputBuilder('phone', trans('view.phone')))
+            ->addInput(new EmailInputBuilder())
+            ->addInput(new TextInputBuilder('web', trans('view.web')))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.purchases.suppliers.index')))
         ;
@@ -66,16 +69,16 @@ class SupplierForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
-            ->addInput(new InputBuilder('document', 'input', trans('view.document'), null, $data['document']))
-            ->addInput(new InputBuilder('name', 'input', trans('view.name'), null, $data['name']))
-            ->addInput(new InputBuilder('description', 'textarea', trans('view.description'), null, $data['description']))
-            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), null, $selects['categories'], $data['category_id']))
-            ->addInput(new InputBuilder('contact_person', 'input', trans('view.contact_person'), null, $data['contact_person']))
-            ->addInput(new InputBuilder('economic_activity', 'input', trans('view.economic_activity'), null, $data['economic_activity']))
-            ->addInput(new InputBuilder('mobile', 'input', trans('view.mobile'), null, $data['mobile']))
-            ->addInput(new InputBuilder('phone', 'input', trans('view.phone'), null, $data['phone']))
-            ->addInput(new InputBuilder('email', 'input', trans('view.email'), null, $data['email']))
-            ->addInput(new InputBuilder('web', 'input', trans('view.web'), null, $data['web']))
+            ->addInput(new TextInputBuilder('document', trans('view.document'), $data['document']))
+            ->addInput(new NameInputBuilder($data['name']))
+            ->addInput(new DescriptionInputBuilder($data['description']))
+            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), $selects['categories'], $data['category_id']))
+            ->addInput(new TextInputBuilder('contact_person', trans('view.contact_person'), $data['contact_person']))
+            ->addInput(new TextInputBuilder('economic_activity', trans('view.economic_activity'), $data['economic_activity']))
+            ->addInput(new TextInputBuilder('mobile', trans('view.mobile'), $data['mobile']))
+            ->addInput(new TextInputBuilder('phone', trans('view.phone'), $data['phone']))
+            ->addInput(new TextInputBuilder('email', trans('view.email'), $data['email']))
+            ->addInput(new TextInputBuilder('web', trans('view.web'), $data['web']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
             ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.purchases.suppliers.index')))
         ;

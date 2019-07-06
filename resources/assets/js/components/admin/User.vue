@@ -80,6 +80,7 @@
                 <tbody  v-if="componentData.length">
                   <tr v-for="runningData in componentData">
                     <th class="multiple-cb" v-if="delete_multiple">
+
                       <p>
                         <input type="checkbox" :value="runningData.id" :id="runningData.id" v-model="multiSelection">
                         <label :for="runningData.id" v-if="use_modal" style="left: -0.25rem;top: -0.5rem;"></label>
@@ -155,28 +156,15 @@
           <div class="col s12">
             <h5>{{pupupMod | capitalize}} Producto</h5>
           </div>
-          <form @submit.prevent="isNotValidateForm" name="callback" class="col s12">
-              <div class="input-field">
-                  <select class="forge-select box-select" name="product_id" id="productsSelectBox" v-model="singleObj.product_id">
-                      <option class="default-selected" value="" disabled="">Seleccione...</option>
-                      <option :value="product.id" v-for="product in dependencies.products">{{ product.name }}</option>
+          <form @submit.prevent="isNotValidateForm" name="callback" class="col s12" style="margin-top: 10px;">
+              <div class="input-field col s12" v-for="field in modal.fields" :style="field.type == 'select' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
+                  <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
+                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]">
+                      <option value="" disabled=>Seleccione...</option>
+                      <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
-                  <label for="productsSelectBox">Producto</label>
-              </div>
-              <div class="input-field">
-                  <input type="text" id="admin-description" name="description" v-model="singleObj.description">
-                  <label for="admin-description">Descripción</label>
-              </div>
-              <div class="input-field">
-                  <input type="text" id="admin-qty" name="qty" v-model="singleObj.qty">
-                  <label for="admin-qty">Cantidad</label>
-              </div>
-              <div class="input-field">
-                  <select class="forge-select box-select" name="warehouse_id" id="warehousesSelectBox" v-model="singleObj.warehouse_id">
-                      <option class="default-selected" value="" disabled="">Seleccione...</option>
-                      <option :value="warehouse.id" v-for="warehouse in dependencies.warehouses">{{ warehouse.name }}</option>
-                  </select>
-                  <label for="warehousesSelectBox">Almacén</label>
+                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]">
+                  <label v-if="field.type != 'select'" :for="'modal-'+field.id">{{ field.label }}</label>
               </div>
           </form>
       </div>
@@ -199,7 +187,6 @@ export default {
     props: ['config'],
     data() {
         return {
-            singleObj: { id: Number, product_id: Number, warehouse_id: Number, description: String, qty: Number },
             pupupMod: 'add',
             showAdd: false,
             // Component
@@ -219,7 +206,9 @@ export default {
             disable: this.config.disable,
             paginate: this.config.paginate,
             show_state: this.config.show_state,
-            dependencies: []
+            runningData: null,
+            dependencies: [],
+            modal: this.config.modal
         };
     },
     computed: {
@@ -235,10 +224,10 @@ export default {
         },
         isNotValidateForm() {
             /*
-            if (this.singleObj.name == "" ||
-                this.singleObj.email == '' ||
-                this.singleObj.designation == '' ||
-                funcHelp.validateEmail(this.singleObj.email) == false) {
+            if (this.modal.object.name == "" ||
+                this.modal.object.email == '' ||
+                this.modal.object.designation == '' ||
+                funcHelp.validateEmail(this.modal.object.email) == false) {
                 return true;
             }
             */
@@ -247,35 +236,52 @@ export default {
     },
     mounted() {
         this.all();
-        this.loadDependencies();
+        
         this.showAdd = true;
         let vm = this;
 
         if (vm.use_modal) {
-          $('#componentDataModal').modal({
+            
+            $('#componentDataModal').modal({
               dismissible: false,
               ready: function(modal, trigger) {
                   // Callback for Modal open. Modal and trigger parameters available.
               },
               complete: function() { vm.resetSingleObj(); } // Callback for Modal close
-          });
 
-          $("#warehousesSelectBox").on('change', function() {
-              let $this = $(this);
-              let myValueIs = $this.val();
-              vm.singleObj.warehouse_id = myValueIs;
-          });
+            });
+          
+            if (vm.modal.fields.length > 0) {
 
-          $("#productsSelectBox").on('change', function() {
-              let $this = $(this);
-              let myValueIs = $this.val();
-              vm.singleObj.product_id = myValueIs;
-          });
+                vm.modal.fields.forEach(function(item, index) {
+
+                  if (item.type == 'select') {
+
+                    $('#modal-'+ item.id).on('select2:select', function() {
+                        let $this = $(this);
+                        let myValueIs = $this.val();
+                        console.log('on change');
+                        console.log(myValueIs);
+                        vm.modal.object[item.name] = myValueIs;
+                    });
+
+                    axios.get(item.endpoint + '?paginate=off').then((response) => {
+                          let res = response.data;
+                          if (res.status_code == 200) {
+                              vm.dependencies[item.items] = res.data;
+                          }
+                      })
+                      .catch((error) => { console.log('Error cargando ' + item.items + ' - ' + error) });
+                  }
+              });
+          };
+
+          //this.loadDependencies();
         }
     },
     methods: {
         resetSingleObj() {
-            this.singleObj = {};
+            this.modal.object = {};
             this.showLoader = false;
         },
         all(page = 1) {
@@ -294,30 +300,29 @@ export default {
             }
         },
         show(obj) {
-            console.log(obj);
-            this.singleObj = obj;
+            this.modal.object = obj;
             this.pupupMod = 'edit';
             this.resetAlert();
-            if (obj.warehouse_id != '') {
-                $(`#warehousesSelectBox option[value=${obj.warehouse_id}]`).attr('selected', 'selected');
-                $('#warehousesSelectBox').material_select('destroy');
-                //$('#warehousesSelectBox').material_select();
-                setTimeout(() => {$('#warehousesSelectBox').material_select()}, 250);
-            }
-            if (obj.product_id != '') {
-                $(`#productsSelectBox option[value=${obj.product_id}]`).attr('selected', 'selected');
-                $('#productsSelectBox').material_select('destroy');
-                //$('#productsSelectBox').material_select();
-                setTimeout(() => {$('#productsSelectBox').material_select()}, 250);
-            }
+
+            this.modal.fields.forEach(function(item, index) {
+
+                if (item.type == 'select') {
+                    if (obj[item.name] != '') {
+                        var id = parseInt(obj[item.name]);
+                        $('#modal-'+ item.id).val(id);
+                        $('#modal-'+ item.id).select2().trigger('change');
+                    }
+                }
+            });
+
             //$('#componentDataModal').modal('open');
             setTimeout(() => {$('#componentDataModal').modal('open')}, 250);
         },
         update() {
             if (this.filter) {
               let suffix = `${this.filter}/detail/`;
-              let uri = `${this.route}/${suffix}${this.singleObj.id}`;
-              axios.put(uri, this.singleObj).then((response) => {
+              let uri = `${this.route}/${suffix}${this.modal.object.id}`;
+              axios.put(uri, this.modal.object).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
@@ -337,18 +342,17 @@ export default {
         create(event) {
             this.resetSingleObj();
             this.resetAlert();
-            this.pupupMod = 'add';
-            $('#warehousesSelectBox').material_select();
-            $('#productsSelectBox').material_select();
+            this.pupupMod = 'add';            
             $('#componentDataModal').modal('open');
         },
         store() {
             this.showLoader = true;
-            this.componentData.push(this.singleObj);
+            this.componentData.push(this.modal.object);
             if (this.filter) {
               let suffix = `${this.filter}/detail`;
               let uri = `${this.route}/${suffix}`;
-              axios.post(uri, this.singleObj).then((response) => {
+              console.log(this.modal.object)
+              axios.post(uri, this.modal.object).then((response) => {
                       let res = response.data;
                       if (res.status_code == 201) {
                           this.resetSingleObj(); // reset store input form
@@ -448,27 +452,6 @@ export default {
                 .catch((error) => { console.log(error) });
         },
         loadDependencies() {
-            
-            var uri = ``;
-
-            uri = `/admin/products/warehouses`;
-            axios.get(uri).then((response) => {
-                    let res = response.data;
-                    if (res.status_code == 200) {
-                        this.dependencies.warehouses = res.data;
-                    }
-                })
-                .catch((error) => { console.log(error) });
-
-            uri = `/admin/products/products`;
-            axios.get(uri).then((response) => {
-                    let res = response.data;
-                    if (res.status_code == 200) {
-                        this.dependencies.products = res.data;
-                    }
-                })
-                .catch((error) => { console.log(error) });
-
         }
     }
 }

@@ -35,6 +35,8 @@ class ListBuilder extends ModuleBuilder
 
     protected $showState = false;
 
+    protected $modalConfig = null;
+
     public function view()
     {
         return view('admin.base.list', [
@@ -252,6 +254,24 @@ class ListBuilder extends ModuleBuilder
         return $this;
     }
 
+     /**
+     * @return mixed
+     */
+    public function getModalConfig()
+    {
+        return $this->modalConfig;
+    }
+
+    /**
+     * @param mixed $modalConfig
+     * @return ListBuilder
+     */
+    public function setModalConfig($modalConfig)
+    {
+        $this->modalConfig = $modalConfig;
+        return $this;
+    }
+
     public function makeConfig()
     {
         // "{ title: 'Usuarios', fields: [{ field: 'fullname', name: 'nombre'}, {field: 'email', name: 'email'}], route: '/admin/user', show_status: true }";
@@ -273,6 +293,7 @@ class ListBuilder extends ModuleBuilder
             'show_state' => $this->getShowState(),
             'paginate'    => $this->getPaginate(),
             'disable'    => $this->getDisable(),
+            'modal'      => $this->getModalConfig(),
             'fields' => $fields
         ];
 

@@ -29,5 +29,6 @@ mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
     'public/js/jquery-ui.min.js',
     'node_modules/materialize-css/bin/materialize.js',
-    'public/plugins/scrollbar/perfect-scrollbar.min.js'
+    'public/plugins/scrollbar/perfect-scrollbar.min.js',
+    'public/plugins/select2/select2.min.js'
 ], 'public/js/all.js');

@@ -16,6 +16,7 @@ use Faker\Generator as Faker;
 $factory->define(\Werp\Modules\Core\Products\Models\Category::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
+        'type' => $faker->randomElement(['product', 'supplier']),
         'status' => 'active',
     ];
 });

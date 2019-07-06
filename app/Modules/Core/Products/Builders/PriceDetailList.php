@@ -10,12 +10,12 @@ namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\Main\MainList;
 
-class InventoryDetailList extends MainList
+class PriceDetailList extends MainList
 {
     public function __construct($empty = false, $filter = null, $disable = false)
     {
         $modal = [
-              'object' => ['id' => 'Number', 'product_id' => 'Number', 'warehouse_id' => 'Number', 'description' => 'String', 'qty' => 'Number' ],
+              'object' => ['id' => 'Number', 'product_id' => 'Number', 'price' => 'Float'],
               'fields' => [
                 [
                   'key' => 'products',
@@ -29,41 +29,23 @@ class InventoryDetailList extends MainList
                   'endpoint' => '/admin/products/products'
                 ],
                 [
-                  'key' => 'description',
+                  'key' => 'price',
                   'type' => 'text',
-                  'name' => 'description',
-                  'id' => 'description',
-                  'label' => 'Descripción',
-                ],
-                [
-                  'key' => 'qty',
-                  'type' => 'text',
-                  'name' => 'qty',
-                  'id' => 'qty',
-                  'label' => 'Cantidad',
-                ],
-                [
-                  'key' => 'warehouses',
-                  'type' => 'select',
-                  'name' => 'warehouse_id',
-                  'id' => 'warehouses',
-                  'items' => 'warehouses',
-                  'label' => 'Almacén',
-                  'id_key' => 'id',
-                  'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses'
+                  'name' => 'price',
+                  'id' => 'price',
+                  'label' => 'Precio',
                 ]
               ]
            ];
 
         $this->setTitle('Productos')
-            ->setRoute('admin.products.inventories')
+            ->setRoute('admin.products.prices')
             ->setShowStatus(false)
             ->setShowSearch(false)
             ->setUseModal(true)
             ->setDeleteMultiple(false)
             ->setShowMessages(false)
-            ->setFields(['product_name' => 'Producto', 'qty' => 'Cantidad'])
+            ->setFields(['product_name' => 'Producto', 'price' => 'Precio'])
             ->setFilter($filter)
             ->setEmptyList($empty)
             ->setPaginate(false)

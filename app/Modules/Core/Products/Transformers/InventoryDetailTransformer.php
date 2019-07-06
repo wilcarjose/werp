@@ -27,7 +27,7 @@ class InventoryDetailTransformer extends Transformer
     public function setProducts($products)
     {
         foreach ($products as $product) {
-            $this->products[$product['id']] = $product['name'];    
+            $this->products[$product['id']] = $product['code'] .' - '.$product['name'];    
         }
 
         return $this;

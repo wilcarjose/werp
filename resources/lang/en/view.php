@@ -31,6 +31,7 @@ return [
     'economic_activity' => 'Economic activity',
     'code' => 'Code',
     'country' => 'Country',
+    'currency' => 'Currency',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -51,6 +52,7 @@ return [
 	    'purchases' => 'Purchases',
 	    'suppliers' => 'Suppliers',
 	    'brands' => 'Brands',
+        'price_list' => 'Price list',
     ],
     'profile' => [
         'profile' => 'Profile',

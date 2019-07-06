@@ -49,37 +49,51 @@ class ProductController extends Controller
     {
         // If there is an Ajax request or any request wants json data
         if (request()->ajax() || request()->wantsJson()) {
+
             $sort   = request()->has('sort')?request()->get('sort'):'name';
             $order  = request()->has('order')?request()->get('order'):'asc';
             $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
+            $paginate = request()->get('paginate', 'on');
 
             $products = $this->product->where(function ($query) use ($search) {
                 if ($search) {
                     $query->where('name', 'like', "$search%");
                 }
             })
-            ->orderBy("$sort", "$order")->paginate(10);
+            ->orderBy("$sort", "$order");
 
-            if ($products->count()<=0) {
+            $total = $products->count();
+
+            if ($total <= 0) {
                 return response([
                     'status_code' => 404,
                     'message'     => trans('messages.not-found')
                 ], 404);
             }
 
-            $paginator=[
-                'total_count'  => $products->total(),
-                'total_pages'  => $products->lastPage(),
-                'current_page' => $products->currentPage(),
-                'limit'        => $products->perPage()
-            ];
+            $products = $paginate == 'off' ? $products : $products->paginate(10);
+
+            $paginator = $paginate == 'off' ? [
+                    'total_count'  => $total,
+                    'total_pages'  => 1,
+                    'current_page' => 1,
+                    'limit'        => $total
+                ] : [
+                    'total_count'  => $products->total(),
+                    'total_pages'  => $products->lastPage(),
+                    'current_page' => $products->currentPage(),
+                    'limit'        => $products->perPage()
+                ];
+
+            $data = $paginate == 'off' ? $products->get()->toArray() : $products->all();
 
             return response([
-                'data'        => $this->productTransformer->transformCollection($products->all()),
+                'data'        => $this->productTransformer->transformCollection($data),
                 'paginator'   => $paginator,
                 'status_code' => 200
             ], 200);
         }
+
         return $this->productList->view();
         //return view('admin.products.list');
     }

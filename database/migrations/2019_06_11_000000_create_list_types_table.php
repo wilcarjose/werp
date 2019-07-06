@@ -16,6 +16,7 @@ class CreateListTypesTable extends Migration
         Schema::create('list_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('currency')->default('USD');;
             $table->text('description')->nullable();
             $table->string('type')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
