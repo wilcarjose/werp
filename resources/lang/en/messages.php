@@ -1,14 +1,21 @@
 <?php
 
 return [
-    'not-found'                  =>'Not found.',
-    'internal-error'             =>'Internal server error.',
-    'unauthorized-access'        =>'Unathorized access',
-    'unauthorized-access-role'   =>'Unathorized role access',
-    'account-inactive'           =>'Restricted! You account is inactive.',
-    'parameters-fail-validation' =>'Fail to pass validation',
-    'SOMETHING_WENT_WRONG'    => 'Something went wrong!',
-
+    'active'                     => 'Active',
+    'inactive'                   => 'Inactive',
+    'not-found'                  => 'Not found.',
+    'internal-error'             => 'Internal server error.',
+    'unauthorized-access'        => 'Unathorized access',
+    'unauthorized-access-role'   => 'Unathorized role access',
+    'account-inactive'           => 'Restricted! You account is inactive.',
+    'parameters-fail-validation' => 'Fail to pass validation',
+    'SOMETHING_WENT_WRONG'       => 'Something went wrong!',
+    'success-create'             => 'Successful registration',
+    'success-update'             => 'Successful update',
+    'success-delete'             => 'Successful delete',
+    'resource-not-found'         => 'Resource not found',
+    'fail-update'                => 'Fail to update the record!',
+    'update-status'              => "(:status)status updated successfully",
 
 	'api-add'        =>'Api added successfully',
 	'category-add'   =>'Category added successfully',

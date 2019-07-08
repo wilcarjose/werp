@@ -21,7 +21,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Werp') }}</title>
+        <title>{{ config('app.name', 'Werp') }} - @yield('title') </title>
         <!-- FONTS-->
         @if ($noInternet = true)
             <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">

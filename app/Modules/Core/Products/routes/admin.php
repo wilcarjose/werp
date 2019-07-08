@@ -46,6 +46,7 @@
 	Route::put('/prices/status','\Werp\Modules\Core\Products\Controllers\PriceController@switchStatus')->name('price_status');
 	Route::post('/prices/removeBulk','\Werp\Modules\Core\Products\Controllers\PriceController@destroyBulk');
 	Route::put('/prices/statusBulk','\Werp\Modules\Core\Products\Controllers\PriceController@switchStatusBulk');
+	Route::get('/prices/{id}/detail', '\Werp\Modules\Core\Products\Controllers\PriceController@indexDetail')->name('prices.detail.index');
 	Route::resource('/prices','\Werp\Modules\Core\Products\Controllers\PriceController');
 	Route::get('/prices/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceController@showDetail')->name('prices.detail.show');
 	Route::put('/prices/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceController@updateDetail')->name('prices.detail.update');

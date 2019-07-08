@@ -36881,7 +36881,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         _this.pagination = res.paginator;
                     }
                 }).catch(function (error) {
-                    return _this.alertHandler('info', 'No hay registros a\xFAn', true);
+                    _this.alertHandler('info', 'No hay registros a\xFAn', true);
+                    _this.componentData = [];
                 });
             }
         },
@@ -37674,7 +37675,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm.paginate
+        _vm.componentData.length && _vm.paginate
           ? _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "s12 col" }, [
                 _c(

@@ -25,16 +25,16 @@ class ProductForm extends FormBuilder
             ->addBreadcrumb($homeBreadcrumb);
     }
 
-    public function showPage($action = 'new', $data = [], $selects = [])
+    public function showPage($action = 'new', $data = [], $dependencies = [])
     {
         if ($action == 'edit') {
-            return $this->editPage($data, $selects = []);
+            return $this->editPage($data, $dependencies = []);
         }
 
-        return $this->createPage($selects = []);
+        return $this->createPage($dependencies = []);
     }
 
-    public function createPage($selects = null)
+    public function createPage($dependencies = [])
     {
         $this->setAction('Nuevo producto')
             ->setShortAction('Nuevo')
@@ -44,9 +44,9 @@ class ProductForm extends FormBuilder
             ->addInput(new InputBuilder('name', 'input',  trans('view.name')))
             ->addInput(new InputBuilder('description', 'textarea',  trans('view.description')))
             ->addInput(new InputBuilder('part_number', 'input',  trans('view.products.part_number')))
-            ->addSelect(new SelectBuilder('partner_id', trans('view.products.supplier'), $selects['suppliers']))
-            ->addSelect(new SelectBuilder('brand_id', trans('view.products.brand'), $selects['brands']))
-            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), $selects['categories']))
+            ->addSelect(new SelectBuilder('partner_id', trans('view.products.supplier'), $dependencies['suppliers']))
+            ->addSelect(new SelectBuilder('brand_id', trans('view.products.brand'), $dependencies['brands']))
+            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), $dependencies['categories']))
             ->addInput(new InputBuilder('barcode', 'input',  trans('view.products.barcode')))
             ->addInput(new InputBuilder('link', 'input',  trans('view.products.link')))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
@@ -56,7 +56,7 @@ class ProductForm extends FormBuilder
         return $this->view();
     }
 
-    public function editPage($data, $selects = null)
+    public function editPage($data, $dependencies = [])
     {
         $this->data = $data;
 
@@ -69,9 +69,9 @@ class ProductForm extends FormBuilder
             ->addInput(new InputBuilder('name', 'input',  trans('view.name'), null, $data['name']))
             ->addInput(new InputBuilder('description', 'textarea',  trans('view.description'), null, $data['description']))
             ->addInput(new InputBuilder('part_number', 'input',  trans('view.products.part_number'), null, $data['part_number']))
-            ->addSelect(new SelectBuilder('partner_id', trans('view.products.supplier'), $selects['suppliers'], $data['partner_id']))
-            ->addSelect(new SelectBuilder('brand_id', trans('view.products.brand'), $selects['brands'], $data['brand_id']))
-            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), $selects['categories'], $data['category_id']))
+            ->addSelect(new SelectBuilder('partner_id', trans('view.products.supplier'), $dependencies['suppliers'], $data['partner_id']))
+            ->addSelect(new SelectBuilder('brand_id', trans('view.products.brand'), $dependencies['brands'], $data['brand_id']))
+            ->addSelect(new SelectBuilder('category_id', trans('view.products.category'), $dependencies['categories'], $data['category_id']))
             ->addInput(new InputBuilder('barcode', 'input',  trans('view.products.barcode'), null, $data['barcode']))
             ->addInput(new InputBuilder('link', 'input',  trans('view.products.link'), null, $data['link']))
 

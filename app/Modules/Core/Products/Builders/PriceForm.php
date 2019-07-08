@@ -25,7 +25,7 @@ class PriceForm extends FormBuilder
             ->addBreadcrumb($homeBreadcrumb);
     }
 
-    public function createPage()
+    public function createPage($dependencies = [])
     {
         $this->setAction('Nueva lista de precio')
             ->setShortAction('Nueva')
@@ -42,7 +42,7 @@ class PriceForm extends FormBuilder
         return $this->view();
     }
 
-    public function editPage($data, $selects = null)
+    public function editPage($data, $dependencies = null)
     {
         $this->data = $data;
 

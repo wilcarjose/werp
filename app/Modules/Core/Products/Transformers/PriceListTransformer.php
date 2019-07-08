@@ -5,7 +5,7 @@ namespace Werp\Modules\Core\Products\Transformers;
 use Werp\Transformers\Transformer;
 use Werp\Modules\Core\Products\Models\Product;
 
-class InventoryDetailTransformer extends Transformer
+class PriceListTransformer extends Transformer
 {
     protected $products = [];
 
@@ -20,14 +20,13 @@ class InventoryDetailTransformer extends Transformer
     {
         return [
             'id'           => $item['id'],
-            'reference'    => $item['reference'],
+            'price'    => $item['price'],
             'description'  => $item['description'],
             'date'         => $item['date'],
-            'qty'          => $item['qty'],
-            'inventory_id' => $item['inventory_id'],
+            'currency'          => $item['currency'],
+            'list_type_id' => $item['list_type_id'],
             'product_id'   => $item['product_id'],
             'product_name' => $this->productName($item['product_id']),
-            'warehouse_id' => $item['warehouse_id'],
             'created_at'   => $item['created_at']
         ];
     }

@@ -1,4 +1,9 @@
 @extends('admin.layout.default')
+
+@section('title')
+{{ $page->getTitle() }}
+@endsection
+
 @section('css')
     <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
 @endsection

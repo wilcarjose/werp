@@ -1,14 +1,21 @@
 <?php
 
 return [
-    'not-found'                  =>'No encontrado.',
-    'internal-error'             =>'Error de servidor interno.',
-    'unauthorized-access'        =>'Acceso no autorizado',
-    'unauthorized-access-role'   =>'Acceso de rol no autorizado',
-    'account-inactive'           =>'Restringido! Tu cuenta está inactiva.',
-    'parameters-fail-validation' =>'Falló al pasar las validaciones',
-    'SOMETHING_WENT_WRONG'    => '¡Ocurrió un error!',
-
+    'active'                     => 'Activo',
+    'inactive'                   => 'Inactivo',
+    'not-found'                  => 'No encontrado.',
+    'internal-error'             => 'Error de servidor interno.',
+    'unauthorized-access'        => 'Acceso no autorizado',
+    'unauthorized-access-role'   => 'Acceso de rol no autorizado',
+    'account-inactive'           => 'Restringido! Tu cuenta está inactiva.',
+    'parameters-fail-validation' => 'Falló al pasar las validaciones',
+    'SOMETHING_WENT_WRONG'       => '¡Ocurrió un error!',
+    'success-create'             => 'Registro realizado exitosamente',
+    'success-update'             => 'Registro actualizado exitosamente',
+    'success-delete'             => 'Registro eliminado exitosamente',
+    'resource-not-found'         => 'Recurso no encontrado',
+    'fail-update'                => 'Falló al actualizar el registro!',
+    'update-status'              => "Estatus actualizado exitosamente",
 
 	'api-add'        =>'Api añadida exitosamente',
 	'category-add'   =>'Categoría agregada exitosamente',

@@ -1,8 +1,14 @@
 @extends('admin.layout.default')
+
+@section('title')
+{{ $page->getTitle() }}
+@endsection
+
 @section('css')
     <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet" />
 @endsection
+
 @section('content')
     <div class="main-header">
         <div class="sec-page">

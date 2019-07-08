@@ -2,14 +2,11 @@
 
 namespace Werp\Modules\Core\Products\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Werp\Models\BaseModel;
 
-class Product extends Model
+class Product extends BaseModel
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
-    protected $table = 'products';
+	protected $table = 'products';
 
     /**
      * The attributes that are mass assignable.

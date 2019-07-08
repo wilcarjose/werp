@@ -116,7 +116,7 @@
             </div>
           </div>
           <!-- PAGINATION -->
-          <div class="row" v-if="paginate">
+          <div class="row" v-if="componentData.length && paginate">
             <div class="s12 col">
               <ul class="pagination pagination-sm no-margin pull-right">
                 <li v-show="pagination.total_pages > 0 && pagination.current_page != 1">
@@ -296,7 +296,10 @@ export default {
                           this.pagination = res.paginator;
                       }
                   })
-                  .catch(error => this.alertHandler('info', `No hay registros aún`, true));
+                  .catch(error => { 
+                    this.alertHandler('info', `No hay registros aún`, true);
+                    this.componentData = [];
+                  });
             }
         },
         show(obj) {

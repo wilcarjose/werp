@@ -24,7 +24,7 @@ class InventoryForm extends FormBuilder
             ->addBreadcrumb($homeBreadcrumb);
     }
 
-    public function createInventoryPage($selects, $defaults)
+    public function createPage($selects, $defaults)
     {
         $this->setAction('Nuevo inventario')
             ->setShortAction('Nuevo')
@@ -44,7 +44,7 @@ class InventoryForm extends FormBuilder
         return $this->view();
     }
 
-    public function editInventoryPage($data, $selects = null)
+    public function editPage($data, $selects = null)
     {
         $this->data = $data;
 
