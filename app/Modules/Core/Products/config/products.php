@@ -13,7 +13,8 @@ return [
                 'admin.products.inventories.index',
                 'admin.products.brands.index',
                 'admin.products.prices.index',
-                'admin.products.config.edit'
+                'admin.products.config.edit',
+                'admin.products.price_list_types.index',
             ],
             'items' => [
                 [
@@ -31,6 +32,7 @@ return [
                         'admin.products.products.index',
                         'admin.products.warehouses.index',
                         'admin.products.brands.index',
+                        'admin.products.price_list_types.index',
                     ],
                     'items' => [
                         [
@@ -48,6 +50,10 @@ return [
                         [
                             'name' => 'view.menu.warehouses',
                             'route' => 'admin.products.warehouses.index',
+                        ],
+                        [
+                            'name' => 'view.menu.price_list_types',
+                            'route' => 'admin.products.price_list_types.index',
                         ],
                     ],
                 ],

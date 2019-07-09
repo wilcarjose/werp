@@ -4,12 +4,12 @@ namespace Werp\Modules\Core\Products\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Price extends Model
+class PriceListType extends Model
 {
 	const STATE_ACTIVE   = 'active';
     const STATE_INACTIVE = 'inactive';
 
-    protected $table = 'prices';
+    protected $table = 'price_list_types';
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class Price extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'currency', 'description'
+        'name', 'currency', 'description', 'type'
     ];
 
     public function toArray()
@@ -28,7 +28,7 @@ class Price extends Model
             'description' => $this->description,
             'currency' => $this->currency,
             'status' => $this->status,
-            'created_at' => $this->created_at
+            'type' => $this->type
         ];
     }
 }

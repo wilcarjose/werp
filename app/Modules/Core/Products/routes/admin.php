@@ -53,6 +53,12 @@
 	Route::post('/prices/{id}/detail', '\Werp\Modules\Core\Products\Controllers\PriceController@storeDetail')->name('prices.detail.update');
 	Route::delete('/prices/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceController@destroyDetail')->name('prices.detail.update');
 
+	// Price list type
+	Route::put('/price_list_types/status','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@switchStatus')->name('price_list_types_status');
+	Route::post('/price_list_types/removeBulk','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@destroyBulk');
+	Route::put('/price_list_types/statusBulk','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@switchStatusBulk');
+	Route::resource('/price_list_types','\Werp\Modules\Core\Products\Controllers\PriceListTypeController');
+
 
 
 

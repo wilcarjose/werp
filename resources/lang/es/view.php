@@ -7,6 +7,7 @@ return [
     'dashboard' => 'Inicio',
     'modules' => 'Módulos',
     'name' => 'Nombre',
+    'type' => 'Tipo',
     'description' => 'Descripción',
     'update' => 'Actualizar',
     'save' => 'Guardar',
@@ -53,6 +54,7 @@ return [
         'suppliers' => 'Proveedores',
         'brands' => 'Marcas',
         'price_list' => 'Lista de precios',
+        'price_list_types' => 'Tipos de L.P.',
     ],
     'profile' => [
         'profile' => 'Perfil',

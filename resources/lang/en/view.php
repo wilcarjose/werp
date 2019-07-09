@@ -7,6 +7,7 @@ return [
     'dashboard' => 'Dashboard',
     'modules' => 'Modules',
     'name' => 'Name',
+    'type' => 'Type',
     'description' => 'Description',
     'update' => 'Update',
     'save' => 'Save',
@@ -53,6 +54,7 @@ return [
 	    'suppliers' => 'Suppliers',
 	    'brands' => 'Brands',
         'price_list' => 'Price list',
+        'price_list_types' => 'Price list types',
     ],
     'profile' => [
         'profile' => 'Profile',
