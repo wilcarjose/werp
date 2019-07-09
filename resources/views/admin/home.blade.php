@@ -2,7 +2,9 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatable/jquery.dataTables.min.css') }}">
 @endsection
-
+@section('title')
+    {{ trans('view.dashboard') }}
+@endsection
 @section('jsPostApp')
     <script src="{{ asset('plugins/datatable/jquery.dataTables.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">

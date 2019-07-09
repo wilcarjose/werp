@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateListTypesTable extends Migration
+class CreatePriceListTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateListTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('list_types', function (Blueprint $table) {
+        Schema::create('price_list_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('currency')->default('USD');;
+            $table->string('currency')->default('USD');
             $table->text('description')->nullable();
-            $table->string('type')->nullable();
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('type', ['sales', 'purchases', 'all'])->default('sales');
+            $table->enum('status', ['active','inactive'])->default('active');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateListTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('list_types');
+        Schema::dropIfExists('price_list_types');
     }
 }
