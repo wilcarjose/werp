@@ -166,6 +166,10 @@
                   <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]">
                   <label v-if="field.type != 'select'" :for="'modal-'+field.id">{{ field.label }}</label>
               </div>
+              <div class="input-field col s12" style="margin-bottom: 15px; margin-top: 25px;">
+                <input class="easyui-numberbox" id="numero" name="numero" value="123.26" data-options="label:'',labelPosition:'top',precision:2,groupSeparator:'.',decimalSeparator:',',width:'100%'">
+                <label for="numero" style="margin-left: 3rem; margin-top: -13px;">Numero</label>
+            </div>
           </form>
       </div>
       <div class="modal-footer">

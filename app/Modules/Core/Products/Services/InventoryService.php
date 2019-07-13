@@ -2,29 +2,41 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
+use Werp\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Inventory;
+use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 
-class InventoryService
+class InventoryService extends BaseService
 {
-    protected $inventory;
+    protected $entity;
     protected $inventoryObject;
     protected $transactionService;
 
     public function __construct(
-        Inventory $inventory,
+        Inventory $entity,
+        DoctypeService $doctypeService,
         TransactionService $transactionService
     ) {
-        $this->inventory = $inventory;
+        $this->entity               = $entity;
         $this->transactionService   = $transactionService;
+        $this->doctypeService       = $doctypeService;
     }
 
     public function inventoryId(int $id)
     {
-        $this->inventoryObject = $this->inventory->find($id);
+        $this->inventoryObject = $this->entity->find($id);
 
         return $this;
+    }
+
+    public function create(array $data)
+    {
+        $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
+        $data['date'] = date('Y-m-d');
+
+        return $this->entity->create($data);
     }
 
     public function process()
@@ -60,5 +72,13 @@ class InventoryService
         $stateArray = $this->inventoryObject->getState('pr');
 
         return !in_array($this->inventoryObject->state, $stateArray['actions_from']);
+    }
+
+    protected function makeData($data, $entity = null)
+    {
+        $data['reference'] = $entity->code;
+        $data['date'] = date('Y-m-d');
+        
+        return $data;
     }
 }

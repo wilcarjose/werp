@@ -33,6 +33,8 @@ return [
     'code' => 'Código',
     'country' => 'Country',
     'currency' => 'Moneda',
+    'from' => 'Desde',
+    'to' => 'Hasta',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -74,5 +76,7 @@ return [
         'brand' => 'Marca',
         'barcode' => 'Código de barra',
         'link' => 'Enlace',
+        'price_list_type' => 'Tipo de lista de precio',
+        'default_price_list_doc' => 'Tipo de documento de listas de precios por defecto',
     ]
 ];

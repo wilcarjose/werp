@@ -2,13 +2,11 @@
 
 namespace Werp\Http\Controllers;
 
-use Werp\Models\BaseModel;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
 
 class BaseController extends Controller
 {
-    protected $entity;
     protected $entityDetail;
     protected $entityTransformer;
     protected $entityDetailTransformer;
@@ -31,6 +29,7 @@ class BaseController extends Controller
     protected $updateDetailRules = [];
     protected $relatedField;
     protected $defaultDependencies = [];
+    protected $entityService;
 
     protected function getStoreRules()
     {
@@ -137,40 +136,19 @@ class BaseController extends Controller
             $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
             $paginate = request()->get('paginate', 'on');
 
-            $entities = $this->entity->where(function ($query) use ($search) {
-                //if ($search) {
-                //    $query->where('name', 'like', "$search%");
-                //}
-            })
-            ->orderBy("$sort", "$order");
+            list($data, $paginator) = $this->entityService->getResults($sort, $order, $search, $paginate);
 
-            $total = $entities->count();
-
-            if ($total <= 0) {
+            if (empty($data)) {
                 return response([
                     'status_code' => 404,
                     'message'     => trans($this->getNotFoundKey())
                 ], 404);
             }
 
-            $entities = $paginate == 'off' ? $entities : $entities->paginate(10);
-
-            $paginator = $paginate == 'off' ? [
-                    'total_count'  => $total,
-                    'total_pages'  => 1,
-                    'current_page' => 1,
-                    'limit'        => $total
-                ] : [
-                    'total_count'  => $entities->total(),
-                    'total_pages'  => $entities->lastPage(),
-                    'current_page' => $entities->currentPage(),
-                    'limit'        => $entities->perPage()
-                ];
-
-            $data = $paginate == 'off' ? $entities->get()->toArray() : $entities->all();
+            $data = $this->entityTransformer->transformCollection($data);
 
             return response([
-                'data'        => $this->entityTransformer->transformCollection($data),
+                'data'        => $data,
                 'paginator'   => $paginator,
                 'status_code' => 200
             ], 200);
@@ -196,7 +174,7 @@ class BaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $validator = validator()->make($request->all(), $this->getStoreRules());
     
         if ($validator->fails()) {
@@ -206,12 +184,7 @@ class BaseController extends Controller
 
         $data = array_only($request->all(), $this->getInputs());
 
-        if ($this->entity instanceof \Werp\Modules\Core\Products\Models\Inventory) {
-            $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
-            $data['date'] = date('Y-m-d');
-        }
-
-        $this->entity->create($data) ?
+        $this->entityService->create($data) ?
             flash(trans($this->getAddedKey()), 'success', 'success') :
             flash(trans($this->getFailCreateKey()), 'error', 'error');
 
@@ -245,7 +218,7 @@ class BaseController extends Controller
      */
     public function edit($id)
     {
-        $entity = $this->entity->find($id);
+        $entity = $this->entityService->getById($id);
 
         if (!$entity) {
             flash(trans($this->getNotFoundKey()), 'info');
@@ -264,13 +237,6 @@ class BaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $entity = $this->entity->find($id);
-
-        if (!$entity) {
-            flash(trans($this->getNotFoundKey()), 'info');
-            return back();
-        }
-
         $validator = validator()->make($request->all(), $this->getUpdateRules());
         
         if ($validator->fails()) {
@@ -280,7 +246,7 @@ class BaseController extends Controller
 
         $data = array_only($request->all(), $this->getInputs());
 
-        $this->entity->where('id', $id)->update($data) ?
+        $this->entityService->update($id, $data) ?
             flash(trans($this->getUpdatedKey()), 'success', 'success') :
             flash(trans($this->getFailUpdateKey()), 'error', 'error');
         
@@ -295,8 +261,8 @@ class BaseController extends Controller
      */
     public function destroy($id)
     {
-        $entity = $this->entity->find($id);
-        $entity->delete();
+        $this->entityService->delete($id);
+        
         return response([
             'data'        => [],
             'message'     => trans($this->getDeleteKey()),
@@ -312,7 +278,7 @@ class BaseController extends Controller
      */
     public function destroyBulk(Request $request)
     {
-        $this->entity->destroy($request->all());
+        $this->entityService->delete($request->all());
 
         return response([
             'data'        => [],
@@ -337,26 +303,16 @@ class BaseController extends Controller
             return response(['error' => trans($this->getFailValidationKey())], 422);
         }
 
-        $entity = $this->entity->find($request->id);
-
-        if ($entity) {
-
-            $entity->status = ($entity->status == BaseModel::STATE_ACTIVE)? BaseModel::STATE_INACTIVE: BaseModel::STATE_ACTIVE;
-            $entity->save();
-
-            // Get New updated Object of Product
-            $updated          = $entity->toArray();
+        if ($this->entityService->changeStatus($request->id)) {
 
             if ($request->wantsJson()) {
                 return response([
-                    'data'        => $this->entityTransformer->transform($updated),
                     'message'     => trans($this->getStatusKey()),
                     'status_code' => 200
                 ], 200);
             }
 
             flash(trans($this->getStatusKey()),'success', 'success');
-
             return back();
         }
 
@@ -378,18 +334,9 @@ class BaseController extends Controller
             return response(['error' => trans($this->getFailValidationKey())], 422);
         }
 
-        $entities = $this->entity->whereIn('id', $request->all())->get();
-
-        if ($entities->count() > 0) {
-            foreach ($entities as $entity) {
-                $newStatus    = ($entity->status == BaseModel::STATE_ACTIVE)? BaseModel::STATE_INACTIVE: BaseModel::STATE_ACTIVE;
-                $entity->status = $newStatus;
-                $entity->save();
-            }
-
+        if ($this->entityService->changeStatus($request->all())) {
             if ($request->wantsJson()) {
                 return response([
-                    'data'        => [],
                     'message'     => trans($this->getStatusKey()),
                     'status_code' => 200
                 ], 200);
@@ -465,23 +412,10 @@ class BaseController extends Controller
         if ($validator->fails()) {
             return response(['error' => trans($this->getFailValidationKey())], 422);
         }
-
-        $entity = $this->entity->find($id);
         
         $data = array_only($request->all(), $this->getDetailInputs());
-        $data[$this->getRelatedField()] = $entity->id;
 
-        if ($entity instanceof \Werp\Modules\Core\Products\Models\Inventory) {
-            $data['reference'] = $entity->code;
-            $data['date'] = date('Y-m-d');
-        }
-
-
-        if ($entity instanceof \Werp\Modules\Core\Products\Models\Price) {
-            $data['date'] = date('Y-m-d H:i:s');
-        }
-
-        $entityDetail = $this->entityDetail->create($data);
+        $entityDetail = $this->entityService->createDetail($id, $data);
 
         if ($request->wantsJson()) {
             return response([

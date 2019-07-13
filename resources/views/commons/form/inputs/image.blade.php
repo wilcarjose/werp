@@ -1,4 +1,4 @@
-<div class="input-field col s12">
+<div class="input-field col s12 @if($input->isAdvancedOption()) advanced-option @endif">
     {{-- <img-fileinput imgsrc="{{ $default }}"></img-fileinput> --}}
     <img-fileinput imgsrc="/images/square/admin.png"></img-fileinput>
     @if (isset($errors) && $errors->has($input->getName()))

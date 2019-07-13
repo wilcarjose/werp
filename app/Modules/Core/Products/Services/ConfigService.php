@@ -76,6 +76,11 @@ class ConfigService
         return $this->getValue('inv_default_inventory_doctype');
     }
 
+    public function getDefaultPriceListDoctype()
+    {
+        return $this->getValue('pri_default_price_list_doctype');
+    }
+
     public function getDefaultWarehouse()
     {
         return $this->getValue('inv_default_warehouse');

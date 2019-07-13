@@ -5,7 +5,7 @@ namespace Werp\Modules\Core\Products\Controllers;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\Brand;
-use Werp\Modules\Core\Products\Models\Product;
+use Werp\Modules\Core\Products\Services\ProductService;
 use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Category;
 use Werp\Modules\Core\Products\Builders\ProductForm;
@@ -42,7 +42,7 @@ class ProductController extends BaseController
     ];
 
     public function __construct(
-        Product $entity,
+        ProductService $entityService,
         ProductTransformer $entityTransformer,
         ProductForm $entityForm,
         ProductList $entityList,
@@ -50,7 +50,7 @@ class ProductController extends BaseController
         Partner $supplier,
         Brand $brand
     ) {
-        $this->entity            = $entity;
+        $this->entityService            = $entityService;
         $this->category          = $category;
         $this->supplier          = $supplier;
         $this->brand             = $brand;

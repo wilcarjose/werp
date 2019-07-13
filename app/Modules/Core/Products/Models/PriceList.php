@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class PriceList extends Model
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     protected $table = 'price_lists';
 
     /**
@@ -17,21 +14,66 @@ class PriceList extends Model
      * @var array
      */
     protected $fillable = [
-        'date', 'price', 'currency', 'description', 'product_id', 'list_type_id'
+        'code', 'starting_at', 'description', 'price_list_type_id', 'doctype_id',
+        'reference_price_list_type_id', 'operation', 'reference', 'round'
+
     ];
 
     public function toArray()
     {
         return [
             'id' => $this->id,
-            'price' => $this->price,
+            'code' => $this->code,
             'description' => $this->description,
-            'currency' => $this->currency,
-            'status' => $this->status,
+            'starting_at' => $this->starting_at,
+            'state' => $this->stateArray(),
+            'price_list_type_id' => $this->price_list_type_id,
+            'reference_price_list_type_id' => $this->reference_price_list_type_id,
+            'doctype_id' => $this->doctype_id,
             'created_at' => $this->created_at,
-            'date' => $this->date,
-            'list_type_id' => $this->list_type_id,
-            'product_id' => $this->product_id,
+            'updated_at' => $this->updated_at,
+            'operation' => $this->operation,
+            'reference' => $this->reference,
+            'round' => $this->round,
+        ];
+    }
+
+    /**
+     * Get the detail for the inventory.
+     */
+    public function detail()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Price', 'price_list_id', 'id');
+    }
+
+    public function priceListType()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\PriceListType', 'price_list_type_id');
+    }
+
+    public function referencePriceListType()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\PriceListType', 'reference_price_list_type_id');
+    }
+
+    public function getState($state = null)
+    {
+        if ($state) {
+            return config('products.document.actions.pri.'.$state);
+        }
+
+        return config('products.document.actions.pri.'.$this->state);
+    }
+
+    protected function stateArray()
+    {
+        $data = config('products.document.actions.pri.'.$this->state);
+
+        return [
+            'name' => trans($data['after_name']),
+            'color' => $data['color'],
+            'key' => $data['key'],
+            'state' => $this->state
         ];
     }
 }

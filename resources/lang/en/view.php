@@ -33,6 +33,8 @@ return [
     'code' => 'Code',
     'country' => 'Country',
     'currency' => 'Currency',
+    'from' => 'From',
+    'to' => 'To',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -74,5 +76,7 @@ return [
         'brand' => 'Brand',
         'barcode' => 'Barcode',
         'link' => 'Link',
+        'price_list_type' => 'Price list type',
+        'default_price_list_doc' => 'Defaul price list doctype',
     ]
 ];

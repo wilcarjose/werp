@@ -16,7 +16,8 @@ class InputBuilder
     protected $icon;
     protected $text;
     protected $value;
-    protected $disabled = false;
+    protected $disable = false;
+    protected $advancedOption = false;
 
     /**
      * InputBuilder constructor.
@@ -26,14 +27,14 @@ class InputBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($name = null, $type = null, $text = null, $icon = null, $value = null, $disabled = false)
+    public function __construct($name = null, $type = null, $text = null, $icon = null, $value = null, $disable = false)
     {
         $this->name = $name;
         $this->type = $type;
         $this->icon = $icon;
         $this->text = $text;
         $this->value = $value;
-        $this->disabled = $disabled;
+        $this->disable = $disable;
     }
 
     /**
@@ -131,18 +132,47 @@ class InputBuilder
      */
     public function isDisabled()
     {
-        return $this->disabled;
+        return $this->disable;
     }
 
     /**
-     * @param mixed $disabled
+     * @param mixed $disable
      * @return InputBuilder
      */
-    public function setDisabled($disabled)
+    public function setDisable($disable)
     {
-        $this->disabled = $disabled;
+        $this->disable = $disable;
         return $this;
     }
 
+    public function disabled()
+    {
+        $this->setDisable(true);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isAdvancedOption()
+    {
+        return $this->advancedOption;
+    }
+
+    /**
+     * @param mixed $advancedOption
+     * @return InputBuilder
+     */
+    public function setAdvancedOption($advancedOption)
+    {
+        $this->advancedOption = $advancedOption;
+        return $this;
+    }
+
+    public function advancedOption()
+    {
+        $this->setAdvancedOption(true);
+        return $this;
+    }
 
 }

@@ -13,6 +13,7 @@ use Werp\Builders\InputBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
 use Werp\Builders\BreadcrumbBuilder;
+use Werp\Builders\DoctypeSelectBuilder;
 
 class InventoryForm extends FormBuilder
 {
@@ -33,7 +34,7 @@ class InventoryForm extends FormBuilder
             ->addInput(new InputBuilder('code', 'input', 'Código', null, null, true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción'))
             ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $defaults['warehouse']))
-            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', $selects['doctypes'], $defaults['doctype'], false, false, true))
+            ->addSelect(new DoctypeSelectBuilder('inv', 'inv_default_inventory_doctype'))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
             //->setList(new InventoryDetailList(true))
@@ -59,7 +60,7 @@ class InventoryForm extends FormBuilder
             ->addInput(new InputBuilder('code', 'input', 'Código', null, $data['code'], true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción', null, $data['description'], $disable))
             ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $data['warehouse_id'], false, $disable))
-            ->addSelect(new SelectBuilder('doctype_id', 'Tipo de Documento', $selects['doctypes'], $data['doctype_id'], false, $disable, true))
+            ->addSelect(new DoctypeSelectBuilder('inv', 'inv_default_inventory_doctype', $data['doctype_id']))
             ->setAdvancedOptions();
 
         if ($noProcessed) {

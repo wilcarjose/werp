@@ -20,6 +20,14 @@ class PriceListType extends Model
         'name', 'currency', 'description', 'type'
     ];
 
+    /**
+     * Get the detail for the inventory.
+     */
+    public function prices()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Price', 'price_list_type_id', 'id');
+    }
+
     public function toArray()
     {
         return [

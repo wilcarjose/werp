@@ -163,6 +163,12 @@ class SelectBuilder
         return $this;
     }
 
+    public function disabled()
+    {
+        $this->setDisabled(true);
+        return $this;
+    }
+
     /**
      * @return mixed
      */
@@ -196,6 +202,12 @@ class SelectBuilder
     public function setAdvancedOption($advancedOption)
     {
         $this->advancedOption = $advancedOption;
+        return $this;
+    }
+
+    public function advancedOption()
+    {
+        $this->setAdvancedOption(true);
         return $this;
     }
 

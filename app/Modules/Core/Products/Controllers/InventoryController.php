@@ -13,7 +13,6 @@ use Werp\Modules\Core\Products\Builders\InventoryForm;
 use Werp\Modules\Core\Products\Builders\InventoryList;
 use Werp\Modules\Core\Products\Services\ConfigService;
 use Werp\Modules\Core\Products\Services\InventoryService;
-use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
@@ -82,7 +81,6 @@ class InventoryController extends BaseController
         Doctype $doctype,
         Warehouse $warehouse,
         ConfigService $configService,
-        DoctypeService $doctypeService,
         TransactionService $transactionService,
         InventoryService $entityService
     ) {
@@ -96,7 +94,6 @@ class InventoryController extends BaseController
         $this->entityForm        = $entityForm;
         $this->entityList        = $entityList;
         $this->configService        = $configService;
-        $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
         $this->entityService     = $entityService;
     }
@@ -104,7 +101,6 @@ class InventoryController extends BaseController
     protected function getDependencies()
     {
         return [
-            'doctypes' => $this->doctype->all(),
             'warehouses' => $this->warehouse->all(),
         ];
     }
@@ -112,7 +108,6 @@ class InventoryController extends BaseController
     protected function getDefaultsDependencies()
     {
         return [
-            'doctype' => $this->configService->getDefaultInventaryDoctype(),
             'warehouse' => $this->configService->getDefaultWarehouse(),
         ];
     }

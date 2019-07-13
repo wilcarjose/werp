@@ -7,6 +7,47 @@
 @section('css')
     <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet" />
+    <link href="{{ asset('plugins/easyui/easyui.css') }}" rel="stylesheet">
+    <style type="text/css">
+
+      .textbox {
+          width: 669px;
+          border: 0;
+          border-radius: 0;
+      }
+
+      .textbox .textbox-text {
+          font-size: 16px;
+          border: 0;
+          margin: 0;
+          padding: 0 4px;
+          white-space: normal;
+          vertical-align: top;
+          outline-style: none;
+          resize: none;
+          -moz-border-radius: 0 !important;
+          -webkit-border-radius: 0 !important;
+          border-radius: 0 !important;
+          height: 28px;
+          line-height: 28px;
+          border-bottom: 1px solid #757575;
+          margin-left: 3rem !important;
+          /*width: 92%;*/
+          width: calc(100% - 3rem) !important;
+      }
+
+      .textbox:focus {
+          outline: -webkit-focus-ring-color auto 1px;
+      }
+
+      .textbox-focused {
+        border-color: #fff;
+        box-shadow: 0 0 0 0 #fff;
+        -webkit-box-shadow: 0 0 0 0 #fff;
+        -moz-box-shadow: 0 0 0 0 #fff;
+      }
+
+    </style>
 @endsection
 
 @section('content')
@@ -124,7 +165,36 @@
       placeholder: "Select a state",
       allowClear: true
     });
+
+    $( document ).ready(function() {
+        
+    });
+
+    $(window).on("load", function(){
+      $(".textbox .textbox-text").focus(function() {
+          
+            $(this).parent().next().addClass('active');
+            $(this).parent().next().css("color", "#e91e63")          
+      });
+
+      $(".textbox .textbox-text").blur(function() {
+          if ( $(this).val() == '' ) {
+            $(this).parent().next().removeClass('active');            
+          }
+          $(this).parent().next().css("color", "#757575")
+      });
+
+      $('input[type="text"].textbox-text').each(function () {
+          console.log($(this).val());
+          if ($(this).val() != '') {
+            $(this).parent().next().addClass('active');
+          }
+      });
+
+    })
     
   </script>
+
+  <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script>
 
 @endsection

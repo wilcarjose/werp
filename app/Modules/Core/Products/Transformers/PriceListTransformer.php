@@ -3,45 +3,37 @@
 namespace Werp\Modules\Core\Products\Transformers;
 
 use Werp\Transformers\Transformer;
-use Werp\Modules\Core\Products\Models\Product;
 
 class PriceListTransformer extends Transformer
 {
-    protected $products = [];
-
-    public function __construct()
-    {        
-        if (empty($this->products)) {
-            $this->setProducts(Product::all());
-        }
-    }
-
     public function transform($item)
     {
         return [
-            'id'           => $item['id'],
-            'price'    => $item['price'],
-            'description'  => $item['description'],
-            'date'         => $item['date'],
-            'currency'          => $item['currency'],
-            'list_type_id' => $item['list_type_id'],
-            'product_id'   => $item['product_id'],
-            'product_name' => $this->productName($item['product_id']),
-            'created_at'   => $item['created_at']
+            'id'                 => $item['id'],
+            'code'               => $item['code'],
+            'description'        => $item['description'],
+            'starting_at'        => $item['starting_at'],
+            'state'              => $this->makeState($item),
+            //'state'              => $item['state'],
+            'price_list_type_id' => $item['price_list_type_id'],
+            'updated_at'         => $item['updated_at'],
+            'created_at'         => $item['created_at'],
+            'reference_price_list_type_id' => $item['reference_price_list_type_id'],
+            'operation' => $item['operation'],
+            'reference' => $item['reference'],
+            'round' => $item['round'],
         ];
     }
 
-    public function setProducts($products = [])
+    protected function makeState($item)
     {
-        foreach ($products as $product) {
-            $this->products[$product['id']] = $product['code'] .' - '.$product['name'];    
-        }
+        $data = config('products.document.actions.pri.'.$item['state']);
 
-        return $this;
-    }
-
-    protected function productName($id)
-    {
-        return isset($this->products[$id]) ? $this->products[$id] : '';
+        return [
+            'name' => trans($data['after_name']),
+            'color' => $data['color'],
+            'key' => $data['key'],
+            'state' => $item['state']
+        ];
     }
 }

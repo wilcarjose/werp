@@ -12,7 +12,7 @@ return [
                 'admin.products.warehouses.index',
                 'admin.products.inventories.index',
                 'admin.products.brands.index',
-                'admin.products.prices.index',
+                'admin.products.price_lists.index',
                 'admin.products.config.edit',
                 'admin.products.price_list_types.index',
             ],
@@ -63,7 +63,7 @@ return [
                     'route' => 'admin.products.processes',
                     'routes' => [
                         'admin.products.inventories.index',
-                        'admin.products.prices.index',
+                        'admin.products.price_lists.index',
                     ],
                     'items' => [
                         [
@@ -72,7 +72,7 @@ return [
                         ],
                         [
                             'name' => 'view.menu.price_list',
-                            'route' => 'admin.products.prices.index',
+                            'route' => 'admin.products.price_lists.index',
                         ],
                     ],
                 ],
@@ -122,6 +122,40 @@ return [
                     'after_name' => 'view.reversed',
                     'new_actions' => [],
                     'actions_from' => [],
+                    'color' => 'wheat',
+                ]
+            ],
+            'pri' => [
+                'pe' => [
+                    'key' => 'pending',
+                    'name' => 'view.pending',
+                    'after_name' => 'view.pending',
+                    'new_actions' => ['pr'],
+                    'actions_from' => [],
+                    'color' => 'gold',
+                ],
+                'pr' => [
+                    'key' => 'process',
+                    'name' => 'view.process',
+                    'after_name' => 'view.processed',
+                    'new_actions' => ['re'],
+                    'actions_from' => ['pe'],
+                    'color' => 'limegreen',
+                ],
+                'ca' => [
+                    'key' => 'cancel',
+                    'name' => 'view.cancel',
+                    'after_name' => 'view.canceled',
+                    'new_actions' => [],
+                    'actions_from' => [],
+                    'color' => 'tomato',
+                ],
+                're' => [ // reverse document at the same date
+                    'key' => 'reverse',
+                    'name' => 'view.reverse',
+                    'after_name' => 'view.reversed',
+                    'new_actions' => ['pr'],
+                    'actions_from' => ['pr'],
                     'color' => 'wheat',
                 ]
             ]
