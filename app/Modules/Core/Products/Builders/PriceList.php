@@ -30,7 +30,7 @@ class PriceList extends MainList
                 ],
                 [
                   'key' => 'price',
-                  'type' => 'text',
+                  'type' => 'amount',
                   'name' => 'price',
                   'id' => 'price',
                   'label' => 'Precio',

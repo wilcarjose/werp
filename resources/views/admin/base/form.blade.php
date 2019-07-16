@@ -31,9 +31,9 @@
           height: 28px;
           line-height: 28px;
           border-bottom: 1px solid #757575;
-          margin-left: 3rem !important;
+          margin-left: 3rem;
           /*width: 92%;*/
-          width: calc(100% - 3rem) !important;
+          width: calc(100% - 3rem);
       }
 
       .textbox:focus {
@@ -166,29 +166,54 @@
       allowClear: true
     });
 
-    $( document ).ready(function() {
+    $(document).ready(function() {
+
         
+
     });
 
     $(window).on("load", function(){
+
       $(".textbox .textbox-text").focus(function() {
-          
-            $(this).parent().next().addClass('active');
-            $(this).parent().next().css("color", "#e91e63")          
+          $(this).parent().next().addClass('active');
+          $(this).parent().next().css("color", "#e91e63");          
       });
 
       $(".textbox .textbox-text").blur(function() {
+
           if ( $(this).val() == '' ) {
             $(this).parent().next().removeClass('active');            
           }
-          $(this).parent().next().css("color", "#757575")
+
+          $(this).parent().next().css("color", "#757575");
       });
 
       $('input[type="text"].textbox-text').each(function () {
-          console.log($(this).val());
+
           if ($(this).val() != '') {
             $(this).parent().next().addClass('active');
           }
+
+          if ($(this).parent().prev().hasClass('custom-numberbox')) {
+            console.log('clase custom-numberbox')
+            var id = $(this).attr("id");
+            $('#'+id).css({
+              "background-color": "#fafafa",
+              "margin-left": "0px",
+              "width": "100%"
+            });
+          }
+
+          if ($(this).parent().prev().hasClass('easyui-numberbox')) {
+            var id = $(this).attr("id");
+            console.log('clase easyui-numberbox')
+            console.log(id);
+            $('#'+id).css({
+              "margin-left": "3rem",
+              "width": "calc(100% - 3rem)"
+            });
+          }
+
       });
 
     })

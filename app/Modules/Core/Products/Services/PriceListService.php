@@ -121,33 +121,41 @@ class PriceListService extends BaseService
 
             foreach($prices as $price) {
 
-                $amount = new Money(0, new Currency($priceListType->currency));
+                $amount = 0.0000; //new Money(0, new Currency($priceListType->currency));
 
                 if ($entity->operation == 'multiply') {
-                    $amount = $price->getPrice()->multiply($entity->reference);
+                    //$amount = $price->getPrice()->multiply($entity->reference);
+                    $amount = $price->price * $entity->reference;
                 }
 
-                $value = new Money($entity->reference * 100, new Currency($priceListType->currency));
-
+                //$value = new Money($entity->reference * 100, new Currency($priceListType->currency));
+                
                 if ($entity->operation == 'add_amount') {
-                    $amount = $price->getPrice()->add($value);
+                    //$amount = $price->getPrice()->add($value);
+                    $amount = $price->price + $entity->reference;
                 }
 
                 if ($entity->operation == 'sub_amount') {
-                    $amount = $price->getPrice()->subtract($value);
+                    //$amount = $price->getPrice()->subtract($value);
+                    $amount = $price->price - $entity->reference;
                 }
 
                 if ($entity->operation == 'add_percent') {
-                    $value = $price->getPrice()->multiply($entity->reference)->divide(100);
-                    $amount = $price->getPrice()->add($value);
+                    //$value = $price->getPrice()->multiply($entity->reference)->divide(100);
+                    //$amount = $price->getPrice()->add($value);
+                    $value = $price->price * $entity->reference / 100;
+                    $amount = $price->price + $value;
                 }
 
                 if ($entity->operation == 'sub_percent') {
-                    $value = $price->getPrice()->multiply($entity->reference)->divide(100);
-                    $amount = $price->getPrice()->subtract($value);
+                    //$value = $price->getPrice()->multiply($entity->reference)->divide(100);
+                    //$amount = $price->getPrice()->subtract($value);
+                    $value = $price->price * $entity->reference / 100;
+                    $amount = $price->price - $value;
                 }
     
-                $total = round($amount->getAmount(), (-1 * (int)$entity->round), PHP_ROUND_HALF_UP);
+                //$total = round($amount->getAmount(), (-1 * (int)$entity->round), PHP_ROUND_HALF_UP);
+                $total = round($amount, $entity->round, PHP_ROUND_HALF_UP);
 
                 $priceData = [
                     'price_list_type_id' => $entity->price_list_type_id,

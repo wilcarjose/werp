@@ -88,6 +88,7 @@
                       </p>
                     </th>
                     <td v-for="(cols,index) in columns" v-text="runningData[cols.field]"></td>
+                    <td v-text="numberFormat(runningData['price'])" style="text-align: right;padding-right: 50px;"></td>
                     <td v-if="show_state">
                       <h5 :style="'background: ' + runningData.state.color + '; text-align: center; border-radius: 9px; padding: 3px 0px; width: 120px; font-size: medium;'"> {{ runningData.state.name }}</h5>
                     </td>
@@ -163,13 +164,20 @@
                       <option value="" disabled=>Seleccione...</option>
                       <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
+                  
                   <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]">
-                  <label v-if="field.type != 'select'" :for="'modal-'+field.id">{{ field.label }}</label>
+                  <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
+
+                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;">
+                  <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
+                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
               </div>
+              <!--
               <div class="input-field col s12" style="margin-bottom: 15px; margin-top: 25px;">
-                <input class="easyui-numberbox" id="numero" name="numero" value="123.26" data-options="label:'',labelPosition:'top',precision:2,groupSeparator:'.',decimalSeparator:',',width:'100%'">
-                <label for="numero" style="margin-left: 3rem; margin-top: -13px;">Numero</label>
-            </div>
+                <input class="custom-numberbox" id="numero" name="numero" value="98123.26" style="width:100%;">
+                <label for="numero" style="margin-left: 0; margin-top: -13px;">Numero</label>
+              </div>
+              -->
           </form>
       </div>
       <div class="modal-footer">
@@ -181,6 +189,18 @@
     </div>
 </template>
 <script>
+
+$(document).ready(function() {
+
+    $('.custom-numberbox').numberbox({
+        min:0,
+        precision:2,
+        decimalSeparator:',',
+        groupSeparator:'.'
+    });
+
+})
+  
 import { tableData } from '../../mixins/tableMixin';
 import FunctionHelper from '../../helpers/FunctionHelper.js';
 
@@ -212,7 +232,13 @@ export default {
             show_state: this.config.show_state,
             runningData: null,
             dependencies: [],
-            modal: this.config.modal
+            modal: this.config.modal,
+            amount: {
+              decimalSeparator: ",",
+              groupSeparator: ".",
+              prefix: "",
+              suffix: ""
+            }
         };
     },
     computed: {
@@ -264,8 +290,6 @@ export default {
                     $('#modal-'+ item.id).on('select2:select', function() {
                         let $this = $(this);
                         let myValueIs = $this.val();
-                        console.log('on change');
-                        console.log(myValueIs);
                         vm.modal.object[item.name] = myValueIs;
                     });
 
@@ -282,6 +306,22 @@ export default {
 
           //this.loadDependencies();
         }
+    },
+    updated() {
+          
+          let vm = this;
+
+          var next = $('.custom-numberbox').next();
+          var blur = $(next).children('.textbox-text');
+
+          $(blur).blur(function() {
+              let elem = $(this).next();
+              var nameAttr = elem.attr('name');
+              //console.log(nameAttr);
+              vm.modal.object[nameAttr] = elem.val();
+              //console.log(elem.val());
+          });
+
     },
     methods: {
         resetSingleObj() {
@@ -311,7 +351,7 @@ export default {
             this.pupupMod = 'edit';
             this.resetAlert();
 
-            this.modal.fields.forEach(function(item, index) {
+            this.modal.fields.forEach((item, index) => {
 
                 if (item.type == 'select') {
                     if (obj[item.name] != '') {
@@ -320,6 +360,17 @@ export default {
                         $('#modal-'+ item.id).select2().trigger('change');
                     }
                 }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    if ( typeof this.modal.object[item.name] !== 'undefined' &&
+                      this.modal.object[item.name] !== null &&
+                      this.modal.object[item.name] != '') {
+                      $(input).numberbox('setValue', this.modal.object[item.name]);
+                      $(input).next().next().addClass('active');
+                    }                     
+                }
+
             });
 
             //$('#componentDataModal').modal('open');
@@ -459,7 +510,29 @@ export default {
                 .catch((error) => { console.log(error) });
         },
         loadDependencies() {
+
+        },
+        numberFormat(num, decimal_point = ',', thousands_sep = '.') {
+
+            if ( typeof num === 'undefined' || num === null ) {
+                return '0' + decimal_point + '00';
+            }
+           
+            var strArray = num.toString().split(".");
+
+            var unit = strArray[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousands_sep);
+
+            if (strArray.length === 1) {
+                return unit + decimal_point + '00';
+            }
+
+            if (strArray[1].length < 2) {
+                return unit + decimal_point + strArray[1] + '0';
+            }
+
+            return unit + decimal_point + strArray[1];
         }
+
     }
 }
 </script>

@@ -50,7 +50,7 @@ return [
 
 	'rounds' => [
 		[
-		    'id'   => '0',
+		    'id'   => '2',
 		    'name' => '2 decimales',
 		],
 		[
@@ -58,19 +58,19 @@ return [
 		    'name' => '1 decimal',
 		],
 		[
-		    'id'   => '2',
+		    'id'   => '0',
 		    'name' => 'Sin decimales',
 		],
 		[
-		    'id'   => '3',
+		    'id'   => '-1',
 		    'name' => 'Decenas',
 		],
 		[
-		    'id'   => '4',
+		    'id'   => '-2',
 		    'name' => 'Centenas',
 		],
 		[
-		    'id'   => '5',
+		    'id'   => '-3',
 		    'name' => 'Miles',
 		],
 	]

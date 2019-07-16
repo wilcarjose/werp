@@ -36752,6 +36752,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+$(document).ready(function () {
+
+    $('.custom-numberbox').numberbox({
+        min: 0,
+        precision: 2,
+        decimalSeparator: ',',
+        groupSeparator: '.'
+    });
+});
 
 
 
@@ -36784,7 +36807,13 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             show_state: this.config.show_state,
             runningData: null,
             dependencies: [],
-            modal: this.config.modal
+            modal: this.config.modal,
+            amount: {
+                decimalSeparator: ",",
+                groupSeparator: ".",
+                prefix: "",
+                suffix: ""
+            }
         };
     },
 
@@ -36839,8 +36868,6 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         $('#modal-' + item.id).on('select2:select', function () {
                             var $this = $(this);
                             var myValueIs = $this.val();
-                            console.log('on change');
-                            console.log(myValueIs);
                             vm.modal.object[item.name] = myValueIs;
                         });
 
@@ -36858,6 +36885,21 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
             //this.loadDependencies();
         }
+    },
+    updated: function updated() {
+
+        var vm = this;
+
+        var next = $('.custom-numberbox').next();
+        var blur = $(next).children('.textbox-text');
+
+        $(blur).blur(function () {
+            var elem = $(this).next();
+            var nameAttr = elem.attr('name');
+            //console.log(nameAttr);
+            vm.modal.object[nameAttr] = elem.val();
+            //console.log(elem.val());
+        });
     },
 
     methods: {
@@ -36887,6 +36929,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
         },
         show: function show(obj) {
+            var _this2 = this;
+
             this.modal.object = obj;
             this.pupupMod = 'edit';
             this.resetAlert();
@@ -36900,6 +36944,14 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         $('#modal-' + item.id).select2().trigger('change');
                     }
                 }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    if (typeof _this2.modal.object[item.name] !== 'undefined' && _this2.modal.object[item.name] !== null && _this2.modal.object[item.name] != '') {
+                        $(input).numberbox('setValue', _this2.modal.object[item.name]);
+                        $(input).next().next().addClass('active');
+                    }
+                }
             });
 
             //$('#componentDataModal').modal('open');
@@ -36908,7 +36960,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }, 250);
         },
         update: function update() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.filter) {
                 var suffix = this.filter + '/detail/';
@@ -36917,9 +36969,9 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     var res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
-                        _this2.alertHandler('success', res.message, true);
+                        _this3.alertHandler('success', res.message, true);
                     } else {
-                        _this2.alertHandler('error', res.message, true);
+                        _this3.alertHandler('error', res.message, true);
                     }
                     $('#componentDataModal').modal('close');
                 }).catch(function (error) {});
@@ -36936,7 +36988,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             $('#componentDataModal').modal('open');
         },
         store: function store() {
-            var _this3 = this;
+            var _this4 = this;
 
             this.showLoader = true;
             this.componentData.push(this.modal.object);
@@ -36947,15 +36999,15 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 axios.post(uri, this.modal.object).then(function (response) {
                     var res = response.data;
                     if (res.status_code == 201) {
-                        _this3.resetSingleObj(); // reset store input form
-                        _this3.all(); // fetch updated list
+                        _this4.resetSingleObj(); // reset store input form
+                        _this4.all(); // fetch updated list
                         $('#componentDataModal').modal('close'); // Hide modal
                         // Handling alert
-                        _this3.alertHandler('success', res.message, true);
+                        _this4.alertHandler('success', res.message, true);
                     } else {
-                        _this3.alertHandler('error', res.message, true);
+                        _this4.alertHandler('error', res.message, true);
                     }
-                    _this3.showLoader = false;
+                    _this4.showLoader = false;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -36966,7 +37018,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
         },
         remove: function remove(obj) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
@@ -36978,27 +37030,6 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     var res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
-                        _this4.alertHandler('success', res.message, true);
-                    } else {
-                        _this4.alertHandler('error', res.message, true);
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            }
-        },
-        removeMultiple: function removeMultiple() {
-            var _this5 = this;
-
-            this.resetAlert();
-            var uri = this.route + '/removeBulk';
-            if (this.multiSelection.length) {
-                axios.post(uri, this.multiSelection).then(function (response) {
-                    var res = response.data;
-                    if (res.status_code == 200) {
-                        // Handling alert
-                        _this5.resetMultiSelection();
-                        _this5.all();
                         _this5.alertHandler('success', res.message, true);
                     } else {
                         _this5.alertHandler('error', res.message, true);
@@ -37008,8 +37039,29 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 });
             }
         },
-        switchStatus: function switchStatus(obj) {
+        removeMultiple: function removeMultiple() {
             var _this6 = this;
+
+            this.resetAlert();
+            var uri = this.route + '/removeBulk';
+            if (this.multiSelection.length) {
+                axios.post(uri, this.multiSelection).then(function (response) {
+                    var res = response.data;
+                    if (res.status_code == 200) {
+                        // Handling alert
+                        _this6.resetMultiSelection();
+                        _this6.all();
+                        _this6.alertHandler('success', res.message, true);
+                    } else {
+                        _this6.alertHandler('error', res.message, true);
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        },
+        switchStatus: function switchStatus(obj) {
+            var _this7 = this;
 
             this.resetAlert();
             var newStat = obj.status == 'active' ? 'inactive' : 'active';
@@ -37019,41 +37071,64 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 if (res.status_code == 200) {
                     // Handling alert
                     obj.status = newStat;
-                    _this6.alertHandler('success', res.message, true);
+                    _this7.alertHandler('success', res.message, true);
                 }
             }).catch(function (error) {});
         },
         switchStatusSelected: function switchStatusSelected() {
-            var _this7 = this;
+            var _this8 = this;
 
             this.resetAlert();
             var uri = this.route + '/statusBulk';
             axios.put(uri, this.multiSelection).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
-                    _this7.all();
-                    _this7.resetMultiSelection();
+                    _this8.all();
+                    _this8.resetMultiSelection();
                     // Handling alert
-                    _this7.alertHandler('success', res.message, true);
+                    _this8.alertHandler('success', res.message, true);
                 }
             }).catch(function (error) {});
         },
         searchInput: function searchInput() {
-            var _this8 = this;
+            var _this9 = this;
 
             var searchQuery = this.searchQuery;
             var uri = this.route + '?searchQuery=' + searchQuery + '&sort=' + this.sortOrder.field + '&order=' + this.sortOrder.order;
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
-                    _this8.componentData = res.data;
-                    _this8.pagination = res.paginator;
+                    _this9.componentData = res.data;
+                    _this9.pagination = res.paginator;
                 }
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        loadDependencies: function loadDependencies() {}
+        loadDependencies: function loadDependencies() {},
+        numberFormat: function numberFormat(num) {
+            var decimal_point = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
+            var thousands_sep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
+
+
+            if (typeof num === 'undefined' || num === null) {
+                return '0' + decimal_point + '00';
+            }
+
+            var strArray = num.toString().split(".");
+
+            var unit = strArray[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousands_sep);
+
+            if (strArray.length === 1) {
+                return unit + decimal_point + '00';
+            }
+
+            if (strArray[1].length < 2) {
+                return unit + decimal_point + strArray[1] + '0';
+            }
+
+            return unit + decimal_point + strArray[1];
+        }
     }
 });
 
@@ -37524,6 +37599,18 @@ var render = function() {
                             })
                           }),
                           _vm._v(" "),
+                          _c("td", {
+                            staticStyle: {
+                              "text-align": "right",
+                              "padding-right": "50px"
+                            },
+                            domProps: {
+                              textContent: _vm._s(
+                                _vm.numberFormat(runningData["price"])
+                              )
+                            }
+                          }),
+                          _vm._v(" "),
                           _vm.show_state
                             ? _c("td", [
                                 _c(
@@ -37985,10 +38072,36 @@ var render = function() {
                           })
                         : _vm._e(),
                       _vm._v(" "),
-                      field.type != "select"
+                      field.type == "text"
                         ? _c("label", { attrs: { for: "modal-" + field.id } }, [
                             _vm._v(_vm._s(field.label))
                           ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      field.type == "amount"
+                        ? _c("input", {
+                            staticClass: "custom-numberbox",
+                            staticStyle: { width: "509px" },
+                            attrs: {
+                              id: "modal-" + field.id,
+                              name: field.name
+                            },
+                            domProps: { value: _vm.modal.object[field.name] }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      field.type == "amount"
+                        ? _c(
+                            "label",
+                            {
+                              staticStyle: {
+                                "margin-left": "0",
+                                "margin-top": "-13px"
+                              },
+                              attrs: { for: "modal-" + field.id }
+                            },
+                            [_vm._v(_vm._s(field.label))]
+                          )
                         : _vm._e()
                     ]
                   )

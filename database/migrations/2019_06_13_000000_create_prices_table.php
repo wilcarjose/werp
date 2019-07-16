@@ -16,7 +16,7 @@ class CreatePricesTable extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->increments('id');
             $table->dateTime('starting_at');
-            $table->integer('price')->default(0);
+            $table->double('price', 10, 4)->default(0.0000);
             $table->string('currency')->default('USD');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')

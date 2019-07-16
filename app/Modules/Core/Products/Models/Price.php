@@ -54,7 +54,7 @@ class Price extends Model
     public function getPrice()
     {
         return is_null($this->priceObject) ?
-            new Money($this->price,  new Currency($this->priceListType->currency)) :
+            new Money(intval($this->price * 100),  new Currency($this->priceListType->currency)) :
             $this->priceObject;
     }
 }
