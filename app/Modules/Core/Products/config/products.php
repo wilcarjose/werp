@@ -16,6 +16,7 @@ return [
                 'admin.products.config.edit',
                 'admin.products.price_list_types.index',
                 'admin.products.stock.index',
+                'admin.products.transactions.index',
             ],
             'items' => [
                 [
@@ -83,11 +84,16 @@ return [
                     'route' => 'admin.products.reports',
                     'routes' => [
                         'admin.products.stock.index',
+                        'admin.products.transactions.index',
                     ],
                     'items' => [
                         [
                             'name' => 'view.menu.stock',
                             'route' => 'admin.products.stock.index',
+                        ],
+                        [
+                            'name' => 'view.menu.transactions',
+                            'route' => 'admin.products.transactions.index',
                         ],
                     ],
                 ],

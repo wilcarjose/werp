@@ -36787,6 +36787,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 $(document).ready(function () {
@@ -36801,6 +36803,7 @@ $(document).ready(function () {
 
 
 
+//import moment from 'moment';
 
 var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" /* default */]();
 
@@ -37153,6 +37156,19 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
 
             return unit + decimal_point + strArray[1];
+        },
+        dateFormat: function dateFormat(date) {
+            var dateToChange = new Date(date);
+            var month = dateToChange.getMonth() + 1;
+            if (month.toString().length < 2) {
+                month = '0' + month;
+            }
+            var day = dateToChange.getDate();
+            if (day.toString().length < 2) {
+                day = '0' + day;
+            }
+            var year = dateToChange.getFullYear();
+            return day + "/" + month + "/" + year;
         }
     }
 });
@@ -37479,7 +37495,9 @@ var render = function() {
                             )
                           : _vm._e(),
                         _vm._v(" "),
-                        col.type == "text"
+                        col.type == "text" ||
+                        col.type == "date" ||
+                        col.type == "link"
                           ? _c("span", [
                               _vm._v(
                                 "\n                    " +
@@ -37666,6 +37684,37 @@ var render = function() {
                               cols.type == "text"
                                 ? _c("span", [
                                     _vm._v(_vm._s(runningData[cols.field]))
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              cols.type == "date"
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.dateFormat(runningData[cols.field])
+                                      )
+                                    )
+                                  ])
+                                : _vm._e(),
+                              _vm._v(" "),
+                              cols.type == "link"
+                                ? _c("span", [
+                                    _c(
+                                      "a",
+                                      {
+                                        attrs: {
+                                          href: runningData[cols.field]["url"],
+                                          target: "_blank"
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            runningData[cols.field]["text"]
+                                          )
+                                        )
+                                      ]
+                                    )
                                   ])
                                 : _vm._e()
                             ])

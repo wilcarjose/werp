@@ -59,6 +59,9 @@ return [
         'price_list' => 'Price list',
         'price_list_types' => 'Price list types',
         'stock' => 'Stock',
+        'transactions' => 'Transactions',
+        'date' => 'Date',
+        'reference' => 'Reference',
     ],
     'profile' => [
         'profile' => 'Profile',
@@ -82,5 +85,9 @@ return [
         'default_price_list_doc' => 'Defaul price list doctype',
         'warehouse' => 'Warehouse',
         'qty' => 'Qty',
+    ],
+    'doctypes' => [
+        'inventory' => 'Inventory',
+        'price_list' => 'Price List'
     ]
 ];

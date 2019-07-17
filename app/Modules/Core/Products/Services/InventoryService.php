@@ -81,4 +81,9 @@ class InventoryService extends BaseService
         
         return $data;
     }
+
+    public function getByCode($code)
+    {
+        return $this->entity->where('code', $code)->first();
+    }
 }

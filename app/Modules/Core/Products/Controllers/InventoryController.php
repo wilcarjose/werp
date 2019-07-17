@@ -112,6 +112,28 @@ class InventoryController extends BaseController
         ];
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $entity = $this->entityService->getById($id);
+
+        if (!$entity) {
+            $entity = $this->entityService->getByCode($id);
+        }
+
+        if (!$entity) {
+            flash(trans($this->getNotFoundKey()), 'info');
+            return back();
+        }
+
+        return $this->entityForm->editPage($entity->toArray(), $this->getDependencies());
+    }
+
     public function process($id)
     {
         try {

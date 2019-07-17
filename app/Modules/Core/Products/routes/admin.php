@@ -63,6 +63,8 @@
 
 	Route::get('/stock', '\Werp\Modules\Core\Products\Controllers\StockController@index')->name('stock.index');
 
+	Route::get('/transactions', '\Werp\Modules\Core\Products\Controllers\TransactionController@index')->name('transactions.index');
+
 
 
 

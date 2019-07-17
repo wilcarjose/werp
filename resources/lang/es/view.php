@@ -36,6 +36,8 @@ return [
     'from' => 'Desde',
     'to' => 'Hasta',
     'category' => 'Categoría',
+    'date' => 'Fecha',
+    'reference' => 'Referencia',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -59,6 +61,7 @@ return [
         'price_list' => 'Lista de precios',
         'price_list_types' => 'Tipos de L.P.',
         'stock' => 'Existencia',
+        'transactions' => 'Transacciones',
     ],
     'profile' => [
         'profile' => 'Perfil',
@@ -83,4 +86,8 @@ return [
         'warehouse' => 'Almacén',
         'qty' => 'Cantidad',
     ],
+    'doctypes' => [
+        'inventory' => 'Inventario',
+        'price_list' => 'Lista de precio'
+    ]
 ];

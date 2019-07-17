@@ -73,6 +73,11 @@ return [
 		    'id'   => '-3',
 		    'name' => 'Miles',
 		],
+	],
+
+	'doctypes' => [
+		'INV' => 'view.doctypes.inventory',
+		'LP' => 'view.doctypes.price_list'
 	]
 
 ];

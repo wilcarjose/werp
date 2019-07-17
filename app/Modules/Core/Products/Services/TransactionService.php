@@ -7,14 +7,14 @@ use Werp\Modules\Core\Products\Models\InventoryDetail;
 
 class TransactionService
 {
-	protected $transaction;
+	protected $entity;
 	protected $document;
 	protected $stockService;
 
-    public function __construct(Transaction $transaction, StockService $stockService)
+    public function __construct(Transaction $entity, StockService $stockService)
     {
     	$this->stockService = $stockService;
-        $this->transaction = $transaction;
+        $this->entity = $entity;
     }
 
     public function setDocument($document)
@@ -54,8 +54,42 @@ class TransactionService
 	        'warehouse_id' => $detail->warehouse_id
     	];
 
-    	$this->transaction->create($data);
+    	$this->entity->create($data);
 
     	$stock->add($txQty);
+    }
+
+    public function getResults($sort, $order, $search, $paginate)
+    {
+        $entities = $this->entity->with('warehouse')->with('product')->where(function ($query) use ($search) {
+            //if ($search) {
+            //    $query->where('name', 'like', "$search%");
+            //}
+        })
+        ->orderBy("$sort", "$order");
+
+        $total = $entities->count();
+
+        if ($total <= 0) {
+            return [];
+        }
+
+        $entities = $paginate == 'off' ? $entities : $entities->paginate(10);
+
+        $paginator = $paginate == 'off' ? [
+                'total_count'  => $total,
+                'total_pages'  => 1,
+                'current_page' => 1,
+                'limit'        => $total
+            ] : [
+                'total_count'  => $entities->total(),
+                'total_pages'  => $entities->lastPage(),
+                'current_page' => $entities->currentPage(),
+                'limit'        => $entities->perPage()
+            ];
+
+        $data = $paginate == 'off' ? $entities->get()->toArray() : $entities->all();
+
+        return [$data, $paginator];
     }
 }

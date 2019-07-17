@@ -5,14 +5,14 @@ namespace Werp\Modules\Core\Products\Controllers;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\Brand;
-use Werp\Modules\Core\Products\Services\StockService;
+use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Category;
 use Werp\Modules\Core\Products\Builders\ProductForm;
-use Werp\Modules\Core\Products\Builders\StockList;
-use Werp\Modules\Core\Products\Transformers\StockTransformer;
+use Werp\Modules\Core\Products\Builders\TransactionList;
+use Werp\Modules\Core\Products\Transformers\TransactionTransformer;
 
-class StockController extends BaseController
+class TransactionController extends BaseController
 {
     protected $category;
 
@@ -21,9 +21,9 @@ class StockController extends BaseController
     protected $supplier;
 
     public function __construct(
-        StockService $entityService,
-        StockTransformer $entityTransformer,
-        StockList $entityList,
+        TransactionService $entityService,
+        TransactionTransformer $entityTransformer,
+        TransactionList $entityList,
         Category $category,
         Partner $supplier,
         Brand $brand

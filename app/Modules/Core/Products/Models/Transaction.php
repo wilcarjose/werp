@@ -38,4 +38,14 @@ class Transaction extends Model
             'warehouse_id' => $this->warehouse_id,
         ];
     }
+
+    public function warehouse()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Warehouse');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Product');
+    }
 }

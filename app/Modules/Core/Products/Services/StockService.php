@@ -112,7 +112,7 @@ class StockService
             //}
         })
         ->orderBy("$sort", "$order");
-//dd($entities->get()->toArray());
+
         $total = $entities->count();
 
         if ($total <= 0) {

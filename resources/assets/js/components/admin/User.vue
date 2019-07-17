@@ -74,7 +74,7 @@
                       <span v-if="col.type == 'amount'" style="float: right; margin-right: 50px;">
                         {{ col.name | capitalize }}
                       </span>
-                      <span v-if="col.type == 'text'">
+                      <span v-if="col.type == 'text' || col.type == 'date' || col.type == 'link'">
                         {{ col.name | capitalize }}
                       </span>
                       <span class="arrow"
@@ -111,6 +111,8 @@
                     <td v-for="(cols,index) in columns"> 
                         <span v-if="cols.type == 'amount'" style="float: right; margin-right: 50px;">{{ numberFormat(runningData[cols.field]) }}</span>
                         <span v-if="cols.type == 'text'">{{ runningData[cols.field] }}</span>
+                        <span v-if="cols.type == 'date'">{{ dateFormat(runningData[cols.field]) }}</span>
+                        <span v-if="cols.type == 'link'"> <a :href="runningData[cols.field]['url']"  target="_blank">{{ runningData[cols.field]['text'] }}</a> </span>
                     </td>
                     <td v-if="show_state">
                       <h5 :style="'background: ' + runningData.state.color + '; text-align: center; border-radius: 9px; padding: 3px 0px; width: 120px; font-size: medium;'"> {{ runningData.state.name }}</h5>
@@ -226,6 +228,7 @@ $(document).ready(function() {
   
 import { tableData } from '../../mixins/tableMixin';
 import FunctionHelper from '../../helpers/FunctionHelper.js';
+//import moment from 'moment';
 
 let funcHelp = new FunctionHelper;
 
@@ -556,6 +559,19 @@ export default {
             }
 
             return unit + decimal_point + strArray[1];
+        },
+        dateFormat(date) {
+            var dateToChange = new Date(date);
+            var month = dateToChange .getMonth() + 1;
+            if (month.toString().length < 2) {
+                month = '0' + month;
+            }
+            var day = dateToChange .getDate();
+            if (day.toString().length < 2) {
+                day = '0' + day;
+            }
+            var year = dateToChange .getFullYear();
+            return day + "/" + month + "/" + year;
         }
 
     }
