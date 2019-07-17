@@ -63,7 +63,10 @@ class InventoryDetailList extends MainList
             ->setUseModal(true)
             ->setDeleteMultiple(false)
             ->setShowMessages(false)
-            ->setFields(['product_name' => 'Producto', 'qty' => 'Cantidad'])
+            ->setFields([
+              ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'], 
+              ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'text']
+            ])
             ->setFilter($filter)
             ->setEmptyList($empty)
             ->setPaginate(false)

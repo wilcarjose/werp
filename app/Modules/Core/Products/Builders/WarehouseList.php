@@ -17,7 +17,9 @@ class WarehouseList extends MainList
         $this->setTitle('Almacenes')
             ->setRoute('admin.products.warehouses')
             ->setShowStatus(true)
-            ->setFields(['name' => trans('view.name')])
+            ->setFields([
+              ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text']
+            ])
             ->makeConfig();
 
         parent::__construct();

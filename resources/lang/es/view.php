@@ -35,6 +35,7 @@ return [
     'currency' => 'Moneda',
     'from' => 'Desde',
     'to' => 'Hasta',
+    'category' => 'Categoría',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -57,6 +58,7 @@ return [
         'brands' => 'Marcas',
         'price_list' => 'Lista de precios',
         'price_list_types' => 'Tipos de L.P.',
+        'stock' => 'Existencia',
     ],
     'profile' => [
         'profile' => 'Perfil',
@@ -78,5 +80,7 @@ return [
         'link' => 'Enlace',
         'price_list_type' => 'Tipo de lista de precio',
         'default_price_list_doc' => 'Tipo de documento de listas de precios por defecto',
-    ]
+        'warehouse' => 'Almacén',
+        'qty' => 'Cantidad',
+    ],
 ];

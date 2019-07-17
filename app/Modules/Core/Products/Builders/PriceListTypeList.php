@@ -17,7 +17,11 @@ class PriceListTypeList extends MainList
         $this->setTitle('Tipos de listas de precios')
             ->setRoute('admin.products.price_list_types')
             ->setShowStatus(true)
-            ->setFields(['name' => trans('view.name'), 'type' => trans('view.type'), 'currency' => trans('view.currency')])
+            ->setFields([
+              ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text'],
+              ['field' => 'type', 'name' => trans('view.type') , 'type' => 'text'],
+              ['field' => 'currency', 'name' => trans('view.currency') , 'type' => 'text']
+            ])
             ->makeConfig();
 
         parent::__construct();

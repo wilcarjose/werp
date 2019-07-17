@@ -36764,6 +36764,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 $(document).ready(function () {
@@ -36808,6 +36831,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             runningData: null,
             dependencies: [],
             modal: this.config.modal,
+            show_actions: this.config.show_actions,
+            show_filters: false,
             amount: {
                 decimalSeparator: ",",
                 groupSeparator: ".",
@@ -37164,7 +37189,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          !_vm.disable
+          _vm.show_actions && !_vm.disable
             ? _c(
                 "div",
                 { staticClass: "col s12 m8" },
@@ -37352,6 +37377,16 @@ var render = function() {
                   ]
                 )
               ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.show_filters
+            ? _c("div", { staticClass: "col s12" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Más filtros..")])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.show_filters
+            ? _c("div", { staticClass: "input-field col s12" }, [_vm._m(1)])
             : _vm._e()
         ]),
         _vm._v(" "),
@@ -37362,7 +37397,7 @@ var render = function() {
                 _c(
                   "tr",
                   [
-                    _vm.delete_multiple
+                    _vm.show_actions && _vm.delete_multiple
                       ? _c("th", { staticClass: "multiple-cb" }, [
                           _c("p", [
                             _c("input", {
@@ -37424,32 +37459,46 @@ var render = function() {
                       : _vm._e(),
                     _vm._v(" "),
                     _vm._l(_vm.columns, function(col, index) {
-                      return _c(
-                        "th",
-                        {
-                          on: {
-                            click: function($event) {
-                              _vm.sortBy(col.name)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                  " +
-                              _vm._s(_vm._f("capitalize")(col.name)) +
-                              "\n                  "
-                          ),
-                          _vm.escapeSort.indexOf(col.name) < 0
-                            ? _c("span", {
-                                staticClass: "arrow",
-                                class:
-                                  _vm.sortOrder.field == col.name
-                                    ? _vm.sortOrder.order
-                                    : "asc"
-                              })
-                            : _vm._e()
-                        ]
-                      )
+                      return _c("th", [
+                        col.type == "amount"
+                          ? _c(
+                              "span",
+                              {
+                                staticStyle: {
+                                  float: "right",
+                                  "margin-right": "50px"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(_vm._f("capitalize")(col.name)) +
+                                    "\n                  "
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        col.type == "text"
+                          ? _c("span", [
+                              _vm._v(
+                                "\n                    " +
+                                  _vm._s(_vm._f("capitalize")(col.name)) +
+                                  "\n                  "
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.escapeSort.indexOf(col.name) < 0
+                          ? _c("span", {
+                              staticClass: "arrow",
+                              class:
+                                _vm.sortOrder.field == col.name
+                                  ? _vm.sortOrder.order
+                                  : "asc"
+                            })
+                          : _vm._e()
+                      ])
                     }),
                     _vm._v(" "),
                     _vm.show_state
@@ -37506,7 +37555,7 @@ var render = function() {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    !_vm.disable
+                    _vm.show_actions && !_vm.disable
                       ? _c("th", [
                           _vm._v(
                             "\n                  Acciones\n                "
@@ -37525,7 +37574,7 @@ var render = function() {
                       return _c(
                         "tr",
                         [
-                          _vm.delete_multiple
+                          _vm.show_actions && _vm.delete_multiple
                             ? _c("th", { staticClass: "multiple-cb" }, [
                                 _c("p", [
                                   _c("input", {
@@ -37592,23 +37641,34 @@ var render = function() {
                             : _vm._e(),
                           _vm._v(" "),
                           _vm._l(_vm.columns, function(cols, index) {
-                            return _c("td", {
-                              domProps: {
-                                textContent: _vm._s(runningData[cols.field])
-                              }
-                            })
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            staticStyle: {
-                              "text-align": "right",
-                              "padding-right": "50px"
-                            },
-                            domProps: {
-                              textContent: _vm._s(
-                                _vm.numberFormat(runningData["price"])
-                              )
-                            }
+                            return _c("td", [
+                              cols.type == "amount"
+                                ? _c(
+                                    "span",
+                                    {
+                                      staticStyle: {
+                                        float: "right",
+                                        "margin-right": "50px"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.numberFormat(
+                                            runningData[cols.field]
+                                          )
+                                        )
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              cols.type == "text"
+                                ? _c("span", [
+                                    _vm._v(_vm._s(runningData[cols.field]))
+                                  ])
+                                : _vm._e()
+                            ])
                           }),
                           _vm._v(" "),
                           _vm.show_state
@@ -37656,7 +37716,7 @@ var render = function() {
                               ])
                             : _vm._e(),
                           _vm._v(" "),
-                          !_vm.disable
+                          _vm.show_actions && !_vm.disable
                             ? _c("td", [
                                 _c(
                                   "div",
@@ -38166,6 +38226,32 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "input-group-addon" }, [
       _c("span", { staticClass: "glyphicon glyphicon-search" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s4" }, [
+      _c("label", { staticStyle: { top: "-22px", "font-size": "0.8rem" } }, [
+        _vm._v("Almacén")
+      ]),
+      _vm._v(" "),
+      _c(
+        "select",
+        { staticClass: "select2_select", staticStyle: { display: "block" } },
+        [
+          _c("option", { attrs: { value: "", disabled: "" } }, [
+            _vm._v("Seleccione...")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "1" } }, [_vm._v("Almacén 1")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "2" } }, [_vm._v("Almacen 2")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "3" } }, [_vm._v("Almacen 3")])
+        ]
+      )
     ])
   }
 ]

@@ -17,7 +17,10 @@ class PriceListList extends MainList
         $this->setTitle('Listas de precios')
             ->setRoute('admin.products.price_lists')
             ->setShowStatus(false)
-            ->setFields(['code' => 'Código', 'starting_at' => 'Fecha'])
+            ->setFields([
+              ['field' => 'code', 'name' => 'Código' , 'type' => 'text'], 
+              ['field' => 'starting_at', 'name' => 'Fecha' , 'type' => 'text']
+            ])
             ->setShowState(true)
             ->makeConfig();
 

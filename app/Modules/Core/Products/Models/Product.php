@@ -53,4 +53,9 @@ class Product extends BaseModel
     {
         return $this->is_service == 'y';
     }
+
+    public function category()
+    {
+        return $this->hasOne('Werp\Modules\Core\Products\Models\Category', 'id', 'category_id');
+    }
 }

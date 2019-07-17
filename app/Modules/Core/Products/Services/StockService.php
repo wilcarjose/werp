@@ -8,15 +8,15 @@ use Werp\Modules\Core\Products\Models\Warehouse;
 
 class StockService
 {
-	protected $stock;
+	protected $entity;
 	protected $product;
 	protected $warehouse;
 	protected $productId;
 	protected $warehouseId;
 
-    public function __construct(Stock $stock)
+    public function __construct(Stock $entity)
     {
-        $this->stock = $stock;
+        $this->entity = $entity;
     }
 
     public function setProduct(Product $product)
@@ -55,52 +55,86 @@ class StockService
 
     public function getStock()
     {
-    	$stock = $this->stock->where('product_id', $this->getProductId())
+    	$entity = $this->entity->where('product_id', $this->getProductId())
     		->where('warehouse_id', $this->getWarehouseId())
     		->first();
 
-    	if (is_null($stock)) {
-    		$stock = $this->initialize();
+    	if (is_null($entity)) {
+    		$entity = $this->initialize();
     	}
 
-    	return $stock;
+    	return $entity;
     }
 
     public function getQty()
     {
-    	$stock = $this->getStock();
+    	$entity = $this->getStock();
 
-    	return $stock->qty;
+    	return $entity->qty;
     }
 
     public function add($qty)
     {
-    	$stock = $this->getStock();
+    	$entity = $this->getStock();
 
-    	$stock->qty = $stock->qty + $qty;
-    	$stock->save();
+    	$entity->qty = $entity->qty + $qty;
+    	$entity->save();
 
-    	return $stock->qty;
+    	return $entity->qty;
     }
 
     public function sub($qty)
     {
-    	$stock = $this->getStock();
+    	$entity = $this->getStock();
 
-    	$stock->qty = $stock->qty - $qty;
-    	$stock->save();
+    	$entity->qty = $entity->qty - $qty;
+    	$entity->save();
 
-    	return $stock->qty;
+    	return $entity->qty;
     }
 
     protected function initialize()
     {
-    	$stock = new Stock;
-    	$stock->warehouse_id = $this->getWarehouseId();
-    	$stock->product_id = $this->getProductId();
-    	$stock->qty = 0;
-    	$stock->save();
+    	$entity = new Stock;
+    	$entity->warehouse_id = $this->getWarehouseId();
+    	$entity->product_id = $this->getProductId();
+    	$entity->qty = 0;
+    	$entity->save();
 
-    	return $stock;
+    	return $entity;
+    }
+
+    public function getResults($sort, $order, $search, $paginate)
+    {
+        $entities = $this->entity->with('warehouse')->with('product')->where(function ($query) use ($search) {
+            //if ($search) {
+            //    $query->where('name', 'like', "$search%");
+            //}
+        })
+        ->orderBy("$sort", "$order");
+//dd($entities->get()->toArray());
+        $total = $entities->count();
+
+        if ($total <= 0) {
+            return [];
+        }
+
+        $entities = $paginate == 'off' ? $entities : $entities->paginate(10);
+
+        $paginator = $paginate == 'off' ? [
+                'total_count'  => $total,
+                'total_pages'  => 1,
+                'current_page' => 1,
+                'limit'        => $total
+            ] : [
+                'total_count'  => $entities->total(),
+                'total_pages'  => $entities->lastPage(),
+                'current_page' => $entities->currentPage(),
+                'limit'        => $entities->perPage()
+            ];
+
+        $data = $paginate == 'off' ? $entities->get()->toArray() : $entities->all();
+
+        return [$data, $paginator];
     }
 }

@@ -11,7 +11,7 @@
             <div class="col s12">
               <h5 class="content-headline">{{ title }}</h5>
             </div>
-            <div class="col s12 m8" v-if="!disable">
+            <div class="col s12 m8" v-if="show_actions && !disable">
               <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
                 <a class="btn btn-default pull-right btn-floating" :href="route + '/create'" v-show="showAdd" v-if="!use_modal">
                   <i class="material-icons">add</i>
@@ -41,21 +41,42 @@
                 </div>
               </form>
             </div>
+            <div class="col s12" v-if="show_filters">
+                  <a href="#">Más filtros..</a>
+            </div>
+            <div class="input-field col s12" v-if="show_filters">
+                <div class="col s4">
+                  <label style="top: -22px; font-size: 0.8rem;">Almacén</label>
+                  <select class="select2_select" style="display: block;">
+                      <option value="" disabled>Seleccione...</option>
+                      <option value="1" >Almacén 1</option>
+                      <option value="2" >Almacen 2</option>
+                      <option value="3" >Almacen 3</option>
+                      <!-- <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option> -->
+                  </select>
+                </div>
+            </div>
           </div>
           <div class="row">
             <div class="col s12">
               <table class="responsive-table bordered">
                 <thead>
                   <tr>
-                    <th  class="multiple-cb" v-if="delete_multiple">
+                    <th  class="multiple-cb" v-if="show_actions && delete_multiple">
                       <p>
                         <input type="checkbox" value="1" id="toggleAll" @click="toggleAll()" v-model="isAll">
                         <label for="toggleAll" v-if="use_modal" style="left: -0.25rem;top: -0.5rem;"></label>
                         <label for="toggleAll" v-else></label>
                       </p>
                     </th>
-                    <th v-for="(col,index) in columns" @click="sortBy(col.name)">
-                      {{ col.name | capitalize }}
+                    <!-- <th v-for="(col,index) in columns" @click="sortBy(col.name)"> -->
+                    <th v-for="(col,index) in columns">
+                      <span v-if="col.type == 'amount'" style="float: right; margin-right: 50px;">
+                        {{ col.name | capitalize }}
+                      </span>
+                      <span v-if="col.type == 'text'">
+                        {{ col.name | capitalize }}
+                      </span>
                       <span class="arrow"
                         :class="sortOrder.field == col.name ? sortOrder.order : 'asc'"
                         v-if="escapeSort.indexOf(col.name) < 0"></span>
@@ -72,14 +93,14 @@
                             :class="sortOrder.field == 'status' ? sortOrder.order : 'asc'"
                             v-if="escapeSort.indexOf('status') < 0"></span>
                     </th>
-                    <th v-if="!disable">
+                    <th v-if="show_actions && !disable">
                       Acciones
                     </th>
                   </tr>
                 </thead>
                 <tbody  v-if="componentData.length">
                   <tr v-for="runningData in componentData">
-                    <th class="multiple-cb" v-if="delete_multiple">
+                    <th class="multiple-cb" v-if="show_actions && delete_multiple">
 
                       <p>
                         <input type="checkbox" :value="runningData.id" :id="runningData.id" v-model="multiSelection">
@@ -87,8 +108,10 @@
                         <label :for="runningData.id" v-else></label>
                       </p>
                     </th>
-                    <td v-for="(cols,index) in columns" v-text="runningData[cols.field]"></td>
-                    <td v-text="numberFormat(runningData['price'])" style="text-align: right;padding-right: 50px;"></td>
+                    <td v-for="(cols,index) in columns"> 
+                        <span v-if="cols.type == 'amount'" style="float: right; margin-right: 50px;">{{ numberFormat(runningData[cols.field]) }}</span>
+                        <span v-if="cols.type == 'text'">{{ runningData[cols.field] }}</span>
+                    </td>
                     <td v-if="show_state">
                       <h5 :style="'background: ' + runningData.state.color + '; text-align: center; border-radius: 9px; padding: 3px 0px; width: 120px; font-size: medium;'"> {{ runningData.state.name }}</h5>
                     </td>
@@ -98,7 +121,7 @@
                         {{runningData.status == 'active' ? 'Activo' : 'Inactivo'}}
                       </button>
                     </td>
-                    <td v-if="!disable">
+                    <td v-if="show_actions && !disable">
                       <div class="btn-group" role="group" aria-label="...">
                         <a type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/edit'" v-if="!use_modal">
                           <i class="material-icons warning-text">mode_edit</i>
@@ -233,6 +256,8 @@ export default {
             runningData: null,
             dependencies: [],
             modal: this.config.modal,
+            show_actions: this.config.show_actions,
+            show_filters: false,
             amount: {
               decimalSeparator: ",",
               groupSeparator: ".",

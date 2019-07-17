@@ -61,6 +61,7 @@
 	Route::put('/price_list_types/statusBulk','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@switchStatusBulk');
 	Route::resource('/price_list_types','\Werp\Modules\Core\Products\Controllers\PriceListTypeController');
 
+	Route::get('/stock', '\Werp\Modules\Core\Products\Controllers\StockController@index')->name('stock.index');
 
 
 

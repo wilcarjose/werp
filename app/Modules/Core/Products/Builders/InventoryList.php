@@ -17,7 +17,10 @@ class InventoryList extends MainList
         $this->setTitle('Inventarios')
             ->setRoute('admin.products.inventories')
             ->setShowStatus(false)
-            ->setFields(['code' => 'Código', 'date' => 'Fecha'])
+            ->setFields([
+              ['field' => 'code', 'name' => 'Código' , 'type' => 'text'], 
+              ['field' => 'date', 'name' => 'Fecha' , 'type' => 'text']
+            ])
             ->setShowState(true)
             ->makeConfig();
 

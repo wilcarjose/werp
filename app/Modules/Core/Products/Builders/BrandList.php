@@ -17,7 +17,9 @@ class BrandList extends MainList
         $this->setTitle('Marcas')
             ->setRoute('admin.products.brands')
             ->setShowStatus(true)
-            ->setFields(['name' => trans('view.name')])
+            ->setFields([
+              ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text']
+            ])
             ->makeConfig();
 
         parent::__construct();

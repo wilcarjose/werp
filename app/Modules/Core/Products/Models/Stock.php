@@ -22,10 +22,20 @@ class Stock extends Model
     public function toArray()
     {
         return [
-            'id' => $this->id,
+            //'id' => $this->id,
             'qty' => $this->qty,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
         ];
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Warehouse');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Product');
     }
 }

@@ -45,7 +45,10 @@ class PriceList extends MainList
             ->setUseModal(true)
             ->setDeleteMultiple(false)
             ->setShowMessages(false)
-            ->setFields(['product_name' => 'Producto', 'price' => 'Precio'])
+            ->setFields([
+              ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'], 
+              ['field' => 'price', 'name' => 'Precio' , 'type' => 'amount']
+            ])
             ->setFilter($filter)
             ->setEmptyList($empty)
             ->setPaginate(false)

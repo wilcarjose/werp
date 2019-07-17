@@ -8,6 +8,7 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
+use Werp\Builders\DateBuilder;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\InputBuilder;
 use Werp\Builders\SelectBuilder;
@@ -38,7 +39,7 @@ class PriceListForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new CodeInputBuilder)
-            ->addInput(new InputBuilder('starting_at', 'input',  trans('view.from')))
+            ->addInput(new DateBuilder('starting_at', trans('view.from'), date('Y-m-d H:i:s')))
             ->addSelect(new PriceListTypeSelectBuilder)
             ->addSelect(new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista de referencia', true))
             ->addInput(new AmountInputBuilder('reference', 'Valor de referencia'))
@@ -69,7 +70,8 @@ class PriceListForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
             ->addInput(new CodeInputBuilder($data['code']))
-            ->addInput((new InputBuilder('starting_at', 'input',  trans('view.from'), $data['starting_at']))->setDisable($disable))
+            ->addInput((new DateBuilder('starting_at', trans('view.from'), $data['starting_at']))->setDisable($disable))
+            //->addInput((new InputBuilder('starting_at', 'input',  trans('view.from'), $data['starting_at']))->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder($data['price_list_type_id']))->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder($data['reference_price_list_type_id'], 'reference_price_list_type_id', 'Lista de referencia', true))->setDisable($disable))
             ->addInput((new AmountInputBuilder('reference', 'Valor de referencia', $data['reference']))->setDisable($disable))

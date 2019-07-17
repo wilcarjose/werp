@@ -35,6 +35,7 @@ return [
     'currency' => 'Currency',
     'from' => 'From',
     'to' => 'To',
+    'category' => 'Category',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -57,6 +58,7 @@ return [
 	    'brands' => 'Brands',
         'price_list' => 'Price list',
         'price_list_types' => 'Price list types',
+        'stock' => 'Stock',
     ],
     'profile' => [
         'profile' => 'Profile',
@@ -78,5 +80,7 @@ return [
         'link' => 'Link',
         'price_list_type' => 'Price list type',
         'default_price_list_doc' => 'Defaul price list doctype',
+        'warehouse' => 'Warehouse',
+        'qty' => 'Qty',
     ]
 ];

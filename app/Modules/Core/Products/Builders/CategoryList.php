@@ -19,7 +19,9 @@ class CategoryList extends MainList
         $this->setTitle('Categorias')
             ->setRoute($this->moduleRoute)
             ->setShowStatus(true)
-            ->setFields(['name' => 'Nombre'])
+            ->setFields([
+              ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text']
+            ])
             ->makeConfig();
 
         parent::__construct();

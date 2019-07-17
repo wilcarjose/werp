@@ -8,12 +8,15 @@
     <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/easyui/easyui.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <style type="text/css">
 
       .textbox {
           width: 669px;
           border: 0;
           border-radius: 0;
+          margin-left: 3rem,
       }
 
       .textbox .textbox-text {
@@ -45,6 +48,45 @@
         box-shadow: 0 0 0 0 #fff;
         -webkit-box-shadow: 0 0 0 0 #fff;
         -moz-box-shadow: 0 0 0 0 #fff;
+      }
+
+      .daterangepicker .calendar-table th, .daterangepicker .calendar-table td {
+          white-space: nowrap;
+          text-align: center;
+          vertical-align: middle;
+          min-width: 32px;
+          width: 32px;
+          height: 24px;
+          line-height: 0px;
+          font-size: 12px;
+          border-radius: 4px;
+          border: 1px solid transparent;
+          white-space: nowrap;
+          cursor: pointer;
+      }
+
+      .monthselect, .yearselect, .hourselect, .minuteselect, .ampmselect {
+          display: inline-block !important;
+          background-color: rgba(255, 255, 255, 0.9) !important;
+          width: 100%;
+          padding: 5px;
+          border: 1px solid #f2f2f2 !important;
+          border-radius: 2px !important;
+          height: 24px !important;
+      }
+
+      .daterangepicker .drp-buttons .btn {
+          margin-left: 8px;
+          font-size: 12px;
+          font-weight: bold;
+          padding: 0px 8px;
+      }
+
+      .select2-container--default .select2-selection--single {
+          background-color: #fff;
+          border: 0px solid #aaa;
+          border-radius: 0px;
+          border-bottom: 1px solid #757575;
       }
 
     </style>
@@ -168,8 +210,23 @@
 
     $(document).ready(function() {
 
-        
-
+        $('.datetime-box').daterangepicker({
+          timePicker: true,
+          singleDatePicker: true,
+          showDropdowns: true,
+          minYear: 1901,
+          autoApply: false,
+          autoUpdateInput: true,
+          maxYear: parseInt(moment().format('YYYY'),10),
+          locale: {
+            format: 'DD/MM/YYYY hh:mm A',
+            cancelLabel: 'Cancelar',
+            applyLabel: 'Ok'
+          }
+        }, function(start, end, label) {
+          //var years = moment().diff(start, 'years');
+          //alert("You are " + years + " years old!");
+        });
     });
 
     $(window).on("load", function(){
@@ -195,7 +252,6 @@
           }
 
           if ($(this).parent().prev().hasClass('custom-numberbox')) {
-            console.log('clase custom-numberbox')
             var id = $(this).attr("id");
             $('#'+id).css({
               "background-color": "#fafafa",
@@ -206,20 +262,29 @@
 
           if ($(this).parent().prev().hasClass('easyui-numberbox')) {
             var id = $(this).attr("id");
-            console.log('clase easyui-numberbox')
-            console.log(id);
             $('#'+id).css({
               "margin-left": "3rem",
               "width": "calc(100% - 3rem)"
             });
+            /*
+            $(this).parent().css({
+              "width": "calc(100% - 3rem)",
+              "margin-left": "3rem"
+            })
+            */
           }
 
       });
 
     })
-    
+
   </script>
 
+  @yield('js-datebox')
+
   <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
 @endsection

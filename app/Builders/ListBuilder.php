@@ -37,6 +37,8 @@ class ListBuilder extends ModuleBuilder
 
     protected $modalConfig = null;
 
+    protected $showActions = true;
+
     public function view()
     {
         return view('admin.base.list', [
@@ -254,6 +256,24 @@ class ListBuilder extends ModuleBuilder
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getShowActions()
+    {
+        return $this->showActions;
+    }
+
+    /**
+     * @param mixed $showActions
+     * @return ListBuilder
+     */
+    public function setShowActions($showActions)
+    {
+        $this->showActions = $showActions;
+        return $this;
+    }
+
      /**
      * @return mixed
      */
@@ -275,10 +295,10 @@ class ListBuilder extends ModuleBuilder
     public function makeConfig()
     {
         // "{ title: 'Usuarios', fields: [{ field: 'fullname', name: 'nombre'}, {field: 'email', name: 'email'}], route: '/admin/user', show_status: true }";
-        $fields = [];
-        foreach ($this->getFields() as $field => $name) {
-            $fields[] = ['field' => $field, 'name' => $name];
-        }
+        //$fields = [];
+        //foreach ($this->getFields() as $field => $name) {
+        //    $fields[] = ['field' => $field, 'name' => $name];
+        //}
 
         $config = [
             'title'  => $this->getTitle(),
@@ -294,7 +314,8 @@ class ListBuilder extends ModuleBuilder
             'paginate'    => $this->getPaginate(),
             'disable'    => $this->getDisable(),
             'modal'      => $this->getModalConfig(),
-            'fields' => $fields
+            'fields' => $this->getFields(),
+            'show_actions' => $this->getShowActions(),
         ];
 
         $this->setConfig(json_encode($config));
