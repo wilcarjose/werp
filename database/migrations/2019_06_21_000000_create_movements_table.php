@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class CreateInventoriesTable extends Migration
+class CreateMovementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateInventoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('movements', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
             $table->dateTime('date');
@@ -25,11 +25,6 @@ class CreateInventoriesTable extends Migration
             $table->foreign('doctype_id')
                 ->references('id')
                 ->on('doctypes');
-            $table->integer('warehouse_id')->unsigned();
-            $table->foreign('warehouse_id')
-                ->references('id')
-                ->on('warehouses')
-                ->nullable();
             $table->timestamps();
         });
     }
@@ -41,6 +36,6 @@ class CreateInventoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('movements');
     }
 }

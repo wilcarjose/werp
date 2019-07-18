@@ -1,5 +1,7 @@
 <?php
 
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
+
 return [
 
     'menu' => [
@@ -102,24 +104,24 @@ return [
 
     'document' => [
         'actions' => [
-            'inv' => [
-                'pe' => [
+            Basedoc::IN_DOC => [
+                Basedoc::PE_STATE => [
                     'key' => 'pending',
                     'name' => 'view.pending',
                     'after_name' => 'view.pending',
-                    'new_actions' => ['pr'],
+                    'new_actions' => [Basedoc::PR_STATE],
                     'actions_from' => [],
                     'color' => 'gold',
                 ],
-                'pr' => [
+                Basedoc::PR_STATE => [
                     'key' => 'process',
                     'name' => 'view.process',
                     'after_name' => 'view.processed',
                     'new_actions' => [],
-                    'actions_from' => ['pe'],
+                    'actions_from' => [Basedoc::PE_STATE],
                     'color' => 'limegreen',
                 ],
-                'ca' => [
+                Basedoc::CA_STATE => [
                     'key' => 'cancel',
                     'name' => 'view.cancel',
                     'after_name' => 'view.canceled',
@@ -127,7 +129,7 @@ return [
                     'actions_from' => [],
                     'color' => 'tomato',
                 ],
-                're' => [ // reverse document at the same date
+                Basedoc::RE_STATE => [ // reverse document at the same date
                     'key' => 'reverse',
                     'name' => 'view.reverse',
                     'after_name' => 'view.reversed',
@@ -136,24 +138,24 @@ return [
                     'color' => 'wheat',
                 ]
             ],
-            'pri' => [
-                'pe' => [
+            Basedoc::PL_DOC => [
+                Basedoc::PE_STATE => [
                     'key' => 'pending',
                     'name' => 'view.pending',
                     'after_name' => 'view.pending',
-                    'new_actions' => ['pr'],
+                    'new_actions' => [Basedoc::PR_STATE],
                     'actions_from' => [],
                     'color' => 'gold',
                 ],
-                'pr' => [
+                Basedoc::PR_STATE => [
                     'key' => 'process',
                     'name' => 'view.process',
                     'after_name' => 'view.processed',
-                    'new_actions' => ['re'],
-                    'actions_from' => ['pe'],
+                    'new_actions' => [Basedoc::RE_STATE],
+                    'actions_from' => [Basedoc::PE_STATE],
                     'color' => 'limegreen',
                 ],
-                'ca' => [
+                Basedoc::CA_STATE => [
                     'key' => 'cancel',
                     'name' => 'view.cancel',
                     'after_name' => 'view.canceled',
@@ -161,12 +163,12 @@ return [
                     'actions_from' => [],
                     'color' => 'tomato',
                 ],
-                're' => [ // reverse document at the same date
+                Basedoc::RE_STATE => [ // reverse document at the same date
                     'key' => 'reverse',
                     'name' => 'view.reverse',
                     'after_name' => 'view.reversed',
-                    'new_actions' => ['pr'],
-                    'actions_from' => ['pr'],
+                    'new_actions' => [Basedoc::PR_STATE],
+                    'actions_from' => [Basedoc::PR_STATE],
                     'color' => 'wheat',
                 ]
             ]

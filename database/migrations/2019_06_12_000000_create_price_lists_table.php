@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class CreatePriceListsTable extends Migration
 {
@@ -30,7 +31,7 @@ class CreatePriceListsTable extends Migration
             $table->foreign('reference_price_list_type_id')
                 ->references('id')
                 ->on('price_list_types');
-            $table->string('state', 2)->default('pe');
+            $table->string('state', 2)->default(Basedoc::PE_STATE);
             $table->string('operation')->nullable();
             $table->double('reference', 8, 2)->nullable();
             $table->string('round')->default(0); // d-2 down decimales | l-3 low

@@ -3,6 +3,7 @@
 namespace Werp\Modules\Core\Products\Transformers;
 
 use Werp\Transformers\Transformer;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class InventoryTransformer extends Transformer
 {
@@ -22,7 +23,7 @@ class InventoryTransformer extends Transformer
 
     protected function makeState($item)
     {
-        $data = config('products.document.actions.inv.'.$item['state']);
+        $data = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$item['state']);
 
         return [
             'name' => trans($data['after_name']),

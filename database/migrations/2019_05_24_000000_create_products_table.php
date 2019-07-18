@@ -17,11 +17,13 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('code');
             $table->string('name');
+            $table->string('alternate_code')->nullable();
             $table->string('part_number')->nullable();
             $table->text('description')->nullable();
             $table->string('barcode')->nullable();
             $table->string('qrcode')->nullable();
             $table->string('link')->nullable();
+            $table->string('uom')->default('unit');
             $table->integer('category_id')->unsigned()->nullable();
             $table->string('image')->nullable();
             $table->enum('is_service', ['y','n'])->default('n');

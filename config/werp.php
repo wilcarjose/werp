@@ -1,5 +1,7 @@
 <?php
 
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
+
 return [
 
 	'show_elements' => false,
@@ -76,8 +78,13 @@ return [
 	],
 
 	'doctypes' => [
-		'INV' => 'view.doctypes.inventory',
-		'LP' => 'view.doctypes.price_list'
+		Basedoc::IN_DOC => 'view.doctypes.inventory',
+		Basedoc::PL_DOC => 'view.doctypes.price_list',
+		Basedoc::PO_DOC => 'view.doctypes.purchase_order',
+		Basedoc::SO_DOC => 'view.doctypes.sale_order',
+		Basedoc::IE_DOC => 'view.doctypes.inventory_entry',
+		Basedoc::IO_DOC => 'view.doctypes.inventory_output',
+		Basedoc::IM_DOC => 'view.doctypes.inventory_movement',
 	]
 
 ];

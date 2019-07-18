@@ -14,6 +14,7 @@ use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class InventoryForm extends FormBuilder
 {
@@ -34,7 +35,7 @@ class InventoryForm extends FormBuilder
             ->addInput(new InputBuilder('code', 'input', 'Código', null, null, true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción'))
             ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $defaults['warehouse']))
-            ->addSelect(new DoctypeSelectBuilder('inv', 'inv_default_inventory_doctype'))
+            ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, 'inv_default_inventory_doctype'))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
             //->setList(new InventoryDetailList(true))
@@ -49,8 +50,8 @@ class InventoryForm extends FormBuilder
     {
         $this->data = $data;
 
-        $disable = $data['state'] != 'pe';
-        $noProcessed = $data['state'] == 'pe';
+        $disable = $data['state'] != Basedoc::PE_STATE;
+        $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $this->setAction('Editar inventario')
             ->setShortAction('Editar')
@@ -60,7 +61,7 @@ class InventoryForm extends FormBuilder
             ->addInput(new InputBuilder('code', 'input', 'Código', null, $data['code'], true))
             ->addInput(new InputBuilder('description', 'textarea', 'Descripción', null, $data['description'], $disable))
             ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $data['warehouse_id'], false, $disable))
-            ->addSelect(new DoctypeSelectBuilder('inv', 'inv_default_inventory_doctype', $data['doctype_id']))
+            ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, 'inv_default_inventory_doctype', $data['doctype_id']))
             ->setAdvancedOptions();
 
         if ($noProcessed) {
@@ -72,14 +73,14 @@ class InventoryForm extends FormBuilder
         $this
             ->setList(new InventoryDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
-            ->setState(trans(config('products.document.actions.inv.'.$data['state'].'.after_name')))
-            ->setStateColor(config('products.document.actions.inv.'.$data['state'].'.color'));
+            ->setState(trans(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.after_name')))
+            ->setStateColor(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.color'));
         ;
 
-        $actionKeys = config('products.document.actions.inv.'.$data['state'].'.new_actions');
+        $actionKeys = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
-            $action = config('products.document.actions.inv.'.$key);
+            $action = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$key);
             $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.inventories.'.$action['key'], $data['id'])));
         }
 

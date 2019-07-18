@@ -4,6 +4,7 @@ namespace Werp\Modules\Core\Products\Services;
 
 use Werp\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Inventory;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
@@ -49,11 +50,11 @@ class InventoryService extends BaseService
 
             $this->transactionService->setDocument($this->inventoryObject)->process();
 
-            $this->inventoryObject->state = 'pr';
+            $this->inventoryObject->state = Basedoc::PR_STATE;
             $this->inventoryObject->save();
 
         } catch (\Exception $e) {
-            throw new \Exception("Error Processing Request".$e->getMessage());
+            throw new \Exception("Error Processing Request: ".$e->getMessage());
         }
         
     }
@@ -69,7 +70,7 @@ class InventoryService extends BaseService
 
     protected function canNotProcess()
     {
-        $stateArray = $this->inventoryObject->getState('pr');
+        $stateArray = $this->inventoryObject->getState(Basedoc::PR_STATE);
 
         return !in_array($this->inventoryObject->state, $stateArray['actions_from']);
     }

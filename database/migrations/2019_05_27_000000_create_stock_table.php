@@ -16,6 +16,9 @@ class CreateStockTable extends Migration
         Schema::create('stock', function (Blueprint $table) {
             $table->increments('id');
             $table->double('qty'); // verificar que permita negativos
+            $table->double('ordered_qty')->default(0);
+            $table->double('reserved_qty')->default(0);
+            $table->double('available_qty')->default(0);
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')
                 ->references('id')

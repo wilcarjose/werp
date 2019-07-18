@@ -3,6 +3,7 @@
 namespace Werp\Modules\Core\Products\Transformers;
 
 use Werp\Transformers\Transformer;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class PriceListTransformer extends Transformer
 {
@@ -27,7 +28,7 @@ class PriceListTransformer extends Transformer
 
     protected function makeState($item)
     {
-        $data = config('products.document.actions.pri.'.$item['state']);
+        $data = config('products.document.actions.'.Basedoc::PL_DOC.'.'.$item['state']);
 
         return [
             'name' => trans($data['after_name']),

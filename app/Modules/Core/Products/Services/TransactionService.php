@@ -2,6 +2,7 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Products\Models\Transaction;
 use Werp\Modules\Core\Products\Models\InventoryDetail;
 
@@ -25,7 +26,7 @@ class TransactionService
 
     public function process()
     {
-    	if ($this->document->getType() == 'INV') {
+    	if ($this->document->getType() == Basedoc::IN_DOC) {
 
     		foreach ($this->document->detail as $detail) {
     			$this->makeTransacion($detail);

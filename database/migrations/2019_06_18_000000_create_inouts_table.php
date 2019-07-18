@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class CreateInventoriesTable extends Migration
+class CreateInoutsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,23 @@ class CreateInventoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('inouts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('code');
             $table->dateTime('date');
+            $table->string('order_code')->nullable();
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
+            $table->double('amount', 10, 4)->default(0.0000);
+            $table->double('tax_amount', 10, 4)->default(0.0000);
+            $table->double('discount_amount', 10, 4)->default(0.0000);
+            $table->double('total_amount', 10, 4)->default(0.0000);
+            $table->string('currency')->default('USD');
             $table->string('state', 2)->default(Basedoc::PE_STATE);
+            $table->integer('partner_id')->unsigned();
+            $table->foreign('partner_id')
+                ->references('id')
+                ->on('partners');
             $table->integer('doctype_id')->unsigned();
             $table->foreign('doctype_id')
                 ->references('id')
@@ -41,6 +51,6 @@ class CreateInventoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('inouts');
     }
 }

@@ -152,7 +152,7 @@ class InventoryController extends BaseController
             flash($e->getMessage(), 'error', 'error');
             return redirect(route('admin.products.inventories.edit', $id));
         } catch (\Exception $e) {
-            flash($e->getMessage(), 'error', 'error');
+            flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
             return redirect(route('admin.products.inventories.edit', $id));
         }
     }

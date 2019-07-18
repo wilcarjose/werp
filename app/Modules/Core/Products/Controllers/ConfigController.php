@@ -43,7 +43,7 @@ class ConfigController extends Controller
         $config = $this->configService->getConfig();
 
         $selects = [
-            'doctypes' => $this->basedoc->where('type', 'inv')->first()->doctypes()->get(),
+            'doctypes' => $this->basedoc->where('type', Basedoc::IN_DOC)->first()->doctypes()->get(),
             'warehouses' => $this->warehouse->where('status', 'active')->get(),
         ];
 

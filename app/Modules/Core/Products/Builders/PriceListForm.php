@@ -21,6 +21,7 @@ use Werp\Builders\CreateActionBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Builders\PriceListTypeSelectBuilder;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class PriceListForm extends FormBuilder
 {
@@ -48,7 +49,7 @@ class PriceListForm extends FormBuilder
             //->addInput(new InputBuilder('operation', 'input',  trans('view.operation')))
             //->addInput(new InputBuilder('round', 'input',  trans('view.round')))
             ->addInput((new DescriptionInputBuilder)->advancedOption())
-            ->addSelect((new DoctypeSelectBuilder('pri', 'pri_default_price_list_doctype'))->advancedOption())
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, 'pri_default_price_list_doctype'))->advancedOption())
             ->addAction(new CreateActionBuilder)
             //->setMaxWidth()
             ->setAdvancedOptions()
@@ -61,8 +62,8 @@ class PriceListForm extends FormBuilder
     {
         $this->data = $data;
 
-        $disable = $data['state']['state'] != 'pe';
-        $noProcessed = $data['state']['state'] == 'pe';
+        $disable = $data['state']['state'] != Basedoc::PE_STATE;
+        $noProcessed = $data['state']['state'] == Basedoc::PE_STATE;
 
         $this->setAction('Editar lista de precio')
             ->setShortAction('Editar')
@@ -80,7 +81,7 @@ class PriceListForm extends FormBuilder
             //->addInput((new InputBuilder('operation', 'input',  trans('view.operation'), null, $data['operation']))->setDisable($disable))
             //->addInput((new InputBuilder('round', 'input',  trans('view.round'), null, $data['round']))->setDisable($disable))
             ->addInput((new DescriptionInputBuilder($data['description']))->setDisable($disable)->advancedOption())
-            ->addSelect((new DoctypeSelectBuilder('pri', 'pri_default_price_list_doctype', $data['doctype_id']))->advancedOption())
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, 'pri_default_price_list_doctype', $data['doctype_id']))->advancedOption())
             ->setAdvancedOptions()
             ;
 
@@ -89,15 +90,15 @@ class PriceListForm extends FormBuilder
         }
 
         $this->setList(new PriceList(false, $data['id'], $disable))
-            ->setState(trans(config('products.document.actions.pri.'.$data['state']['state'].'.after_name')))
-            ->setStateColor(config('products.document.actions.pri.'.$data['state']['state'].'.color'))
+            ->setState(trans(config('products.document.actions.'.Basedoc::PL_DOC.'.'.$data['state']['state'].'.after_name')))
+            ->setStateColor(config('products.document.actions.'.Basedoc::PL_DOC.'.'.$data['state']['state'].'.color'))
             //->setMaxWidth()
             ;
 
-        $actionKeys = config('products.document.actions.pri.'.$data['state']['state'].'.new_actions');
+        $actionKeys = config('products.document.actions.'.Basedoc::PL_DOC.'.'.$data['state']['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
-            $action = config('products.document.actions.pri.'.$key);
+            $action = config('products.document.actions.'.Basedoc::PL_DOC.'.'.$key);
             $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.price_lists.'.$action['key'], $data['id'])));
         }
 

@@ -3,12 +3,13 @@
 namespace Werp\Modules\Core\Products\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class Inventory extends Model
 {
     protected $table = 'inventories';
 
-    protected $type = 'INV';
+    protected $type = Basedoc::IN_DOC;
 
     protected $stateArray = ['jj'];
 
@@ -25,7 +26,6 @@ class Inventory extends Model
         'date',
         'state',
         'reference'
-
     ];
 
     /**
@@ -64,9 +64,9 @@ class Inventory extends Model
     public function getState($state = null)
     {
         if ($state) {
-            return config('products.document.actions.inv.'.$state);
+            return config('products.document.actions.'.Basedoc::IN_DOC.'.'.$state);
         }
 
-        return config('products.document.actions.inv.'.$this->state);
+        return config('products.document.actions.'.Basedoc::IN_DOC.'.'.$this->state);
     }
 }

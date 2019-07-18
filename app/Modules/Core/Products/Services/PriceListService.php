@@ -6,6 +6,7 @@ use Money\Money;
 use Money\Currency;
 use Werp\Services\BaseService;
 use Werp\Modules\Core\Products\Models\PriceList;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 
 class PriceListService extends BaseService
@@ -92,7 +93,7 @@ class PriceListService extends BaseService
     public function process($id)
     {
         $entity = $this->getById($id);
-        $entity->state = 'pr';
+        $entity->state = Basedoc::PR_STATE;
         $entity->save();
 
         $entity->detail()->update(['status' => 'active']);
@@ -101,7 +102,7 @@ class PriceListService extends BaseService
     public function reverse($id)
     {
         $entity = $this->getById($id);
-        $entity->state = 'pe';
+        $entity->state = Basedoc::PE_STATE;
         $entity->save();
 
         $entity->detail()->update(['status' => 'inactive']);
