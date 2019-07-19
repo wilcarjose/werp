@@ -211,4 +211,13 @@ class FormBuilder extends ModuleBuilder
     {
         return $this->stateColor;
     }
+
+    public function setData($data)
+    {
+        foreach ($this->getInputs() as $input) {
+            if (isset($data[$input->getName()])) {
+                $input->setValue($data[$input->getName()]);
+            }
+        }
+    }
 }

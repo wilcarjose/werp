@@ -81,24 +81,26 @@ class ProductEntryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
 
-            ->addInput(new CodeInputBuilder($data['code']))
-            ->addInput((new DateBuilder('date', trans('view.date'), $data['date']))->setDisable($disable))
+            ->addInput(new CodeInputBuilder)
+            ->addInput((new DateBuilder)->setDisable($disable))
 
-            ->addSelect((new SupplierSelectBuilder($data['partner_id']))->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder($data['warehouse_id']))->setDisable($disable))
-            ->addSelect((new CurrencySelectBuilder($data['currency']))->setDisable($disable))
+            ->addSelect((new SupplierSelectBuilder)->setDisable($disable))
+            ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
+            ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
 
-            ->addInput((new AmountInputBuilder('amount', trans('view.amount'), $data['amount']))->setDisable(true))
-            ->addInput((new AmountInputBuilder('tax_amount', trans('view.tax_amount'), $data['tax_amount']))->setDisable(true))
-            ->addInput((new AmountInputBuilder('discount_amount', trans('view.discount_amount'), $data['discount_amount']))->setDisable(true))
-            ->addInput((new AmountInputBuilder('total_amount', trans('view.total_amount'), $data['total_amount']))->setDisable(true))
+            ->addInput((new AmountInputBuilder)->setDisable(true))
+            ->addInput((new AmountInputBuilder('tax_amount', trans('view.tax_amount')))->setDisable(true))
+            ->addInput((new AmountInputBuilder('discount_amount', trans('view.discount_amount')))->setDisable(true))
+            ->addInput((new AmountInputBuilder('total_amount', trans('view.total_amount')))->setDisable(true))
             
 
-            ->addInput((new DescriptionInputBuilder($data['description']))->advancedOption()->setDisable($disable))
-            ->addInput((new InputBuilder('order_code', 'input', 'Código de orden', $data['order_code']))->advancedOption()->setDisable(true))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, 'inv_default_ie_doc', $data['doctype_id']))->advancedOption()->setDisable($disable))
+            ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
+            ->addInput((new InputBuilder('order_code', 'input', 'Código de orden'))->advancedOption()->setDisable(true))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, 'inv_default_ie_doc'))->advancedOption()->setDisable($disable))
 
-            ->setAdvancedOptions();
+            ->setAdvancedOptions()
+            ->setData($data)
+            ;
 
         if ($noProcessed) {
             $this->addAction(new ActionBuilder('save', ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'));
