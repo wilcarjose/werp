@@ -10,6 +10,7 @@ class ConfigTableSeeder extends Seeder
 		['inv_default_inventory_doctype', 1, 'inv', 'view.products.default_inventory_doc'],
 		['inv_default_warehouse', 0, 'inv', 'view.products.default_warehouse'],
 		['pri_default_price_list_doctype', 2, 'pri', 'view.products.default_price_list_doc'],
+		['inv_default_ie_doc', 0, 'pri', 'view.products.default_ie_doc'],
 	];
 
     /**

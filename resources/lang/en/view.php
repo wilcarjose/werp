@@ -36,6 +36,13 @@ return [
     'from' => 'From',
     'to' => 'To',
     'category' => 'Category',
+    'supplier' => 'Supplier',
+    'customer' => 'Customer',
+    'warehouse' => 'Warehouse',
+    'amount' => 'Amount',
+    'tax_amount' => 'Tax amount',
+    'discount_amount' => 'Discount amount',
+    'total_amount' => 'Total amount',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -62,6 +69,7 @@ return [
         'transactions' => 'Transactions',
         'date' => 'Date',
         'reference' => 'Reference',
+        'product_entry' => 'Product Entry',
     ],
     'profile' => [
         'profile' => 'Profile',
@@ -88,6 +96,7 @@ return [
     ],
     'doctypes' => [
         'inventory' => 'Inventory',
-        'price_list' => 'Price List'
+        'price_list' => 'Price List',
+        'inventory_entry' => 'Product entry',
     ]
 ];

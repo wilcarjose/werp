@@ -21,11 +21,11 @@ class AmountInputBuilder extends TextInputBuilder
      */
     public function __construct($name = null, $text = null, $value = null, $disable = false, $icon = null)
     {
-        $this->name = $name;
+        $this->name = $name ?: 'amount';
         $this->type = 'number';
         $this->icon = $icon;
-        $this->text = $text; //trans('view.email');
-        $this->value = $value;
+        $this->text = $text ?: trans('view.amount');
+        $this->value = $value ?: 0.00;
         $this->disable = $disable;
     }
 }

@@ -4,6 +4,7 @@ namespace Werp\Modules\Core\Products\Services;
 
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Products\Models\Transaction;
+use Werp\Modules\Core\Products\Models\InoutDetail;
 use Werp\Modules\Core\Products\Models\InventoryDetail;
 
 class TransactionService
@@ -24,17 +25,28 @@ class TransactionService
     	return $this;
     }
 
-    public function process()
+    public function process($document = null)
     {
+        if ($document) {
+            $this->setDocument($document);
+        }
+
     	if ($this->document->getType() == Basedoc::IN_DOC) {
 
     		foreach ($this->document->detail as $detail) {
-    			$this->makeTransacion($detail);
+    			$this->makeInventory($detail);
     		}
     	}
+
+        if ($this->document->getType() == Basedoc::IE_DOC) {
+
+            foreach ($this->document->detail as $detail) {
+                $this->makeEntry($detail);
+            }
+        }
     }
 
-    protected function makeTransacion(InventoryDetail $detail)
+    protected function makeInventory(InventoryDetail $detail)
     {
     	$stock = $this->stockService->setProductId($detail->product_id)
     		->setWarehouseId($detail->warehouse_id);
@@ -58,6 +70,26 @@ class TransactionService
     	$this->entity->create($data);
 
     	$stock->add($txQty);
+    }
+
+    protected function makeEntry(InoutDetail $detail)
+    {
+        $stock = $this->stockService->setProductId($detail->product_id)
+            ->setWarehouseId($detail->warehouse_id)
+            ->add($detail->qty);
+
+        $data = [
+            'reference' => $detail->reference,
+            'type' => $detail->inout->getType(),
+            'date' => $detail->date,
+            'description' => '',
+            'qty' => $detail->qty,
+            'sign' => 'add',
+            'product_id' => $detail->product_id,
+            'warehouse_id' => $detail->warehouse_id
+        ];
+
+        $this->entity->create($data);
     }
 
     public function getResults($sort, $order, $search, $paginate)

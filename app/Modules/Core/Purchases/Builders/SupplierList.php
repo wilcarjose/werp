@@ -17,7 +17,11 @@ class SupplierList extends MainList
         $this->setTitle('Proveedores')
             ->setRoute('admin.purchases.suppliers')
             ->setShowStatus(true)
-            ->setFields(['document' => trans('view.document'), 'name' => trans('view.name'), 'mobile' => trans('view.mobile')])
+            ->setFields([
+            	['field' => 'document', 'name' => trans('view.document'), 'type' => 'text'],
+            	['field' => 'name', 'name' => trans('view.name'), 'type' => 'text'],
+            	['field' => 'mobile', 'name' => trans('view.mobile'), 'type' => 'text'],
+            ])
             ->makeConfig();
 
         parent::__construct();

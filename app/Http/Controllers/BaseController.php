@@ -239,7 +239,7 @@ class BaseController extends Controller
     {
         $validator = validator()->make($request->all(), $this->getUpdateRules());
         
-        if ($validator->fails()) {
+        if ($validator->fails()) {dd($validator->errors());
             flash(trans($this->getFailValidationKey()), 'error', 'error');
             return back()->withErrors($validator)->withInput();
         }

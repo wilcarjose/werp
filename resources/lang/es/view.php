@@ -38,6 +38,13 @@ return [
     'category' => 'Categoría',
     'date' => 'Fecha',
     'reference' => 'Referencia',
+    'supplier' => 'Proveedor',
+    'customer' => 'Cliente',
+    'warehouse' => 'Almacén',
+    'amount' => 'Monto',
+    'tax_amount' => 'Impuestos',
+    'discount_amount' => 'Descuento',
+    'total_amount' => 'Monto total',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -62,6 +69,7 @@ return [
         'price_list_types' => 'Tipos de L.P.',
         'stock' => 'Existencia',
         'transactions' => 'Transacciones',
+        'product_entry' => 'Entrada de productos',
     ],
     'profile' => [
         'profile' => 'Perfil',
@@ -88,6 +96,7 @@ return [
     ],
     'doctypes' => [
         'inventory' => 'Inventario',
-        'price_list' => 'Lista de precio'
+        'price_list' => 'Lista de precio',
+        'inventory_entry' => 'Entrada de producto',
     ]
 ];

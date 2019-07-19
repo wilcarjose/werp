@@ -40,7 +40,7 @@ class PriceListForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new CodeInputBuilder)
-            ->addInput(new DateBuilder('starting_at', trans('view.from'), date('Y-m-d H:i:s')))
+            ->addInput(new DateBuilder('starting_at', trans('view.from')))
             ->addSelect(new PriceListTypeSelectBuilder)
             ->addSelect(new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista de referencia', true))
             ->addInput(new AmountInputBuilder('reference', 'Valor de referencia'))

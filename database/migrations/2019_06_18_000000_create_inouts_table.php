@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Werp\Modules\Core\Products\Models\Inout;
 use Illuminate\Database\Migrations\Migration;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
@@ -26,6 +27,7 @@ class CreateInoutsTable extends Migration
             $table->double('discount_amount', 10, 4)->default(0.0000);
             $table->double('total_amount', 10, 4)->default(0.0000);
             $table->string('currency')->default('USD');
+            $table->enum('type', [Inout::OUT_TYPE, Inout::IN_TYPE])->default(Inout::OUT_TYPE);
             $table->string('state', 2)->default(Basedoc::PE_STATE);
             $table->integer('partner_id')->unsigned();
             $table->foreign('partner_id')

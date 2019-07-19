@@ -61,9 +61,22 @@
 	Route::put('/price_list_types/statusBulk','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@switchStatusBulk');
 	Route::resource('/price_list_types','\Werp\Modules\Core\Products\Controllers\PriceListTypeController');
 
+	// Stock
 	Route::get('/stock', '\Werp\Modules\Core\Products\Controllers\StockController@index')->name('stock.index');
 
+	// Transactions
 	Route::get('/transactions', '\Werp\Modules\Core\Products\Controllers\TransactionController@index')->name('transactions.index');
+
+	// Product entry
+	Route::post('/product_entry/removeBulk','\Werp\Modules\Core\Products\Controllers\ProductEntryController@destroyBulk');
+	Route::get('/product_entry/{id}/detail', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@indexDetail')->name('product_entry.detail.index');
+	Route::get('/product_entry/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@showDetail')->name('product_entry.detail.show');
+	Route::put('/product_entry/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@updateDetail')->name('product_entry.detail.update');
+	Route::post('/product_entry/{id}/detail', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@storeDetail')->name('product_entry.detail.update');
+	Route::delete('/product_entry/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@destroyDetail')->name('product_entry.detail.update');
+	Route::get('/product_entry/{id}/process', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@process')->name('product_entry.process');
+	Route::get('/product_entry/{id}/reverse', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@reverse')->name('product_entry.reverse');
+	Route::resource('/product_entry','\Werp\Modules\Core\Products\Controllers\ProductEntryController');
 
 
 

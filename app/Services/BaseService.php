@@ -10,9 +10,9 @@ class BaseService
 
     protected $entityDetail;
 
-    public function getById($id)
+    public function getById($id, $exception = true)
     {
-        return $this->entity->find($id);
+        return $exception ? $this->entity->findOrFail($id) : $this->entity->find($id);
     }
 
     public function getResults($sort, $order, $search, $paginate)

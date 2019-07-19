@@ -29,11 +29,11 @@ class DateBuilder extends InputBuilder
      */
     public function __construct($name = null, $text = null, $value = null, $disable = false, $icon = null)
     {
-        $this->name = $name;
+        $this->name = $name ?: 'date';
         $this->type = 'date';
-        $this->icon = $icon;
-        $this->text = $text;
-        $this->value = $value;
+        $this->icon = $icon ?: 'calendar';
+        $this->text = trans('view.date');
+        $this->value = $value ?: date('Y-m-d H:i:s');
         $this->disable = $disable;
     }
 }
