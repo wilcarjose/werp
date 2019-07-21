@@ -35,12 +35,53 @@ class Inout extends Model
         'reference'
     ];
 
+    protected $copyable = [
+        'code',
+        'description',
+        'doctype_id',
+        'warehouse_id',
+        'date',
+        'type',
+        'amount',
+        'tax_amount',
+        'discount_amount',
+        'total_amount',
+        'currency',
+        'partner_id',
+    ];
+
+    protected $cancelable = [
+        'description',
+        'doctype_id',
+        'warehouse_id',
+        'date',
+        'type',
+        'order_code',
+        'currency',
+        'partner_id',
+    ];
+
+    protected $invertible = [
+        'amount',
+        'tax_amount',
+        'discount_amount',
+        'total_amount',
+    ];
+
     /**
      * Get the detail for the inventory.
      */
     public function detail()
     {
         return $this->hasMany('Werp\Modules\Core\Products\Models\InoutDetail', 'inout_id', 'id');
+    }
+
+    /**
+     * The orders that belong to the inout.
+     */
+    public function orders()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Order');
     }
 
     public function getDetail()
@@ -71,6 +112,7 @@ class Inout extends Model
             'state' => $this->state,
             'reference' => $this->reference,
             'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
             'order_code' => $this->order_code,
             'amount' => $this->amount,
             'tax_amount' => $this->tax_amount,
@@ -79,6 +121,25 @@ class Inout extends Model
             'currency' => $this->currency,
             'partner_id' => $this->partner_id,
         ];
+    }
+
+    public function cancelableData()
+    {
+        $data = [];
+
+        foreach ($this->cancelable as $cancel) {
+            $data[$cancel] = $this->toArray()[$cancel];
+        }
+
+        foreach ($this->invertible as $invert) {
+            $data[$invert] = (-1) * $this->toArray()[$invert];
+        }
+
+        $data['code'] = $this->code . '-R';
+        $data['reference'] = $this->code;
+        $data['state'] = Basedoc::CA_STATE;
+
+        return $data;
     }
 
     public function getType()

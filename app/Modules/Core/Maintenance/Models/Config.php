@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
 {
-    const INV_DEFAULT_IN_DOC = 'inv_default_inventory_doctype';
+    const INV_DEFAULT_IN_DOC = 'inv_default_in_doc';
     const INV_DEFAULT_WAREHOUSE = 'inv_default_warehouse';
     const PRI_DEFAULT_PL_DOC = 'pri_default_price_list_doctype';
+    const PRI_DEFAULT_IE_DOC = 'inv_default_ie_doc';
+    const PRI_DEFAULT_PO_DOC = 'inv_default_po_doc';
 
     protected $table = 'config';
 

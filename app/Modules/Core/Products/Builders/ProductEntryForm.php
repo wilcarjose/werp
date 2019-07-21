@@ -21,6 +21,7 @@ use Werp\Builders\ActionBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\CurrencySelectBuilder;
+use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class ProductEntryForm extends FormBuilder
@@ -56,7 +57,7 @@ class ProductEntryForm extends FormBuilder
 
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new InputBuilder('order_code', 'input', 'Código de orden'))->advancedOption()->setDisable(true))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, 'inv_default_ie_doc'))->advancedOption())
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::PRI_DEFAULT_IE_DOC))->advancedOption())
 
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.product_entry.index')))
@@ -81,8 +82,13 @@ class ProductEntryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
 
-            ->addInput(new CodeInputBuilder)
-            ->addInput((new DateBuilder)->setDisable($disable))
+            ->addInput(new CodeInputBuilder);
+
+            if ($data['reference']) {
+                $this->addInput(new CodeInputBuilder('reference', 'Referencia'));
+            }
+
+            $this->addInput((new DateBuilder)->setDisable($disable))
 
             ->addSelect((new SupplierSelectBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
@@ -96,7 +102,7 @@ class ProductEntryForm extends FormBuilder
 
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new InputBuilder('order_code', 'input', 'Código de orden'))->advancedOption()->setDisable(true))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, 'inv_default_ie_doc'))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC,  Config::PRI_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)

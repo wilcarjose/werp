@@ -24,9 +24,40 @@ class InoutDetail extends Model
         'qty',
         'inout_id',
         'product_id',
-        'warehouse_id'
+        'warehouse_id',
+        'order_detail_id'
     ];
 
+    protected $copyable = [
+        'reference',
+        'date',
+        'qty',
+        'product_id',
+        'warehouse_id',
+        'amount',
+        'tax_amount',
+        'discount_amount',
+        'total_amount',
+        'currency',
+    ];
+
+    protected $cancelable = [
+        'reference',
+        'date',
+        'product_id',
+        'warehouse_id',
+        'currency',
+        'order_detail_id'
+    ];
+
+    protected $invertible = [
+        'qty',
+        'amount',
+        'tax_amount',
+        'discount_amount',
+        'total_amount',
+    ];
+    
     public function toArray()
     {
         return [
@@ -37,17 +68,41 @@ class InoutDetail extends Model
             'inout_id' => $this->inout_id,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
-            'created_at' => $this->created_at,
             'amount' => $this->amount,
             'tax_amount' => $this->tax_amount,
             'discount_amount' => $this->discount_amount,
             'total_amount' => $this->total_amount,
             'currency' => $this->currency,
+            'order_detail_id' => $this->order_detail_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 
     public function inout()
     {
         return $this->belongsTo('Werp\Modules\Core\Products\Models\Inout');
+    }
+
+    public function orderDetail()
+    {
+        return $this->hasOne('Werp\Modules\Core\Products\Models\OrderDetail', 'id', 'order_detail_id');
+    }
+
+    public function cancelableData()
+    {
+        $data = [];
+
+        foreach ($this->cancelable as $cancel) {
+            $data[$cancel] = $this->toArray()[$cancel];
+        }
+
+        foreach ($this->invertible as $invert) {
+            $data[$invert] = (-1) * $this->toArray()[$invert];
+        }
+
+        $data['reference'] = $this->reference . '-R';
+
+        return $data;
     }
 }

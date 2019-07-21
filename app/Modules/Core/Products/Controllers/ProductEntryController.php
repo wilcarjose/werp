@@ -146,18 +146,18 @@ class ProductEntryController extends BaseController
         }
     }
 
-    public function reverse($id)
+    public function cancel($id)
     {
         try {
 
-            $this->entityService->reverse($id);
+            $this->entityService->cancel($id);
 
-            flash('Entrada reversada exitosamente', 'success', 'success');
+            flash('Registro anulado exitosamente', 'success', 'success');
             return redirect(route('admin.products.product_entry.edit', $id));
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
             return redirect(route('admin.products.product_entry.edit', $id));
-        } catch (CanNotReverseException $e) {
+        } catch (CanNotProcessException $e) {
             flash($e->getMessage(), 'error', 'error');
             return redirect(route('admin.products.product_entry.edit', $id));
         } catch (\Exception $e) {

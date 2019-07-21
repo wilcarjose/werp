@@ -76,6 +76,7 @@
 	Route::delete('/product_entry/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@destroyDetail')->name('product_entry.detail.update');
 	Route::get('/product_entry/{id}/process', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@process')->name('product_entry.process');
 	Route::get('/product_entry/{id}/reverse', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@reverse')->name('product_entry.reverse');
+	Route::get('/product_entry/{id}/cancel', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@cancel')->name('product_entry.cancel');
 	Route::resource('/product_entry','\Werp\Modules\Core\Products\Controllers\ProductEntryController');
 
 

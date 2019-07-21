@@ -41,7 +41,15 @@ class Order extends Model
      */
     public function detail()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\InoutDetail', 'inout_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\OrderDetail', 'order_id', 'id');
+    }
+
+    /**
+     * The inouts that belong to the order.
+     */
+    public function inouts()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Order');
     }
 
     public function getDetail()
