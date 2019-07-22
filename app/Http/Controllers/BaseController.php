@@ -267,6 +267,22 @@ class BaseController extends Controller
         $this->entityService->update($id, $data) ?
             flash(trans($this->getUpdatedKey()), 'success', 'success') :
             flash(trans($this->getFailUpdateKey()), 'error', 'error');
+
+        if ($request->get('go_back', null) == 'edit') {
+            return redirect(route($this->routeBase.'.edit', $id));
+        }
+
+        if ($request->get('go_back', null) == 'new') {
+            return redirect(route($this->routeBase.'.create'));
+        }
+
+        if ($request->get('go_back', null) == 'list') {
+            return redirect(route($this->routeBase.'.index'));
+        }
+
+        if ($request->get('go_back', null) == 'home') {
+            return redirect(route('admin.home'));
+        }
         
         return back();
     }

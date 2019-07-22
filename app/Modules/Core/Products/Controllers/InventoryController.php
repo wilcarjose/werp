@@ -70,6 +70,8 @@ class InventoryController extends BaseController
 
     protected $relatedField = 'inventory_id';
 
+    protected $routeBase = 'admin.products.inventories';
+
     public function __construct(
         Product $product,
         Inventory $entity,

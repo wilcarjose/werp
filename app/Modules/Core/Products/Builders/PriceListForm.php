@@ -39,7 +39,7 @@ class PriceListForm extends FormBuilder
             ->setShortAction('Nueva')
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->addInput(new CodeInputBuilder)
+            //->addInput(new CodeInputBuilder)
             ->addInput(new DateBuilder('starting_at', trans('view.from')))
             ->addSelect(new PriceListTypeSelectBuilder)
             ->addSelect(new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista de referencia', true))
@@ -52,6 +52,7 @@ class PriceListForm extends FormBuilder
             ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, 'pri_default_price_list_doctype'))->advancedOption())
             ->addAction(new CreateActionBuilder)
             //->setMaxWidth()
+            ->goBackEdit()
             ->setAdvancedOptions()
         ;
 
@@ -70,7 +71,7 @@ class PriceListForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->setEdit()
-            ->addInput(new CodeInputBuilder($data['code']))
+            ->addInput((new CodeInputBuilder())->setValue($data['code']))
             ->addInput((new DateBuilder('starting_at', trans('view.from'), $data['starting_at']))->setDisable($disable))
             //->addInput((new InputBuilder('starting_at', 'input',  trans('view.from'), $data['starting_at']))->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder($data['price_list_type_id']))->setDisable($disable))

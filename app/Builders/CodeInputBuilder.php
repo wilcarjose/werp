@@ -29,7 +29,7 @@ class CodeInputBuilder extends TextInputBuilder
     public function __construct($name = null, $text = null, $value = null, $disabled = true, $icon = null)
     {
         $this->name = $name ?: 'code';
-        $this->type = 'input';
+        $this->type = 'code';
         $this->icon = $icon;
         $this->text = $text ?: trans('view.code');
         $this->value = $value;
