@@ -79,6 +79,8 @@ class ProductEntryController extends BaseController
 
     protected $relatedField = 'inout_id';
 
+    protected $routeBase = 'admin.products.product_entry';
+
     public function __construct(
         Inout $entity,
         InoutDetail $entityDetail,

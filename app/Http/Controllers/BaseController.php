@@ -191,7 +191,7 @@ class BaseController extends Controller
             flash(trans($this->getFailCreateKey()), 'error', 'error');
 
         if ($request->get('go_back', null) == 'edit') {
-            return redirect('admin.products.product_entry.edit', $entity->id);
+            return redirect(route($this->routeBase.'.edit', $entity->id));
         }
 
         return back();

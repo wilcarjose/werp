@@ -23,6 +23,7 @@ class FormBuilder extends ModuleBuilder
     protected $stateColor = null;
     protected $advanced = false;
     protected $list = null;
+    protected $goBack = null;
 
     public function getObjectId()
     {
@@ -74,12 +75,16 @@ class FormBuilder extends ModuleBuilder
 
     public function getUpdateRoute()
     {
-        return route($this->route.'.update', $this->getObjectId());
+        return $this->getGoBack() ?
+            route($this->route.'.update', ['id' => $this->getObjectId(), 'go_back' => $this->getGoBack()]) :
+            route($this->route.'.update', $this->getObjectId());
     }
 
     public function getStoreRoute()
     {
-        return route($this->route.'.store');
+        return $this->getGoBack() ?
+            route($this->route.'.store', ['go_back' => $this->getGoBack()]) :
+            route($this->route.'.store');
     }
 
     public function getSaveRoute()
@@ -219,5 +224,16 @@ class FormBuilder extends ModuleBuilder
                 $input->setValue($data[$input->getName()]);
             }
         }
+    }
+
+    public function getGoBack()
+    {
+        return $this->goBack;
+    }
+
+    public function setGoBack($goBack)
+    {
+        $this->goBack = $goBack;
+        return $this;
     }
 }

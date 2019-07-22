@@ -19,6 +19,7 @@ use Werp\Builders\SaveActionBuilder;
 use Werp\Builders\AmountInputBuilder;
 use Werp\Builders\UpdateActionBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\ContinueActionBuilder;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\SupplierSelectBuilder;
 use Werp\Builders\WarehouseSelectBuilder;
@@ -43,7 +44,7 @@ class ProductEntryForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
 
-            ->addInput(new CodeInputBuilder)
+            //->addInput(new CodeInputBuilder)
             ->addInput(new DateBuilder)
 
             /*
@@ -61,7 +62,8 @@ class ProductEntryForm extends FormBuilder
             ->addInput((new InputBuilder('order_code', 'input', 'Código de orden'))->advancedOption()->setDisable(true))
             ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::PRI_DEFAULT_IE_DOC))->advancedOption())
 
-            ->addAction(new SaveActionBuilder)
+            ->addAction(new ContinueActionBuilder)
+            ->setGoBack('edit')
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.product_entry.index')))
             //->setList(new InventoryDetailList(true))
             //->setMaxWidth()
