@@ -4,6 +4,7 @@ namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\BaseController;
+use Werp\Modules\Core\Products\Models\Uom;
 use Werp\Modules\Core\Products\Models\Brand;
 use Werp\Modules\Core\Products\Services\ProductService;
 use Werp\Modules\Core\Purchases\Models\Partner;
@@ -30,6 +31,7 @@ class ProductController extends BaseController
         'category_id',
         'barcode',
         'link',
+        'uom_id',
     ];
 
     protected $storeRules = [
@@ -65,6 +67,7 @@ class ProductController extends BaseController
             'categories' => $this->category->where('type', 'product')->get(),
             'suppliers' => $this->supplier->where('is_supplier', 'y')->get(),
             'brands' => $this->brand->where('status', 'active')->get(),
+            'uom' => Uom::where('status', 'active')->get(),
         ];
     }
 }

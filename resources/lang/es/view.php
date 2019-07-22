@@ -45,6 +45,7 @@ return [
     'tax_amount' => 'Impuestos',
     'discount_amount' => 'Descuento',
     'total_amount' => 'Monto total',
+    'continue' => 'Continuar',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',

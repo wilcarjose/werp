@@ -23,7 +23,10 @@ class CreateProductsTable extends Migration
             $table->string('barcode')->nullable();
             $table->string('qrcode')->nullable();
             $table->string('link')->nullable();
-            $table->string('uom')->default('unit');
+            $table->integer('uom_id')->unsigned()->nullable();
+            $table->foreign('uom_id')
+                ->references('id')
+                ->on('uom');
             $table->integer('category_id')->unsigned()->nullable();
             $table->string('image')->nullable();
             $table->enum('is_service', ['y','n'])->default('n');

@@ -25,7 +25,8 @@ class Product extends BaseModel
         'brand_id',
         'partner_id',
         'description',
-        'category_id'
+        'category_id',
+        'uom_id',
     ];
 
     public function toArray()
@@ -44,6 +45,7 @@ class Product extends BaseModel
             'partner_id' => $this->partner_id,
             'description' => $this->description,
             'category_id' => $this->category_id,
+            'uom_id' => $this->uom_id,
             'status' => $this->status,
             'created_at' => $this->created_at
         ];
@@ -57,5 +59,10 @@ class Product extends BaseModel
     public function category()
     {
         return $this->hasOne('Werp\Modules\Core\Products\Models\Category', 'id', 'category_id');
+    }
+
+    public function uom()
+    {
+        return $this->hasOne('Werp\Modules\Core\Products\Models\Uom', 'id', 'uom_id');
     }
 }

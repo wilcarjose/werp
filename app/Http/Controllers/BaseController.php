@@ -184,9 +184,15 @@ class BaseController extends Controller
 
         $data = array_only($request->all(), $this->getInputs());
 
-        $this->entityService->create($data) ?
+        $entity = $this->entityService->create($data);
+
+        $entity ?
             flash(trans($this->getAddedKey()), 'success', 'success') :
             flash(trans($this->getFailCreateKey()), 'error', 'error');
+
+        if ($request->get('go_back', null) == 'edit') {
+            return redirect('admin.products.product_entry.edit', $entity->id);
+        }
 
         return back();
     }

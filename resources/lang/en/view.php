@@ -43,6 +43,7 @@ return [
     'tax_amount' => 'Tax amount',
     'discount_amount' => 'Discount amount',
     'total_amount' => 'Total amount',
+    'continue' => 'Continue',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',

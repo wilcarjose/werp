@@ -9,18 +9,20 @@
 namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\FormBuilder;
-use Werp\Builders\InputBuilder;
-use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\DateBuilder;
+use Werp\Builders\InputBuilder;
+use Werp\Builders\SelectBuilder;
+use Werp\Builders\ActionBuilder;
+use Werp\Builders\CodeInputBuilder;
+use Werp\Builders\BreadcrumbBuilder;
+use Werp\Builders\SaveActionBuilder;
 use Werp\Builders\AmountInputBuilder;
+use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\SupplierSelectBuilder;
 use Werp\Builders\WarehouseSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\ActionBuilder;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\DoctypeSelectBuilder;
-use Werp\Builders\CurrencySelectBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
@@ -59,7 +61,7 @@ class ProductEntryForm extends FormBuilder
             ->addInput((new InputBuilder('order_code', 'input', 'Código de orden'))->advancedOption()->setDisable(true))
             ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::PRI_DEFAULT_IE_DOC))->advancedOption())
 
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
+            ->addAction(new SaveActionBuilder)
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.product_entry.index')))
             //->setList(new InventoryDetailList(true))
             //->setMaxWidth()
@@ -109,7 +111,7 @@ class ProductEntryForm extends FormBuilder
             ;
 
         if ($noProcessed) {
-            $this->addAction(new ActionBuilder('save', ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'));
+            $this->addAction(new UpdateActionBuilder);
         }
 
         //$this->addAction(new ActionBuilder('cancel', ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.product_entry.index')));

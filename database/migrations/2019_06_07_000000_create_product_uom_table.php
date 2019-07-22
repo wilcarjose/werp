@@ -15,7 +15,10 @@ class CreateProductUomTable extends Migration
     {
         Schema::create('product_uom', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('uom');
+            $table->integer('uom_id')->unsigned();
+            $table->foreign('uom_id')
+                ->references('id')
+                ->on('uom');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')
                 ->references('id')
