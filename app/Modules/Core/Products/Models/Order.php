@@ -33,7 +33,8 @@ class Order extends Model
         'state',
         'reference',
         'is_invoice_pending',
-        'is_delivery_pending'
+        'is_delivery_pending',
+        'alternate_code'
     ];
 
     /**
@@ -78,6 +79,7 @@ class Order extends Model
             'partner_id' => $this->partner_id,
             'is_invoice_pending' => $this->is_invoice_pending,
             'is_delivery_pending' => $this->is_delivery_pending,
+            'alternate_code' => $this->alternate_code,
         ];
     }
 

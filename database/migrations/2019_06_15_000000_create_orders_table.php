@@ -17,9 +17,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->dateTime('date');
             $table->text('description')->nullable();
+            $table->string('alternate_code')->nullable();
             $table->string('reference')->nullable();
             $table->double('amount', 10, 4)->default(0.0000);
             $table->double('tax_amount', 10, 4)->default(0.0000);

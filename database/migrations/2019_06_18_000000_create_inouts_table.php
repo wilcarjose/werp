@@ -17,9 +17,10 @@ class CreateInoutsTable extends Migration
     {
         Schema::create('inouts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->dateTime('date');
             $table->string('order_code')->nullable();
+            $table->string('alternate_code')->nullable();
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
             $table->double('amount', 10, 4)->default(0.0000);

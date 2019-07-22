@@ -32,7 +32,8 @@ class Inout extends Model
         'date',
         'type',
         'state',
-        'reference'
+        'reference',
+        'alternate_code'
     ];
 
     protected $copyable = [
@@ -48,6 +49,7 @@ class Inout extends Model
         'total_amount',
         'currency',
         'partner_id',
+        'alternate_code'
     ];
 
     protected $cancelable = [
@@ -59,6 +61,7 @@ class Inout extends Model
         'order_code',
         'currency',
         'partner_id',
+        'alternate_code'
     ];
 
     protected $invertible = [
@@ -120,6 +123,7 @@ class Inout extends Model
             'total_amount' => $this->total_amount,
             'currency' => $this->currency,
             'partner_id' => $this->partner_id,
+            'alternate_code' => $this->alternate_code,
         ];
     }
 
