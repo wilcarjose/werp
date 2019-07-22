@@ -63,7 +63,14 @@ class ProductEntryForm extends FormBuilder
             ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::PRI_DEFAULT_IE_DOC))->advancedOption())
 
             ->addAction(new ContinueActionBuilder)
-            ->setGoBack('edit')
+            ->goBackEdit()
+            
+            //->setGoBack('edit')
+            //->goBackHome()
+            //->goBackEdit()
+            //->goBackNew()
+            //->goBackList()
+
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.product_entry.index')))
             //->setList(new InventoryDetailList(true))
             //->setMaxWidth()

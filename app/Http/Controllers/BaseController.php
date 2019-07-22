@@ -194,6 +194,18 @@ class BaseController extends Controller
             return redirect(route($this->routeBase.'.edit', $entity->id));
         }
 
+        if ($request->get('go_back', null) == 'new') {
+            return redirect(route($this->routeBase.'.create'));
+        }
+
+        if ($request->get('go_back', null) == 'list') {
+            return redirect(route($this->routeBase.'.index'));
+        }
+
+        if ($request->get('go_back', null) == 'home') {
+            return redirect(route('admin.home'));
+        }
+
         return back();
     }
 

@@ -236,4 +236,28 @@ class FormBuilder extends ModuleBuilder
         $this->goBack = $goBack;
         return $this;
     }
+
+    public function goBackNew()
+    {
+        $this->goBack = 'new';
+        return $this;
+    }
+
+    public function goBackEdit()
+    {
+        $this->goBack = 'edit';
+        return $this;
+    }
+
+    public function goBackList()
+    {
+        $this->goBack = 'list';
+        return $this;
+    }
+
+    public function goBackHome()
+    {
+        $this->goBack = 'home';
+        return $this;
+    }
 }
