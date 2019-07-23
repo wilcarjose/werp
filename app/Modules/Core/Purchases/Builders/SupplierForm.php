@@ -54,7 +54,7 @@ class SupplierForm extends FormBuilder
             ->addInput(new EmailInputBuilder())
             ->addInput(new TextInputBuilder('web', trans('view.web')))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.purchases.suppliers.index')))
+            //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.purchases.suppliers.index')))
         ;
 
         return $this->view();

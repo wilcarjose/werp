@@ -41,7 +41,7 @@ class WarehouseForm extends FormBuilder
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
             ->addInput(new InputBuilder('name', 'input', trans('view.name')))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.warehouses.index')))
+            //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.warehouses.index')))
         ;
 
         return $this->view();

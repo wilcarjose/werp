@@ -5,7 +5,21 @@
           <alert :type="alertType">{{ alertText }} </alert>
         </div>
       </div>
-      <div class="col s12 mr-top-10">
+      <div class="col s12 mr-top-10" v-if="componentData.length === 0">
+        <div class="card-panel">
+          <div style="text-align: center;">
+            <p style="color: #ea4869; font-size: 20px; font-weight: 300; margin-bottom: 0; text-align: center;"> No hay registros aún </p>
+            <h5 class="content-headline" style="font-size: 2rem;"> Agregar {{ title }}</h5> 
+            <a class="btn btn-default pull-right btn-floating" :href="route + '/create'" v-show="showAdd" v-if="!use_modal" style="width: 60px; height: 60px;">
+                <i class="material-icons" style="line-height: 60px; font-size: 2.2rem;">add</i>
+            </a>
+            <button type="button" class="btn btn-default pull-right btn-floating" @click="create()" v-show="showAdd" v-if="use_modal" style="width: 60px; height: 60px;">
+                <i class="material-icons" style="line-height: 60px; font-size: 2.2rem;">add</i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 mr-top-10" v-else>
         <div class="card-panel">
           <div class="row box-title">
             <div class="col s12">
@@ -370,7 +384,7 @@ export default {
                       }
                   })
                   .catch(error => { 
-                    this.alertHandler('info', `No hay registros aún`, true);
+                    //this.alertHandler('info', `No hay registros aún`, true);
                     this.componentData = [];
                   });
             }

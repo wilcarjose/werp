@@ -47,7 +47,7 @@ class BrandController extends Controller
             if ($brands->count()<=0) {
                 return response([
                     'status_code' => 404,
-                    'message'     => trans('messages.not-found')
+                    //'message'     => trans('messages.not-found')
                 ], 404);
             }
 

@@ -141,7 +141,7 @@ class BaseController extends Controller
             if (empty($data)) {
                 return response([
                     'status_code' => 404,
-                    'message'     => trans($this->getNotFoundKey())
+                //    'message'     => trans($this->getNotFoundKey())
                 ], 404);
             }
 
