@@ -446,21 +446,55 @@ class BaseController extends Controller
         if ($validator->fails()) {
             return response(['error' => trans($this->getFailValidationKey())], 422);
         }
-        
-        $data = array_only($request->all(), $this->getDetailInputs());
 
-        $entityDetail = $this->entityService->createDetail($id, $data);
+        try {
 
-        if ($request->wantsJson()) {
-            return response([
-                'data'        => $this->entityDetailTransformer->transform($entityDetail->toArray()),
-                'message'     => trans($this->getUpdatedKey()),
-                'status_code' => 201
-            ], 201);
+            $data = array_only($request->all(), $this->getDetailInputs());
+
+            $entityDetail = $this->entityService->createDetail($id, $data);
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => $this->entityDetailTransformer->transform($entityDetail->toArray()),
+                    'message'     => trans($this->getUpdatedKey()),
+                    'status_code' => 201
+                ], 201);
+            }
+            
+            flash(trans($this->getUpdatedKey()), 'success', 'success');
+            return back();
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
         }
         
-        flash(trans($this->getUpdatedKey()), 'success', 'success');
-        return back();
     }
 
     /**
@@ -472,38 +506,59 @@ class BaseController extends Controller
      */
     public function updateDetail(Request $request, $id, $detail)
     {
-        $entityDetail = $this->entityDetail->find($detail);
-
-        if (!$entityDetail) {
-            return response(['error' => trans($this->getNotFoundKey())], 401);
-        }
-        
         $validator = validator()->make($request->all(), $this->getUpdateDetailRules());
-        
+            
         if ($validator->fails()) {
             return response(['error' => trans($this->getFailValidationKey())], 422);
         }
 
-        $data = array_only($request->all(), $this->getDetailInputs());
+        try {
 
-        $entityDetail->update($data);
-        /*
-        $entityDetail->qty = $qty;
-        $entityDetail->description = $description;
-        $entityDetail->product_id = $product_id;
-        $entityDetail->warehouse_id = $warehouse_id;
-        $entityDetail->save();
-        */
-        if ($request->wantsJson()) {
-            return response([
-                'data'        => $this->entityDetailTransformer->transform($entityDetail->toArray()),
-                'message'     => trans($this->getUpdatedKey()),
-                'status_code' => 200
-            ], 200);
+            $data = array_only($request->all(), $this->getDetailInputs());        
+
+            $entityDetail = $this->entityService->updateDetail($data, $detail);
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => $this->entityDetailTransformer->transform($entityDetail->toArray()),
+                    'message'     => trans($this->getUpdatedKey()),
+                    'status_code' => 200
+                ], 200);
+            }
+            
+            flash(trans($this->getUpdatedKey()), 'success', 'success');
+            return back();
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
         }
-        
-        flash(trans($this->getUpdatedKey()), 'success', 'success');
-        return back();
     }
 
     /**
@@ -512,14 +567,52 @@ class BaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroyDetail($id, $detail)
+    public function destroyDetail(Request $request, $id, $detail)
     {
-        $entity = $this->entityDetail->find($detail);
-        $entity->delete();
-        return response([
-            'data'        => [],
-            'message'     => trans($this->getDeleteKey()),
-            'status_code' => 200
-        ], 200);
+        try {
+
+            $this->entityService->deleteDetail($id, $detail);
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => trans($this->getDeleteKey()),
+                    'status_code' => 200
+                ], 200);
+            }
+
+            flash(trans($this->getDeleteKey()), 'success', 'success');
+            return back();
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
+        }
     }
 }

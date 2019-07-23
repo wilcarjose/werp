@@ -112,6 +112,19 @@ class BaseService
         return $entity->detail()->create($data);
     }
 
+    public function updateDetail($data, $detailId)
+    {
+        $entityDetail = $this->entityDetail->findOrFail($detailId);
+
+        return $entityDetail->update($data);
+    }
+
+    public function deleteDetail($id, $detailId)
+    {
+        $entity = $this->entityDetail->findOrFail($detailId);
+        $entity->delete();
+    }
+
     protected function makeData($data, $entity = null)
     {
         return $data;

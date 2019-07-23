@@ -37071,6 +37071,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     } else {
                         _this5.alertHandler('error', res.message, true);
                     }
+
+                    if (_this5.reloadOnSave) {
+                        location.reload();
+                    }
                 }).catch(function (error) {
                     console.log(error);
                 });

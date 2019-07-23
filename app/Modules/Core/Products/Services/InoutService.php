@@ -8,6 +8,7 @@ use Werp\Modules\Core\Products\Models\Inout;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
+use Werp\Modules\Core\Products\Models\InoutDetail;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Services\PurchaseOrderService;
@@ -23,11 +24,13 @@ class InoutService extends BaseService
 
     public function __construct(
         Inout $entity,
+        InoutDetail $entityDetail,
         DoctypeService $doctypeService,
         PurchaseOrderService $orderService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
+        $this->entityDetail         = $entityDetail;
         $this->orderService         = $orderService;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
@@ -199,5 +202,131 @@ class InoutService extends BaseService
         $stateArray = $entity->getState(Basedoc::CA_STATE);
 
         return !in_array($entity->state, $stateArray['actions_from']);
+    }
+
+    public function createDetail($id, $data)
+    {
+        $entity = $this->getById($id);
+
+        try {
+
+            DB::beginTransaction();
+
+            $data = $this->makeData($data, $entity);
+
+            $data['total_amount'] = $data['amount'];
+            $entityDetail = $entity->detail()->create($data);
+
+            $amount = 0;
+            $tax_amount = 0;
+            $discount_amount = 0;
+            $total_amount = 0;
+
+            foreach ($entity->detail as $detail) {
+                $amount = $amount + $detail->amount;
+                $tax_amount = $tax_amount + $detail->tax_amount;
+                $discount_amount = $discount_amount + $detail->discount_amount;
+                $total_amount = $total_amount + $detail->total_amount;
+            }
+
+            $entity->update([
+                'amount' => $amount,
+                'tax_amount' => $tax_amount,
+                'discount_amount' => $discount_amount,
+                'total_amount' => $total_amount,
+            ]);
+
+            DB::commit();
+
+            return $entityDetail;
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+        }
+    }
+
+    public function updateDetail($data, $detailId)
+    {
+        $entityDetail = $this->entityDetail->findOrFail($detailId);
+
+        try {
+
+            DB::beginTransaction();
+
+            $data['total_amount'] = $data['amount'];
+            $entityDetail = $entityDetail->update($data);
+
+            $amount = 0;
+            $tax_amount = 0;
+            $discount_amount = 0;
+            $total_amount = 0;
+
+            foreach ($entityDetail->inout->detail as $detail) {
+                $amount = $amount + $detail->amount;
+                $tax_amount = $tax_amount + $detail->tax_amount;
+                $discount_amount = $discount_amount + $detail->discount_amount;
+                $total_amount = $total_amount + $detail->total_amount;
+            }
+
+            $entityDetail->inout->update([
+                'amount' => $amount,
+                'tax_amount' => $tax_amount,
+                'discount_amount' => $discount_amount,
+                'total_amount' => $total_amount,
+            ]);
+
+            DB::commit();
+
+            return $entityDetail;
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+        }
+    }
+
+    public function deleteDetail($id, $detailId)
+    {
+        $entity = $this->entity->findOrFail($id);
+        $entityDetail = $this->entityDetail->findOrFail($detailId);
+
+        try {
+
+            DB::beginTransaction();
+    
+            $entityDetail->delete();
+
+            $amount = 0;
+            $tax_amount = 0;
+            $discount_amount = 0;
+            $total_amount = 0;
+
+            foreach ($entity->detail as $detail) {
+                $amount = $amount + $detail->amount;
+                $tax_amount = $tax_amount + $detail->tax_amount;
+                $discount_amount = $discount_amount + $detail->discount_amount;
+                $total_amount = $total_amount + $detail->total_amount;
+            }
+
+            $entity->update([
+                'amount' => $amount,
+                'tax_amount' => $tax_amount,
+                'discount_amount' => $discount_amount,
+                'total_amount' => $total_amount,
+            ]);
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+        }
     }
 }

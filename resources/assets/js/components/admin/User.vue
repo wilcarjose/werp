@@ -485,6 +485,10 @@ export default {
                       } else {
                           this.alertHandler('error', res.message, true);
                       }
+
+                      if (this.reloadOnSave) {
+                        location.reload();
+                      }
                   })
                   .catch((error) => { console.log(error) });
             }
