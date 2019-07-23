@@ -36836,6 +36836,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             modal: this.config.modal,
             show_actions: this.config.show_actions,
             show_filters: false,
+            reloadOnSave: this.config.reload_on_save,
             amount: {
                 decimalSeparator: ",",
                 groupSeparator: ".",
@@ -37002,6 +37003,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         _this3.alertHandler('error', res.message, true);
                     }
                     $('#componentDataModal').modal('close');
+
+                    if (_this3.reloadOnSave) {
+                        location.reload();
+                    }
                 }).catch(function (error) {});
             }
 
@@ -37036,6 +37041,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         _this4.alertHandler('error', res.message, true);
                     }
                     _this4.showLoader = false;
+
+                    if (_this4.reloadOnSave) {
+                        location.reload();
+                    }
                 }).catch(function (error) {
                     console.log(error);
                 });

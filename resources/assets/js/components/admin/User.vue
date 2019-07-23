@@ -261,6 +261,7 @@ export default {
             modal: this.config.modal,
             show_actions: this.config.show_actions,
             show_filters: false,
+            reloadOnSave: this.config.reload_on_save,
             amount: {
               decimalSeparator: ",",
               groupSeparator: ".",
@@ -417,6 +418,10 @@ export default {
                         this.alertHandler('error', res.message, true);
                     }
                     $('#componentDataModal').modal('close');
+
+                    if (this.reloadOnSave) {
+                      location.reload();
+                    }
                 })
                 .catch((error) => {});
             }
@@ -446,10 +451,15 @@ export default {
                           $('#componentDataModal').modal('close'); // Hide modal
                           // Handling alert
                           this.alertHandler('success', res.message, true);
+
                       } else {
                           this.alertHandler('error', res.message, true);
                       }
                       this.showLoader = false;
+
+                      if (this.reloadOnSave) {
+                        location.reload();
+                      }
                   })
                   .catch((error) => { console.log(error) });
               

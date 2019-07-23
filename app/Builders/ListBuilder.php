@@ -39,6 +39,8 @@ class ListBuilder extends ModuleBuilder
 
     protected $showActions = true;
 
+    protected $reloadOnSave = false;
+
     public function view()
     {
         return view('admin.base.list', [
@@ -274,6 +276,24 @@ class ListBuilder extends ModuleBuilder
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getReloadOnSave()
+    {
+        return $this->reloadOnSave;
+    }
+
+    /**
+     * @param mixed $reloadOnSave
+     * @return ListBuilder
+     */
+    public function setReloadOnSave($reloadOnSave)
+    {
+        $this->reloadOnSave = $reloadOnSave;
+        return $this;
+    }
+
      /**
      * @return mixed
      */
@@ -316,6 +336,7 @@ class ListBuilder extends ModuleBuilder
             'modal'      => $this->getModalConfig(),
             'fields' => $this->getFields(),
             'show_actions' => $this->getShowActions(),
+            'reload_on_save' => $this->getReloadOnSave(),
         ];
 
         $this->setConfig(json_encode($config));

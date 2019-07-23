@@ -82,6 +82,7 @@ class ProductEntryDetailList extends MainList
             ->setPaginate(false)
             ->setDisable($disable)
             ->setModalConfig($modal)
+            ->setReloadOnSave(true)
             ->makeConfig();
 
         parent::__construct();
