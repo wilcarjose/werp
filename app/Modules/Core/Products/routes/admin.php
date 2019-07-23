@@ -27,6 +27,12 @@
 	Route::put('/brands/statusBulk','\Werp\Modules\Core\Products\Controllers\BrandController@switchStatusBulk');
 	Route::resource('/brands','\Werp\Modules\Core\Products\Controllers\BrandController');
 
+	// Uom
+	Route::put('/uom/status','\Werp\Modules\Core\Products\Controllers\UomController@switchStatus')->name('brand_status');
+	Route::post('/uom/removeBulk','\Werp\Modules\Core\Products\Controllers\UomController@destroyBulk');
+	Route::put('/uom/statusBulk','\Werp\Modules\Core\Products\Controllers\UomController@switchStatusBulk');
+	Route::resource('/uom','\Werp\Modules\Core\Products\Controllers\UomController');
+
 	// Inventories
 	Route::post('/inventories/removeBulk','\Werp\Modules\Core\Products\Controllers\InventoryController@destroyBulk');
 	Route::get('/inventories/{id}/detail', '\Werp\Modules\Core\Products\Controllers\InventoryController@indexDetail')->name('inventories.detail.index');

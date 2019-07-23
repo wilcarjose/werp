@@ -8,12 +8,17 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
+use Werp\Builders\DateBuilder;
 use Werp\Builders\FormBuilder;
-use Werp\Builders\InputBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
+use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
+use Werp\Builders\UpdateActionBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\ContinueActionBuilder;
+use Werp\Builders\WarehouseSelectBuilder;
+use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class InventoryForm extends FormBuilder
@@ -28,18 +33,14 @@ class InventoryForm extends FormBuilder
 
     public function createPage($selects, $defaults)
     {
-        $this->setAction('Nuevo inventario')
-            ->setShortAction('Nuevo')
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            //->addInput(new InputBuilder('code', 'input', 'Código', null, null, true))
-            ->addInput(new InputBuilder('description', 'textarea', 'Descripción'))
-            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $defaults['warehouse']))
+        $this
+            ->newConfig('Nuevo inventario')
+            ->addInput(new DateBuilder)
+            ->addInput(new DescriptionInputBuilder)
+            ->addSelect(new WarehouseSelectBuilder)
             ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, 'inv_default_inventory_doctype'))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
-            //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')))
-            //->setList(new InventoryDetailList(true))
-            ->setMaxWidth()
+            ->addAction(new ContinueActionBuilder)
+            //->setMaxWidth()
             ->goBackEdit()
             ->setAdvancedOptions()
         ;
@@ -54,22 +55,19 @@ class InventoryForm extends FormBuilder
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
-        $this->setAction('Editar inventario')
-            ->setShortAction('Editar')
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->setEdit()
-            ->addInput(new InputBuilder('code', 'code', 'Código', null, $data['code'], true))
-            ->addInput(new InputBuilder('description', 'textarea', 'Descripción', null, $data['description'], $disable))
-            ->addSelect(new SelectBuilder('warehouse_id', 'Almacén', $selects['warehouses'], $data['warehouse_id'], false, $disable))
-            ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, 'inv_default_inventory_doctype', $data['doctype_id']))
+        $this
+            ->editConfig('Editar inventario')
+            ->addInput(new CodeInputBuilder)
+            ->addInput((new DateBuilder)->setDisable($disable))
+            ->addInput((new DescriptionInputBuilder)->setDisable($disable))
+            ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IN_DOC, 'inv_default_inventory_doctype'))->setDisable($disable))
+            ->setData($data)
             ->setAdvancedOptions();
 
         if ($noProcessed) {
-            $this->addAction(new ActionBuilder('save', ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'));
+            $this->addAction(new UpdateActionBuilder);
         }
-
-        //$this->addAction(new ActionBuilder('cancel', ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.inventories.index')));
 
         $this
             ->setList(new InventoryDetailList(false, $data['id'], $disable))

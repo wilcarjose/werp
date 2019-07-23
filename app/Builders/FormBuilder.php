@@ -224,6 +224,8 @@ class FormBuilder extends ModuleBuilder
                 $input->setValue($data[$input->getName()]);
             }
         }
+
+        return $this;
     }
 
     public function getGoBack()
@@ -259,5 +261,22 @@ class FormBuilder extends ModuleBuilder
     {
         $this->goBack = 'home';
         return $this;
+    }
+
+    public function newConfig($actionName)
+    {
+        return $this->setAction($actionName)
+            ->setShortAction('Nueva')
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action));
+    }
+
+    public function editConfig($actionName)
+    {
+        return $this->setAction($actionName)
+            ->setShortAction('Editar')
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
+            ->setEdit();
     }
 }

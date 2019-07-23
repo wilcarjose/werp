@@ -34,17 +34,20 @@ class InventoryController extends BaseController
     protected $entityService;
 
     protected $inputs = [
+        'date',
         'description',
         'warehouse_id',
         'doctype_id'
     ];
 
     protected $storeRules = [
+        'date' => 'required|date',
         'doctype_id' => 'required',
         'warehouse_id'    => 'required',
     ];
 
     protected $updateRules = [
+        'date' => 'required|date',
         'doctype_id' => 'required',
         'warehouse_id'    => 'required',
     ];
@@ -122,7 +125,7 @@ class InventoryController extends BaseController
      */
     public function edit($id)
     {
-        $entity = $this->entityService->getById($id);
+        $entity = $this->entityService->getById($id, false);
 
         if (!$entity) {
             $entity = $this->entityService->getByCode($id);

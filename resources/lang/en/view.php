@@ -44,6 +44,8 @@ return [
     'discount_amount' => 'Discount amount',
     'total_amount' => 'Total amount',
     'continue' => 'Continue',
+    'abbr' => 'Abbreviature',
+    'symbol' => 'Symbol',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -71,6 +73,7 @@ return [
         'date' => 'Date',
         'reference' => 'Reference',
         'product_entry' => 'Product Entry',
+        'uom' => 'Uom',
     ],
     'profile' => [
         'profile' => 'Profile',

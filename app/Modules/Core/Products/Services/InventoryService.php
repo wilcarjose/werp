@@ -35,8 +35,6 @@ class InventoryService extends BaseService
     public function create(array $data)
     {
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
-        $data['date'] = date('Y-m-d');
-
         return $this->entity->create($data);
     }
 

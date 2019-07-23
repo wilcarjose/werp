@@ -46,6 +46,8 @@ return [
     'discount_amount' => 'Descuento',
     'total_amount' => 'Monto total',
     'continue' => 'Continuar',
+    'abbr' => 'Abreviatura',
+    'symbol' => 'Símbolo',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -71,6 +73,7 @@ return [
         'stock' => 'Existencia',
         'transactions' => 'Transacciones',
         'product_entry' => 'Entrada de productos',
+        'uom' => 'Unidades de medida',
     ],
     'profile' => [
         'profile' => 'Perfil',

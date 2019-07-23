@@ -20,6 +20,7 @@ return [
                 'admin.products.stock.index',
                 'admin.products.transactions.index',
                 'admin.products.product_entry.index',
+                'admin.products.uom.index',
             ],
             'items' => [
                 [
@@ -38,6 +39,7 @@ return [
                         'admin.products.warehouses.index',
                         'admin.products.brands.index',
                         'admin.products.price_list_types.index',
+                        'admin.products.uom.index',
                     ],
                     'items' => [
                         [
@@ -47,6 +49,10 @@ return [
                         [
                             'name' => 'view.menu.brands',
                             'route' => 'admin.products.brands.index',
+                        ],
+                        [
+                            'name' => 'view.menu.uom',
+                            'route' => 'admin.products.uom.index',
                         ],
                         [
                             'name' => 'view.menu.products',
