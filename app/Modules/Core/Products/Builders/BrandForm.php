@@ -62,7 +62,7 @@ class BrandForm extends FormBuilder
             ->addInput(new InputBuilder('description', 'textarea',  trans('view.description'), null, $data['description']))
             ->addInput(new InputBuilder('country', 'input', trans('view.country'), null, $data['country']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.brands.index')))
+            //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.brands.index')))
         ;
 
         return $this->view();

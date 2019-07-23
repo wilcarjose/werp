@@ -78,7 +78,7 @@ class ProductForm extends FormBuilder
             ->addInput(new InputBuilder('link', 'input',  trans('view.products.link'), null, $data['link']))
 
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.products.index')))
+            //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.products.index')))
         ;
 
         return $this->view();

@@ -61,7 +61,7 @@ class CategoryForm extends FormBuilder
             ->setEdit()
             ->addInput(new InputBuilder('name', 'input', trans('view.name'), null, $data['name']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
-            ->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route($this->listRoute)))
+            //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route($this->listRoute)))
         ;
 
         return $this->view();
