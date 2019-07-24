@@ -97,6 +97,18 @@
 	Route::get('/product_output/{id}/cancel', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@cancel')->name('product_output.cancel');
 	Route::resource('/product_output','\Werp\Modules\Core\Products\Controllers\ProductOutputController');
 
+	// Movements
+	Route::post('/movements/removeBulk','\Werp\Modules\Core\Products\Controllers\MovementController@destroyBulk');
+	Route::get('/movements/{id}/detail', '\Werp\Modules\Core\Products\Controllers\MovementController@indexDetail')->name('movements.detail.index');
+	Route::get('/movements/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\MovementController@showDetail')->name('movements.detail.show');
+	Route::put('/movements/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\MovementController@updateDetail')->name('movements.detail.update');
+	Route::post('/movements/{id}/detail', '\Werp\Modules\Core\Products\Controllers\MovementController@storeDetail')->name('movements.detail.update');
+	Route::delete('/movements/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\MovementController@destroyDetail')->name('movements.detail.update');
+	Route::get('/movements/{id}/process', '\Werp\Modules\Core\Products\Controllers\MovementController@process')->name('movements.process');
+	Route::get('/movements/{id}/reverse', '\Werp\Modules\Core\Products\Controllers\MovementController@reverse')->name('movements.reverse');
+	Route::get('/movements/{id}/cancel', '\Werp\Modules\Core\Products\Controllers\MovementController@cancel')->name('movements.cancel');
+	Route::resource('/movements','\Werp\Modules\Core\Products\Controllers\MovementController');
+
 
 
 

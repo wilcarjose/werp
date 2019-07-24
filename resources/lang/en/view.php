@@ -75,6 +75,7 @@ return [
         'product_entry' => 'Product Entry',
         'uom' => 'Uom',
         'product_output' => 'Product output',
+        'movements' => 'Movements',
     ],
     'profile' => [
         'profile' => 'Profile',
@@ -104,5 +105,6 @@ return [
         'price_list' => 'Price List',
         'inventory_entry' => 'Product entry',
         'inventory_output' => 'Product output',
+        'inventory_movement' => 'Product movement',
     ]
 ];

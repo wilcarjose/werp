@@ -25,6 +25,14 @@ class CreateMovementsTable extends Migration
             $table->foreign('doctype_id')
                 ->references('id')
                 ->on('doctypes');
+            $table->integer('warehouse_from_id')->unsigned();
+            $table->foreign('warehouse_from_id')
+                ->references('id')
+                ->on('warehouses');
+            $table->integer('warehouse_to_id')->unsigned();
+            $table->foreign('warehouse_to_id')
+                ->references('id')
+                ->on('warehouses');
             $table->timestamps();
         });
     }

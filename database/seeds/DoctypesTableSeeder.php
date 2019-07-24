@@ -155,7 +155,7 @@ class DoctypesTableSeeder extends Seeder
             [
                 'name'        => 'Movimiento de productos',
                 'basedoc_id'  => 7,
-                'prefix'      => 'LP',
+                'prefix'      => 'MP',
                 'increment_number' => 1,
                 'last_number' => 0,
                 'use_zeros' => 'y',

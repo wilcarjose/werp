@@ -13,6 +13,7 @@ use Werp\Builders\FormBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
 use Werp\Builders\CodeInputBuilder;
+use Werp\Builders\TextInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\UpdateActionBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
@@ -22,26 +23,26 @@ use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class InventoryForm extends FormBuilder
+class MovementForm extends FormBuilder
 {
     public function __construct()
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Inventarios')
-            ->setRoute('admin.products.inventories')
+        $this->setTitle('Movimiento de inventario')
+            ->setRoute('admin.products.movements')
             ->addBreadcrumb($homeBreadcrumb);
     }
 
     public function createPage($selects, $defaults)
     {
         $this
-            ->newConfig('Nuevo inventario')
+            ->newConfig('Nuevo movimiento')
             ->addInput(new DateBuilder)
             ->addInput(new DescriptionInputBuilder)
-            ->addSelect(new WarehouseSelectBuilder)
-            ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::PRI_DEFAULT_IN_DOC))
+            ->addSelect(new WarehouseSelectBuilder('warehouse_from_id', trans('view.from')))
+            ->addSelect(new WarehouseSelectBuilder('warehouse_to_id', trans('view.to')))
+            ->addSelect(new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::PRI_DEFAULT_IM_DOC))
             ->addAction(new ContinueActionBuilder)
-            //->setMaxWidth()
             ->goBackEdit()
             ->setAdvancedOptions()
         ;
@@ -57,12 +58,19 @@ class InventoryForm extends FormBuilder
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $this
-            ->editConfig('Editar inventario')
-            ->addInput(new CodeInputBuilder)
+            ->editConfig('Editar movimiento')
+            ->addInput(new CodeInputBuilder);
+
+        if ($data['reference']) {
+            $this->addInput((new TextInputBuilder('reference', 'Referencia'))->disabled());
+        }
+
+        $this
             ->addInput((new DateBuilder)->setDisable($disable))
             ->addInput((new DescriptionInputBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::PRI_DEFAULT_IN_DOC))->setDisable($disable))
+            ->addSelect((new WarehouseSelectBuilder('warehouse_from_id', trans('view.from')))->setDisable($disable))
+            ->addSelect((new WarehouseSelectBuilder('warehouse_to_id', trans('view.to')))->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::PRI_DEFAULT_IM_DOC))->setDisable($disable))
             ->setData($data)
             ->setAdvancedOptions();
 
@@ -71,17 +79,16 @@ class InventoryForm extends FormBuilder
         }
 
         $this
-            ->setList(new InventoryDetailList(false, $data['id'], $disable))
-            //->setMaxWidth()
-            ->setState(trans(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.after_name')))
-            ->setStateColor(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.color'));
+            ->setList(new MovementDetailList(false, $data['id'], $disable))
+            ->setState(trans(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.after_name')))
+            ->setStateColor(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.color'));
         ;
 
-        $actionKeys = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.new_actions');
+        $actionKeys = config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
-            $action = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.inventories.'.$action['key'], $data['id'])));
+            $action = config('products.document.actions.'.Basedoc::IM_DOC.'.'.$key);
+            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->getRoute().'.'.$action['key'], $data['id'])));
         }
 
         return $this->view();

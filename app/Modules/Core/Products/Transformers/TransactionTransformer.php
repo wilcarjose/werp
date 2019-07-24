@@ -35,12 +35,19 @@ class TransactionTransformer extends Transformer
             ];
         }
 
+        if ($item['type'] == Basedoc::IM_DOC) {
+            $reference = [
+                'text' => $item['reference'],
+                'url' => route('admin.products.movements.edit', $item['reference']),
+            ];
+        }
+
         return [
             'code'        => $item['product']->code,
             'name'        => $item['product']->name,
             //'category'    => $item['product']->category ? $item['product']->category->name : '',
             'warehouse'   => $item['warehouse']->name,
-            'qty'         => $item['qty'],
+            'qty'         => $item['sign'] == 'add' ? $item['qty'] : (-1)*$item['qty'],
             'date'        => $item['date'],
             'reference'   => $reference,
             'type'        => trans(config('werp.doctypes.'.$item['type'])),

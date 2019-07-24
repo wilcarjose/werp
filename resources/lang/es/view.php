@@ -75,6 +75,7 @@ return [
         'product_entry' => 'Entradas',
         'uom' => 'Unidades de medida',
         'product_output' => 'Salidas',
+        'movements' => 'Movimientos',
     ],
     'profile' => [
         'profile' => 'Perfil',
@@ -104,5 +105,6 @@ return [
         'price_list' => 'Lista de precio',
         'inventory_entry' => 'Entrada de producto',
         'inventory_output' => 'Salida de producto',
+        'inventory_movement' => 'Movimiento de inventario',
     ]
 ];

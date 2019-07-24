@@ -5,6 +5,7 @@ namespace Werp\Modules\Core\Products\Services;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Products\Models\Transaction;
 use Werp\Modules\Core\Products\Models\InoutDetail;
+use Werp\Modules\Core\Products\Models\MovementDetail;
 use Werp\Modules\Core\Products\Models\InventoryDetail;
 
 class TransactionService
@@ -49,6 +50,13 @@ class TransactionService
 
             foreach ($this->document->detail as $detail) {
                 $this->makeOutput($detail);
+            }
+        }
+
+        if ($this->document->getType() == Basedoc::IM_DOC) {
+
+            foreach ($this->document->detail as $detail) {
+                $this->makeMovement($detail);
             }
         }
     }
@@ -117,6 +125,42 @@ class TransactionService
         ];
 
         $this->entity->create($data);
+    }
+
+    protected function makeMovement(MovementDetail $detail)
+    {
+        // move from
+        $this->stockService->setProductId($detail->product_id)
+            ->setWarehouseId($detail->warehouse_from_id)
+            ->sub($detail->qty);
+
+        $this->entity->create([
+            'reference' => $detail->reference,
+            'type' => $detail->movement->getType(),
+            'date' => $detail->date,
+            'description' => '',
+            'qty' => $detail->qty,
+            'sign' => 'sub',
+            'product_id' => $detail->product_id,
+            'warehouse_id' => $detail->warehouse_from_id
+        ]);
+
+        // move to
+        $this->stockService->setProductId($detail->product_id)
+            ->setWarehouseId($detail->warehouse_to_id)
+            ->add($detail->qty);
+
+        $this->entity->create([
+            'reference' => $detail->reference,
+            'type' => $detail->movement->getType(),
+            'date' => $detail->date,
+            'description' => '',
+            'qty' => $detail->qty,
+            'sign' => 'add',
+            'product_id' => $detail->product_id,
+            'warehouse_id' => $detail->warehouse_to_id
+        ]);
+
     }
 
     public function getResults($sort, $order, $search, $paginate)

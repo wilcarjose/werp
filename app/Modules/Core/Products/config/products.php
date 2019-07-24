@@ -22,6 +22,7 @@ return [
                 'admin.products.product_entry.index',
                 'admin.products.product_output.index',
                 'admin.products.uom.index',
+                'admin.products.movements.index',
             ],
             'items' => [
                 [
@@ -78,6 +79,7 @@ return [
                         'admin.products.price_lists.index',
                         'admin.products.product_entry.index',
                         'admin.products.product_output.index',
+                        'admin.products.movements.index',
                     ],
                     'items' => [
                         [
@@ -95,6 +97,10 @@ return [
                         [
                             'name' => 'view.menu.product_output',
                             'route' => 'admin.products.product_output.index',
+                        ],
+                        [
+                            'name' => 'view.menu.movements',
+                            'route' => 'admin.products.movements.index',
                         ],
                     ],
                 ],
@@ -225,6 +231,40 @@ return [
                 ]
             ],
             Basedoc::IO_DOC => [
+                Basedoc::PE_STATE => [
+                    'key' => 'pending',
+                    'name' => 'view.pending',
+                    'after_name' => 'view.pending',
+                    'new_actions' => [Basedoc::PR_STATE],
+                    'actions_from' => [],
+                    'color' => 'gold',
+                ],
+                Basedoc::PR_STATE => [
+                    'key' => 'process',
+                    'name' => 'view.process',
+                    'after_name' => 'view.processed',
+                    'new_actions' => [Basedoc::CA_STATE],
+                    'actions_from' => [Basedoc::PE_STATE],
+                    'color' => 'limegreen',
+                ],
+                Basedoc::CA_STATE => [
+                    'key' => 'cancel',
+                    'name' => 'view.cancel',
+                    'after_name' => 'view.canceled',
+                    'new_actions' => [],
+                    'actions_from' => [Basedoc::PR_STATE],
+                    'color' => 'tomato',
+                ],
+                Basedoc::RE_STATE => [ // reverse document at the same date
+                    'key' => 'reverse',
+                    'name' => 'view.reverse',
+                    'after_name' => 'view.reversed',
+                    'new_actions' => [],
+                    'actions_from' => [],
+                    'color' => 'wheat',
+                ]
+            ],
+            Basedoc::IM_DOC => [
                 Basedoc::PE_STATE => [
                     'key' => 'pending',
                     'name' => 'view.pending',

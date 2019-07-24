@@ -6,7 +6,7 @@ use Werp\Transformers\Transformer;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Products\Models\Warehouse;
 
-class InventoryDetailTransformer extends Transformer
+class MovementDetailTransformer extends Transformer
 {
     protected $products = [];
     protected $warehouses = [];
@@ -27,15 +27,16 @@ class InventoryDetailTransformer extends Transformer
         return [
             'id'           => $item['id'],
             'reference'    => $item['reference'],
-            'description'  => $item['description'],
             'date'         => $item['date'],
             'qty'          => $item['qty'],
-            'inventory_id' => $item['inventory_id'],
             'product_id'   => $item['product_id'],
             'product_name' => $this->productName($item['product_id']),
-            'warehouse_id' => $item['warehouse_id'],
-            'warehouse_name' => $this->warehouseName($item['warehouse_id']),
-            'created_at'   => $item['created_at']
+            'warehouse_from_id' => $item['warehouse_from_id'],
+            'warehouse_from_name' => $this->warehouseName($item['warehouse_from_id']),
+            'warehouse_to_id' => $item['warehouse_to_id'],
+            'warehouse_to_name' => $this->warehouseName($item['warehouse_to_id']),
+            'created_at'   => $item['created_at'],
+            'updated_at'   => $item['updated_at']
         ];
     }
 
