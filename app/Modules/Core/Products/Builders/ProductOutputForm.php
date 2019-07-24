@@ -21,44 +21,37 @@ use Werp\Builders\UpdateActionBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\ContinueActionBuilder;
 use Werp\Builders\CurrencySelectBuilder;
-use Werp\Builders\SupplierSelectBuilder;
+use Werp\Builders\CustomerSelectBuilder;
 use Werp\Builders\WarehouseSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class ProductEntryForm extends FormBuilder
+class ProductOutputForm extends FormBuilder
 {
     public function __construct()
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Entrada de productos')
-            ->setRoute('admin.products.product_entry')
+        $this->setTitle('Salida de productos')
+            ->setRoute('admin.products.product_output')
             ->addBreadcrumb($homeBreadcrumb);
     }
 
-    public function createPage($selects, $defaults)
+    public function createPage()
     {
         $this
-            ->newConfig('Nueva entrada de productos')
+            ->newConfig('Nueva salida de productos')
 
             ->addInput(new DateBuilder)            
-            ->addSelect(new SupplierSelectBuilder)
+            ->addSelect(new CustomerSelectBuilder)
             ->addSelect(new WarehouseSelectBuilder)
+            ->addSelect(new CurrencySelectBuilder)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::PRI_DEFAULT_IE_DOC))->advancedOption())
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC, Config::PRI_DEFAULT_IO_DOC))->advancedOption())
 
             ->addAction(new ContinueActionBuilder)
             ->goBackEdit()
-            
-            //->setGoBack('edit')
-            //->goBackHome()
-            //->goBackEdit()
-            //->goBackNew()
-            //->goBackList()
-
-            //->setMaxWidth()
             ->setAdvancedOptions()
             ;
 
@@ -73,10 +66,9 @@ class ProductEntryForm extends FormBuilder
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $this
-            ->editConfig('Editar entrada de productos')
+            ->editConfig('Editar salida de productos')
 
-            ->addInput(new CodeInputBuilder)
-            ;
+            ->addInput(new CodeInputBuilder);
 
         if ($data['reference']) {
             $this->addInput((new TextInputBuilder('reference', 'Referencia'))->disabled());
@@ -84,17 +76,17 @@ class ProductEntryForm extends FormBuilder
 
         $this
             ->addInput((new DateBuilder)->setDisable($disable))
-            ->addSelect((new SupplierSelectBuilder)->setDisable($disable))
+            ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
             ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
             ->addInput((new AmountInputBuilder)->disabled())
             ->addInput((new AmountInputBuilder('tax_amount', trans('view.tax_amount')))->disabled())
             ->addInput((new AmountInputBuilder('discount_amount', trans('view.discount_amount')))->disabled())
             ->addInput((new AmountInputBuilder('total_amount', trans('view.total_amount')))->disabled())
-
+            
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC,  Config::PRI_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC,  Config::PRI_DEFAULT_IO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)
@@ -105,17 +97,17 @@ class ProductEntryForm extends FormBuilder
         }
 
         $this
-            ->setList(new ProductEntryDetailList(false, $data['id'], $disable))
+            ->setList(new ProductOutputDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
-            ->setState(trans(config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.after_name')))
-            ->setStateColor(config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.color'));
-            ;
+            ->setState(trans(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.after_name')))
+            ->setStateColor(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.color'));
+        ;
 
-        $actionKeys = config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.new_actions');
+        $actionKeys = config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
-            $action = config('products.document.actions.'.Basedoc::IE_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.product_entry.'.$action['key'], $data['id'])));
+            $action = config('products.document.actions.'.Basedoc::IO_DOC.'.'.$key);
+            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.product_output.'.$action['key'], $data['id'])));
         }
 
         return $this->view();

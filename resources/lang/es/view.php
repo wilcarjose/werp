@@ -72,8 +72,9 @@ return [
         'price_list_types' => 'Tipos de L.P.',
         'stock' => 'Existencia',
         'transactions' => 'Transacciones',
-        'product_entry' => 'Entrada de productos',
+        'product_entry' => 'Entradas',
         'uom' => 'Unidades de medida',
+        'product_output' => 'Salidas',
     ],
     'profile' => [
         'profile' => 'Perfil',
@@ -102,5 +103,6 @@ return [
         'inventory' => 'Inventario',
         'price_list' => 'Lista de precio',
         'inventory_entry' => 'Entrada de producto',
+        'inventory_output' => 'Salida de producto',
     ]
 ];

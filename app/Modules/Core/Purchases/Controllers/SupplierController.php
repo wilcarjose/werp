@@ -86,7 +86,7 @@ class SupplierController extends Controller
     public function create()
     {
         $selects = [
-            'categories' => $this->category->where('type', 'supplier')->get(),
+            'categories' => $this->category->where('type', Partner::SUPPLIER_TYPE)->get(),
         ];
 
         return $this->supplierForm->createPage($selects);
@@ -125,7 +125,7 @@ class SupplierController extends Controller
         ]);
 
         $data['is_supplier'] = 'y';
-        $data['type'] = 'supplier';
+        $data['type'] = Partner::SUPPLIER_TYPE;
         //  Create Supplier
         $supplier = $this->supplier->create($data);
 
@@ -167,7 +167,7 @@ class SupplierController extends Controller
         }
 
         $selects = [
-            'categories' => $this->category->where('type', 'supplier')->get(),
+            'categories' => $this->category->where('type', Partner::SUPPLIER_TYPE)->get(),
         ];
 
         return $this->supplierForm->editPage($supplier->toArray(), $selects );
@@ -215,7 +215,7 @@ class SupplierController extends Controller
         );
 
         $data['is_supplier'] = 'y';
-        $data['type'] = 'supplier';
+        $data['type'] = Partner::SUPPLIER_TYPE;
 
         $this->supplier->where('id', $id)
             ->update($data);
@@ -278,7 +278,7 @@ class SupplierController extends Controller
         $supplier = $this->supplier->find($id);
 
         if ($supplier) {
-            $newStatus = ($supplier->status == Supplier::STATE_ACTIVE)? Supplier::STATE_INACTIVE: Supplier::STATE_ACTIVE;
+            $newStatus = ($supplier->status == Partner::STATE_ACTIVE)? Partner::STATE_INACTIVE: Partner::STATE_ACTIVE;
             $supplier->status = $newStatus;
             $supplier->save();
 

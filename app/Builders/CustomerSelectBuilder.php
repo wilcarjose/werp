@@ -21,6 +21,6 @@ class CustomerSelectBuilder extends PartnerSelectBuilder
     public function __construct($value = null, $name = null, $text = null, $none = false, $disable = false, $advancedOption = false,  $icon = null)
     {
 
-        parent::__construct('customer', $value, $name ?: 'customer', $text ?: trans('view.customer'), $none, $disable, $advancedOption, $icon);
+        parent::__construct('customer', $value, $name ?: 'partner_id', $text ?: trans('view.customer'), $none, $disable, $advancedOption, $icon);
     }
 }

@@ -74,6 +74,7 @@ return [
         'reference' => 'Reference',
         'product_entry' => 'Product Entry',
         'uom' => 'Uom',
+        'product_output' => 'Product output',
     ],
     'profile' => [
         'profile' => 'Profile',
@@ -102,5 +103,6 @@ return [
         'inventory' => 'Inventory',
         'price_list' => 'Price List',
         'inventory_entry' => 'Product entry',
+        'inventory_output' => 'Product output',
     ]
 ];

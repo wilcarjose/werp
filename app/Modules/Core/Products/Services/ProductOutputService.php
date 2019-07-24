@@ -9,13 +9,13 @@ use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Products\Models\InoutDetail;
+use Werp\Modules\Core\Products\Services\SaleOrderService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
-use Werp\Modules\Core\Products\Services\PurchaseOrderService;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 
-class InoutService extends BaseService
+class ProductOutputService extends BaseService
 {
     protected $entity;
     protected $orderService;
@@ -26,7 +26,7 @@ class InoutService extends BaseService
         Inout $entity,
         InoutDetail $entityDetail,
         DoctypeService $doctypeService,
-        PurchaseOrderService $orderService,
+        SaleOrderService $orderService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
@@ -36,10 +36,18 @@ class InoutService extends BaseService
         $this->transactionService   = $transactionService;
     }
 
+    public function create(array $data)
+    {
+        $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
+        $data['type'] = Inout::OUT_TYPE;
+        $data['state'] = Basedoc::PE_STATE;
+        return $this->entity->create($data);
+    }
+
     public function getResults($sort, $order, $search, $paginate)
     {
         $entities = $this->entity
-            ->where('type', Inout::IN_TYPE)
+            ->where('type', Inout::OUT_TYPE)
             ->where(function ($query) use ($search) {
                 //if ($search) {
                 //    $query->where('name', 'like', "$search%");
@@ -72,14 +80,6 @@ class InoutService extends BaseService
         return [$data, $paginator];
     }
 
-    public function create(array $data)
-    {
-        $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
-        $data['type'] = Inout::IN_TYPE;
-        $data['state'] = Basedoc::PE_STATE;
-        return $this->entity->create($data);
-    }
-
     public function process($id)
     {
         $entity = $this->getById($id);
@@ -98,18 +98,18 @@ class InoutService extends BaseService
 
             if ($generateOrder = true) {
 
-                $default = Config::where('key', Config::PRI_DEFAULT_PO_DOC)->first()->value;
+                $default = Config::where('key', Config::PRI_DEFAULT_SO_DOC)->first()->value;
 
                 $doctypeId = Doctype::find($default) ?
                     $default :
-                    Basedoc::where('type', Basedoc::PO_DOC)->first()->doctypes()->firstOrFail()->id;
+                    Basedoc::where('type', Basedoc::SO_DOC)->first()->doctypes()->firstOrFail()->id;
 
                 $data = [
                     'description' => $entity->description,
                     'doctype_id' => $doctypeId,
                     'warehouse_id' => $entity->warehouse_id,
                     'date' => $entity->date,
-                    'type' => Basedoc::PO_DOC,
+                    'type' => Basedoc::SO_DOC,
                     //'state' => Basedoc::PR_STATE,
                     'amount' => $entity->amount,
                     'tax_amount' => $entity->tax_amount,
@@ -127,6 +127,7 @@ class InoutService extends BaseService
                 $entity->orders()->attach($order->id);
 
                 foreach ($entity->detail as $detail) {
+
                     $detailData = [
                         'reference' => $order->code,
                         'date' => $detail->date,

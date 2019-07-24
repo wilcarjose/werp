@@ -3,15 +3,18 @@
 use Carbon\Carbon;
 use Werp\Permissions;
 use Illuminate\Database\Seeder;
+use Werp\Modules\Core\Maintenance\Models\Config;
 
 class ConfigTableSeeder extends Seeder
 {
 	protected $configs = [
-		['inv_default_inventory_doctype', 1, 'inv', 'view.products.default_inventory_doc'],
-		['inv_default_warehouse', 0, 'inv', 'view.products.default_warehouse'],
-		['pri_default_price_list_doctype', 2, 'pri', 'view.products.default_price_list_doc'],
-		['inv_default_ie_doc', 0, 'pri', 'view.products.default_ie_doc'],
-		['inv_default_po_doc', 0, 'pri', 'view.products.default_po_doc'],
+		[Config::INV_DEFAULT_IN_DOC, 1, 'inv', 'view.products.default_inventory_doc'],
+		[Config::INV_DEFAULT_WAREHOUSE, 0, 'inv', 'view.products.default_warehouse'],
+		[Config::PRI_DEFAULT_PL_DOC, 2, 'pri', 'view.products.default_price_list_doc'],
+		[Config::PRI_DEFAULT_IE_DOC, 0, 'pri', 'view.products.default_ie_doc'],
+		[Config::PRI_DEFAULT_PO_DOC, 0, 'pri', 'view.products.default_po_doc'],
+		[Config::PRI_DEFAULT_IO_DOC, 0, 'pri', 'view.products.default_io_doc'],
+		[Config::PRI_DEFAULT_SO_DOC, 0, 'pri', 'view.products.default_so_doc'],
 	];
 
     /**

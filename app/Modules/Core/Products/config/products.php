@@ -20,6 +20,7 @@ return [
                 'admin.products.stock.index',
                 'admin.products.transactions.index',
                 'admin.products.product_entry.index',
+                'admin.products.product_output.index',
                 'admin.products.uom.index',
             ],
             'items' => [
@@ -76,6 +77,7 @@ return [
                         'admin.products.inventories.index',
                         'admin.products.price_lists.index',
                         'admin.products.product_entry.index',
+                        'admin.products.product_output.index',
                     ],
                     'items' => [
                         [
@@ -89,6 +91,10 @@ return [
                         [
                             'name' => 'view.menu.product_entry',
                             'route' => 'admin.products.product_entry.index',
+                        ],
+                        [
+                            'name' => 'view.menu.product_output',
+                            'route' => 'admin.products.product_output.index',
                         ],
                     ],
                 ],
@@ -231,7 +237,7 @@ return [
                     'key' => 'process',
                     'name' => 'view.process',
                     'after_name' => 'view.processed',
-                    'new_actions' => [Basedoc::RE_STATE],
+                    'new_actions' => [Basedoc::CA_STATE],
                     'actions_from' => [Basedoc::PE_STATE],
                     'color' => 'limegreen',
                 ],
@@ -240,15 +246,15 @@ return [
                     'name' => 'view.cancel',
                     'after_name' => 'view.canceled',
                     'new_actions' => [],
-                    'actions_from' => [],
+                    'actions_from' => [Basedoc::PR_STATE],
                     'color' => 'tomato',
                 ],
                 Basedoc::RE_STATE => [ // reverse document at the same date
                     'key' => 'reverse',
                     'name' => 'view.reverse',
                     'after_name' => 'view.reversed',
-                    'new_actions' => [Basedoc::PR_STATE],
-                    'actions_from' => [Basedoc::PR_STATE],
+                    'new_actions' => [],
+                    'actions_from' => [],
                     'color' => 'wheat',
                 ]
             ]

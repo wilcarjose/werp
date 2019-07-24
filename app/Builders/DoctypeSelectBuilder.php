@@ -30,7 +30,7 @@ class DoctypeSelectBuilder extends SelectBuilder
         $this->type  = 'select';
         $this->icon  = $icon;
         $this->text  = trans('view.document');
-        $this->value = $value ?: Config::where('key', $defauly_key)->first()->value;
+        $this->value = $value ?: Config::where('key', $defauly_key)->firstOrFail()->value;
         $this->data  = Basedoc::where('type', $base)->first()->doctypes()->get();
         $this->disable  = $disable;
         $this->none = false;

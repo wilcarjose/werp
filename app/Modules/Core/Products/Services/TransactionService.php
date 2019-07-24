@@ -44,6 +44,13 @@ class TransactionService
                 $this->makeEntry($detail);
             }
         }
+
+        if ($this->document->getType() == Basedoc::IO_DOC) {
+
+            foreach ($this->document->detail as $detail) {
+                $this->makeOutput($detail);
+            }
+        }
     }
 
     protected function makeInventory(InventoryDetail $detail)
@@ -85,6 +92,26 @@ class TransactionService
             'description' => '',
             'qty' => $detail->qty,
             'sign' => 'add',
+            'product_id' => $detail->product_id,
+            'warehouse_id' => $detail->warehouse_id
+        ];
+
+        $this->entity->create($data);
+    }
+
+    protected function makeOutput(InoutDetail $detail)
+    {
+        $stock = $this->stockService->setProductId($detail->product_id)
+            ->setWarehouseId($detail->warehouse_id)
+            ->sub($detail->qty);
+
+        $data = [
+            'reference' => $detail->reference,
+            'type' => $detail->inout->getType(),
+            'date' => $detail->date,
+            'description' => '',
+            'qty' => $detail->qty,
+            'sign' => 'sub',
             'product_id' => $detail->product_id,
             'warehouse_id' => $detail->warehouse_id
         ];

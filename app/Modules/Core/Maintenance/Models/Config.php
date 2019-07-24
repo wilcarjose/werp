@@ -11,6 +11,8 @@ class Config extends Model
     const PRI_DEFAULT_PL_DOC = 'pri_default_price_list_doctype';
     const PRI_DEFAULT_IE_DOC = 'inv_default_ie_doc';
     const PRI_DEFAULT_PO_DOC = 'inv_default_po_doc';
+    const PRI_DEFAULT_IO_DOC = 'inv_default_io_doc';
+    const PRI_DEFAULT_SO_DOC = 'inv_default_so_doc';
 
     protected $table = 'config';
 

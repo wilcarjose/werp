@@ -85,6 +85,18 @@
 	Route::get('/product_entry/{id}/cancel', '\Werp\Modules\Core\Products\Controllers\ProductEntryController@cancel')->name('product_entry.cancel');
 	Route::resource('/product_entry','\Werp\Modules\Core\Products\Controllers\ProductEntryController');
 
+	// Product output
+	Route::post('/product_output/removeBulk','\Werp\Modules\Core\Products\Controllers\ProductOutputController@destroyBulk');
+	Route::get('/product_output/{id}/detail', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@indexDetail')->name('product_output.detail.index');
+	Route::get('/product_output/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@showDetail')->name('product_output.detail.show');
+	Route::put('/product_output/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@updateDetail')->name('product_output.detail.update');
+	Route::post('/product_output/{id}/detail', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@storeDetail')->name('product_output.detail.update');
+	Route::delete('/product_output/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@destroyDetail')->name('product_output.detail.update');
+	Route::get('/product_output/{id}/process', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@process')->name('product_output.process');
+	Route::get('/product_output/{id}/reverse', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@reverse')->name('product_output.reverse');
+	Route::get('/product_output/{id}/cancel', '\Werp\Modules\Core\Products\Controllers\ProductOutputController@cancel')->name('product_output.cancel');
+	Route::resource('/product_output','\Werp\Modules\Core\Products\Controllers\ProductOutputController');
+
 
 
 

@@ -9,6 +9,11 @@ class TransactionTransformer extends Transformer
 {
     public function transform($item)
     {
+        $reference = [
+            'text' => '',
+            'url'  => ''
+        ];
+
         if ($item['type'] == Basedoc::IN_DOC) {
             $reference = [
                 'text' => $item['reference'],
@@ -20,6 +25,13 @@ class TransactionTransformer extends Transformer
             $reference = [
                 'text' => $item['reference'],
                 'url' => route('admin.products.product_entry.edit', $item['reference']),
+            ];
+        }
+
+        if ($item['type'] == Basedoc::IO_DOC) {
+            $reference = [
+                'text' => $item['reference'],
+                'url' => route('admin.products.product_output.edit', $item['reference']),
             ];
         }
 

@@ -5,18 +5,18 @@ namespace Werp\Modules\Core\Products\Controllers;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\InoutDetail;
-use Werp\Modules\Core\Products\Services\InoutService;
+use Werp\Modules\Core\Products\Builders\ProductOutputForm;
+use Werp\Modules\Core\Products\Builders\ProductOutputList;
 use Werp\Modules\Core\Products\Services\ConfigService;
+use Werp\Modules\Core\Products\Services\ProductOutputService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Werp\Modules\Core\Products\Builders\ProductEntryForm;
-use Werp\Modules\Core\Products\Builders\ProductEntryList;
 use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
-use Werp\Modules\Core\Products\Transformers\InoutTransformer;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
+use Werp\Modules\Core\Products\Transformers\InoutTransformer;
 use Werp\Modules\Core\Products\Transformers\InoutDetailTransformer;
 
-class ProductEntryController extends BaseController
+class ProductOutputController extends BaseController
 {
     protected $entityDetail;
     protected $entityTransformer;
@@ -77,14 +77,14 @@ class ProductEntryController extends BaseController
 
     protected $relatedField = 'inout_id';
 
-    protected $routeBase = 'admin.products.product_entry';
+    protected $routeBase = 'admin.products.product_output';
 
     public function __construct(
         InoutDetail $entityDetail,
-        InoutService $entityService,
-        ProductEntryForm $entityForm,
-        ProductEntryList $entityList,
+        ProductOutputForm $entityForm,
+        ProductOutputList $entityList,
         ConfigService $configService,
+        ProductOutputService $entityService,
         InoutTransformer $entityTransformer,
         TransactionService $transactionService,
         InoutDetailTransformer $entityDetailTransformer        
@@ -107,18 +107,29 @@ class ProductEntryController extends BaseController
      */
     public function edit($id)
     {
-        $entity = $this->entityService->getById($id, false);
+        try {
 
-        if (!$entity) {
-            $entity = $this->entityService->getByCode($id);
-        }
+            $entity = $this->entityService->getById($id, false);
 
-        if (!$entity) {
-            flash(trans($this->getNotFoundKey()), 'info');
+            if (!$entity) {
+                $entity = $this->entityService->getByCode($id);
+            }
+
+            if (!$entity) {
+                flash(trans($this->getNotFoundKey()), 'info');
+                return back();
+            }
+
+            return $this->entityForm->editPage($entity->toArray());
+
+        } catch (ModelNotFoundException $e) {
+            flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+            flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
             return back();
         }
-
-        return $this->entityForm->editPage($entity->toArray());
     }
 
     public function process($id)
@@ -127,20 +138,20 @@ class ProductEntryController extends BaseController
 
             $this->entityService->process($id);
 
-            flash('Entrada procesada exitosamente', 'success', 'success');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            flash('Registro procesado exitosamente', 'success', 'success');
+            return redirect(route('admin.products.product_output.edit', $id));
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         } catch (NotDetailException $e) {
             flash($e->getMessage(), 'error', 'error');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         } catch (CanNotProcessException $e) {
             flash($e->getMessage(), 'error', 'error');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         } catch (\Exception $e) {
             flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         }
     }
 
@@ -151,16 +162,16 @@ class ProductEntryController extends BaseController
             $this->entityService->cancel($id);
 
             flash('Registro anulado exitosamente', 'success', 'success');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         } catch (CanNotProcessException $e) {
             flash($e->getMessage(), 'error', 'error');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         } catch (\Exception $e) {
             flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
-            return redirect(route('admin.products.product_entry.edit', $id));
+            return redirect(route('admin.products.product_output.edit', $id));
         }
     }
 }

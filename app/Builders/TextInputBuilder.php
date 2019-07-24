@@ -19,13 +19,13 @@ class TextInputBuilder extends InputBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($name = null, $label = null, $value = null, $disabled = false, $icon = null)
+    public function __construct($name = null, $label = null, $value = null, $disable = false, $icon = null)
     {
         $this->name = $name;
         $this->type = 'input';
         $this->icon = $icon;
         $this->text = $label;
         $this->value = $value;
-        $this->disabled = $disabled;
+        $this->disable = $disable;
     }
 }

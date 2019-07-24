@@ -9,6 +9,9 @@ class Partner extends Model
 	const STATE_ACTIVE   = 'active';
     const STATE_INACTIVE = 'inactive';
 
+    const SUPPLIER_TYPE = 'supplier';
+    const CUSTOMER_TYPE = 'customer';
+
     protected $table = 'partners';
 
     /**

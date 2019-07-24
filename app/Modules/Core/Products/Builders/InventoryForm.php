@@ -71,7 +71,7 @@ class InventoryForm extends FormBuilder
 
         $this
             ->setList(new InventoryDetailList(false, $data['id'], $disable))
-            ->setMaxWidth()
+            //->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.color'));
         ;
