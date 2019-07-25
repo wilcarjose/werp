@@ -15,11 +15,11 @@ class ConfigTableSeeder extends Seeder
 		// Default doctypes
 		[Config::INV_DEFAULT_IN_DOC, 1, 'inv', 'view.products.default_inventory_doc'],
 		[Config::PRI_DEFAULT_PL_DOC, 2, 'pri', 'view.products.default_price_list_doc'],
-		[Config::PRI_DEFAULT_IE_DOC, 0, 'pri', 'view.products.default_ie_doc'],
-		[Config::PRI_DEFAULT_PO_DOC, 0, 'pri', 'view.products.default_po_doc'],
-		[Config::PRI_DEFAULT_IO_DOC, 0, 'pri', 'view.products.default_io_doc'],
-		[Config::PRI_DEFAULT_SO_DOC, 0, 'pri', 'view.products.default_so_doc'],
-		[Config::PRI_DEFAULT_IM_DOC, 0, 'pri', 'view.products.default_im_doc'],
+		[Config::INV_DEFAULT_IE_DOC, 0, 'inv', 'view.products.default_ie_doc'],
+		[Config::INV_DEFAULT_PO_DOC, 0, 'inv', 'view.products.default_po_doc'],
+		[Config::INV_DEFAULT_IO_DOC, 0, 'inv', 'view.products.default_io_doc'],
+		[Config::INV_DEFAULT_SO_DOC, 0, 'inv', 'view.products.default_so_doc'],
+		[Config::INV_DEFAULT_IM_DOC, 0, 'inv', 'view.products.default_im_doc'],
 	];
 
     /**

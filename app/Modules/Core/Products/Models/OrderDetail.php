@@ -41,12 +41,13 @@ class OrderDetail extends Model
             'order_id' => $this->order_id,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
-            'created_at' => $this->created_at,
             'amount' => $this->amount,
             'tax_amount' => $this->tax_amount,
             'discount_amount' => $this->discount_amount,
             'total_amount' => $this->total_amount,
             'currency' => $this->currency,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 

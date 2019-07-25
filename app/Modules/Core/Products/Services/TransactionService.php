@@ -118,7 +118,7 @@ class TransactionService
             'type' => $detail->inout->getType(),
             'date' => $detail->date,
             'description' => '',
-            'qty' => $detail->qty,
+            'qty' => (-1) * $detail->qty,
             'sign' => 'sub',
             'product_id' => $detail->product_id,
             'warehouse_id' => $detail->warehouse_id
@@ -139,7 +139,7 @@ class TransactionService
             'type' => $detail->movement->getType(),
             'date' => $detail->date,
             'description' => '',
-            'qty' => $detail->qty,
+            'qty' => (-1) * $detail->qty,
             'sign' => 'sub',
             'product_id' => $detail->product_id,
             'warehouse_id' => $detail->warehouse_from_id

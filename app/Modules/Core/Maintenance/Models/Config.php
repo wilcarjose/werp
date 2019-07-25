@@ -9,13 +9,22 @@ class Config extends Model
     const INV_DEFAULT_WAREHOUSE = 'inv_default_warehouse';
     const INV_DEFAULT_IN_DOC = 'inv_default_in_doc';
     const PRI_DEFAULT_PL_DOC = 'pri_default_pl_doc';
-    const PRI_DEFAULT_IE_DOC = 'inv_default_ie_doc';
-    const PRI_DEFAULT_PO_DOC = 'inv_default_po_doc';
-    const PRI_DEFAULT_IO_DOC = 'inv_default_io_doc';
-    const PRI_DEFAULT_SO_DOC = 'inv_default_so_doc';
-    const PRI_DEFAULT_IM_DOC = 'inv_default_im_doc';
+    const INV_DEFAULT_IE_DOC = 'inv_default_ie_doc';
+    const INV_DEFAULT_PO_DOC = 'inv_default_po_doc';
+    const INV_DEFAULT_IO_DOC = 'inv_default_io_doc';
+    const INV_DEFAULT_SO_DOC = 'inv_default_so_doc';
+    const INV_DEFAULT_IM_DOC = 'inv_default_im_doc';
 
     protected $table = 'config';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'key', 'value', 'translate_key', 'description'
+    ];
 
     public function toArray()
     {

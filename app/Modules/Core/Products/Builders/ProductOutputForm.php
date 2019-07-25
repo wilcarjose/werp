@@ -48,7 +48,7 @@ class ProductOutputForm extends FormBuilder
             ->addSelect(new CurrencySelectBuilder)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC, Config::PRI_DEFAULT_IO_DOC))->advancedOption())
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC, Config::INV_DEFAULT_IO_DOC))->advancedOption())
 
             ->addAction(new ContinueActionBuilder)
             ->goBackEdit()
@@ -86,7 +86,7 @@ class ProductOutputForm extends FormBuilder
             
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC,  Config::PRI_DEFAULT_IO_DOC))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC,  Config::INV_DEFAULT_IO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)

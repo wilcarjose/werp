@@ -47,7 +47,7 @@ class TransactionTransformer extends Transformer
             'name'        => $item['product']->name,
             //'category'    => $item['product']->category ? $item['product']->category->name : '',
             'warehouse'   => $item['warehouse']->name,
-            'qty'         => $item['sign'] == 'add' ? $item['qty'] : (-1)*$item['qty'],
+            'qty'         => $item['qty'],
             'date'        => $item['date'],
             'reference'   => $reference,
             'type'        => trans(config('werp.doctypes.'.$item['type'])),

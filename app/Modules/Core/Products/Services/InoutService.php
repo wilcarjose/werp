@@ -98,7 +98,7 @@ class InoutService extends BaseService
 
             if ($generateOrder = true) {
 
-                $default = Config::where('key', Config::PRI_DEFAULT_PO_DOC)->first()->value;
+                $default = Config::where('key', Config::INV_DEFAULT_PO_DOC)->first()->value;
 
                 $doctypeId = Doctype::find($default) ?
                     $default :

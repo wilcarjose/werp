@@ -47,7 +47,7 @@ class ProductEntryForm extends FormBuilder
             ->addSelect(new WarehouseSelectBuilder)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::PRI_DEFAULT_IE_DOC))->advancedOption())
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption())
 
             ->addAction(new ContinueActionBuilder)
             ->goBackEdit()
@@ -94,7 +94,7 @@ class ProductEntryForm extends FormBuilder
 
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC,  Config::PRI_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC,  Config::INV_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)

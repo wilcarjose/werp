@@ -34,7 +34,8 @@ class InventoryDetail extends Model
             'inventory_id' => $this->inventory_id,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 

@@ -2,7 +2,7 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
-use Werp\Modules\Core\Products\Models\Config;
+use Werp\Modules\Core\Maintenance\Models\Config;
 
 class ConfigService
 {

@@ -8,7 +8,7 @@
 
 namespace Werp\Builders;
 
-use Werp\Modules\Core\Products\Models\Config;
+use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Products\Models\Warehouse;
 
 class WarehouseSelectBuilder extends SelectBuilder

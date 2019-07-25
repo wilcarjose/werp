@@ -41,7 +41,7 @@ class MovementForm extends FormBuilder
             ->addInput(new DescriptionInputBuilder)
             ->addSelect(new WarehouseSelectBuilder('warehouse_from_id', trans('view.from')))
             ->addSelect(new WarehouseSelectBuilder('warehouse_to_id', trans('view.to')))
-            ->addSelect(new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::PRI_DEFAULT_IM_DOC))
+            ->addSelect(new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))
             ->addAction(new ContinueActionBuilder)
             ->goBackEdit()
             ->setAdvancedOptions()
@@ -70,7 +70,7 @@ class MovementForm extends FormBuilder
             ->addInput((new DescriptionInputBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelectBuilder('warehouse_from_id', trans('view.from')))->setDisable($disable))
             ->addSelect((new WarehouseSelectBuilder('warehouse_to_id', trans('view.to')))->setDisable($disable))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::PRI_DEFAULT_IM_DOC))->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->setDisable($disable))
             ->setData($data)
             ->setAdvancedOptions();
 

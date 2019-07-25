@@ -39,7 +39,7 @@ class InventoryForm extends FormBuilder
             ->addInput(new DateBuilder)
             ->addInput(new DescriptionInputBuilder)
             ->addSelect(new WarehouseSelectBuilder)
-            ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::PRI_DEFAULT_IN_DOC))
+            ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))
             ->addAction(new ContinueActionBuilder)
             //->setMaxWidth()
             ->goBackEdit()
@@ -62,7 +62,7 @@ class InventoryForm extends FormBuilder
             ->addInput((new DateBuilder)->setDisable($disable))
             ->addInput((new DescriptionInputBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::PRI_DEFAULT_IN_DOC))->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))->setDisable($disable))
             ->setData($data)
             ->setAdvancedOptions();
 

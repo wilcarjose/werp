@@ -164,7 +164,22 @@ class BaseController extends Controller
      */
     public function create()
     {
-        return $this->entityForm->createPage($this->getDependencies(), $this->getDefaultsDependencies());
+        try {
+
+            return $this->entityForm->createPage($this->getDependencies(), $this->getDefaultsDependencies());
+        
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
     }
 
     /**
@@ -236,14 +251,29 @@ class BaseController extends Controller
      */
     public function edit($id)
     {
-        $entity = $this->entityService->getById($id);
+        try {
 
-        if (!$entity) {
-            flash(trans($this->getNotFoundKey()), 'info');
+            $entity = $this->entityService->getById($id);
+
+            if (!$entity) {
+                flash(trans($this->getNotFoundKey()), 'info');
+                return back();
+            }
+
+            return $this->entityForm->editPage($entity->toArray(), $this->getDependencies());
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
             return back();
         }
-
-        return $this->entityForm->editPage($entity->toArray(), $this->getDependencies());
     }
 
     /**
