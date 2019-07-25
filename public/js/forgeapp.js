@@ -36803,6 +36803,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 $(document).ready(function () {
@@ -36851,6 +36874,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             show_actions: this.config.show_actions,
             show_filters: false,
             reloadOnSave: this.config.reload_on_save,
+            show_advanced_options: false,
             amount: {
                 decimalSeparator: ",",
                 groupSeparator: ".",
@@ -37196,6 +37220,16 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
             var year = dateToChange.getFullYear();
             return day + "/" + month + "/" + year;
+        },
+        switchAdvancedOptions: function switchAdvancedOptions() {
+
+            if (this.show_advanced_options) {
+                this.show_advanced_options = false;
+                $('.advanced-modal-options').hide(500);
+            } else {
+                this.show_advanced_options = true;
+                $('.advanced-modal-options').show(500);
+            }
         }
     }
 });
@@ -38212,35 +38246,89 @@ var render = function() {
                     }
                   }
                 },
-                _vm._l(_vm.modal.fields, function(field) {
-                  return _c(
-                    "div",
-                    {
-                      staticClass: "input-field col s12",
-                      style:
+                [
+                  _vm._l(_vm.modal.fields, function(field) {
+                    return _c(
+                      "div",
+                      {
+                        staticClass: "input-field col s12",
+                        style:
+                          field.type == "select" || "amount"
+                            ? "margin-bottom: 10px;"
+                            : "margin-bottom: 0px;"
+                      },
+                      [
                         field.type == "select"
-                          ? "margin-bottom: 10px;"
-                          : "margin-bottom: 0px;"
-                    },
-                    [
-                      field.type == "select"
-                        ? _c(
-                            "label",
-                            {
-                              staticStyle: {
-                                top: "-22px",
-                                "font-size": "0.8rem"
+                          ? _c(
+                              "label",
+                              {
+                                staticStyle: {
+                                  top: "-22px",
+                                  "font-size": "0.8rem"
+                                },
+                                attrs: { for: "modal-" + field.id }
                               },
-                              attrs: { for: "modal-" + field.id }
-                            },
-                            [_vm._v(_vm._s(field.label))]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      field.type == "select"
-                        ? _c(
-                            "select",
-                            {
+                              [_vm._v(_vm._s(field.label))]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "select"
+                          ? _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.modal.object[field.name],
+                                    expression: "modal.object[field.name]"
+                                  }
+                                ],
+                                staticClass: "select2_select",
+                                attrs: {
+                                  id: "modal-" + field.id,
+                                  name: field.name
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.modal.object,
+                                      field.name,
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("=>Seleccione..."),
+                                _vm._v(" "),
+                                _vm._l(_vm.dependencies[field.items], function(
+                                  item
+                                ) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: item[field.id_key] } },
+                                    [_vm._v(_vm._s(item[field.value_key]))]
+                                  )
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "text"
+                          ? _c("input", {
                               directives: [
                                 {
                                   name: "model",
@@ -38249,114 +38337,241 @@ var render = function() {
                                   expression: "modal.object[field.name]"
                                 }
                               ],
-                              staticClass: "select2_select",
+                              attrs: {
+                                type: "text",
+                                name: field.name,
+                                id: "modal-" + field.id
+                              },
+                              domProps: { value: _vm.modal.object[field.name] },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.modal.object,
+                                    field.name,
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "text"
+                          ? _c(
+                              "label",
+                              { attrs: { for: "modal-" + field.id } },
+                              [_vm._v(_vm._s(field.label))]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "amount"
+                          ? _c("input", {
+                              staticClass: "custom-numberbox",
+                              staticStyle: { width: "509px" },
                               attrs: {
                                 id: "modal-" + field.id,
                                 name: field.name
                               },
+                              domProps: { value: _vm.modal.object[field.name] }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "amount"
+                          ? _c(
+                              "label",
+                              {
+                                staticStyle: {
+                                  "margin-left": "0",
+                                  "margin-top": "-13px"
+                                },
+                                attrs: { for: "modal-" + field.id }
+                              },
+                              [_vm._v(_vm._s(field.label))]
+                            )
+                          : _vm._e()
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.modal.advanced_fields, function(field) {
+                    return _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.show_advanced_options,
+                            expression: "show_advanced_options"
+                          }
+                        ],
+                        staticClass:
+                          "input-field col s12 advanced-modal-options",
+                        style:
+                          field.type == "select" || "amount"
+                            ? "margin-bottom: 10px;"
+                            : "margin-bottom: 0px;"
+                      },
+                      [
+                        field.type == "select"
+                          ? _c(
+                              "label",
+                              {
+                                staticStyle: {
+                                  top: "-22px",
+                                  "font-size": "0.8rem"
+                                },
+                                attrs: { for: "modal-" + field.id }
+                              },
+                              [_vm._v(_vm._s(field.label))]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "select"
+                          ? _c(
+                              "select",
+                              {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.modal.object[field.name],
+                                    expression: "modal.object[field.name]"
+                                  }
+                                ],
+                                staticClass: "select2_select",
+                                attrs: {
+                                  id: "modal-" + field.id,
+                                  name: field.name
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.$set(
+                                      _vm.modal.object,
+                                      field.name,
+                                      $event.target.multiple
+                                        ? $$selectedVal
+                                        : $$selectedVal[0]
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v("=>Seleccione..."),
+                                _vm._v(" "),
+                                _vm._l(_vm.dependencies[field.items], function(
+                                  item
+                                ) {
+                                  return _c(
+                                    "option",
+                                    { domProps: { value: item[field.id_key] } },
+                                    [_vm._v(_vm._s(item[field.value_key]))]
+                                  )
+                                })
+                              ],
+                              2
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "text"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.modal.object[field.name],
+                                  expression: "modal.object[field.name]"
+                                }
+                              ],
+                              attrs: {
+                                type: "text",
+                                name: field.name,
+                                id: "modal-" + field.id
+                              },
+                              domProps: { value: _vm.modal.object[field.name] },
                               on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
                                   _vm.$set(
                                     _vm.modal.object,
                                     field.name,
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
+                                    $event.target.value
                                   )
                                 }
                               }
-                            },
-                            [
-                              _vm._v("=>Seleccione..."),
-                              _vm._v(" "),
-                              _vm._l(_vm.dependencies[field.items], function(
-                                item
-                              ) {
-                                return _c(
-                                  "option",
-                                  { domProps: { value: item[field.id_key] } },
-                                  [_vm._v(_vm._s(item[field.value_key]))]
-                                )
-                              })
-                            ],
-                            2
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      field.type == "text"
-                        ? _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.modal.object[field.name],
-                                expression: "modal.object[field.name]"
-                              }
-                            ],
-                            attrs: {
-                              type: "text",
-                              name: field.name,
-                              id: "modal-" + field.id
-                            },
-                            domProps: { value: _vm.modal.object[field.name] },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.modal.object,
-                                  field.name,
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      field.type == "text"
-                        ? _c("label", { attrs: { for: "modal-" + field.id } }, [
-                            _vm._v(_vm._s(field.label))
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      field.type == "amount"
-                        ? _c("input", {
-                            staticClass: "custom-numberbox",
-                            staticStyle: { width: "509px" },
-                            attrs: {
-                              id: "modal-" + field.id,
-                              name: field.name
-                            },
-                            domProps: { value: _vm.modal.object[field.name] }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      field.type == "amount"
-                        ? _c(
-                            "label",
-                            {
-                              staticStyle: {
-                                "margin-left": "0",
-                                "margin-top": "-13px"
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "text"
+                          ? _c(
+                              "label",
+                              { attrs: { for: "modal-" + field.id } },
+                              [_vm._v(_vm._s(field.label))]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "amount"
+                          ? _c("input", {
+                              staticClass: "custom-numberbox",
+                              staticStyle: { width: "509px" },
+                              attrs: {
+                                id: "modal-" + field.id,
+                                name: field.name
                               },
-                              attrs: { for: "modal-" + field.id }
-                            },
-                            [_vm._v(_vm._s(field.label))]
-                          )
-                        : _vm._e()
-                    ]
-                  )
-                })
+                              domProps: { value: _vm.modal.object[field.name] }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "amount"
+                          ? _c(
+                              "label",
+                              {
+                                staticStyle: {
+                                  "margin-left": "0",
+                                  "margin-top": "-13px"
+                                },
+                                attrs: { for: "modal-" + field.id }
+                              },
+                              [_vm._v(_vm._s(field.label))]
+                            )
+                          : _vm._e()
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "input-field col s12" }, [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "javascript:void(0);" },
+                        on: {
+                          click: function($event) {
+                            _vm.switchAdvancedOptions()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                Opciones avanzadas\n            "
+                        )
+                      ]
+                    )
+                  ])
+                ],
+                2
               )
             ]),
             _vm._v(" "),

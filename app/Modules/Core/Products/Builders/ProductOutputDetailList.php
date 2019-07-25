@@ -50,16 +50,19 @@ class ProductOutputDetailList extends MainList
                   'id' => 'amount',
                   'label' => 'Precio',
                 ],
-                [
-                  'key' => 'warehouses',
-                  'type' => 'select',
-                  'name' => 'warehouse_id',
-                  'id' => 'warehouses',
-                  'items' => 'warehouses',
-                  'label' => 'Almacén',
-                  'id_key' => 'id',
-                  'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses'
+                
+                'advanced_fields' => [
+                  [
+                    'key' => 'warehouses',
+                    'type' => 'select',
+                    'name' => 'warehouse_id',
+                    'id' => 'warehouses',
+                    'items' => 'warehouses',
+                    'label' => 'Almacén',
+                    'id_key' => 'id',
+                    'value_key' => 'name',
+                    'endpoint' => '/admin/products/warehouses'
+                  ],
                 ]
               ]
            ];

@@ -26,22 +26,17 @@ class InventoryDetailList extends MainList
                   'label' => 'Producto',
                   'id_key' => 'id',
                   'value_key' => 'code_name',
-                  'endpoint' => '/admin/products/products'
-                ],
-                [
-                  'key' => 'description',
-                  'type' => 'text',
-                  'name' => 'description',
-                  'id' => 'description',
-                  'label' => 'Descripción',
+                  'endpoint' => '/admin/products/products',
                 ],
                 [
                   'key' => 'qty',
-                  'type' => 'text',
+                  'type' => 'amount',
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',
                 ],
+              ],
+              'advanced_fields' => [
                 [
                   'key' => 'warehouses',
                   'type' => 'select',
@@ -51,9 +46,16 @@ class InventoryDetailList extends MainList
                   'label' => 'Almacén',
                   'id_key' => 'id',
                   'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses'
-                ]
-              ]
+                  'endpoint' => '/admin/products/warehouses',
+                ],
+                [
+                  'key' => 'description',
+                  'type' => 'text',
+                  'name' => 'description',
+                  'id' => 'description',
+                  'label' => 'Descripción',
+                ],
+              ],
            ];
 
         $this->setTitle('Productos')

@@ -49,7 +49,9 @@ class ProductEntryDetailList extends MainList
                   'name' => 'amount',
                   'id' => 'amount',
                   'label' => 'Precio',
-                ],
+                ],                
+              ],
+              'advanced_fields' => [
                 [
                   'key' => 'warehouses',
                   'type' => 'select',

@@ -197,7 +197,8 @@
             <h5>{{pupupMod | capitalize}} Producto</h5>
           </div>
           <form @submit.prevent="isNotValidateForm" name="callback" class="col s12" style="margin-top: 10px;">
-              <div class="input-field col s12" v-for="field in modal.fields" :style="field.type == 'select' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
+              <div class="input-field col s12" v-for="field in modal.fields" :style="field.type == 'select' || 'amount' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
+
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
                   <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]">
                       <option value="" disabled=>Seleccione...</option>
@@ -210,6 +211,28 @@
                   <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;">
                   <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
                   <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
+
+              </div>
+              <div v-show="show_advanced_options" class="input-field col s12 advanced-modal-options" v-for="field in modal.advanced_fields" :style="field.type == 'select' || 'amount' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
+
+                  <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
+                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]">
+                      <option value="" disabled=>Seleccione...</option>
+                      <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
+                  </select>
+                  
+                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]">
+                  <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
+
+                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;">
+                  <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
+                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
+
+              </div>
+              <div class="input-field col s12" >
+                <a href="javascript:void(0);" @click="switchAdvancedOptions()">
+                    Opciones avanzadas
+                </a>
               </div>
               <!--
               <div class="input-field col s12" style="margin-bottom: 15px; margin-top: 25px;">
@@ -276,6 +299,7 @@ export default {
             show_actions: this.config.show_actions,
             show_filters: false,
             reloadOnSave: this.config.reload_on_save,
+            show_advanced_options: false,
             amount: {
               decimalSeparator: ",",
               groupSeparator: ".",
@@ -600,6 +624,15 @@ export default {
             }
             var year = dateToChange .getFullYear();
             return day + "/" + month + "/" + year;
+        },
+        switchAdvancedOptions() {
+            if (this.show_advanced_options) {
+              this.show_advanced_options = false;
+              $('.advanced-modal-options').hide(500);
+            } else {
+              this.show_advanced_options = true;
+              $('.advanced-modal-options').show(500);
+            }
         }
 
     }

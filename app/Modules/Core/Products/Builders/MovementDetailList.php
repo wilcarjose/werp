@@ -36,11 +36,13 @@ class MovementDetailList extends MainList
                 ],
                 [
                   'key' => 'qty',
-                  'type' => 'text',
+                  'type' => 'amount',
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',
-                ],
+                ],                
+              ],
+              'advanced_fields' => [
                 [
                   'key' => 'warehouses_from',
                   'type' => 'select',
