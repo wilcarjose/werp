@@ -3,6 +3,7 @@
 namespace Werp\Modules\Core\Products\Services;
 
 use Werp\Services\BaseService;
+use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Products\Models\Inventory;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
@@ -84,5 +85,38 @@ class InventoryService extends BaseService
     public function getByCode($code)
     {
         return $this->entity->where('code', $code)->first();
+    }
+
+    public function cancel($id)
+    {
+        $entity = $this->getById($id);
+
+        if ($this->canNotCancel($entity)) {
+            throw new CanNotProcessException("No se puede anular este registro");
+        }
+
+        try {
+
+            DB::beginTransaction();
+
+            $entity->state = Basedoc::CA_STATE;
+            $entity->save();
+
+            $this->transactionService->setDocument($entity)->revert();
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            throw new \Exception("Error Processing Request: " . $e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+        }
+    }
+
+    protected function canNotCancel($entity)
+    {
+        $stateArray = $entity->getState(Basedoc::CA_STATE);
+
+        return !in_array($entity->state, $stateArray['actions_from']);
     }
 }

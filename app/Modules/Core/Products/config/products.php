@@ -141,7 +141,7 @@ return [
                     'key' => 'process',
                     'name' => 'view.process',
                     'after_name' => 'view.processed',
-                    'new_actions' => [],
+                    'new_actions' => [Basedoc::CA_STATE],
                     'actions_from' => [Basedoc::PE_STATE],
                     'color' => 'limegreen',
                 ],
@@ -150,7 +150,7 @@ return [
                     'name' => 'view.cancel',
                     'after_name' => 'view.canceled',
                     'new_actions' => [],
-                    'actions_from' => [],
+                    'actions_from' => [Basedoc::PR_STATE],
                     'color' => 'tomato',
                 ],
                 Basedoc::RE_STATE => [ // reverse document at the same date

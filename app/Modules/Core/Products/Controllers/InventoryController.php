@@ -148,17 +148,37 @@ class InventoryController extends BaseController
                 ->process();
 
             flash('Inventario procesado exitosamente', 'success', 'success');
-            return redirect(route('admin.products.inventories.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
 
         } catch (NotDetailException $e) {
             flash($e->getMessage(), 'error', 'error');
-            return redirect(route('admin.products.inventories.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
         } catch (CanNotProcessException $e) {
             flash($e->getMessage(), 'error', 'error');
-            return redirect(route('admin.products.inventories.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
         } catch (\Exception $e) {
             flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
-            return redirect(route('admin.products.inventories.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
+        }
+    }
+
+    public function cancel($id)
+    {
+        try {
+
+            $this->entityService->cancel($id);
+
+            flash('Registro anulado exitosamente', 'success', 'success');
+            return redirect(route($this->routeBase.'.edit', $id));
+        } catch (ModelNotFoundException $e) {
+            flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
+            return redirect(route($this->routeBase.'.edit', $id));
+        } catch (CanNotProcessException $e) {
+            flash($e->getMessage(), 'error', 'error');
+            return redirect(route($this->routeBase.'.edit', $id));
+        } catch (\Exception $e) {
+            flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
+            return redirect(route($this->routeBase.'.edit', $id));
         }
     }
 }
