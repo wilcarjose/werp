@@ -79,7 +79,8 @@ class TransactionService
 	        'qty' => $txQty,
 	        'sign' => $sign,
 	        'product_id' => $detail->product_id,
-	        'warehouse_id' => $detail->warehouse_id
+	        'warehouse_id' => $detail->warehouse_id,
+            'process_id' => $detail->id,
     	];
 
     	$this->entity->create($data);
@@ -101,7 +102,8 @@ class TransactionService
             'qty' => $detail->qty,
             'sign' => 'add',
             'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_id
+            'warehouse_id' => $detail->warehouse_id,
+            'process_id' => $detail->id,
         ];
 
         $this->entity->create($data);
@@ -121,7 +123,8 @@ class TransactionService
             'qty' => (-1) * $detail->qty,
             'sign' => 'sub',
             'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_id
+            'warehouse_id' => $detail->warehouse_id,
+            'process_id' => $detail->id,
         ];
 
         $this->entity->create($data);
@@ -142,7 +145,8 @@ class TransactionService
             'qty' => (-1) * $detail->qty,
             'sign' => 'sub',
             'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_from_id
+            'warehouse_id' => $detail->warehouse_from_id,
+            'process_id' => $detail->id,
         ]);
 
         // move to
@@ -158,7 +162,8 @@ class TransactionService
             'qty' => $detail->qty,
             'sign' => 'add',
             'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_to_id
+            'warehouse_id' => $detail->warehouse_to_id,
+            'process_id' => $detail->id,
         ]);
 
     }

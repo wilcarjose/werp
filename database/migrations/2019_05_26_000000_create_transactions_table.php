@@ -21,6 +21,7 @@ class CreateTransactionsTable extends Migration
             $table->text('description')->nullable();
             $table->double('qty');
             $table->enum('sign',['add','sub'])->default('add');
+            $table->integer('process_id');
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')
                 ->references('id')

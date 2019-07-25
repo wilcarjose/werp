@@ -21,7 +21,8 @@ class Transaction extends Model
         'qty',
         'sign',
         'product_id',
-        'warehouse_id'
+        'warehouse_id',
+        'process_id',
     ];
 
     public function toArray()
@@ -36,6 +37,9 @@ class Transaction extends Model
             'sign' => $this->sign,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
+            'process_id' => $this->process_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 
