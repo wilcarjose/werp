@@ -6,6 +6,7 @@ use Werp\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Products\Models\Inventory;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Products\Models\InventoryDetail;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
@@ -13,17 +14,20 @@ use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 class InventoryService extends BaseService
 {
     protected $entity;
+    protected $entityDetail;
     protected $inventoryObject;
     protected $transactionService;
 
     public function __construct(
         Inventory $entity,
+        InventoryDetail $entityDetail,
         DoctypeService $doctypeService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
-        $this->transactionService   = $transactionService;
+        $this->entityDetail         = $entityDetail;
         $this->doctypeService       = $doctypeService;
+        $this->transactionService   = $transactionService;
     }
 
     public function inventoryId(int $id)
@@ -77,7 +81,10 @@ class InventoryService extends BaseService
     protected function makeData($data, $entity = null)
     {
         $data['reference'] = $entity->code;
-        $data['date'] = date('Y-m-d');
+        $data['warehouse_id'] = isset($data['warehouse_id']) && $data['warehouse_id'] ?
+            $data['warehouse_id'] :
+            $entity->warehouse_id;
+        $data['date'] = $entity->date;
         
         return $data;
     }

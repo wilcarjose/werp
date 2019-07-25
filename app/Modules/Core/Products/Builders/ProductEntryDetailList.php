@@ -34,14 +34,16 @@ class ProductEntryDetailList extends MainList
                   'label' => 'Producto',
                   'id_key' => 'id',
                   'value_key' => 'code_name',
-                  'endpoint' => '/admin/products/products'
+                  'endpoint' => '/admin/products/products',
+                  'required' => true,
                 ],                
                 [
                   'key' => 'qty',
-                  'type' => 'text',
+                  'type' => 'amount',
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',
+                  'required' => true,
                 ],
                 [
                   'key' => 'amount',
@@ -49,6 +51,7 @@ class ProductEntryDetailList extends MainList
                   'name' => 'amount',
                   'id' => 'amount',
                   'label' => 'Precio',
+                  'required' => true,
                 ],                
               ],
               'advanced_fields' => [
@@ -61,7 +64,8 @@ class ProductEntryDetailList extends MainList
                   'label' => 'Almacén',
                   'id_key' => 'id',
                   'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses'
+                  'endpoint' => '/admin/products/warehouses',
+                  'required' => false,
                 ]
               ]
            ];

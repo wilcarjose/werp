@@ -36850,6 +36850,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
     data: function data() {
         return {
             pupupMod: 'add',
+            modalAction: '',
             showAdd: false,
             // Component
             columns: this.config.fields,
@@ -36950,6 +36951,30 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 });
             };
 
+            if (vm.modal.advanced_fields.length > 0) {
+
+                vm.modal.advanced_fields.forEach(function (item, index) {
+
+                    if (item.type == 'select') {
+
+                        $('#modal-' + item.id).on('select2:select', function () {
+                            var $this = $(this);
+                            var myValueIs = $this.val();
+                            vm.modal.object[item.name] = myValueIs;
+                        });
+
+                        axios.get(item.endpoint + '?paginate=off').then(function (response) {
+                            var res = response.data;
+                            if (res.status_code == 200) {
+                                vm.dependencies[item.items] = res.data;
+                            }
+                        }).catch(function (error) {
+                            console.log('Error cargando ' + item.items + ' - ' + error);
+                        });
+                    }
+                });
+            };
+
             //this.loadDependencies();
         }
     },
@@ -37000,9 +37025,29 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
             this.modal.object = obj;
             this.pupupMod = 'edit';
-            this.resetAlert();
-
+            this.modalAction = 'Editar';
+            this.resetAlert(this.modal.object);
+            console.log(this.modal.object);
             this.modal.fields.forEach(function (item, index) {
+
+                if (item.type == 'select') {
+                    if (obj[item.name] != '') {
+                        var id = parseInt(obj[item.name]);
+                        $('#modal-' + item.id).val(id);
+                        $('#modal-' + item.id).select2().trigger('change');
+                    }
+                }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    if (typeof _this2.modal.object[item.name] !== 'undefined' && _this2.modal.object[item.name] !== null && _this2.modal.object[item.name] != '') {
+                        $(input).numberbox('setValue', _this2.modal.object[item.name]);
+                        $(input).next().next().addClass('active');
+                    }
+                }
+            });
+
+            this.modal.advanced_fields.forEach(function (item, index) {
 
                 if (item.type == 'select') {
                     if (obj[item.name] != '') {
@@ -37045,7 +37090,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     if (_this3.reloadOnSave) {
                         location.reload();
                     }
-                }).catch(function (error) {});
+                }).catch(function (error) {
+                    _this3.alertHandler('error', error.data, true);
+                    console.log(error.data);
+                });
             }
 
             if (!this.filter) {
@@ -37053,16 +37101,47 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
         },
         create: function create(event) {
+
             this.resetSingleObj();
             this.resetAlert();
             this.pupupMod = 'add';
+            this.modalAction = 'Agregar';
+
+            this.modal.fields.forEach(function (item, index) {
+
+                if (item.type == 'select') {
+                    $('#modal-' + item.id).val(0);
+                    $('#modal-' + item.id).select2().trigger('change');
+                }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    $(input).numberbox('setValue', '');
+                    $(input).next().next().removeClass('active');
+                }
+            });
+
+            this.modal.advanced_fields.forEach(function (item, index) {
+
+                if (item.type == 'select') {
+                    $('#modal-' + item.id).val(0);
+                    $('#modal-' + item.id).select2().trigger('change');
+                }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    $(input).numberbox('setValue', '');
+                    $(input).next().next().removeClass('active');
+                }
+            });
+
             $('#componentDataModal').modal('open');
         },
         store: function store() {
             var _this4 = this;
 
             this.showLoader = true;
-            this.componentData.push(this.modal.object);
+
             if (this.filter) {
                 var suffix = this.filter + '/detail';
                 var uri = this.route + '/' + suffix;
@@ -37080,11 +37159,14 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     }
                     _this4.showLoader = false;
 
+                    _this4.componentData.push(_this4.modal.object);
+
                     if (_this4.reloadOnSave) {
                         location.reload();
                     }
                 }).catch(function (error) {
-                    console.log(error);
+                    _this4.alertHandler('error', error.data, true);
+                    console.log(error.data);
                 });
             }
 
@@ -37097,7 +37179,6 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
-            this.componentData.splice(index, 1);
             if (!this.empty_list) {
                 var suffix = this.filter ? this.filter + '/detail/' : '';
                 var uri = this.route + '/' + suffix + obj.id;
@@ -37110,11 +37191,14 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         _this5.alertHandler('error', res.message, true);
                     }
 
+                    _this5.componentData.splice(index, 1);
+
                     if (_this5.reloadOnSave) {
                         location.reload();
                     }
                 }).catch(function (error) {
-                    console.log(error);
+                    _this5.alertHandler('error', error.data, true);
+                    console.log(error.data);
                 });
             }
         },
@@ -37222,7 +37306,6 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             return day + "/" + month + "/" + year;
         },
         switchAdvancedOptions: function switchAdvancedOptions() {
-
             if (this.show_advanced_options) {
                 this.show_advanced_options = false;
                 $('.advanced-modal-options').hide(500);
@@ -38228,7 +38311,7 @@ var render = function() {
               _c("div", { staticClass: "col s12" }, [
                 _c("h5", [
                   _vm._v(
-                    _vm._s(_vm._f("capitalize")(_vm.pupupMod)) + " Producto"
+                    _vm._s(_vm._f("capitalize")(_vm.modalAction)) + " Producto"
                   )
                 ])
               ]),
@@ -38287,7 +38370,8 @@ var render = function() {
                                 staticClass: "select2_select",
                                 attrs: {
                                   id: "modal-" + field.id,
-                                  name: field.name
+                                  name: field.name,
+                                  required: field.required
                                 },
                                 on: {
                                   change: function($event) {
@@ -38340,7 +38424,8 @@ var render = function() {
                               attrs: {
                                 type: "text",
                                 name: field.name,
-                                id: "modal-" + field.id
+                                id: "modal-" + field.id,
+                                required: field.required
                               },
                               domProps: { value: _vm.modal.object[field.name] },
                               on: {
@@ -38372,7 +38457,8 @@ var render = function() {
                               staticStyle: { width: "509px" },
                               attrs: {
                                 id: "modal-" + field.id,
-                                name: field.name
+                                name: field.name,
+                                required: field.required
                               },
                               domProps: { value: _vm.modal.object[field.name] }
                             })
@@ -38444,7 +38530,8 @@ var render = function() {
                                 staticClass: "select2_select",
                                 attrs: {
                                   id: "modal-" + field.id,
-                                  name: field.name
+                                  name: field.name,
+                                  required: field.required
                                 },
                                 on: {
                                   change: function($event) {
@@ -38497,7 +38584,8 @@ var render = function() {
                               attrs: {
                                 type: "text",
                                 name: field.name,
-                                id: "modal-" + field.id
+                                id: "modal-" + field.id,
+                                required: field.required
                               },
                               domProps: { value: _vm.modal.object[field.name] },
                               on: {
@@ -38529,7 +38617,8 @@ var render = function() {
                               staticStyle: { width: "509px" },
                               attrs: {
                                 id: "modal-" + field.id,
-                                name: field.name
+                                name: field.name,
+                                required: field.required
                               },
                               domProps: { value: _vm.modal.object[field.name] }
                             })

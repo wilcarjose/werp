@@ -57,14 +57,12 @@ class ProductOutputController extends BaseController
     protected $storeDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'warehouse_id' => 'required',
         'amount' => 'required|numeric',
     ];
 
     protected $updateDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'warehouse_id' => 'required',
         'amount' => 'required|numeric',
     ];
 

@@ -55,13 +55,11 @@ class InventoryController extends BaseController
     protected $storeDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'warehouse_id' => 'required',
     ];
 
     protected $updateDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'warehouse_id' => 'required',
     ];
 
     protected $detailInputs = [

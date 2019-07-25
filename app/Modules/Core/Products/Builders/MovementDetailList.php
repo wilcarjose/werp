@@ -20,7 +20,7 @@ class MovementDetailList extends MainList
                 'product_id' => 'Number',
                 'warehouse_from_id' => 'Number',
                 'warehouse_to_id' => 'Number',
-                'qty' => 'Number'
+                'qty' => 'Number',
               ],
               'fields' => [
                 [
@@ -32,7 +32,8 @@ class MovementDetailList extends MainList
                   'label' => 'Producto',
                   'id_key' => 'id',
                   'value_key' => 'code_name',
-                  'endpoint' => '/admin/products/products'
+                  'endpoint' => '/admin/products/products',
+                  'required' => true,
                 ],
                 [
                   'key' => 'qty',
@@ -40,6 +41,7 @@ class MovementDetailList extends MainList
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',
+                  'required' => true,
                 ],                
               ],
               'advanced_fields' => [
@@ -52,7 +54,8 @@ class MovementDetailList extends MainList
                   'label' => 'Almacén desde',
                   'id_key' => 'id',
                   'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses'
+                  'endpoint' => '/admin/products/warehouses',
+                  'required' => false,
                 ],
                 [
                   'key' => 'warehouses_to',
@@ -63,7 +66,8 @@ class MovementDetailList extends MainList
                   'label' => 'Almacén hasta',
                   'id_key' => 'id',
                   'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses'
+                  'endpoint' => '/admin/products/warehouses',
+                  'required' => false,
                 ]
               ]
            ];

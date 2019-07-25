@@ -99,7 +99,7 @@ class DoctypesTableSeeder extends Seeder
                 'increment_number' => 1,
                 'last_number' => 0,
                 'use_zeros' => 'y',
-                'number_long' => 6,
+                'number_long' => 5,
                 'status'      => 'active',
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
@@ -111,7 +111,7 @@ class DoctypesTableSeeder extends Seeder
                 'increment_number' => 1,
                 'last_number' => 0,
                 'use_zeros' => 'y',
-                'number_long' => 6,
+                'number_long' => 5,
                 'status'      => 'active',
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
@@ -123,7 +123,7 @@ class DoctypesTableSeeder extends Seeder
                 'increment_number' => 1,
                 'last_number' => 0,
                 'use_zeros' => 'y',
-                'number_long' => 6,
+                'number_long' => 5,
                 'status'      => 'active',
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
@@ -135,7 +135,7 @@ class DoctypesTableSeeder extends Seeder
                 'increment_number' => 1,
                 'last_number' => 0,
                 'use_zeros' => 'y',
-                'number_long' => 6,
+                'number_long' => 5,
                 'status'      => 'active',
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
@@ -147,7 +147,7 @@ class DoctypesTableSeeder extends Seeder
                 'increment_number' => 1,
                 'last_number' => 0,
                 'use_zeros' => 'y',
-                'number_long' => 6,
+                'number_long' => 5,
                 'status'      => 'active',
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
@@ -159,7 +159,7 @@ class DoctypesTableSeeder extends Seeder
                 'increment_number' => 1,
                 'last_number' => 0,
                 'use_zeros' => 'y',
-                'number_long' => 6,
+                'number_long' => 5,
                 'status'      => 'active',
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')

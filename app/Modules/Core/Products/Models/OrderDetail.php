@@ -55,4 +55,10 @@ class OrderDetail extends Model
     {
         return $this->belongsTo('Werp\Modules\Core\Products\Models\Order');
     }
+
+    public function getMaster()
+    {
+        return $this->order;
+    }
+
 }

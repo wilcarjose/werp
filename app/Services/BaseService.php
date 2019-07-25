@@ -116,7 +116,11 @@ class BaseService
     {
         $entityDetail = $this->entityDetail->findOrFail($detailId);
 
-        return $entityDetail->update($data);
+        $data = $this->makeData($data, $entityDetail->getMaster());
+
+        $entityDetail->update($data);
+
+        return $entityDetail;
     }
 
     public function deleteDetail($id, $detailId)

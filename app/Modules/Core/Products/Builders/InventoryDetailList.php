@@ -15,7 +15,13 @@ class InventoryDetailList extends MainList
     public function __construct($empty = false, $filter = null, $disable = false)
     {
         $modal = [
-              'object' => ['id' => 'Number', 'product_id' => 'Number', 'warehouse_id' => 'Number', 'description' => 'String', 'qty' => 'Number' ],
+              'object' => [
+                'id' => 'Number',
+                'product_id' => 'Number',
+                'warehouse_id' => 'Number',
+                'description' => 'String',
+                'qty' => 'Number'
+              ],
               'fields' => [
                 [
                   'key' => 'products',
@@ -27,6 +33,7 @@ class InventoryDetailList extends MainList
                   'id_key' => 'id',
                   'value_key' => 'code_name',
                   'endpoint' => '/admin/products/products',
+                  'required' => true,
                 ],
                 [
                   'key' => 'qty',
@@ -34,6 +41,7 @@ class InventoryDetailList extends MainList
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',
+                  'required' => true,
                 ],
               ],
               'advanced_fields' => [
@@ -46,6 +54,7 @@ class InventoryDetailList extends MainList
                   'label' => 'Almacén',
                   'id_key' => 'id',
                   'value_key' => 'name',
+                  'required' => false,
                   'endpoint' => '/admin/products/warehouses',
                 ],
                 [
@@ -54,6 +63,7 @@ class InventoryDetailList extends MainList
                   'name' => 'description',
                   'id' => 'description',
                   'label' => 'Descripción',
+                  'required' => false,
                 ],
               ],
            ];

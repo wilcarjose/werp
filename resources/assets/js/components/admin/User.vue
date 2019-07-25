@@ -194,21 +194,21 @@
       <div id="componentDataModal" class="modal modal-fixed-footer large" v-if="use_modal">
         <div class="modal-content">
           <div class="col s12">
-            <h5>{{pupupMod | capitalize}} Producto</h5>
+            <h5>{{modalAction | capitalize}} Producto</h5>
           </div>
           <form @submit.prevent="isNotValidateForm" name="callback" class="col s12" style="margin-top: 10px;">
               <div class="input-field col s12" v-for="field in modal.fields" :style="field.type == 'select' || 'amount' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
 
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
-                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]">
+                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required">
                       <option value="" disabled=>Seleccione...</option>
                       <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
                   
-                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]">
+                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]" :required="field.required">
                   <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
 
-                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;">
+                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;" :required="field.required">
                   <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
                   <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
 
@@ -216,15 +216,15 @@
               <div v-show="show_advanced_options" class="input-field col s12 advanced-modal-options" v-for="field in modal.advanced_fields" :style="field.type == 'select' || 'amount' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
 
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
-                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]">
+                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required">
                       <option value="" disabled=>Seleccione...</option>
                       <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
                   
-                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]">
+                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]" :required="field.required">
                   <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
 
-                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;">
+                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;" :required="field.required">
                   <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
                   <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
 
@@ -275,6 +275,7 @@ export default {
     data() {
         return {
             pupupMod: 'add',
+            modalAction: '',
             showAdd: false,
             // Component
             columns: this.config.fields,
@@ -368,8 +369,31 @@ export default {
                       })
                       .catch((error) => { console.log('Error cargando ' + item.items + ' - ' + error) });
                   }
-              });
-          };
+                });
+            };
+
+            if (vm.modal.advanced_fields.length > 0) {
+
+                vm.modal.advanced_fields.forEach(function(item, index) {
+
+                  if (item.type == 'select') {
+
+                    $('#modal-'+ item.id).on('select2:select', function() {
+                        let $this = $(this);
+                        let myValueIs = $this.val();
+                        vm.modal.object[item.name] = myValueIs;
+                    });
+
+                    axios.get(item.endpoint + '?paginate=off').then((response) => {
+                          let res = response.data;
+                          if (res.status_code == 200) {
+                              vm.dependencies[item.items] = res.data;
+                          }
+                      })
+                      .catch((error) => { console.log('Error cargando ' + item.items + ' - ' + error) });
+                  }
+                });
+            };
 
           //this.loadDependencies();
         }
@@ -394,6 +418,7 @@ export default {
         resetSingleObj() {
             this.modal.object = {};
             this.showLoader = false;
+
         },
         all(page = 1) {
             this.resetAlert();
@@ -414,11 +439,35 @@ export default {
             }
         },
         show(obj) {
+            
             this.modal.object = obj;
             this.pupupMod = 'edit';
-            this.resetAlert();
-
+            this.modalAction = 'Editar';
+            this.resetAlert(this.modal.object);
+            console.log(this.modal.object);
             this.modal.fields.forEach((item, index) => {
+
+                if (item.type == 'select') {
+                    if (obj[item.name] != '') {
+                        var id = parseInt(obj[item.name]);
+                        $('#modal-'+ item.id).val(id);
+                        $('#modal-'+ item.id).select2().trigger('change');
+                    }
+                }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    if ( typeof this.modal.object[item.name] !== 'undefined' &&
+                      this.modal.object[item.name] !== null &&
+                      this.modal.object[item.name] != '') {
+                      $(input).numberbox('setValue', this.modal.object[item.name]);
+                      $(input).next().next().addClass('active');
+                    }                     
+                }
+
+            });
+
+            this.modal.advanced_fields.forEach((item, index) => {
 
                 if (item.type == 'select') {
                     if (obj[item.name] != '') {
@@ -461,7 +510,10 @@ export default {
                       location.reload();
                     }
                 })
-                .catch((error) => {});
+                .catch((error) => {
+                    this.alertHandler('error', error.data, true);
+                    console.log(error.data) 
+                });
             }
 
             if (!this.filter) {
@@ -469,14 +521,47 @@ export default {
             }
         },
         create(event) {
+            
             this.resetSingleObj();
             this.resetAlert();
-            this.pupupMod = 'add';            
+            this.pupupMod = 'add';
+            this.modalAction = 'Agregar';
+            
+            this.modal.fields.forEach((item, index) => {
+
+                if (item.type == 'select') {
+                    $('#modal-'+ item.id).val(0);
+                    $('#modal-'+ item.id).select2().trigger('change');
+                }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    $(input).numberbox('setValue', '');
+                    $(input).next().next().removeClass('active');
+                }
+
+            });
+
+            this.modal.advanced_fields.forEach((item, index) => {
+
+                if (item.type == 'select') {
+                    $('#modal-'+ item.id).val(0);
+                    $('#modal-'+ item.id).select2().trigger('change');
+                }
+
+                if (item.type == 'amount') {
+                    var input = $('#modal-' + item.id);
+                    $(input).numberbox('setValue', '');
+                    $(input).next().next().removeClass('active');
+                }
+
+            });
+
             $('#componentDataModal').modal('open');
         },
         store() {
             this.showLoader = true;
-            this.componentData.push(this.modal.object);
+            
             if (this.filter) {
               let suffix = `${this.filter}/detail`;
               let uri = `${this.route}/${suffix}`;
@@ -495,11 +580,16 @@ export default {
                       }
                       this.showLoader = false;
 
+                      this.componentData.push(this.modal.object);
+
                       if (this.reloadOnSave) {
                         location.reload();
                       }
                   })
-                  .catch((error) => { console.log(error) });
+                  .catch((error) => { 
+                    this.alertHandler('error', error.data, true);
+                    console.log(error.data) 
+                  });
               
             }
 
@@ -511,7 +601,6 @@ export default {
         remove(obj) {
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
-            this.componentData.splice(index, 1);
             if (!this.empty_list) {
               let suffix = this.filter ? `${this.filter}/detail/` : '';
               let uri = `${this.route}/${suffix}${obj.id}`;
@@ -523,12 +612,17 @@ export default {
                       } else {
                           this.alertHandler('error', res.message, true);
                       }
+                      
+                      this.componentData.splice(index, 1);
 
                       if (this.reloadOnSave) {
                         location.reload();
                       }
                   })
-                  .catch((error) => { console.log(error) });
+                  .catch((error) => { 
+                      this.alertHandler('error', error.data, true);
+                      console.log(error.data) 
+                   });
             }
         },
         removeMultiple() {

@@ -64,4 +64,9 @@ class MovementDetail extends Model
 
         return $data;
     }
+
+    public function getMaster()
+    {
+        return $this->movement;
+    }
 }

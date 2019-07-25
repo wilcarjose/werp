@@ -179,6 +179,10 @@ class ProductOutputService extends BaseService
         $data['reference'] = $entity->code;
         $data['date'] = $entity->date;
         $data['currency'] = $entity->currency;
+        $data['date'] = $entity->date;
+        $data['warehouse_id'] = isset($data['warehouse_id']) && $data['warehouse_id'] ?
+            $data['warehouse_id'] :
+            $entity->warehouse_id;
         
         return $data;
     }
@@ -294,7 +298,7 @@ class ProductOutputService extends BaseService
             DB::beginTransaction();
 
             $data['total_amount'] = $data['amount'];
-            $entityDetail = $entityDetail->update($data);
+            $entityDetail->update($data);
 
             $amount = 0;
             $tax_amount = 0;

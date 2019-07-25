@@ -105,4 +105,9 @@ class InoutDetail extends Model
 
         return $data;
     }
+
+    public function getMaster()
+    {
+        return $this->inout;
+    }
 }

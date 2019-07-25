@@ -43,4 +43,9 @@ class InventoryDetail extends Model
     {
         return $this->belongsTo('Werp\Modules\Core\Products\Models\Inventory');
     }
+
+    public function getMaster()
+    {
+        return $this->inventory;
+    }
 }
