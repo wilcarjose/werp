@@ -32,7 +32,7 @@ class ProductOutputForm extends FormBuilder
     public function __construct()
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Salida de productos')
+        $this->setTitle('Notas de entregas')
             ->setRoute('admin.products.product_output')
             ->addBreadcrumb($homeBreadcrumb);
     }
@@ -40,7 +40,7 @@ class ProductOutputForm extends FormBuilder
     public function createPage()
     {
         $this
-            ->newConfig('Nueva salida de productos')
+            ->newConfig('Nueva')
 
             ->addInput(new DateBuilder)            
             ->addSelect(new CustomerSelectBuilder)
@@ -66,7 +66,7 @@ class ProductOutputForm extends FormBuilder
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $this
-            ->editConfig('Editar salida de productos')
+            ->editConfig('Editar')
 
             ->addInput(new CodeInputBuilder);
 

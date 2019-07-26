@@ -74,7 +74,7 @@ return [
         'transactions' => 'Transacciones',
         'product_entry' => 'Entradas',
         'uom' => 'Unidades de medida',
-        'product_output' => 'Salidas',
+        'product_output' => 'Notas de entregas',
         'movements' => 'Movimientos',
         'sales' => 'Ventas',
         'customers' => 'Clientes',

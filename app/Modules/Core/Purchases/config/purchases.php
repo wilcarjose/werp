@@ -5,10 +5,12 @@ return [
     'menu' => [
         
             'name' => 'view.menu.purchases',
-            'icon' => 'local_offer',
+            'icon' => 'local_grocery_store',
             'route' => 'admin.purchases',
             'routes' => [
                 'admin.purchases.suppliers.index',
+                'admin.products.product_entry.index',
+                'admin.purchases.categories.index',
             ],
             'items' => [
                 [
@@ -41,8 +43,13 @@ return [
                     'icon' => '',
                     'route' => 'admin.purchases.processes',
                     'routes' => [
+                        'admin.products.product_entry.index',
                     ],
                     'items' => [
+                        [
+                            'name' => 'view.menu.product_entry',
+                            'route' => 'admin.products.product_entry.index',
+                        ],
                     ],
                 ],
                 [

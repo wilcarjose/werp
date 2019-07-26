@@ -17,8 +17,6 @@ return [
                 'admin.products.config.edit',
                 'admin.products.stock.index',
                 'admin.products.transactions.index',
-                'admin.products.product_entry.index',
-                'admin.products.product_output.index',
                 'admin.products.uom.index',
                 'admin.products.movements.index',
             ],
@@ -69,22 +67,12 @@ return [
                     'route' => 'admin.products.processes',
                     'routes' => [
                         'admin.products.inventories.index',
-                        'admin.products.product_entry.index',
-                        'admin.products.product_output.index',
                         'admin.products.movements.index',
                     ],
                     'items' => [
                         [
                             'name' => 'view.menu.inventories',
                             'route' => 'admin.products.inventories.index',
-                        ],
-                        [
-                            'name' => 'view.menu.product_entry',
-                            'route' => 'admin.products.product_entry.index',
-                        ],
-                        [
-                            'name' => 'view.menu.product_output',
-                            'route' => 'admin.products.product_output.index',
                         ],
                         [
                             'name' => 'view.menu.movements',

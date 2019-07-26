@@ -14,7 +14,7 @@ class ProductOutputList extends MainList
 {
     public function __construct()
     {
-        $this->setTitle('Salida de productos')
+        $this->setTitle('Notas de entrega')
             ->setRoute('admin.products.product_output')
             ->setShowStatus(false)
             ->setFields([

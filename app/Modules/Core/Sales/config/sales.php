@@ -6,13 +6,14 @@ return [
 
     'menu' => [
             'name' => 'view.menu.sales',
-            'icon' => 'domain',
+            'icon' => 'local_offer',
             'route' => 'admin.sales',
             'routes' => [
                 'admin.sales.price_lists.index',
                 'admin.sales.price_list_types.index',
                 'admin.sales.customers.index',
                 'admin.sales.categories.index',
+                'admin.products.product_output.index',
             ],
             'items' => [
             ],
@@ -47,11 +48,16 @@ return [
                     'route' => 'admin.sales.processes',
                     'routes' => [
                         'admin.sales.price_lists.index',
+                        'admin.products.product_output.index',
                     ],
                     'items' => [                        
                         [
                             'name' => 'view.menu.price_list',
                             'route' => 'admin.sales.price_lists.index',
+                        ],
+                        [
+                            'name' => 'view.menu.product_output',
+                            'route' => 'admin.products.product_output.index',
                         ],
                     ],
                 ],
