@@ -1,13 +1,13 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Controllers;
+namespace Werp\Modules\Core\Sales\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\BaseController;
-use Werp\Modules\Core\Products\Services\PriceListTypeService;
-use Werp\Modules\Core\Products\Builders\PriceListTypeForm;
-use Werp\Modules\Core\Products\Builders\PriceListTypeList;
-use Werp\Modules\Core\Products\Transformers\PriceListTypeTransformer;
+use Werp\Modules\Core\Sales\Builders\PriceListTypeForm;
+use Werp\Modules\Core\Sales\Builders\PriceListTypeList;
+use Werp\Modules\Core\Sales\Services\PriceListTypeService;
+use Werp\Modules\Core\Sales\Transformers\PriceListTypeTransformer;
 
 class PriceListTypeController extends BaseController
 {
@@ -37,14 +37,14 @@ class PriceListTypeController extends BaseController
     ];
 
     public function __construct(
-        PriceListTypeService $entityService,
-        PriceListTypeTransformer $entityTransformer,
         PriceListTypeForm $entityForm,
-        PriceListTypeList $entityList
+        PriceListTypeList $entityList,
+        PriceListTypeService $entityService,
+        PriceListTypeTransformer $entityTransformer
     ) {
-        $this->entityService     = $entityService;
-        $this->entityTransformer = $entityTransformer;
         $this->entityForm        = $entityForm;
         $this->entityList        = $entityList;
+        $this->entityService     = $entityService;
+        $this->entityTransformer = $entityTransformer;
     }
 }

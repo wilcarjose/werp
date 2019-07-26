@@ -29,6 +29,8 @@ class ListBuilder extends ModuleBuilder
 
     protected $showMessages = true;
 
+    protected $showAdvancedOptions = true;
+
     protected $disable = false;
 
     protected $paginate = true;
@@ -207,6 +209,24 @@ class ListBuilder extends ModuleBuilder
     /**
      * @return mixed
      */
+    public function getShowAdvancedOptions()
+    {
+        return $this->showAdvancedOptions;
+    }
+
+    /**
+     * @param mixed $showAdvancedOptions
+     * @return ListBuilder
+     */
+    public function setShowAdvancedOptions($showAdvancedOptions)
+    {
+        $this->showAdvancedOptions = $showAdvancedOptions;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDisable()
     {
         return $this->disable;
@@ -337,6 +357,7 @@ class ListBuilder extends ModuleBuilder
             'fields' => $this->getFields(),
             'show_actions' => $this->getShowActions(),
             'reload_on_save' => $this->getReloadOnSave(),
+            'show_advanced' => $this->getShowAdvancedOptions(),
         ];
 
         $this->setConfig(json_encode($config));

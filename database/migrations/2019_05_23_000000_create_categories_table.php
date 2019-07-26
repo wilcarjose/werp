@@ -18,6 +18,10 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->enum('status',['active','inactive'])->default('active');
+            $table->integer('category_id')->unsigned()->nullable();
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories');
             $table->timestamps();
         });
     }

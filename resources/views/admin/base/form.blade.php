@@ -135,10 +135,10 @@
                 @if ($page->edit()) {{ method_field('PUT') }} @endif
                 <div class="card-panel profile-form-cardpanel">
                     <div class="row box-title">
-                        <div class="col s10">
+                        <div class="col s9">
                             <h5>{{ $page->getAction() }}</h5>
                         </div>
-                        <div class="col s2">
+                        <div class="col s3">
                             @if ($page->getState())
                               <h5 style="background: {{ $page->getStateColor() }}; text-align: center; border-radius: 9px; padding: 3px 0px; font-weight: 300;">{{ $page->getState() }}</h5>
                             @endif

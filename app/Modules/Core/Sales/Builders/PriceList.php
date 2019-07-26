@@ -6,7 +6,7 @@
  * Time: 06:33 PM
  */
 
-namespace Werp\Modules\Core\Products\Builders;
+namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\Main\MainList;
 
@@ -35,16 +35,20 @@ class PriceList extends MainList
                   'id' => 'price',
                   'label' => 'Precio',
                 ]
+              ],
+              'advanced_fields' => [
+
               ]
            ];
 
         $this->setTitle('Productos')
-            ->setRoute('admin.products.price_lists')
+            ->setRoute('admin.sales.price_lists')
             ->setShowStatus(false)
             ->setShowSearch(false)
             ->setUseModal(true)
             ->setDeleteMultiple(false)
             ->setShowMessages(false)
+            ->setShowAdvancedOptions(false)
             ->setFields([
               ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'], 
               ['field' => 'price', 'name' => 'Precio' , 'type' => 'amount']

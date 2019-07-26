@@ -36876,6 +36876,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             show_filters: false,
             reloadOnSave: this.config.reload_on_save,
             show_advanced_options: false,
+            show_advanced: this.config.show_advanced,
             amount: {
                 decimalSeparator: ",",
                 groupSeparator: ".",
@@ -38641,24 +38642,38 @@ var render = function() {
                     )
                   }),
                   _vm._v(" "),
-                  _c("div", { staticClass: "input-field col s12" }, [
-                    _c(
-                      "a",
-                      {
-                        attrs: { href: "javascript:void(0);" },
-                        on: {
-                          click: function($event) {
-                            _vm.switchAdvancedOptions()
-                          }
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.show_advanced,
+                          expression: "show_advanced"
                         }
-                      },
-                      [
-                        _vm._v(
-                          "\n                Opciones avanzadas\n            "
-                        )
-                      ]
-                    )
-                  ])
+                      ],
+                      staticClass: "input-field col s12"
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "javascript:void(0);" },
+                          on: {
+                            click: function($event) {
+                              _vm.switchAdvancedOptions()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                Opciones avanzadas\n            "
+                          )
+                        ]
+                      )
+                    ]
+                  )
                 ],
                 2
               )

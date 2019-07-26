@@ -229,7 +229,7 @@
                   <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
 
               </div>
-              <div class="input-field col s12" >
+              <div class="input-field col s12" v-show="show_advanced">
                 <a href="javascript:void(0);" @click="switchAdvancedOptions()">
                     Opciones avanzadas
                 </a>
@@ -301,6 +301,7 @@ export default {
             show_filters: false,
             reloadOnSave: this.config.reload_on_save,
             show_advanced_options: false,
+            show_advanced: this.config.show_advanced,
             amount: {
               decimalSeparator: ",",
               groupSeparator: ".",

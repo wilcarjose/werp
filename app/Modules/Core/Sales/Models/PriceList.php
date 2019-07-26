@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Models;
+namespace Werp\Modules\Core\Sales\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,17 +43,17 @@ class PriceList extends Model
      */
     public function detail()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\Price', 'price_list_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'price_list_id', 'id');
     }
 
     public function priceListType()
     {
-        return $this->belongsTo('Werp\Modules\Core\Products\Models\PriceListType', 'price_list_type_id');
+        return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'price_list_type_id');
     }
 
     public function referencePriceListType()
     {
-        return $this->belongsTo('Werp\Modules\Core\Products\Models\PriceListType', 'reference_price_list_type_id');
+        return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'reference_price_list_type_id');
     }
 
     public function getState($state = null)

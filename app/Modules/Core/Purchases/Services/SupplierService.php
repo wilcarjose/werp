@@ -2,15 +2,15 @@
 
 namespace Werp\Modules\Core\Purchases\Services;
 
-use Werp\Modules\Core\Purchases\Models\Supplier;
+use Werp\Modules\Core\Purchases\Models\Partner;
 
 class SupplierService
 {
-	protected $supplier;
+	protected $entity;
 
-    public function __construct(Supplier $supplier)
+    public function __construct(Partner $entity)
     {
-        $this->supplier = $supplier;
+        $this->entity = $entity;
     }
 
 }

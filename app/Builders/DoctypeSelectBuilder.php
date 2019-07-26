@@ -10,7 +10,6 @@ namespace Werp\Builders;
 
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
-use Werp\Modules\Core\Products\Models\PriceListType;
 
 class DoctypeSelectBuilder extends SelectBuilder
 {

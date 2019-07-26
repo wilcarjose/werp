@@ -5,110 +5,59 @@ use Werp\Modules\Core\Maintenance\Models\Basedoc;
 return [
 
     'menu' => [
-            'name' => 'view.menu.products',
+            'name' => 'view.menu.sales',
             'icon' => 'domain',
-            'route' => 'admin.products',
+            'route' => 'admin.sales',
             'routes' => [
-                'admin.products.categories.index',
-                'admin.products.products.index',
-                'admin.products.warehouses.index',
-                'admin.products.inventories.index',
-                'admin.products.brands.index',
-                'admin.products.config.edit',
-                'admin.products.stock.index',
-                'admin.products.transactions.index',
-                'admin.products.product_entry.index',
-                'admin.products.product_output.index',
-                'admin.products.uom.index',
-                'admin.products.movements.index',
+                'admin.sales.price_lists.index',
+                'admin.sales.price_list_types.index',
+                'admin.sales.customers.index',
             ],
             'items' => [
-                [
-                    'name' => 'view.menu.config',
-                    'route' => 'admin.products.config.edit',
-                ],
             ],
             'submodules' => [
                 [
                     'name' => 'view.menu.general',
                     'icon' => '',
-                    'route' => 'admin.products.general',
+                    'route' => 'admin.sales.general',
                     'routes' => [
-                        'admin.products.categories.index',
-                        'admin.products.products.index',
-                        'admin.products.warehouses.index',
-                        'admin.products.brands.index',
-                        'admin.products.uom.index',
+                        'admin.sales.price_list_types.index',
+                        'admin.sales.customers.index',
                     ],
                     'items' => [
                         [
-                            'name' => 'view.menu.categories',
-                            'route' => 'admin.products.categories.index',
+                            'name' => 'view.menu.customers',
+                            'route' => 'admin.sales.customers.index',
                         ],
                         [
-                            'name' => 'view.menu.brands',
-                            'route' => 'admin.products.brands.index',
-                        ],
-                        [
-                            'name' => 'view.menu.uom',
-                            'route' => 'admin.products.uom.index',
-                        ],
-                        [
-                            'name' => 'view.menu.products',
-                            'route' => 'admin.products.products.index',
-                        ],
-                        [
-                            'name' => 'view.menu.warehouses',
-                            'route' => 'admin.products.warehouses.index',
+                            'name' => 'view.menu.price_list_types',
+                            'route' => 'admin.sales.price_list_types.index',
                         ],
                     ],
                 ],
                 [
                     'name' => 'view.menu.processes',
                     'icon' => '',
-                    'route' => 'admin.products.processes',
+                    'route' => 'admin.sales.processes',
                     'routes' => [
-                        'admin.products.inventories.index',
-                        'admin.products.product_entry.index',
-                        'admin.products.product_output.index',
-                        'admin.products.movements.index',
+                        'admin.sales.price_lists.index',
                     ],
-                    'items' => [
+                    'items' => [                        
                         [
-                            'name' => 'view.menu.inventories',
-                            'route' => 'admin.products.inventories.index',
-                        ],
-                        [
-                            'name' => 'view.menu.product_entry',
-                            'route' => 'admin.products.product_entry.index',
-                        ],
-                        [
-                            'name' => 'view.menu.product_output',
-                            'route' => 'admin.products.product_output.index',
-                        ],
-                        [
-                            'name' => 'view.menu.movements',
-                            'route' => 'admin.products.movements.index',
+                            'name' => 'view.menu.price_list',
+                            'route' => 'admin.sales.price_lists.index',
                         ],
                     ],
                 ],
                 [
                     'name' => 'view.menu.reports',
                     'icon' => '',
-                    'route' => 'admin.products.reports',
+                    'route' => 'admin.sales.reports',
                     'routes' => [
-                        'admin.products.stock.index',
-                        'admin.products.transactions.index',
+                        
                     ],
                     'items' => [
-                        [
-                            'name' => 'view.menu.stock',
-                            'route' => 'admin.products.stock.index',
-                        ],
-                        [
-                            'name' => 'view.menu.transactions',
-                            'route' => 'admin.products.transactions.index',
-                        ],
+                        
                     ],
                 ],
             ]

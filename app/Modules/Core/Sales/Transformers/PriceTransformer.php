@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Transformers;
+namespace Werp\Modules\Core\Sales\Transformers;
 
 use Werp\Transformers\Transformer;
 use Werp\Modules\Core\Products\Models\Product;

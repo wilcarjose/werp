@@ -5,15 +5,15 @@ namespace Werp\Modules\Core\Products\Controllers;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\InoutDetail;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Products\Builders\ProductOutputForm;
 use Werp\Modules\Core\Products\Builders\ProductOutputList;
-use Werp\Modules\Core\Products\Services\ConfigService;
-use Werp\Modules\Core\Products\Services\ProductOutputService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
-use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
+use Werp\Modules\Core\Products\Services\ProductOutputService;
 use Werp\Modules\Core\Products\Transformers\InoutTransformer;
+use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Transformers\InoutDetailTransformer;
 
 class ProductOutputController extends BaseController

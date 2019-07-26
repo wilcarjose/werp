@@ -1,10 +1,11 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Services;
+namespace Werp\Modules\Core\Purchases\Services;
 
 use Werp\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Order;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Products\Services\OrderService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;

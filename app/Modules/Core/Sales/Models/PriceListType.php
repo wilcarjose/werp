@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Models;
+namespace Werp\Modules\Core\Sales\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +25,7 @@ class PriceListType extends Model
      */
     public function prices()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\Price', 'price_list_type_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'price_list_type_id', 'id');
     }
 
     public function toArray()

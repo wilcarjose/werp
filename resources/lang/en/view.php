@@ -76,6 +76,8 @@ return [
         'uom' => 'Uom',
         'product_output' => 'Product output',
         'movements' => 'Movements',
+        'sales' => 'Sales',
+        'customers' => 'Customers',
     ],
     'profile' => [
         'profile' => 'Profile',

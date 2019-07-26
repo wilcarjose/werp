@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Models;
+namespace Werp\Modules\Core\Sales\Models;
 
 use Money\Money;
 use Money\Currency;
@@ -26,7 +26,7 @@ class Price extends Model
 
     public function priceListType()
     {
-        return $this->hasOne('Werp\Modules\Core\Products\Models\PriceListType', 'id', 'price_list_type_id');
+        return $this->hasOne('Werp\Modules\Core\Sales\Models\PriceListType', 'id', 'price_list_type_id');
     }
 
     public function toArray()
@@ -56,5 +56,15 @@ class Price extends Model
         return is_null($this->priceObject) ?
             new Money(intval($this->price * 100),  new Currency($this->priceListType->currency)) :
             $this->priceObject;
+    }
+
+    public function priceList()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceList');
+    }
+
+    public function getMaster()
+    {
+        return $this->priceList;
     }
 }

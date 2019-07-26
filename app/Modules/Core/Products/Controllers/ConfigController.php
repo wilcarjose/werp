@@ -7,8 +7,8 @@ use Werp\Http\Controllers\Controller;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Products\Builders\ConfigForm;
-use Werp\Modules\Core\Products\Services\ConfigService;
-use Werp\Modules\Core\Products\Transformers\ConfigTransformer;
+use Werp\Modules\Core\Maintenance\Services\ConfigService;
+use Werp\Modules\Core\Maintenance\Transformers\ConfigTransformer;
 
 class ConfigController extends Controller
 {

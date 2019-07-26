@@ -26,8 +26,10 @@ class Category extends Model
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
+            'category_id' => $this->category_id,
             'status' => $this->status,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 
@@ -44,5 +46,10 @@ class Category extends Model
     public function isType($type)
     {
         return $this->type == $type;
+    }
+
+    public function category()
+    {
+        return $this->hasOne('Werp\Modules\Core\Products\Models\Category', 'id', 'category_id');
     }
 }

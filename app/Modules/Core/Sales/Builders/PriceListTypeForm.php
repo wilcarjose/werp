@@ -6,7 +6,7 @@
  * Time: 05:40 PM
  */
 
-namespace Werp\Modules\Core\Products\Builders;
+namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\SelectBuilder;
@@ -26,7 +26,7 @@ class PriceListTypeForm extends FormBuilder
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'),  trans('view.dashboard'));
         $this->setTitle('Tipos de listas de precios')
-            ->setRoute('admin.products.price_list_types')
+            ->setRoute('admin.sales.price_list_types')
             ->addBreadcrumb($homeBreadcrumb);
 
         $this->types = [
@@ -47,10 +47,8 @@ class PriceListTypeForm extends FormBuilder
 
     public function createPage($dependencies = [])
     {
-        $this->setAction('Nuevo tipo de lista de precios')
-            ->setShortAction('Nueva')
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
+        $this
+            ->newConfig('Nuevo tipo de lista de precios')
             ->addInput(new NameInputBuilder())
             ->addInput(new DescriptionInputBuilder())
             ->addSelect(new SelectBuilder('type', 'Tipo', $this->types, $this->defaultType))
@@ -65,11 +63,7 @@ class PriceListTypeForm extends FormBuilder
     {
         $this->data = $data;
 
-        $this->setAction('Editar tipo de lista de precios')
-            ->setShortAction('Editar')
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->setEdit()
+        $this->editConfig('Editar tipo de lista de precios')
             ->addInput(new NameInputBuilder($this->data['name']))
             ->addInput(new DescriptionInputBuilder($this->data['description']))
             ->addSelect(new SelectBuilder('type', 'Tipo', $this->types, $this->data['type']))

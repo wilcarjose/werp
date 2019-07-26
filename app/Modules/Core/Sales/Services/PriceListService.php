@@ -1,11 +1,12 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Services;
+namespace Werp\Modules\Core\Sales\Services;
 
 use Money\Money;
 use Money\Currency;
 use Werp\Services\BaseService;
-use Werp\Modules\Core\Products\Models\PriceList;
+use Werp\Modules\Core\Sales\Models\Price;
+use Werp\Modules\Core\Sales\Models\PriceList;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 
@@ -15,9 +16,11 @@ class PriceListService extends BaseService
 
     public function __construct(
     	PriceList $entity,
+        Price $entityDetail,
     	DoctypeService $doctypeService
     ) {
         $this->entity = $entity;
+        $this->entityDetail = $entityDetail;
         $this->doctypeService = $doctypeService;
     }
 

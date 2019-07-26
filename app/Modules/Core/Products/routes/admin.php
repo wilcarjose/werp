@@ -48,25 +48,6 @@
 	Route::get('/config/edit', '\Werp\Modules\Core\Products\Controllers\ConfigController@edit')->name('config.edit');
 	Route::put('/config/update', '\Werp\Modules\Core\Products\Controllers\ConfigController@update')->name('config.update');
 
-	// Prices
-	Route::put('/price_lists/status','\Werp\Modules\Core\Products\Controllers\PriceListController@switchStatus')->name('price_list_status');
-	Route::post('/price_lists/removeBulk','\Werp\Modules\Core\Products\Controllers\PriceListController@destroyBulk');
-	Route::put('/price_lists/statusBulk','\Werp\Modules\Core\Products\Controllers\PriceListController@switchStatusBulk');
-	Route::get('/price_lists/{id}/detail', '\Werp\Modules\Core\Products\Controllers\PriceListController@indexDetail')->name('price_lists.detail.index');
-	Route::resource('/price_lists','\Werp\Modules\Core\Products\Controllers\PriceListController');
-	Route::get('/price_lists/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceListController@showDetail')->name('price_lists.detail.show');
-	Route::put('/price_lists/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceListController@updateDetail')->name('price_lists.detail.update');
-	Route::post('/price_lists/{id}/detail', '\Werp\Modules\Core\Products\Controllers\PriceListController@storeDetail')->name('price_lists.detail.update');
-	Route::delete('/price_lists/{id}/detail/{detail}', '\Werp\Modules\Core\Products\Controllers\PriceListController@destroyDetail')->name('price_lists.detail.update');
-	Route::get('/price_lists/{id}/process', '\Werp\Modules\Core\Products\Controllers\PriceListController@process')->name('price_lists.process');
-	Route::get('/price_lists/{id}/reverse', '\Werp\Modules\Core\Products\Controllers\PriceListController@reverse')->name('price_lists.reverse');
-
-	// Price list type
-	Route::put('/price_list_types/status','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@switchStatus')->name('price_list_types_status');
-	Route::post('/price_list_types/removeBulk','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@destroyBulk');
-	Route::put('/price_list_types/statusBulk','\Werp\Modules\Core\Products\Controllers\PriceListTypeController@switchStatusBulk');
-	Route::resource('/price_list_types','\Werp\Modules\Core\Products\Controllers\PriceListTypeController');
-
 	// Stock
 	Route::get('/stock', '\Werp\Modules\Core\Products\Controllers\StockController@index')->name('stock.index');
 

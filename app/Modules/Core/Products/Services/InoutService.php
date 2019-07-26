@@ -11,7 +11,7 @@ use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Products\Models\InoutDetail;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
-use Werp\Modules\Core\Products\Services\PurchaseOrderService;
+use Werp\Modules\Core\Purchases\Services\PurchaseOrderService;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 

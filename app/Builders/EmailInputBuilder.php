@@ -22,7 +22,7 @@ class EmailInputBuilder extends TextInputBuilder
     public function __construct($value = null, $disabled = false, $icon = null)
     {
         $this->name = 'email';
-        $this->type = 'input';
+        $this->type = 'email';
         $this->icon = $icon;
         $this->text = trans('view.email');
         $this->value = $value;

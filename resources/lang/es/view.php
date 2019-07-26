@@ -76,6 +76,8 @@ return [
         'uom' => 'Unidades de medida',
         'product_output' => 'Salidas',
         'movements' => 'Movimientos',
+        'sales' => 'Ventas',
+        'customers' => 'Clientes',
     ],
     'profile' => [
         'profile' => 'Perfil',

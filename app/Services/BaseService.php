@@ -15,14 +15,20 @@ class BaseService
         return $exception ? $this->entity->findOrFail($id) : $this->entity->find($id);
     }
 
+    protected function filters($entity)
+    {
+        return $entity;
+    } 
+
     public function getResults($sort, $order, $search, $paginate)
     {
-        $entities = $this->entity->where(function ($query) use ($search) {
-            //if ($search) {
-            //    $query->where('name', 'like', "$search%");
-            //}
-        })
-        ->orderBy("$sort", "$order");
+        $entities = $this->filters($this->entity)
+            ->where(function ($query) use ($search) {
+                //if ($search) {
+                //    $query->where('name', 'like', "$search%");
+                //}
+            })
+            ->orderBy("$sort", "$order");
 
         $total = $entities->count();
 
@@ -51,6 +57,8 @@ class BaseService
 
     public function create(array $data)
     {
+        $data = $this->makeCreateData($data);
+        
         return $this->entity->create($data);
     }
 
@@ -135,6 +143,11 @@ class BaseService
     }
 
     protected function makeUpdateData($id, $data)
+    {
+        return $data;
+    }
+
+    protected function makeCreateData($data)
     {
         return $data;
     }

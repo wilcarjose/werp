@@ -181,6 +181,11 @@ return [
          */
         Werp\Modules\Core\Products\Providers\ModuleServiceProvider::class,
 
+        /**
+         * Core Products module
+         */
+        Werp\Modules\Core\Sales\Providers\ModuleServiceProvider::class,
+
         
 
     ],

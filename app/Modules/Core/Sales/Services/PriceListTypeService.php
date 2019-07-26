@@ -1,9 +1,9 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Services;
+namespace Werp\Modules\Core\Sales\Services;
 
 use Werp\Services\BaseService;
-use Werp\Modules\Core\Products\Models\PriceListType;
+use Werp\Modules\Core\Sales\Models\PriceListType;
 
 class PriceListTypeService extends BaseService
 {

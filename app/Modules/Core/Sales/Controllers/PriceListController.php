@@ -1,16 +1,16 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Controllers;
+namespace Werp\Modules\Core\Sales\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\BaseController;
-use Werp\Modules\Core\Products\Models\Price;
-use Werp\Modules\Core\Products\Models\PriceList;
-use Werp\Modules\Core\Products\Builders\PriceListForm;
-use Werp\Modules\Core\Products\Builders\PriceListList;
-use Werp\Modules\Core\Products\Services\PriceListService;
-use Werp\Modules\Core\Products\Transformers\PriceTransformer;
-use Werp\Modules\Core\Products\Transformers\PriceListTransformer;
+use Werp\Modules\Core\Sales\Models\Price;
+use Werp\Modules\Core\Sales\Models\PriceList;
+use Werp\Modules\Core\Sales\Builders\PriceListForm;
+use Werp\Modules\Core\Sales\Builders\PriceListList;
+use Werp\Modules\Core\Sales\Services\PriceListService;
+use Werp\Modules\Core\Sales\Transformers\PriceTransformer;
+use Werp\Modules\Core\Sales\Transformers\PriceListTransformer;
 
 class PriceListController extends BaseController
 {
@@ -59,7 +59,7 @@ class PriceListController extends BaseController
 
     protected $relatedField = 'price_list_id';
 
-    protected $routeBase = 'admin.products.price_lists';
+    protected $routeBase = 'admin.sales.price_lists';
 
     public function __construct(
         PriceList $entity,
@@ -86,11 +86,11 @@ class PriceListController extends BaseController
             $this->entityService->process($id);
 
             flash('Lista de precios procesada exitosamente', 'success', 'success');
-            return redirect(route('admin.products.price_lists.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
 
         } catch (\Exception $e) {
             flash($e->getMessage(), 'error', 'error');
-            return redirect(route('admin.products.price_lists.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
         }
     }
 
@@ -101,11 +101,11 @@ class PriceListController extends BaseController
             $this->entityService->reverse($id);
 
             flash('Lista de precios reversada exitosamente', 'success', 'success');
-            return redirect(route('admin.products.price_lists.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
 
         } catch (\Exception $e) {
             flash($e->getMessage(), 'error', 'error');
-            return redirect(route('admin.products.price_lists.edit', $id));
+            return redirect(route($this->routeBase.'.edit', $id));
         }
     }
 }

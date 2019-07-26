@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Services;
+namespace Werp\Modules\Core\Maintenance\Services;
 
 use Werp\Modules\Core\Maintenance\Models\Config;
 
