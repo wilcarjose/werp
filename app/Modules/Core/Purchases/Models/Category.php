@@ -8,7 +8,7 @@ class Category extends CategoryBase
 {
     public function isSupplier()
     {
-        return $this->type == 'supplier';
+        return $this->type == CategoryBase::SUPPLIER_TYPE;
     }
 
     public function isNotSupplier()

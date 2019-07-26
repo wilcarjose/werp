@@ -9,6 +9,10 @@ class Category extends Model
 	const STATE_ACTIVE   = 'active';
     const STATE_INACTIVE = 'inactive';
 
+    const PRODUCT_TYPE = 'product';
+    const SUPPLIER_TYPE = 'supplier';
+    const CUSTOMER_TYPE = 'customer';
+
     protected $table = 'categories';
 
     /**
@@ -17,7 +21,7 @@ class Category extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'type'
+        'name', 'type', 'category_id', 
     ];
 
     public function toArray()
@@ -35,7 +39,7 @@ class Category extends Model
 
     public function isProduct()
     {
-        return $this->type == 'product';
+        return $this->type == self::PRODUCT_TYPE;
     }
 
     public function isNotProduct()

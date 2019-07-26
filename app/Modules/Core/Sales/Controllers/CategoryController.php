@@ -1,26 +1,26 @@
 <?php
 
-namespace Werp\Modules\Core\Purchases\Controllers;
+namespace Werp\Modules\Core\Sales\Controllers;
 
 use Werp\Http\Controllers\BaseController;
-use Werp\Modules\Core\Purchases\Builders\CategoryForm;
-use Werp\Modules\Core\Purchases\Builders\CategoryList;
-use Werp\Modules\Core\Purchases\Services\CategoryService;
-use Werp\Modules\Core\Purchases\Transformers\CategoryTransformer;
+use Werp\Modules\Core\Sales\Builders\CategoryForm;
+use Werp\Modules\Core\Sales\Builders\CategoryList;
+use Werp\Modules\Core\Sales\Services\CategoryService;
+use Werp\Modules\Core\Sales\Transformers\CategoryTransformer;
 
 class CategoryController extends BaseController
 {
-    protected $entityService;
-    protected $entityTransformer;
     protected $entityForm;
     protected $entityList;
+    protected $entityService;
+    protected $entityTransformer;
 
     public function __construct(CategoryService $entityService, CategoryTransformer $entityTransformer, CategoryForm $entityForm, CategoryList $entityList)
     {
+        $this->entityForm        = $entityForm;
+        $this->entityList        = $entityList;
         $this->entityService     = $entityService;
         $this->entityTransformer = $entityTransformer;
-        $this->entityForm     = $entityForm;
-        $this->entityList     = $entityList;
     }
 
     protected $inputs = [
@@ -38,5 +38,6 @@ class CategoryController extends BaseController
         'category_id'  => 'numeric|nullable',
     ];
 
-    protected $routeBase = 'admin.purchases.categories';
+    protected $routeBase = 'admin.customers.categories';
+
 }

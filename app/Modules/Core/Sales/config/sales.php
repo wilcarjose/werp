@@ -12,6 +12,7 @@ return [
                 'admin.sales.price_lists.index',
                 'admin.sales.price_list_types.index',
                 'admin.sales.customers.index',
+                'admin.sales.categories.index',
             ],
             'items' => [
             ],
@@ -23,8 +24,13 @@ return [
                     'routes' => [
                         'admin.sales.price_list_types.index',
                         'admin.sales.customers.index',
+                        'admin.sales.categories.index',
                     ],
                     'items' => [
+                        [
+                            'name' => 'view.menu.categories',
+                            'route' => 'admin.sales.categories.index',
+                        ],
                         [
                             'name' => 'view.menu.customers',
                             'route' => 'admin.sales.customers.index',

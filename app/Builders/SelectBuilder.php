@@ -187,6 +187,11 @@ class SelectBuilder
         return $this;
     }
 
+    public function addNone()
+    {
+        return $this->setNone(true);
+    }
+
     /**
      * @return mixed
      */

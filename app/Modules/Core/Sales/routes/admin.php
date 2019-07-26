@@ -24,3 +24,9 @@
 	Route::post('/customers/removeBulk','\Werp\Modules\Core\Sales\Controllers\CustomerController@destroyBulk');
 	Route::put('/customers/statusBulk','\Werp\Modules\Core\Sales\Controllers\CustomerController@switchStatusBulk');
 	Route::resource('/customers','\Werp\Modules\Core\Sales\Controllers\CustomerController');
+
+	// Categories
+	Route::put('/categories/status','\Werp\Modules\Core\Sales\Controllers\CategoryController@switchStatus')->name('category_status');
+	Route::post('/categories/removeBulk','\Werp\Modules\Core\Sales\Controllers\CategoryController@destroyBulk');
+	Route::put('/categories/statusBulk','\Werp\Modules\Core\Sales\Controllers\CategoryController@switchStatusBulk');
+	Route::resource('/categories','\Werp\Modules\Core\Sales\Controllers\CategoryController');

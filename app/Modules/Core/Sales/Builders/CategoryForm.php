@@ -6,25 +6,25 @@
  * Time: 05:40 PM
  */
 
-namespace Werp\Modules\Core\Products\Builders;
+namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\NameInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveActionBuilder;
 use Werp\Builders\UpdateActionBuilder;
-use Werp\Builders\ProductCategorySelectBuilder;
+use Werp\Builders\CustomerCategorySelectBuilder;
 
 
 class CategoryForm extends FormBuilder
 {
-    protected $moduleRoute = 'admin.products.categories';
-    protected $listRoute = 'admin.products.categories.index';
+    protected $moduleRoute = 'admin.sales.categories';
+    protected $listRoute = 'admin.sales.categories.index';
 
     public function __construct()
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Categorias de productos')
+        $this->setTitle('Categorias de clientes')
             ->setRoute($this->moduleRoute)
             ->addBreadcrumb($homeBreadcrumb);
     }
@@ -34,7 +34,7 @@ class CategoryForm extends FormBuilder
         $this
             ->newConfig('Nueva categoria')
             ->addInput(new NameInputBuilder)
-            ->addSelect((new ProductCategorySelectBuilder)->setText('Categoria padre')->addNone())
+            ->addSelect((new CustomerCategorySelectBuilder)->setText('Categoria padre')->addNone())
             ->addAction(new SaveActionBuilder)
         ;
 
@@ -48,7 +48,7 @@ class CategoryForm extends FormBuilder
         $this
             ->editConfig('Editar categoria')
             ->addInput(new NameInputBuilder)
-            ->addSelect((new ProductCategorySelectBuilder)->setText('Categoria padre')->addNone())
+            ->addSelect((new CustomerCategorySelectBuilder)->setText('Categoria padre')->addNone())
             ->addAction(new UpdateActionBuilder)
             ->setData($data)
         ;

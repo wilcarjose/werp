@@ -11,7 +11,9 @@ class CategoryTransformer extends Transformer
         return [
             'id'                => $item['id'],
             'name'              => $item['name'],
+            'category_id'       => $item['category_id'],
             'status'            => $item['status'],
+            'updated_at'        => $item['updated_at'],
             'created_at'        => $item['created_at']
         ];
     }

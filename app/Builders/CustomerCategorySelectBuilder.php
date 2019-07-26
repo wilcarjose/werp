@@ -8,6 +8,8 @@
 
 namespace Werp\Builders;
 
+use Werp\Modules\Core\Products\Models\Category;
+
 class CustomerCategorySelectBuilder extends CategorySelectBuilder
 {
     /**
@@ -21,6 +23,6 @@ class CustomerCategorySelectBuilder extends CategorySelectBuilder
     public function __construct($value = null, $name = null, $text = null, $none = false, $disable = false, $advancedOption = false,  $icon = null)
     {
 
-        parent::__construct('customer', $value, $name ?: 'category_id', $text ?: trans('view.category'), $none, $disable, $advancedOption, $icon);
+        parent::__construct(Category::CUSTOMER_TYPE, $value, $name ?: 'category_id', $text ?: trans('view.category'), $none, $disable, $advancedOption, $icon);
     }
 }

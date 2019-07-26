@@ -13,10 +13,11 @@ use Werp\Builders\Main\MainList;
 class CategoryList extends MainList
 {
 	protected $moduleRoute = 'admin.products.categories';
+    protected $listTitle = 'Categorias de Productos';
 
     public function __construct()
     {
-        $this->setTitle('Categorias')
+        $this->setTitle($this->listTitle)
             ->setRoute($this->moduleRoute)
             ->setShowStatus(true)
             ->setFields([
