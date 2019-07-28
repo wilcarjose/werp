@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
 {
+    const CURRENT_DOLAR_CONVERSION = 'current_dolar_convertion';
     const INV_DEFAULT_WAREHOUSE = 'inv_default_warehouse';
     const INV_DEFAULT_IN_DOC = 'inv_default_in_doc';
     const PRI_DEFAULT_PL_DOC = 'pri_default_pl_doc';
@@ -23,7 +24,7 @@ class Config extends Model
      * @var array
      */
     protected $fillable = [
-        'key', 'value', 'translate_key', 'description'
+        'key', 'value', 'type', 'translate_key', 'description'
     ];
 
     public function toArray()
@@ -32,6 +33,7 @@ class Config extends Model
             'id' => $this->id,
             'key' => $this->key,
             'value' => $this->value,
+            'type' => $this->type,
             'module' => $this->module,
             'created_at' => $this->created_at,
             'translate_key' => $this->translate_key,

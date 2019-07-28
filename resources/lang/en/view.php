@@ -78,6 +78,8 @@ return [
         'movements' => 'Movements',
         'sales' => 'Sales',
         'customers' => 'Customers',
+        'maintenance' => 'Maintenance',
+        'amount_operations' => 'Amount Operations',
     ],
     'profile' => [
         'profile' => 'Profile',
@@ -108,5 +110,8 @@ return [
         'inventory_entry' => 'Product entry',
         'inventory_output' => 'Product output',
         'inventory_movement' => 'Product movement',
+    ],
+    'maintenance' => [
+        'dolar_value' => 'Dolar value',
     ]
 ];

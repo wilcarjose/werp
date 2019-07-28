@@ -17,6 +17,7 @@ class CreateOrderDetailTable extends Migration
             $table->increments('id');
             $table->dateTime('date');
             $table->string('reference');
+            $table->double('price', 10, 4)->default(0.0000);
             $table->double('amount', 10, 4)->default(0.0000);
             $table->double('tax_amount', 10, 4)->default(0.0000);
             $table->double('discount_amount', 10, 4)->default(0.0000);
@@ -37,6 +38,14 @@ class CreateOrderDetailTable extends Migration
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
+            $table->integer('tax_id')->unsigned()->nullable();
+            $table->foreign('tax_id')
+                ->references('id')
+                ->on('taxs');
+            $table->integer('discount_id')->unsigned()->nullable();
+            $table->foreign('discount_id')
+                ->references('id')
+                ->on('discounts');
             $table->timestamps();
         });
     }

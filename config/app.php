@@ -167,7 +167,7 @@ return [
         Hesto\MultiAuth\MultiAuthServiceProvider::class,
 
         /**
-         * Core Purchases module
+         * Core Main module
          */
         Werp\Providers\ModuleServiceProvider::class,
 
@@ -182,11 +182,14 @@ return [
         Werp\Modules\Core\Products\Providers\ModuleServiceProvider::class,
 
         /**
-         * Core Products module
+         * Core Sales module
          */
         Werp\Modules\Core\Sales\Providers\ModuleServiceProvider::class,
 
-        
+        /**
+         * Core Maintenance module
+         */
+        Werp\Modules\Core\Maintenance\Providers\ModuleServiceProvider::class,        
 
     ],
 

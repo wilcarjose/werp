@@ -44,6 +44,19 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('warehouses')
                 ->nullable();
+            $table->integer('sale_channel_id')->unsigned()->nullable();
+            $table->foreign('sale_channel_id')
+                ->references('id')
+                ->on('sales_channels')
+                ->nullable();
+            $table->integer('tax_id')->unsigned()->nullable();
+            $table->foreign('tax_id')
+                ->references('id')
+                ->on('taxs');
+            $table->integer('discount_id')->unsigned()->nullable();
+            $table->foreign('discount_id')
+                ->references('id')
+                ->on('discounts');
             $table->timestamps();
         });
     }

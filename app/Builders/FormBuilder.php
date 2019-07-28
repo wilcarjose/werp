@@ -11,6 +11,7 @@ namespace Werp\Builders;
 
 class FormBuilder extends ModuleBuilder
 {
+    protected $objectId = null;
     protected $edit = false;
     protected $action;
     protected $short_action;
@@ -25,9 +26,23 @@ class FormBuilder extends ModuleBuilder
     protected $list = null;
     protected $goBack = null;
 
+    public function init($title)
+    {
+        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
+        $this->setTitle($title)
+            ->setRoute($this->moduleRoute)
+            ->addBreadcrumb($homeBreadcrumb);
+    }
+
+    public function setObjectId($id = null)
+    {
+        $this->objectId = isset($this->data['id']) ? $this->data['id'] : $id;
+        return $this;
+    }
+
     public function getObjectId()
     {
-        return isset($this->data['id']) ? $this->data['id'] : null;
+        return $this->objectId;
     }
 
     public function setAction($action)
@@ -225,7 +240,7 @@ class FormBuilder extends ModuleBuilder
             }
         }
 
-        return $this;
+        return $this->setObjectId($data['id']);
     }
 
     public function getGoBack()

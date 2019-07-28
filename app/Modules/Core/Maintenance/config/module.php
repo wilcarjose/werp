@@ -5,15 +5,11 @@ use Werp\Modules\Core\Maintenance\Models\Basedoc;
 return [
 
     'menu' => [
-            'name' => 'view.menu.sales',
+            'name' => 'view.menu.maintenance',
             'icon' => 'local_offer',
-            'route' => 'admin.sales',
+            'route' => 'admin.maintenance',
             'routes' => [
-                'admin.sales.price_lists.index',
-                'admin.sales.price_list_types.index',
-                'admin.sales.customers.index',
-                'admin.sales.categories.index',
-                'admin.products.product_output.index',
+                'admin.maintenance.amount_operations.index',
             ],
             'items' => [
             ],
@@ -21,39 +17,29 @@ return [
                 [
                     'name' => 'view.menu.general',
                     'icon' => '',
-                    'route' => 'admin.sales.general',
+                    'route' => 'admin.maintenance.general',
                     'routes' => [
-                        'admin.sales.price_list_types.index',
-                        'admin.sales.customers.index',
-                        'admin.sales.categories.index',
+                        'admin.maintenance.amount_operations.index',
                     ],
                     'items' => [
                         [
-                            'name' => 'view.menu.categories',
-                            'route' => 'admin.sales.categories.index',
-                        ],
-                        [
-                            'name' => 'view.menu.customers',
-                            'route' => 'admin.sales.customers.index',
-                        ],
-                        [
-                            'name' => 'view.menu.price_list_types',
-                            'route' => 'admin.sales.price_list_types.index',
+                            'name' => 'view.menu.amount_operations',
+                            'route' => 'admin.maintenance.amount_operations.index',
                         ],
                     ],
                 ],
-                [
+        /*        [
                     'name' => 'view.menu.processes',
                     'icon' => '',
-                    'route' => 'admin.sales.processes',
+                    'route' => 'admin.maintenance.processes',
                     'routes' => [
-                        'admin.sales.price_lists.index',
+                        'admin.maintenance.price_lists.index',
                         'admin.products.product_output.index',
                     ],
                     'items' => [                        
                         [
                             'name' => 'view.menu.price_list',
-                            'route' => 'admin.sales.price_lists.index',
+                            'route' => 'admin.maintenance.price_lists.index',
                         ],
                         [
                             'name' => 'view.menu.product_output',
@@ -61,10 +47,10 @@ return [
                         ],
                     ],
                 ],
-        /*      [
+                [
                     'name' => 'view.menu.reports',
                     'icon' => '',
-                    'route' => 'admin.sales.reports',
+                    'route' => 'admin.maintenance.reports',
                     'routes' => [
                         
                     ],

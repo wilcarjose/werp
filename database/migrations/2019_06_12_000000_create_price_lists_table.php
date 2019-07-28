@@ -32,9 +32,10 @@ class CreatePriceListsTable extends Migration
                 ->references('id')
                 ->on('price_list_types');
             $table->string('state', 2)->default(Basedoc::PE_STATE);
-            $table->string('operation')->nullable();
-            $table->double('reference', 8, 2)->nullable();
-            $table->string('round')->default(0); // d-2 down decimales | l-3 low
+            $table->integer('amount_operation_id')->unsigned()->nullable();
+            $table->foreign('amount_operation_id')
+                ->references('id')
+                ->on('amount_operations');
             $table->timestamps();
         });
     }

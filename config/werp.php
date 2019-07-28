@@ -29,8 +29,20 @@ return [
 
 	'operations' => [
 		[
+			'id'   => 'add_amount',
+		    'name' => 'Sumar',
+		],
+		[
+			'id'   => 'sub_amount',
+		    'name' => 'Restar',
+		],
+		[
 		    'id'   => 'multiply',
-		    'name' => 'Multiplicar',
+		    'name' => 'Multiplicar por',
+		],
+		[
+		    'id'   => 'divide',
+		    'name' => 'Dividir entre',
 		],
 		[
 			'id'   => 'add_percent',
@@ -40,14 +52,6 @@ return [
 			'id'   => 'sub_percent',
 		    'name' => 'Restar porcentaje',
 		],
-		[
-			'id'   => 'add_amount',
-		    'name' => 'Sumar monto',
-		],
-		[
-			'id'   => 'sub_amount',
-		    'name' => 'Restar monto',
-		]
 	],
 
 	'rounds' => [

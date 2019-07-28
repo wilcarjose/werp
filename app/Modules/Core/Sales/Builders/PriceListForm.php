@@ -32,6 +32,8 @@ class PriceListForm extends FormBuilder
         $this->setTitle('Listas de precios')
             ->setRoute('admin.sales.price_lists')
             ->addBreadcrumb($homeBreadcrumb);
+
+        $this->listRoute = $this->moduleRoute.'.index';
     }
 
     public function createPage($dependencies = [])

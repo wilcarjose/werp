@@ -12,12 +12,14 @@ return [
                 'admin.products.product_entry.index',
                 'admin.purchases.categories.index',
             ],
-            'items' => [
-                [
+         'items' => [
+        /*      [
                     'name' => 'view.menu.config',
                     'route' => 'admin.home',
                 ],
+        */
             ],
+        
             'submodules' => [
                 [
                     'name' => 'view.menu.general',
@@ -52,7 +54,7 @@ return [
                         ],
                     ],
                 ],
-                [
+        /*        [
                     'name' => 'view.menu.reports',
                     'icon' => '',
                     'route' => 'admin.purchases.reports',
@@ -61,6 +63,7 @@ return [
                     'items' => [
                     ],
                 ],
+        */
             ]
         
     ],
