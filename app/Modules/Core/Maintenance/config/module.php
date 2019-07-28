@@ -6,7 +6,7 @@ return [
 
     'menu' => [
             'name' => 'view.menu.maintenance',
-            'icon' => 'local_offer',
+            'icon' => 'settings',
             'route' => 'admin.maintenance',
             'routes' => [
                 'admin.maintenance.amount_operations.index',

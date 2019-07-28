@@ -2,46 +2,19 @@
 
 namespace Werp\Modules\Core\Maintenance\Builders;
 
-use Werp\Builders\FormBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\NameInputBuilder;
-use Werp\Builders\SaveActionBuilder;
 use Werp\Builders\AmountInputBuilder;
-use Werp\Builders\UpdateActionBuilder;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
+use Werp\Modules\Core\Base\Builders\SimpleBaseForm;
 
-class AmountOperationForm extends FormBuilder
+class AmountOperationForm extends SimpleBaseForm
 {
     protected $moduleRoute = 'admin.maintenance.amount_operations';
-
-    public function __construct()
-    {
-        $this->init('Operaciones de montos');
-    }
-
-    public function createPage()
-    {
-        $this
-            ->newConfig('Nueva operación')
-            ->makeInputs()
-            ->addAction(new SaveActionBuilder)
-        ;
-
-        return $this->view();
-    }
-
-    public function editPage($data)
-    {
-        $this
-            ->editConfig('Editar operación')
-            ->makeInputs()
-            ->addAction(new UpdateActionBuilder)
-            ->setData($data)
-        ;
-
-        return $this->view();
-    }
+    protected $mainTitle = 'Metodos de pagos';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
 
     protected function makeInputs()
     {

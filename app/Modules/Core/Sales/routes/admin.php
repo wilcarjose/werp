@@ -30,3 +30,9 @@
 	Route::post('/categories/removeBulk','CategoryController@destroyBulk');
 	Route::put('/categories/statusBulk','CategoryController@switchStatusBulk');
 	Route::resource('/categories','CategoryController');
+
+	// Payment method
+	Route::put('/payment_methods/status','PaymentMethodController@switchStatus')->name('payment_status');
+	Route::post('/payment_methods/removeBulk','PaymentMethodController@destroyBulk');
+	Route::put('/payment_methods/statusBulk','PaymentMethodController@switchStatusBulk');
+	Route::resource('/payment_methods','PaymentMethodController');

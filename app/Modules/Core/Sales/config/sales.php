@@ -14,6 +14,7 @@ return [
                 'admin.sales.customers.index',
                 'admin.sales.categories.index',
                 'admin.products.product_output.index',
+                'admin.sales.payment_methods.index',
             ],
             'items' => [
             ],
@@ -26,6 +27,7 @@ return [
                         'admin.sales.price_list_types.index',
                         'admin.sales.customers.index',
                         'admin.sales.categories.index',
+                        'admin.sales.payment_methods.index',
                     ],
                     'items' => [
                         [
@@ -35,6 +37,10 @@ return [
                         [
                             'name' => 'view.menu.customers',
                             'route' => 'admin.sales.customers.index',
+                        ],
+                        [
+                            'name' => 'view.menu.payment_methods',
+                            'route' => 'admin.sales.payment_methods.index',
                         ],
                         [
                             'name' => 'view.menu.price_list_types',

@@ -46,6 +46,8 @@ return [
     'continue' => 'Continue',
     'abbr' => 'Abbreviature',
     'symbol' => 'Symbol',
+    'payment_method' => 'Payment method',
+    'amount_operation' => 'Operation',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -80,6 +82,7 @@ return [
         'customers' => 'Customers',
         'maintenance' => 'Maintenance',
         'amount_operations' => 'Amount Operations',
+        'payment_methods' => 'Payment methods',
     ],
     'profile' => [
         'profile' => 'Profile',

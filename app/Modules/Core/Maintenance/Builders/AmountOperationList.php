@@ -2,20 +2,16 @@
 
 namespace Werp\Modules\Core\Maintenance\Builders;
 
-use Werp\Builders\Main\MainList;
+use Werp\Modules\Core\Base\Builders\SimpleBaseList;
 
-class AmountOperationList extends MainList
+class AmountOperationList extends SimpleBaseList
 {
-    public function __construct()
-    {
-        $this->setTitle('Operaciones de montos')
-            ->setRoute('admin.maintenance.amount_operations')
-            ->setShowStatus(true)
-            ->setFields([
-              ['field' => 'name', 'name' => 'Nombre' , 'type' => 'text'],
-            ])
-            ->makeConfig();
+    protected $title = 'Operaciones de montos';
 
-        parent::__construct();
-    }
+    protected $route = 'admin.maintenance.amount_operations';
+
+    protected $fields = [
+        ['field' => 'name', 'name' => 'Nombre' , 'type' => 'text'],
+    ];
+
 }
