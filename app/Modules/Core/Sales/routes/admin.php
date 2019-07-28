@@ -1,32 +1,32 @@
 <?php
 
 // Prices
-	Route::put('/price_lists/status','\Werp\Modules\Core\Sales\Controllers\PriceListController@switchStatus')->name('price_list_status');
-	Route::post('/price_lists/removeBulk','\Werp\Modules\Core\Sales\Controllers\PriceListController@destroyBulk');
-	Route::put('/price_lists/statusBulk','\Werp\Modules\Core\Sales\Controllers\PriceListController@switchStatusBulk');
-	Route::get('/price_lists/{id}/detail', '\Werp\Modules\Core\Sales\Controllers\PriceListController@indexDetail')->name('price_lists.detail.index');
-	Route::resource('/price_lists','\Werp\Modules\Core\Sales\Controllers\PriceListController');
-	Route::get('/price_lists/{id}/detail/{detail}', '\Werp\Modules\Core\Sales\Controllers\PriceListController@showDetail')->name('price_lists.detail.show');
-	Route::put('/price_lists/{id}/detail/{detail}', '\Werp\Modules\Core\Sales\Controllers\PriceListController@updateDetail')->name('price_lists.detail.update');
-	Route::post('/price_lists/{id}/detail', '\Werp\Modules\Core\Sales\Controllers\PriceListController@storeDetail')->name('price_lists.detail.update');
-	Route::delete('/price_lists/{id}/detail/{detail}', '\Werp\Modules\Core\Sales\Controllers\PriceListController@destroyDetail')->name('price_lists.detail.update');
-	Route::get('/price_lists/{id}/process', '\Werp\Modules\Core\Sales\Controllers\PriceListController@process')->name('price_lists.process');
-	Route::get('/price_lists/{id}/reverse', '\Werp\Modules\Core\Sales\Controllers\PriceListController@reverse')->name('price_lists.reverse');
+	Route::put('/price_lists/status','PriceListController@switchStatus')->name('price_list_status');
+	Route::post('/price_lists/removeBulk','PriceListController@destroyBulk');
+	Route::put('/price_lists/statusBulk','PriceListController@switchStatusBulk');
+	Route::get('/price_lists/{id}/detail', 'PriceListController@indexDetail')->name('price_lists.detail.index');
+	Route::resource('/price_lists','PriceListController');
+	Route::get('/price_lists/{id}/detail/{detail}', 'PriceListController@showDetail')->name('price_lists.detail.show');
+	Route::put('/price_lists/{id}/detail/{detail}', 'PriceListController@updateDetail')->name('price_lists.detail.update');
+	Route::post('/price_lists/{id}/detail', 'PriceListController@storeDetail')->name('price_lists.detail.update');
+	Route::delete('/price_lists/{id}/detail/{detail}', 'PriceListController@destroyDetail')->name('price_lists.detail.update');
+	Route::get('/price_lists/{id}/process', 'PriceListController@process')->name('price_lists.process');
+	Route::get('/price_lists/{id}/reverse', 'PriceListController@reverse')->name('price_lists.reverse');
 
 	// Price list type
-	Route::put('/price_list_types/status','\Werp\Modules\Core\Sales\Controllers\PriceListTypeController@switchStatus')->name('price_list_types_status');
-	Route::post('/price_list_types/removeBulk','\Werp\Modules\Core\Sales\Controllers\PriceListTypeController@destroyBulk');
-	Route::put('/price_list_types/statusBulk','\Werp\Modules\Core\Sales\Controllers\PriceListTypeController@switchStatusBulk');
-	Route::resource('/price_list_types','\Werp\Modules\Core\Sales\Controllers\PriceListTypeController');
+	Route::put('/price_list_types/status','PriceListTypeController@switchStatus')->name('price_list_types_status');
+	Route::post('/price_list_types/removeBulk','PriceListTypeController@destroyBulk');
+	Route::put('/price_list_types/statusBulk','PriceListTypeController@switchStatusBulk');
+	Route::resource('/price_list_types','PriceListTypeController');
 
 	// Customers
-	Route::put('/customers/status','\Werp\Modules\Core\Sales\Controllers\CustomerController@switchStatus')->name('supplier_status');
-	Route::post('/customers/removeBulk','\Werp\Modules\Core\Sales\Controllers\CustomerController@destroyBulk');
-	Route::put('/customers/statusBulk','\Werp\Modules\Core\Sales\Controllers\CustomerController@switchStatusBulk');
-	Route::resource('/customers','\Werp\Modules\Core\Sales\Controllers\CustomerController');
+	Route::put('/customers/status','CustomerController@switchStatus')->name('supplier_status');
+	Route::post('/customers/removeBulk','CustomerController@destroyBulk');
+	Route::put('/customers/statusBulk','CustomerController@switchStatusBulk');
+	Route::resource('/customers','CustomerController');
 
 	// Categories
-	Route::put('/categories/status','\Werp\Modules\Core\Sales\Controllers\CategoryController@switchStatus')->name('category_status');
-	Route::post('/categories/removeBulk','\Werp\Modules\Core\Sales\Controllers\CategoryController@destroyBulk');
-	Route::put('/categories/statusBulk','\Werp\Modules\Core\Sales\Controllers\CategoryController@switchStatusBulk');
-	Route::resource('/categories','\Werp\Modules\Core\Sales\Controllers\CategoryController');
+	Route::put('/categories/status','CategoryController@switchStatus')->name('category_status');
+	Route::post('/categories/removeBulk','CategoryController@destroyBulk');
+	Route::put('/categories/statusBulk','CategoryController@switchStatusBulk');
+	Route::resource('/categories','CategoryController');
