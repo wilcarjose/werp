@@ -51,6 +51,8 @@ return [
     'payment_method' => 'Método de pago',
     'amount_operation' => 'Operación',
     'sale_channel' => 'Canal de venta',
+    'tax' => 'Impuesto',
+    'discount' => 'Descuento',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -85,6 +87,8 @@ return [
         'amount_operations' => 'Operaciones',
         'payment_methods' => 'Métodos de pagos',
         'sales_channels' => 'Caneles de venta',
+        'taxs' => 'Impuestos',
+        'discounts' => 'Descuentos',
     ],
     'profile' => [
         'profile' => 'Perfil',

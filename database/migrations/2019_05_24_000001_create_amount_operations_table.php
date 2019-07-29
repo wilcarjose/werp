@@ -21,6 +21,7 @@ class CreateAmountOperationsTable extends Migration
             $table->double('value', 8, 2)->nullable();
             $table->string('config_key')->nullable();
             $table->string('round')->default(0);
+            $table->string('type')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });

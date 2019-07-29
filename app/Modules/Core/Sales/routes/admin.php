@@ -42,3 +42,16 @@
 	Route::post('/sales_channels/removeBulk','SaleChannelController@destroyBulk');
 	Route::put('/sales_channels/statusBulk','SaleChannelController@switchStatusBulk');
 	Route::resource('/sales_channels','SaleChannelController');
+
+	// Taxs
+	Route::put('/taxs/status','TaxController@switchStatus');
+	Route::post('/taxs/removeBulk','TaxController@destroyBulk');
+	Route::put('/taxs/statusBulk','TaxController@switchStatusBulk');
+	Route::resource('/taxs','TaxController');
+
+	// Discounts
+	Route::put('/discounts/status','DiscountController@switchStatus');
+	Route::post('/discounts/removeBulk','DiscountController@destroyBulk');
+	Route::put('/discounts/statusBulk','DiscountController@switchStatusBulk');
+	Route::resource('/discounts','DiscountController');
+

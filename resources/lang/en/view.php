@@ -49,6 +49,8 @@ return [
     'payment_method' => 'Payment method',
     'amount_operation' => 'Operation',
     'sale_channel' => 'Sale channel',
+    'tax' => 'Tax',
+    'discount' => 'Discount',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -85,6 +87,8 @@ return [
         'amount_operations' => 'Amount operations',
         'payment_methods' => 'Payment methods',
         'sales_channels' => 'Sales channels',
+        'taxs' => 'Taxs',
+        'discounts' => 'Discounts',
     ],
     'profile' => [
         'profile' => 'Profile',

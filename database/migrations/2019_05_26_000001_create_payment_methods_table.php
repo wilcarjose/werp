@@ -21,6 +21,7 @@ class CreatePaymentMethodsTable extends Migration
             $table->foreign('amount_operation_id')
                 ->references('id')
                 ->on('amount_operations');
+            $table->string('type')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });
