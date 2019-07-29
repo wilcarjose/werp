@@ -14,25 +14,31 @@
 	Route::get('/price_lists/{id}/reverse', 'PriceListController@reverse')->name('price_lists.reverse');
 
 	// Price list type
-	Route::put('/price_list_types/status','PriceListTypeController@switchStatus')->name('price_list_types_status');
+	Route::put('/price_list_types/status','PriceListTypeController@switchStatus');
 	Route::post('/price_list_types/removeBulk','PriceListTypeController@destroyBulk');
 	Route::put('/price_list_types/statusBulk','PriceListTypeController@switchStatusBulk');
 	Route::resource('/price_list_types','PriceListTypeController');
 
 	// Customers
-	Route::put('/customers/status','CustomerController@switchStatus')->name('supplier_status');
+	Route::put('/customers/status','CustomerController@switchStatus');
 	Route::post('/customers/removeBulk','CustomerController@destroyBulk');
 	Route::put('/customers/statusBulk','CustomerController@switchStatusBulk');
 	Route::resource('/customers','CustomerController');
 
 	// Categories
-	Route::put('/categories/status','CategoryController@switchStatus')->name('category_status');
+	Route::put('/categories/status','CategoryController@switchStatus');
 	Route::post('/categories/removeBulk','CategoryController@destroyBulk');
 	Route::put('/categories/statusBulk','CategoryController@switchStatusBulk');
 	Route::resource('/categories','CategoryController');
 
 	// Payment method
-	Route::put('/payment_methods/status','PaymentMethodController@switchStatus')->name('payment_status');
+	Route::put('/payment_methods/status','PaymentMethodController@switchStatus');
 	Route::post('/payment_methods/removeBulk','PaymentMethodController@destroyBulk');
 	Route::put('/payment_methods/statusBulk','PaymentMethodController@switchStatusBulk');
 	Route::resource('/payment_methods','PaymentMethodController');
+
+	// Sales channels
+	Route::put('/sales_channels/status','SaleChannelController@switchStatus');
+	Route::post('/sales_channels/removeBulk','SaleChannelController@destroyBulk');
+	Route::put('/sales_channels/statusBulk','SaleChannelController@switchStatusBulk');
+	Route::resource('/sales_channels','SaleChannelController');

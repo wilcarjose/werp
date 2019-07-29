@@ -50,6 +50,7 @@ return [
     'symbol' => 'Símbolo',
     'payment_method' => 'Método de pago',
     'amount_operation' => 'Operación',
+    'sale_channel' => 'Canal de venta',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -83,6 +84,7 @@ return [
         'maintenance' => 'Mantenimiento',
         'amount_operations' => 'Operaciones',
         'payment_methods' => 'Métodos de pagos',
+        'sales_channels' => 'Caneles de venta',
     ],
     'profile' => [
         'profile' => 'Perfil',

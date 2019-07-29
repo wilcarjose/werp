@@ -48,6 +48,7 @@ return [
     'symbol' => 'Symbol',
     'payment_method' => 'Payment method',
     'amount_operation' => 'Operation',
+    'sale_channel' => 'Sale channel',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -81,8 +82,9 @@ return [
         'sales' => 'Sales',
         'customers' => 'Customers',
         'maintenance' => 'Maintenance',
-        'amount_operations' => 'Amount Operations',
+        'amount_operations' => 'Amount operations',
         'payment_methods' => 'Payment methods',
+        'sales_channels' => 'Sales channels',
     ],
     'profile' => [
         'profile' => 'Profile',

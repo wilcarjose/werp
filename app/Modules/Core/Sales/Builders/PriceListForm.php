@@ -26,11 +26,13 @@ use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class PriceListForm extends FormBuilder
 {
+    protected $moduleRoute = 'admin.sales.price_lists';
+
     public function __construct()
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
         $this->setTitle('Listas de precios')
-            ->setRoute('admin.sales.price_lists')
+            ->setRoute($this->moduleRoute)
             ->addBreadcrumb($homeBreadcrumb);
 
         $this->listRoute = $this->moduleRoute.'.index';
