@@ -65,4 +65,18 @@ class Product extends BaseModel
     {
         return $this->hasOne('Werp\Modules\Core\Products\Models\Uom', 'id', 'uom_id');
     }
+
+    public function currentPrice($priceListType)
+    {
+        return $this->prices()->where('price_list_type_id', $priceListType)
+            ->where('status', 'active')
+            ->where('starting_at', '<', date('Y-m-d H:i:s'))
+            ->orderBy('starting_at', 'desc')
+            ->firstOrFail();
+    }
+
+    public function prices()
+    {
+        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'product_id', 'id');
+    }
 }

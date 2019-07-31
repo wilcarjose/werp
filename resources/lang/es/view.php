@@ -53,6 +53,7 @@ return [
     'sale_channel' => 'Canal de venta',
     'tax' => 'Impuesto',
     'discount' => 'Descuento',
+    'sale_order' => 'Orden de venta',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -89,6 +90,7 @@ return [
         'sales_channels' => 'Caneles de venta',
         'taxs' => 'Impuestos',
         'discounts' => 'Descuentos',
+        'sales_orders' => 'Órdenes de ventas',
     ],
     'profile' => [
         'profile' => 'Perfil',

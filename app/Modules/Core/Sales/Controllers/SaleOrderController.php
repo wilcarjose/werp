@@ -1,52 +1,61 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Controllers;
+namespace Werp\Modules\Core\Sales\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Modules\Core\Products\Models\MovementDetail;
-use Werp\Modules\Core\Products\Builders\MovementForm;
-use Werp\Modules\Core\Products\Builders\MovementList;
+use Werp\Modules\Core\Sales\Builders\SaleOrderForm;
+use Werp\Modules\Core\Sales\Builders\SaleOrderList;
 use Werp\Modules\Core\Base\Controllers\BaseController;
-use Werp\Modules\Core\Products\Services\MovementService;
+use Werp\Modules\Core\Sales\Services\SaleOrderService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
-use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Sales\Transformers\SaleOrderTransformer;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
-use Werp\Modules\Core\Products\Transformers\MovementTransformer;
-use Werp\Modules\Core\Products\Transformers\MovementDetailTransformer;
+use Werp\Modules\Core\Sales\Transformers\SaleOrderDetailTransformer;
 
-class MovementController extends BaseController
+class SaleOrderController extends BaseController
 {
-    protected $entityForm;
-    protected $entityList;
     protected $entityDetail;
-    protected $configService;
-    protected $entityService;
-    protected $doctypeService;
     protected $entityTransformer;
     protected $entityDetailTransformer;
+    protected $entityForm;
+    protected $entityList;
+    protected $configService;
+    protected $doctypeService;
+    protected $entityService;
 
     protected $inputs = [
         'description',
+        'amount',
+        'tax_amount',
+        'discount_amount',
+        'total_amount',
+        'currency',
         'doctype_id',
-        'warehouse_from_id',
-        'warehouse_to_id',
+        'warehouse_id',
+        'partner_id',
         'date',
+        'price_list_type_id',
+        'sale_channel_id',
+        'tax_id',
+        'discount_id',
     ];
 
     protected $storeRules = [
         'doctype_id' => 'required',
-        'warehouse_from_id'    => 'required',
-        'warehouse_to_id'    => 'required',
+        'warehouse_id'    => 'required',
+        'partner_id'    => 'required',
+        'price_list_type_id'    => 'required',
         'date'  => 'required|date',
     ];
 
     protected $updateRules = [
         'doctype_id' => 'required',
-        'warehouse_from_id'    => 'required',
-        'warehouse_to_id'    => 'required',
+        'warehouse_id'    => 'required',
+        'partner_id'    => 'required',
         'date'  => 'required|date',
+        'price_list_type_id'    => 'required',
     ];
 
     protected $storeDetailRules = [
@@ -61,32 +70,34 @@ class MovementController extends BaseController
 
     protected $detailInputs = [
         'qty',
+        'price',
+        'amount',
+        'tax_amount',
+        'discount_amount',
+        'total_amount',
         'product_id',
-        'warehouse_from_id',
-        'warehouse_to_id'
+        'warehouse_id',
+        'tax_id',
+        'discount_id',
     ];
 
-    protected $relatedField = 'movement_id';
+    protected $relatedField = 'order_id';
 
-    protected $routeBase = 'admin.products.movements';
+    protected $routeBase = 'admin.sales.orders';
 
     public function __construct(
-        MovementForm $entityForm,
-        MovementList $entityList,
-        MovementDetail $entityDetail,
+        SaleOrderForm $entityForm,
+        SaleOrderList $entityList,
+        SaleOrderService $entityService,
         ConfigService $configService,
-        MovementService $entityService,
-        MovementTransformer $entityTransformer,
-        TransactionService $transactionService,
-        MovementDetailTransformer $entityDetailTransformer
+        SaleOrderTransformer $entityTransformer,
+        SaleOrderDetailTransformer $entityDetailTransformer        
     ) {
         $this->entityForm         = $entityForm;
         $this->entityList         = $entityList;
-        $this->entityDetail       = $entityDetail;
         $this->configService      = $configService;
         $this->entityService      = $entityService;
         $this->entityTransformer  = $entityTransformer;
-        $this->transactionService = $transactionService;
         $this->entityDetailTransformer = $entityDetailTransformer;
     }
 
@@ -98,29 +109,18 @@ class MovementController extends BaseController
      */
     public function edit($id)
     {
-        try {
+        $entity = $this->entityService->getById($id, false);
 
-            $entity = $this->entityService->getById($id, false);
+        if (!$entity) {
+            $entity = $this->entityService->getByCode($id);
+        }
 
-            if (!$entity) {
-                $entity = $this->entityService->getByCode($id);
-            }
-
-            if (!$entity) {
-                flash(trans($this->getNotFoundKey()), 'info');
-                return back();
-            }
-
-            return $this->entityForm->editPage($entity->toArray());
-
-        } catch (ModelNotFoundException $e) {
-            flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
-            return back();
-
-        } catch (\Exception $e) {
-            flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
+        if (!$entity) {
+            flash(trans($this->getNotFoundKey()), 'info');
             return back();
         }
+
+        return $this->entityForm->editPage($entity->toArray());
     }
 
     public function process($id)
@@ -129,7 +129,7 @@ class MovementController extends BaseController
 
             $this->entityService->process($id);
 
-            flash('Registro procesado exitosamente', 'success', 'success');
+            flash('Entrada procesada exitosamente', 'success', 'success');
             return redirect(route($this->routeBase.'.edit', $id));
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');

@@ -3,11 +3,11 @@
 namespace Werp\Modules\Core\Sales\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Models\Price;
 use Werp\Modules\Core\Sales\Models\PriceList;
 use Werp\Modules\Core\Sales\Builders\PriceListForm;
 use Werp\Modules\Core\Sales\Builders\PriceListList;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Services\PriceListService;
 use Werp\Modules\Core\Sales\Transformers\PriceTransformer;
 use Werp\Modules\Core\Sales\Transformers\PriceListTransformer;
@@ -21,23 +21,19 @@ class PriceListController extends BaseController
         'price_list_type_id',
         'doctype_id',
         'reference_price_list_type_id',
-        'operation',
-        'reference',
-        'round',
+        'operation_id',
     ];
 
     protected $storeRules = [
         'starting_at'        => 'required|date',
         'price_list_type_id' => 'required|numeric',
         'doctype_id' => 'required|numeric',
-        'reference' => 'numeric|nullable',
     ];
 
     protected $updateRules = [
         'starting_at'        => 'required|date',
         'price_list_type_id' => 'required|numeric',
         'doctype_id' => 'required|numeric',
-        'reference' => 'numeric|nullable',
     ];
 
     protected $storeDetailRules = [

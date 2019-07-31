@@ -429,36 +429,17 @@ class BaseController extends Controller
         $order  = request()->has('order')?request()->get('order'):'asc';
         $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
 
-        $details = $this->entityDetail
-            ->where($this->getRelatedField(), $id)
-            //->where(function ($query) use ($search) {
-            //if ($search) {
-            //    $query->where('prpduct_id', 'like', "$search%")
-            //        ->where('description', 'like', "$search%");
-            //}
-            //})
-            ->orderBy("$sort", "$order")->paginate(10);
+        $entity = $this->entityService->getById($id);
+        $detail = $entity->detail;
 
-        if ($details->count()<=0) {
-            return response([
-                'status_code' => 404,
-                'message'     => trans($this->getNotFoundKey())
-            ], 404);
-        }
-
-        $paginator=[
-            'total_count'  => $details->total(),
-            'total_pages'  => $details->lastPage(),
-            'current_page' => $details->currentPage(),
-            'limit'        => $details->perPage()
-        ];
+        $totals = $entity->getTotals();
 
         $data = $this->entityDetailTransformer
-            ->transformCollection($details->all());
-
+            ->transformCollection($detail->all());
+       
         return response([
             'data'        => $data,
-            'paginator'   => $paginator,
+            'totals'   => $totals,
             'status_code' => 200
         ], 200);
     }

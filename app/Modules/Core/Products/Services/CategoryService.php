@@ -2,7 +2,7 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
-use Werp\Services\BaseService;
+use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Purchases\Models\Category;
 
 class CategoryService extends BaseService

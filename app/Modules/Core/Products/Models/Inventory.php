@@ -36,6 +36,11 @@ class Inventory extends Model
         return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryDetail', 'inventory_id', 'id');
     }
 
+    public function getTotals()
+    {
+        return [];
+    }
+
     public function getDetail()
     {
         return $this->detail()->get(); 

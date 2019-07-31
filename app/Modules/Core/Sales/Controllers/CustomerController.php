@@ -3,10 +3,10 @@
 namespace Werp\Modules\Core\Sales\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Builders\CustomerForm;
 use Werp\Modules\Core\Sales\Builders\CustomerList;
 use Werp\Modules\Core\Sales\Services\CustomerService;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Transformers\CustomerTransformer;
 
 class CustomerController extends BaseController

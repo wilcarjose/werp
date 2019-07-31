@@ -2,10 +2,10 @@
 
 namespace Werp\Modules\Core\Sales\Controllers;
 
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Builders\CategoryForm;
 use Werp\Modules\Core\Sales\Builders\CategoryList;
 use Werp\Modules\Core\Sales\Services\CategoryService;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Transformers\CategoryTransformer;
 
 class CategoryController extends BaseController

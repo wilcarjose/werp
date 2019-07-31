@@ -1,33 +1,32 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:40 PM
- */
 
-namespace Werp\Modules\Core\Products\Builders;
+namespace Werp\Modules\Core\Sales\Builders;
 
+use Werp\Builders\TaxSelect;
+use Werp\Builders\FormSelect;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\DateBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
+use Werp\Builders\DiscountSelect;
 use Werp\Builders\TextInputBuilder;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveActionBuilder;
+use Werp\Builders\SaleChannelSelect;
 use Werp\Builders\AmountInputBuilder;
 use Werp\Builders\UpdateActionBuilder;
 use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\CustomerSelectBuilder;
 use Werp\Builders\ContinueActionBuilder;
 use Werp\Builders\CurrencySelectBuilder;
-use Werp\Builders\SupplierSelectBuilder;
 use Werp\Builders\WarehouseSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\PriceListTypeSelectBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class SaleOrdenForm extends FormBuilder
+class SaleOrderForm extends FormBuilder
 {
     public function __construct()
     {
@@ -40,14 +39,15 @@ class SaleOrdenForm extends FormBuilder
     public function createPage($selects, $defaults)
     {
         $this
-            ->newConfig('Nueva entrada de productos')
+            ->newConfig('Crear nueva')
 
             ->addInput(new DateBuilder)            
-            ->addSelect(new SupplierSelectBuilder)
+            ->addSelect(new CustomerSelectBuilder)
+            ->addSelect(new PriceListTypeSelectBuilder)
             ->addSelect(new WarehouseSelectBuilder)
+            ->addSelect(new SaleChannelSelect)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
-            ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption())
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption())
 
             ->addAction(new ContinueActionBuilder)
             ->goBackEdit()
@@ -73,7 +73,7 @@ class SaleOrdenForm extends FormBuilder
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $this
-            ->editConfig('Editar entrada de productos')
+            ->editConfig('Editar')
 
             ->addInput(new CodeInputBuilder)
             ;
@@ -84,17 +84,24 @@ class SaleOrdenForm extends FormBuilder
 
         $this
             ->addInput((new DateBuilder)->setDisable($disable))
-            ->addSelect((new SupplierSelectBuilder)->setDisable($disable))
+            ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
+            ->addSelect((new PriceListTypeSelectBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
-            ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
+            ->addSelect((new SaleChannelSelect)->setDisable($disable))
+            ->addSelect((new TaxSelect)->setDisable($disable))
+            ->addSelect((new DiscountSelect)->setDisable($disable))
+            //->addSelect((new CurrencySelectBuilder)->setDisable($disable))
+
+            /*
             ->addInput((new AmountInputBuilder)->disabled())
             ->addInput((new AmountInputBuilder('tax_amount', trans('view.tax_amount')))->disabled())
             ->addInput((new AmountInputBuilder('discount_amount', trans('view.discount_amount')))->disabled())
             ->addInput((new AmountInputBuilder('total_amount', trans('view.total_amount')))->disabled())
+            */
 
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC,  Config::INV_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelectBuilder(Basedoc::SO_DOC,  Config::INV_DEFAULT_SO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)
@@ -105,17 +112,17 @@ class SaleOrdenForm extends FormBuilder
         }
 
         $this
-            ->setList(new ProductEntryDetailList(false, $data['id'], $disable))
+            ->setList(new SaleOrderDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
-            ->setState(trans(config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.after_name')))
-            ->setStateColor(config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.color'));
+            ->setState(trans(config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.after_name')))
+            ->setStateColor(config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.color'));
             ;
 
-        $actionKeys = config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.new_actions');
+        $actionKeys = config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
-            $action = config('products.document.actions.'.Basedoc::IE_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.product_entry.'.$action['key'], $data['id'])));
+            $action = config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$key);
+            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->getRoute().'.'.$action['key'], $data['id'])));
         }
 
         return $this->view();

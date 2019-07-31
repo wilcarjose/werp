@@ -33,7 +33,7 @@ class BaseService
         $total = $entities->count();
 
         if ($total <= 0) {
-            return [];
+            return [[], []];
         }
 
         $entities = $paginate == 'off' ? $entities : $entities->paginate(10);

@@ -46,6 +46,11 @@ class PriceList extends Model
         return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'price_list_id', 'id');
     }
 
+    public function getTotals()
+    {
+        return [];
+    }
+
     public function priceListType()
     {
         return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'price_list_type_id');

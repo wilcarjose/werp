@@ -151,6 +151,26 @@
                       </div>
                     </td>
                   </tr>
+
+                  <tr>
+
+                    <th v-if="show_actions && delete_multiple">
+                    </th>
+                    <td v-for="(cols,index) in columns"> 
+                        <span v-if="cols.total" style="float: right; margin-right: 50px;">
+                          <strong style="font-size: 18px;"> {{ numberFormat(totals[cols.field]) }} </strong>
+                        </span>
+                    </td>
+                    <td v-if="show_state">
+                      
+                    </td>
+                    <td v-if="show_status">
+                    </td>
+                    <td v-if="show_actions && !disable">
+                    </td>
+                  
+                  </tr>
+
                 </tbody>
               </table>
             </div>
@@ -202,6 +222,7 @@
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
                   <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required">
                       <option value="" disabled=>Seleccione...</option>
+                      <option value="0" v-if="field.none">Ninguno</option>
                       <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
                   
@@ -218,6 +239,7 @@
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
                   <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required">
                       <option value="" disabled=>Seleccione...</option>
+                      <option value="0" v-if="field.none">Ninguno</option>
                       <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
                   
@@ -302,6 +324,7 @@ export default {
             reloadOnSave: this.config.reload_on_save,
             show_advanced_options: false,
             show_advanced: this.config.show_advanced,
+            show_total: this.config.show_total,
             amount: {
               decimalSeparator: ",",
               groupSeparator: ".",
@@ -431,6 +454,7 @@ export default {
                       if (res.status_code == 200) {
                           this.componentData = res.data;
                           this.pagination = res.paginator;
+                          this.totals = res.totals;
                       }
                   })
                   .catch(error => { 

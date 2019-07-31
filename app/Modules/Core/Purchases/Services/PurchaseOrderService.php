@@ -2,8 +2,8 @@
 
 namespace Werp\Modules\Core\Purchases\Services;
 
-use Werp\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Order;
+use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Products\Services\OrderService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;

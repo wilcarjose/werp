@@ -2,14 +2,14 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
-use Werp\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Products\Models\Inout;
+use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Products\Models\InoutDetail;
-use Werp\Modules\Core\Sales\Services\SaleOrderService;
+//use Werp\Modules\Core\Sales\Services\SaleOrderService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
@@ -26,12 +26,12 @@ class ProductOutputService extends BaseService
         Inout $entity,
         InoutDetail $entityDetail,
         DoctypeService $doctypeService,
-        SaleOrderService $orderService,
+        //SaleOrderService $orderService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
         $this->entityDetail         = $entityDetail;
-        $this->orderService         = $orderService;
+        //$this->orderService         = $orderService;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
     }
@@ -96,7 +96,7 @@ class ProductOutputService extends BaseService
 
             DB::beginTransaction();
 
-            if ($generateOrder = true) {
+            if ($generateOrder = false) {
 
                 $default = Config::where('key', Config::INV_DEFAULT_SO_DOC)->first()->value;
 

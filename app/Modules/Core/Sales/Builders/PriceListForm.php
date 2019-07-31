@@ -13,6 +13,7 @@ use Werp\Builders\FormBuilder;
 use Werp\Builders\InputBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
+use Werp\Builders\OperationSelect;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\AmountInputBuilder;
@@ -44,11 +45,7 @@ class PriceListForm extends FormBuilder
             ->addInput(new DateBuilder('starting_at', trans('view.from')))
             ->addSelect(new PriceListTypeSelectBuilder)
             ->addSelect(new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista de referencia', true))
-            ->addInput(new AmountInputBuilder('reference', 'Valor de referencia'))
-            ->addSelect((new SelectBuilder('operation', 'Operación', config('werp.operations'), 'multiply', true)))
-            ->addSelect((new SelectBuilder('round', 'Redondeo', config('werp.rounds'), 'd-2', true)))
-            //->addInput(new InputBuilder('operation', 'input',  trans('view.operation')))
-            //->addInput(new InputBuilder('round', 'input',  trans('view.round')))
+            ->addSelect(new OperationSelect)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption())
             ->addAction(new ContinueActionBuilder)
@@ -73,14 +70,11 @@ class PriceListForm extends FormBuilder
             //->addInput((new InputBuilder('starting_at', 'input',  trans('view.from'), $data['starting_at']))->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder($data['price_list_type_id']))->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder($data['reference_price_list_type_id'], 'reference_price_list_type_id', 'Lista de referencia', true))->setDisable($disable))
-            ->addInput((new AmountInputBuilder('reference', 'Valor de referencia', $data['reference']))->setDisable($disable))
-            ->addSelect((new SelectBuilder('operation', 'Operación', config('werp.operations'), $data['operation'], true))->setDisable($disable))
-            ->addSelect((new SelectBuilder('round', 'Redondeo', config('werp.rounds'), $data['round'], true))->setDisable($disable))
-            //->addInput((new InputBuilder('operation', 'input',  trans('view.operation'), null, $data['operation']))->setDisable($disable))
-            //->addInput((new InputBuilder('round', 'input',  trans('view.round'), null, $data['round']))->setDisable($disable))
+            ->addSelect((new OperationSelect)->setDisable($disable))
             ->addInput((new DescriptionInputBuilder($data['description']))->setDisable($disable)->advancedOption())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC, $data['doctype_id']))->advancedOption()->setDisable($disable))
             ->setAdvancedOptions()
+            ->setData($data)
             ;
 
         if ($noProcessed) {

@@ -3,7 +3,7 @@
 namespace Werp\Modules\Core\Maintenance\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Maintenance\Builders\AmountOperationForm;
 use Werp\Modules\Core\Maintenance\Builders\AmountOperationList;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;

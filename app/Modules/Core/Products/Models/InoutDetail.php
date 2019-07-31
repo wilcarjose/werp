@@ -16,6 +16,7 @@ class InoutDetail extends Model
     protected $fillable = [
         'reference',
         'date',
+        'price',
         'amount',
         'tax_amount',
         'discount_amount',
@@ -25,12 +26,15 @@ class InoutDetail extends Model
         'inout_id',
         'product_id',
         'warehouse_id',
-        'order_detail_id'
+        'order_detail_id',
+        'discount_id',
+        'tax_id',
     ];
 
     protected $copyable = [
         'reference',
         'date',
+        'price',
         'qty',
         'product_id',
         'warehouse_id',
@@ -39,6 +43,8 @@ class InoutDetail extends Model
         'discount_amount',
         'total_amount',
         'currency',
+        'discount_id',
+        'tax_id',
     ];
 
     protected $cancelable = [
@@ -47,11 +53,14 @@ class InoutDetail extends Model
         'product_id',
         'warehouse_id',
         'currency',
-        'order_detail_id'
+        'order_detail_id',
+        'discount_id',
+        'tax_id',
     ];
 
     protected $invertible = [
         'qty',
+        'price',
         'amount',
         'tax_amount',
         'discount_amount',
@@ -68,12 +77,15 @@ class InoutDetail extends Model
             'inout_id' => $this->inout_id,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
+            'price' => $this->price,
             'amount' => $this->amount,
             'tax_amount' => $this->tax_amount,
             'discount_amount' => $this->discount_amount,
             'total_amount' => $this->total_amount,
             'currency' => $this->currency,
             'order_detail_id' => $this->order_detail_id,
+            'tax_id' => $this->tax_id,
+            'discount_id' => $this->discount_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -13,7 +13,7 @@ class TaxTransformer extends Transformer
             'name'              => $item['name'],
             'description'       => $item['description'],
             'status'            => $item['status'],
-            'payment_method_id' => $item['payment_method_id'],
+            'amount_operation_id' => $item['amount_operation_id'],
             'updated_at' 		=> $item['updated_at'],
             'created_at'        => $item['created_at'],
         ];

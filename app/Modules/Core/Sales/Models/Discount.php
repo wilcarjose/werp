@@ -17,7 +17,7 @@ class Discount extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'amount_operation_id',
+        'name', 'description', 'amount_operation_id', 'type',
     ];
 
     public function operation()
@@ -30,6 +30,7 @@ class Discount extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'type' => $this->type,
             'description' => $this->description,
             'amount_operation_id' => $this->amount_operation_id,
             'status' => $this->status,

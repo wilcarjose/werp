@@ -2,8 +2,8 @@
 
 namespace Werp\Modules\Core\Sales\Services;
 
-use Werp\Services\BaseService;
 use Werp\Modules\Core\Purchases\Models\Partner;
+use Werp\Modules\Core\Base\Services\BaseService;
 
 class CustomerService extends BaseService
 {

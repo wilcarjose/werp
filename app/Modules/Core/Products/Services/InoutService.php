@@ -2,9 +2,9 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
-use Werp\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Products\Models\Inout;
+use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
@@ -96,7 +96,7 @@ class InoutService extends BaseService
 
             DB::beginTransaction();
 
-            if ($generateOrder = true) {
+            if ($generateOrder = false) {
 
                 $default = Config::where('key', Config::INV_DEFAULT_PO_DOC)->first()->value;
 
@@ -121,7 +121,7 @@ class InoutService extends BaseService
                     'is_delivery_pending' => 'n',
                 ];
 
-                $order = $this->orderService->create($data);
+                $order = $this->orderService->createFromInout($data);
                 $order->state = Basedoc::PR_STATE;
                 $order->save();
                 $entity->orders()->attach($order->id);

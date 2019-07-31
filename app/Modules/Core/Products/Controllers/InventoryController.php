@@ -3,11 +3,11 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Products\Models\Inventory;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\InventoryDetail;
 use Werp\Modules\Core\Products\Builders\InventoryForm;
 use Werp\Modules\Core\Products\Builders\InventoryList;

@@ -16,6 +16,7 @@ class OrderDetail extends Model
     protected $fillable = [
         'reference',
         'date',
+        'price',
         'amount',
         'tax_amount',
         'discount_amount',
@@ -26,7 +27,9 @@ class OrderDetail extends Model
         'qty_invoiced',
         'order_id',
         'product_id',
-        'warehouse_id'
+        'warehouse_id',
+        'tax_id',
+        'discount_id',
     ];
 
     public function toArray()
@@ -40,7 +43,10 @@ class OrderDetail extends Model
             'qty_invoiced' => $this->qty_invoiced,
             'order_id' => $this->order_id,
             'product_id' => $this->product_id,
+            'tax_id' => $this->tax_id,
+            'discount_id' => $this->discount_id,
             'warehouse_id' => $this->warehouse_id,
+            'price' => $this->price,
             'amount' => $this->amount,
             'tax_amount' => $this->tax_amount,
             'discount_amount' => $this->discount_amount,
@@ -54,6 +60,11 @@ class OrderDetail extends Model
     public function order()
     {
         return $this->belongsTo('Werp\Modules\Core\Products\Models\Order');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Product');
     }
 
     public function getMaster()

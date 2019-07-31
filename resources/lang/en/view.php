@@ -51,6 +51,7 @@ return [
     'sale_channel' => 'Sale channel',
     'tax' => 'Tax',
     'discount' => 'Discount',
+    'sale_order' => 'Sale order',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -89,6 +90,7 @@ return [
         'sales_channels' => 'Sales channels',
         'taxs' => 'Taxs',
         'discounts' => 'Discounts',
+        'sales_orders' => 'Sales orders',
     ],
     'profile' => [
         'profile' => 'Profile',

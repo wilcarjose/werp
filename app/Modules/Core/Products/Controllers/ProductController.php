@@ -3,9 +3,9 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\Uom;
 use Werp\Modules\Core\Products\Models\Brand;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Products\Services\ProductService;
 use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Category;

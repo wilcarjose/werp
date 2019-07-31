@@ -2,8 +2,8 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
-use Werp\Services\BaseService;
 use Illuminate\Support\Facades\DB;
+use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Inventory;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Products\Models\InventoryDetail;

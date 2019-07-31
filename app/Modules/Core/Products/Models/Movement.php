@@ -43,6 +43,11 @@ class Movement extends Model
         return $this->hasMany('Werp\Modules\Core\Products\Models\MovementDetail', 'movement_id', 'id');
     }
 
+    public function getTotals()
+    {
+        return [];
+    }
+
     public function getDetail()
     {
         return $this->detail()->get(); 

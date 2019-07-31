@@ -2,9 +2,9 @@
 
 namespace Werp\Modules\Core\Purchases\Controllers;
 
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Purchases\Builders\CategoryForm;
 use Werp\Modules\Core\Purchases\Builders\CategoryList;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Purchases\Services\CategoryService;
 use Werp\Modules\Core\Purchases\Transformers\CategoryTransformer;
 

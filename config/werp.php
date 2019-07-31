@@ -89,6 +89,10 @@ return [
 		Basedoc::IE_DOC => 'view.doctypes.inventory_entry',
 		Basedoc::IO_DOC => 'view.doctypes.inventory_output',
 		Basedoc::IM_DOC => 'view.doctypes.inventory_movement',
+	],
+
+	'sales_orders' => [
+		'generate_output' => true,
 	]
 
 ];

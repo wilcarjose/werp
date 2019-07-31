@@ -2,11 +2,9 @@
 
 namespace Werp\Modules\Core\Sales\Services;
 
-use Money\Money;
-use Money\Currency;
-use Werp\Services\BaseService;
 use Werp\Modules\Core\Sales\Models\Price;
 use Werp\Modules\Core\Sales\Models\PriceList;
+use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 
@@ -32,9 +30,6 @@ class PriceListService extends BaseService
             unset($data['reference_price_list_type_id']);
         }
 
-        $data['reference'] = (float)$data['reference'];
-        //$reference = new Money($reference, new Currency('USD'));
-        //dd($reference->getAmount());
         $entity = $this->entity->create($data);
 
         $this->generatePrices($entity);
@@ -75,20 +70,7 @@ class PriceListService extends BaseService
     {
         $data['reference_price_list_type_id'] = isset($data['reference_price_list_type_id']) && $data['reference_price_list_type_id'] != 0 ?
             $data['reference_price_list_type_id'] :
-            null;
-
-        $data['reference'] = isset($data['reference']) ?
-            $data['reference'] :
-            null;
-
-        $data['operation'] = isset($data['operation']) ?
-            $data['operation'] :
-            null;
-
-        $data['round'] = isset($data['round']) ?
-            $data['round'] :
-            null;
-            
+            null;            
         
         return $data;
     }
@@ -125,41 +107,8 @@ class PriceListService extends BaseService
 
             foreach($prices as $price) {
 
-                $amount = 0.0000; //new Money(0, new Currency($priceListType->currency));
-
-                if ($entity->operation == 'multiply') {
-                    //$amount = $price->getPrice()->multiply($entity->reference);
-                    $amount = $price->price * $entity->reference;
-                }
-
-                //$value = new Money($entity->reference * 100, new Currency($priceListType->currency));
-                
-                if ($entity->operation == 'add_amount') {
-                    //$amount = $price->getPrice()->add($value);
-                    $amount = $price->price + $entity->reference;
-                }
-
-                if ($entity->operation == 'sub_amount') {
-                    //$amount = $price->getPrice()->subtract($value);
-                    $amount = $price->price - $entity->reference;
-                }
-
-                if ($entity->operation == 'add_percent') {
-                    //$value = $price->getPrice()->multiply($entity->reference)->divide(100);
-                    //$amount = $price->getPrice()->add($value);
-                    $value = $price->price * $entity->reference / 100;
-                    $amount = $price->price + $value;
-                }
-
-                if ($entity->operation == 'sub_percent') {
-                    //$value = $price->getPrice()->multiply($entity->reference)->divide(100);
-                    //$amount = $price->getPrice()->subtract($value);
-                    $value = $price->price * $entity->reference / 100;
-                    $amount = $price->price - $value;
-                }
-    
-                //$total = round($amount->getAmount(), (-1 * (int)$entity->round), PHP_ROUND_HALF_UP);
-                $total = round($amount, $entity->round, PHP_ROUND_HALF_UP);
+                // obtener la aperación y pasar como parámetro
+                $total = $this->operationService->setOperation($operation)->calculate($price->price);
 
                 $priceData = [
                     'price_list_type_id' => $entity->price_list_type_id,

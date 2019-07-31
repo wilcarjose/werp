@@ -28,6 +28,10 @@ class Order extends Model
         'doctype_id',
         'warehouse_id',
         'partner_id',
+        'price_list_type_id',
+        'sale_channel_id',
+        'tax_id',
+        'discount_id',
         'date',
         'type',
         'state',
@@ -45,17 +49,37 @@ class Order extends Model
         return $this->hasMany('Werp\Modules\Core\Products\Models\OrderDetail', 'order_id', 'id');
     }
 
+    public function getTotals()
+    {
+        return [
+            'amount' => $this->amount,
+            'tax_amount' => $this->tax_amount,
+            'discount_amount' => $this->discount_amount,
+            'total_amount' => $this->total_amount,
+        ];
+    }
+
     /**
      * The inouts that belong to the order.
      */
     public function inouts()
     {
-        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Order');
+        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Inout');
     }
 
     public function getDetail()
     {
         return $this->detail()->get(); 
+    }
+
+    public function hasDetail()
+    {
+        return $this->detail()->count() > 0;
+    }    
+
+    public function hasNotDetail()
+    {
+        return !$this->hasDetail();
     }
 
     public function toArray()
@@ -80,6 +104,10 @@ class Order extends Model
             'is_invoice_pending' => $this->is_invoice_pending,
             'is_delivery_pending' => $this->is_delivery_pending,
             'alternate_code' => $this->alternate_code,
+            'price_list_type_id' => $this->price_list_type_id,
+            'discount_id' => $this->discount_id,
+            'tax_id' => $this->tax_id,
+            'sale_channel_id' => $this->sale_channel_id,
         ];
     }
 
@@ -91,9 +119,14 @@ class Order extends Model
     public function getState($state = null)
     {
         if ($state) {
-            return config('products.document.actions.'.$this->getType().'.'.$state);
+            return config('sales.document.actions.'.$this->getType().'.'.$state);
         }
 
-        return config('products.document.actions.'.$this->getType().'.'.$this->state);
+        return config('sales.document.actions.'.$this->getType().'.'.$this->state);
+    }
+
+    public function priceListType()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'price_list_type_id');
     }
 }

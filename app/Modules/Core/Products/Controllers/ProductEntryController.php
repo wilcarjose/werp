@@ -3,9 +3,9 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Models\InoutDetail;
 use Werp\Modules\Core\Products\Services\InoutService;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Products\Builders\ProductEntryForm;

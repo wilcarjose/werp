@@ -2,9 +2,9 @@
 
 namespace Werp\Modules\Core\Products\Services;
 
-use Werp\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Products\Models\Movement;
+use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;

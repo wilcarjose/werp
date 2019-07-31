@@ -79,6 +79,11 @@ class Inout extends Model
         return $this->hasMany('Werp\Modules\Core\Products\Models\InoutDetail', 'inout_id', 'id');
     }
 
+    public function getTotals()
+    {
+        return [];
+    }
+
     /**
      * The orders that belong to the inout.
      */

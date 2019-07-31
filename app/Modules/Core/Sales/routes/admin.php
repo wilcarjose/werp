@@ -55,3 +55,15 @@
 	Route::put('/discounts/statusBulk','DiscountController@switchStatusBulk');
 	Route::resource('/discounts','DiscountController');
 
+	// Sales orders
+	Route::post('/orders/removeBulk','SaleOrderController@destroyBulk');
+	Route::get('/orders/{id}/detail', 'SaleOrderController@indexDetail')->name('orders.detail.index');
+	Route::get('/orders/{id}/detail/{detail}', 'SaleOrderController@showDetail')->name('orders.detail.show');
+	Route::put('/orders/{id}/detail/{detail}', 'SaleOrderController@updateDetail')->name('orders.detail.update');
+	Route::post('/orders/{id}/detail', 'SaleOrderController@storeDetail')->name('orders.detail.update');
+	Route::delete('/orders/{id}/detail/{detail}', 'SaleOrderController@destroyDetail')->name('orders.detail.update');
+	Route::get('/orders/{id}/process', 'SaleOrderController@process')->name('orders.process');
+	Route::get('/orders/{id}/reverse', 'SaleOrderController@reverse')->name('orders.reverse');
+	Route::get('/orders/{id}/cancel', 'SaleOrderController@cancel')->name('orders.cancel');
+	Route::resource('/orders','SaleOrderController');
+

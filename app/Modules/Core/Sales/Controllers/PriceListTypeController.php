@@ -3,7 +3,7 @@
 namespace Werp\Modules\Core\Sales\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Builders\PriceListTypeForm;
 use Werp\Modules\Core\Sales\Builders\PriceListTypeList;
 use Werp\Modules\Core\Sales\Services\PriceListTypeService;

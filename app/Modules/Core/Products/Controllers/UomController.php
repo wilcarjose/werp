@@ -3,10 +3,10 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Http\Controllers\BaseController;
 use Werp\Modules\Core\Products\Builders\UomForm;
 use Werp\Modules\Core\Products\Builders\UomList;
 use Werp\Modules\Core\Products\Services\UomService;
+use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Products\Transformers\UomTransformer;
 
 class UomController extends BaseController
