@@ -16,7 +16,7 @@ class SaleOrderDetailList extends MainList
                   'warehouse_id' => 'Number',
                   'price' => 'Number',
                   'qty' => 'Number',
-                  'amount' => 'Number',
+                  'total_price' => 'Number',
               ],
 
               'fields' => [
@@ -100,10 +100,13 @@ class SaleOrderDetailList extends MainList
               //['field' => 'warehouse_name', 'name' => 'Almacén' , 'type' => 'text'], 
               ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'amount'],
               ['field' => 'price', 'name' => 'Precio' , 'type' => 'amount'],
-              ['field' => 'amount', 'name' => 'Sub total' , 'type' => 'amount', 'total' => true],
-              ['field' => 'tax_amount', 'name' => 'Impuesto' , 'type' => 'amount', 'total' => true],
-              ['field' => 'discount_amount', 'name' => 'Descuento' , 'type' => 'amount', 'total' => true],
-              ['field' => 'total_amount', 'name' => 'Total' , 'type' => 'amount', 'total' => true],
+              //['field' => 'tax', 'name' => 'Impuesto' , 'type' => 'amount'],
+              //['field' => 'discount', 'name' => 'Descuento' , 'type' => 'amount'],
+              //['field' => 'full_price', 'name' => 'Sub total' , 'type' => 'amount'],
+              ['field' => 'total_price', 'name' => 'Total precio' , 'type' => 'amount', 'total' => true],
+              ['field' => 'total_tax', 'name' => 'Total impuesto' , 'type' => 'amount', 'total' => true],
+              ['field' => 'total_discount', 'name' => 'Total descuento' , 'type' => 'amount', 'total' => true],
+              ['field' => 'total', 'name' => 'Total' , 'type' => 'amount', 'total' => true],
             ])
             ->setFilter($filter)
             ->setEmptyList($empty)

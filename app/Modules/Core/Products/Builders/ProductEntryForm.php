@@ -88,9 +88,9 @@ class ProductEntryForm extends FormBuilder
             ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
             ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
             ->addInput((new AmountInputBuilder)->disabled())
-            ->addInput((new AmountInputBuilder('tax_amount', trans('view.tax_amount')))->disabled())
-            ->addInput((new AmountInputBuilder('discount_amount', trans('view.discount_amount')))->disabled())
-            ->addInput((new AmountInputBuilder('total_amount', trans('view.total_amount')))->disabled())
+            ->addInput((new AmountInputBuilder('total_tax', trans('view.total_tax')))->disabled())
+            ->addInput((new AmountInputBuilder('total_discount', trans('view.total_discount')))->disabled())
+            ->addInput((new AmountInputBuilder('total', trans('view.total')))->disabled())
 
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())

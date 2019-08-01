@@ -20,10 +20,10 @@ class Order extends Model
     protected $fillable = [
         'code',
         'description',
-        'amount',
-        'tax_amount',
-        'discount_amount',
-        'total_amount',
+        'total_price',
+        'total_tax',
+        'total_discount',
+        'total',
         'currency',
         'doctype_id',
         'warehouse_id',
@@ -52,10 +52,10 @@ class Order extends Model
     public function getTotals()
     {
         return [
-            'amount' => $this->amount,
-            'tax_amount' => $this->tax_amount,
-            'discount_amount' => $this->discount_amount,
-            'total_amount' => $this->total_amount,
+            'total_price' => $this->total_price,
+            'total_tax' => $this->total_tax,
+            'total_discount' => $this->total_discount,
+            'total' => $this->total,
         ];
     }
 
@@ -95,10 +95,10 @@ class Order extends Model
             'state' => $this->state,
             'reference' => $this->reference,
             'created_at' => $this->created_at,
-            'amount' => $this->amount,
-            'tax_amount' => $this->tax_amount,
-            'discount_amount' => $this->discount_amount,
-            'total_amount' => $this->total_amount,
+            'total_price' => $this->total_price,
+            'total_tax' => $this->total_tax,
+            'total_discount' => $this->total_discount,
+            'total' => $this->total,
             'currency' => $this->currency,
             'partner_id' => $this->partner_id,
             'is_invoice_pending' => $this->is_invoice_pending,

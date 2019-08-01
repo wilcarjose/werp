@@ -110,11 +110,10 @@ class ProductOutputService extends BaseService
                     'warehouse_id' => $entity->warehouse_id,
                     'date' => $entity->date,
                     'type' => Basedoc::SO_DOC,
-                    //'state' => Basedoc::PR_STATE,
-                    'amount' => $entity->amount,
-                    'tax_amount' => $entity->tax_amount,
-                    'discount_amount' => $entity->discount_amount,
-                    'total_amount' => $entity->total_amount,
+                    'total_price' => $entity->total_price,
+                    'total_tax' => $entity->total_tax,
+                    'total_discount' => $entity->total_discount,
+                    'total' => $entity->total,
                     'currency' => $entity->currency,
                     'partner_id' => $entity->partner_id,
                     'is_invoice_pending' => 'y',
@@ -136,10 +135,14 @@ class ProductOutputService extends BaseService
                         'qty_invoiced' => 0,
                         'product_id' => $detail->product_id,
                         'warehouse_id' => $detail->warehouse_id,
-                        'amount' => $detail->amount,
-                        'tax_amount' => $detail->tax_amount,
-                        'discount_amount' => $detail->discount_amount,
-                        'total_amount' => $detail->total_amount,
+                        'price' => $detail->price,
+                        'tax' => $detail->tax,
+                        'discount' => $detail->discount,
+                        'full_price' => $detail->full_price,
+                        'total_price' => $detail->total_price,
+                        'total_tax' => $detail->total_tax,
+                        'total_discount' => $detail->total_discount,
+                        'total' => $detail->total,
                         'currency' => $detail->currency,
                     ];
                     
@@ -251,26 +254,33 @@ class ProductOutputService extends BaseService
 
             $data = $this->makeData($data, $entity);
 
-            $data['total_amount'] = $data['amount'];
+            $data['discount'] = 0;
+            $data['tax'] = 0; 
+            $data['full_price'] = $data['price'] + $data['tax'] + $data['discount'];
+            $data['total_price'] = $data['price'] * $data['qty'];
+            $data['total_discount'] = $data['discount'] * $data['qty'];
+            $data['total_tax'] = $data['tax'] * $data['qty'];
+            $data['total'] = $data['full_price'] * $data['qty'];
+
             $entityDetail = $entity->detail()->create($data);
 
-            $amount = 0;
-            $tax_amount = 0;
-            $discount_amount = 0;
-            $total_amount = 0;
+            $total_price = 0;
+            $total_tax = 0;
+            $total_discount = 0;
+            $total = 0;
 
             foreach ($entity->detail as $detail) {
-                $amount = $amount + $detail->amount;
-                $tax_amount = $tax_amount + $detail->tax_amount;
-                $discount_amount = $discount_amount + $detail->discount_amount;
-                $total_amount = $total_amount + $detail->total_amount;
+                $total_price = $total_price + $detail->total_price;
+                $total_tax = $total_tax + $detail->total_tax;
+                $total_discount = $total_discount + $detail->total_discount;
+                $total = $total + $detail->total;
             }
 
             $entity->update([
-                'amount' => $amount,
-                'tax_amount' => $tax_amount,
-                'discount_amount' => $discount_amount,
-                'total_amount' => $total_amount,
+                'total_price' => $total_price,
+                'total_tax' => $total_tax,
+                'total_discount' => $total_discount,
+                'total' => $total,
             ]);
 
             DB::commit();
@@ -293,26 +303,33 @@ class ProductOutputService extends BaseService
 
             DB::beginTransaction();
 
-            $data['total_amount'] = $data['amount'];
+            $data['discount'] = 0; 
+            $data['tax'] = 0; 
+            $data['full_price'] = $data['price'] + $data['tax'] + $data['discount'];
+            $data['total_price'] = $data['price'] * $data['qty'];
+            $data['total_discount'] = $data['discount'] * $data['qty'];
+            $data['total_tax'] = $data['tax'] * $data['qty'];
+            $data['total'] = $data['full_price'] * $data['qty'];
+
             $entityDetail->update($data);
 
-            $amount = 0;
-            $tax_amount = 0;
-            $discount_amount = 0;
-            $total_amount = 0;
+            $total_price = 0;
+            $total_tax = 0;
+            $total_discount = 0;
+            $total = 0;
 
             foreach ($entityDetail->inout->detail as $detail) {
-                $amount = $amount + $detail->amount;
-                $tax_amount = $tax_amount + $detail->tax_amount;
-                $discount_amount = $discount_amount + $detail->discount_amount;
-                $total_amount = $total_amount + $detail->total_amount;
+                $total_price = $total_price + $detail->total_price;
+                $total_tax = $total_tax + $detail->total_tax;
+                $total_discount = $total_discount + $detail->total_discount;
+                $total = $total + $detail->total;
             }
 
             $entityDetail->inout->update([
-                'amount' => $amount,
-                'tax_amount' => $tax_amount,
-                'discount_amount' => $discount_amount,
-                'total_amount' => $total_amount,
+                'total_price' => $total_price,
+                'total_tax' => $total_tax,
+                'total_discount' => $total_discount,
+                'total' => $total,
             ]);
 
             DB::commit();
@@ -338,23 +355,23 @@ class ProductOutputService extends BaseService
     
             $entityDetail->delete();
 
-            $amount = 0;
-            $tax_amount = 0;
-            $discount_amount = 0;
-            $total_amount = 0;
+            $total_price = 0;
+            $total_tax = 0;
+            $total_discount = 0;
+            $total = 0;
 
             foreach ($entity->detail as $detail) {
-                $amount = $amount + $detail->amount;
-                $tax_amount = $tax_amount + $detail->tax_amount;
-                $discount_amount = $discount_amount + $detail->discount_amount;
-                $total_amount = $total_amount + $detail->total_amount;
+                $total_price = $total_price + $detail->total_price;
+                $total_tax = $total_tax + $detail->total_tax;
+                $total_discount = $total_discount + $detail->total_discount;
+                $total = $total + $detail->total;
             }
 
             $entity->update([
-                'amount' => $amount,
-                'tax_amount' => $tax_amount,
-                'discount_amount' => $discount_amount,
-                'total_amount' => $total_amount,
+                'total_price' => $total_price,
+                'total_tax' => $total_tax,
+                'total_discount' => $total_discount,
+                'total' => $total,
             ]);
 
             DB::commit();

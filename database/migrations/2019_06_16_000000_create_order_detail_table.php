@@ -18,10 +18,13 @@ class CreateOrderDetailTable extends Migration
             $table->dateTime('date');
             $table->string('reference');
             $table->double('price', 10, 4)->default(0.0000);
-            $table->double('amount', 10, 4)->default(0.0000);
-            $table->double('tax_amount', 10, 4)->default(0.0000);
-            $table->double('discount_amount', 10, 4)->default(0.0000);
-            $table->double('total_amount', 10, 4)->default(0.0000);
+            $table->double('tax', 10, 4)->default(0.0000);
+            $table->double('discount', 10, 4)->default(0.0000);
+            $table->double('full_price', 10, 4)->default(0.0000);
+            $table->double('total_price', 10, 4)->default(0.0000);
+            $table->double('total_tax', 10, 4)->default(0.0000);
+            $table->double('total_discount', 10, 4)->default(0.0000);
+            $table->double('total', 10, 4)->default(0.0000);
             $table->string('currency')->default('USD');
             $table->double('qty');
             $table->double('qty_delivered')->default(0);

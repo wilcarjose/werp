@@ -21,7 +21,7 @@ class ProductOutputDetailList extends MainList
                   'product_id' => 'Number',
                   'warehouse_id' => 'Number',
                   'qty' => 'Number',
-                  'amount' => 'Number',
+                  'total_price' => 'Number',
               ],
 
               'fields' => [
@@ -46,10 +46,10 @@ class ProductOutputDetailList extends MainList
                   'required' => true,
                 ],
                 [
-                  'key' => 'amount',
+                  'key' => 'total_price',
                   'type' => 'amount',
-                  'name' => 'amount',
-                  'id' => 'amount',
+                  'name' => 'total_price',
+                  'id' => 'total_price',
                   'label' => 'Precio',
                   'required' => true,
                 ],
@@ -84,11 +84,14 @@ class ProductOutputDetailList extends MainList
               ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'],
               ['field' => 'warehouse_name', 'name' => 'Almacén' , 'type' => 'text'], 
               ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'amount'],
-              ['field' => 'price', 'name' => 'Precio' , 'type' => 'amount'],
-              ['field' => 'amount', 'name' => 'Sub total' , 'type' => 'amount', 'total' => true],
-              ['field' => 'tax_amount', 'name' => 'Impuesto' , 'type' => 'amount', 'total' => true],
-              ['field' => 'discount_amount', 'name' => 'Descuento' , 'type' => 'amount', 'total' => true],
-              ['field' => 'total_amount', 'name' => 'Total' , 'type' => 'amount', 'total' => true],
+              //['field' => 'price', 'name' => 'Precio' , 'type' => 'amount'],
+              //['field' => 'tax', 'name' => 'Impuesto' , 'type' => 'amount'],
+              //['field' => 'discount', 'name' => 'Descuento' , 'type' => 'amount'],
+              ['field' => 'full_price', 'name' => 'precio' , 'type' => 'amount'],
+              //['field' => 'total_price', 'name' => 'Total precio' , 'type' => 'amount', 'total' => true],
+              //['field' => 'total_tax', 'name' => 'Total impuesto' , 'type' => 'amount', 'total' => true],
+              //['field' => 'total_discount', 'name' => 'Total descuento' , 'type' => 'amount', 'total' => true],
+              ['field' => 'total', 'name' => 'Total' , 'type' => 'amount', 'total' => true],
             ])
             ->setFilter($filter)
             ->setEmptyList($empty)

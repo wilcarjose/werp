@@ -29,10 +29,10 @@ class ProductOutputController extends BaseController
 
     protected $inputs = [
         'description',
-        'amount',
-        'tax_amount',
-        'discount_amount',
-        'total_amount',
+        'total_price',
+        'total_tax',
+        'total_discount',
+        'total',
         'currency',
         'doctype_id',
         'warehouse_id',
@@ -57,18 +57,15 @@ class ProductOutputController extends BaseController
     protected $storeDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'amount' => 'required|numeric',
     ];
 
     protected $updateDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'amount' => 'required|numeric',
     ];
 
     protected $detailInputs = [
         'qty',
-        'amount',
         'product_id',
         'warehouse_id'
     ];

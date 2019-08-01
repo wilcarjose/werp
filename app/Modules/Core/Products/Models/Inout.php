@@ -21,10 +21,10 @@ class Inout extends Model
         'code',
         'order_code',
         'description',
-        'amount',
-        'tax_amount',
-        'discount_amount',
-        'total_amount',
+        'total_price',
+        'total_tax',
+        'total_discount',
+        'total',
         'currency',
         'doctype_id',
         'warehouse_id',
@@ -43,10 +43,10 @@ class Inout extends Model
         'warehouse_id',
         'date',
         'type',
-        'amount',
-        'tax_amount',
-        'discount_amount',
-        'total_amount',
+        'total_price',
+        'total_tax',
+        'total_discount',
+        'total',
         'currency',
         'partner_id',
         'alternate_code'
@@ -65,10 +65,10 @@ class Inout extends Model
     ];
 
     protected $invertible = [
-        'amount',
-        'tax_amount',
-        'discount_amount',
-        'total_amount',
+        'total_price',
+        'total_tax',
+        'total_discount',
+        'total',
     ];
 
     /**
@@ -82,10 +82,10 @@ class Inout extends Model
     public function getTotals()
     {
         return [
-            'amount' => $this->amount,
-            'tax_amount' => $this->tax_amount,
-            'discount_amount' => $this->discount_amount,
-            'total_amount' => $this->total_amount,
+            'total_price' => $this->total_price,
+            'total_tax' => $this->total_tax,
+            'total_discount' => $this->total_discount,
+            'total' => $this->total,
         ];
     }
 
@@ -127,10 +127,10 @@ class Inout extends Model
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'order_code' => $this->order_code,
-            'amount' => $this->amount,
-            'tax_amount' => $this->tax_amount,
-            'discount_amount' => $this->discount_amount,
-            'total_amount' => $this->total_amount,
+            'total_price' => $this->total_price,
+            'total_tax' => $this->total_tax,
+            'total_discount' => $this->total_discount,
+            'total' => $this->total,
             'currency' => $this->currency,
             'partner_id' => $this->partner_id,
             'alternate_code' => $this->alternate_code,

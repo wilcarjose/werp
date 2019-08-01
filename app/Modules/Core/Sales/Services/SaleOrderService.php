@@ -151,33 +151,37 @@ class SaleOrderService extends OrderService
     protected function getAmounts($price, $qty, $taxId, $discountId)
     {
         $amountData['price'] = $price;
-        $amountData['amount'] = $price * $qty;
-        $amountData['tax_amount'] = $this->taxService->getTaxAmount($taxId, $amountData['amount']);
-        $amountData['discount_amount'] = $this->discountService->getDiscountAmount($discountId, $amountData['amount']);
-        $amountData['total_amount'] = $amountData['amount'] + $amountData['tax_amount'] - $amountData['discount_amount'];
+        $amountData['tax'] = $this->taxService->getTaxAmount($taxId, $price);
+        $amountData['discount'] = $this->discountService->getDiscountAmount($discountId, $price);
+        $amountData['full_price'] = $price + $amountData['tax'] - $amountData['discount'];
+
+        $amountData['total_price'] = $price * $qty;
+        $amountData['total_tax'] = $amountData['tax'] * $qty;
+        $amountData['total_discount'] = $amountData['discount'] * $qty;
+        $amountData['total'] = $amountData['full_price'] * $qty;
 
         return $amountData;
     }
 
     protected function getTotalAmounts($order)
     {
-        $amount = 0;
-        $tax_amount = 0;
-        $discount_amount = 0;
-        $total_amount = 0;
+        $total_price = 0;
+        $total_tax = 0;
+        $total_discount = 0;
+        $total = 0;
 
         foreach ($order->detail as $detail) {
-            $amount = $amount + $detail->amount;
-            $tax_amount = $tax_amount + $detail->tax_amount;
-            $discount_amount = $discount_amount + $detail->discount_amount;
-            $total_amount = $total_amount + $detail->total_amount;
+            $total_price = $total_price + $detail->total_price;
+            $total_tax = $total_tax + $detail->total_tax;
+            $total_discount = $total_discount + $detail->total_discount;
+            $total = $total + $detail->total;
         }
 
         return [
-            'amount' => $amount,
-            'tax_amount' => $tax_amount,
-            'discount_amount' => $discount_amount,
-            'total_amount' => $total_amount,
+            'total_price' => $total_price,
+            'total_tax' => $total_tax,
+            'total_discount' => $total_discount,
+            'total' => $total,
         ];
     }
 
@@ -287,10 +291,10 @@ class SaleOrderService extends OrderService
                     'warehouse_id' => $entity->warehouse_id,
                     'date' => $entity->date,
                     'type' => Basedoc::IO_DOC,
-                    'amount' => $entity->amount,
-                    'tax_amount' => $entity->tax_amount,
-                    'discount_amount' => $entity->discount_amount,
-                    'total_amount' => $entity->total_amount,
+                    'total_price' => $entity->total_price,
+                    'total_tax' => $entity->total_tax,
+                    'total_discount' => $entity->total_discount,
+                    'total' => $entity->total,
                     'currency' => $entity->currency,
                     'partner_id' => $entity->partner_id,
                     'tax_id' => $entity->tax_id,
@@ -308,13 +312,16 @@ class SaleOrderService extends OrderService
                         'reference' => $output->code,
                         'date' => $detail->date,
                         'qty' => $detail->qty,
-                        'price' => $detail->price,
                         'product_id' => $detail->product_id,
                         'warehouse_id' => $detail->warehouse_id,
-                        'amount' => $detail->amount,
-                        'tax_amount' => $detail->tax_amount,
-                        'discount_amount' => $detail->discount_amount,
-                        'total_amount' => $detail->total_amount,
+                        'price' => $detail->price,
+                        'tax' => $detail->tax,
+                        'discount' => $detail->discount,
+                        'full_price' => $detail->full_price,
+                        'total_price' => $detail->total_price,
+                        'total_tax' => $detail->total_tax,
+                        'total_discount' => $detail->total_discount,
+                        'total' => $detail->total,
                         'currency' => $detail->currency,
                         'order_detail_id' => $detail->id,
                     ];
