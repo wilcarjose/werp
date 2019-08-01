@@ -92,15 +92,7 @@ class SaleOrderForm extends FormBuilder
             ->addSelect((new DiscountSelect)->setDisable($disable))
             //->addSelect((new CurrencySelectBuilder)->setDisable($disable))
 
-            /*
-            ->addInput((new AmountInputBuilder)->disabled())
-            ->addInput((new AmountInputBuilder('tax_amount', trans('view.tax_amount')))->disabled())
-            ->addInput((new AmountInputBuilder('discount_amount', trans('view.discount_amount')))->disabled())
-            ->addInput((new AmountInputBuilder('total_amount', trans('view.total_amount')))->disabled())
-            */
-
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
-            ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::SO_DOC,  Config::INV_DEFAULT_SO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()

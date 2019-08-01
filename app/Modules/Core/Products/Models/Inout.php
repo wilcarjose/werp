@@ -81,7 +81,12 @@ class Inout extends Model
 
     public function getTotals()
     {
-        return [];
+        return [
+            'amount' => $this->amount,
+            'tax_amount' => $this->tax_amount,
+            'discount_amount' => $this->discount_amount,
+            'total_amount' => $this->total_amount,
+        ];
     }
 
     /**

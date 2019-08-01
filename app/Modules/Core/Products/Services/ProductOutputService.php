@@ -212,7 +212,7 @@ class ProductOutputService extends BaseService
                 $orderDetail->qty_delivered = $orderDetail->qty_delivered - $detail->qty;
                 $orderDetail->save();
                 $orderDetail->order->is_delivery_pending = 'y';
-                $orderDetail->order->save;
+                $orderDetail->order->save();
             }
 
             $entity->state = Basedoc::CA_STATE;
@@ -221,10 +221,6 @@ class ProductOutputService extends BaseService
 
             foreach ($entity->orders as $order) {
                 $newEntity->orders()->attach($order->id);
-            }
-
-            if ($generateOrder = true) {
-                
             }
 
             $this->transactionService->setDocument($newEntity)->process();

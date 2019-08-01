@@ -320,11 +320,16 @@ class SaleOrderService extends OrderService
                     ];
                     
                     $outputDetail = $output->detail()->create($detailData);
+
+                    $detail->qty_delivered = $detail->qty;
+                    $detail->save();
                 }
 
                 $output->order_code = $entity->code;
                 $output->state = Basedoc::PR_STATE;
                 $output->save();
+
+                $this->transactionService->setDocument($output)->process();
 
                 $entity->is_delivery_pending = 'n';
             }
@@ -340,4 +345,42 @@ class SaleOrderService extends OrderService
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
     }
+
+    public function cancel($id)
+    {
+        $entity = $this->getById($id);
+
+        if ($this->canNotCancel($entity)) {
+            throw new CanNotProcessException("No se puede anular este registro");
+        }
+
+        try {
+
+            DB::beginTransaction();
+
+            $entity->state = Basedoc::CA_STATE;
+            $entity->save();
+
+            if (config('werp.sales_orders.generate_output')) {            
+                foreach ($entity->inouts as $output) {
+                    $this->outputService->cancel($output->id);
+                }
+            }
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            throw new \Exception("Error Processing Request: " . $e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+        }
+    }
+
+    protected function canNotCancel($entity)
+    {
+        $stateArray = $entity->getState(Basedoc::CA_STATE);
+
+        return !in_array($entity->state, $stateArray['actions_from']);
+    }
+
 }

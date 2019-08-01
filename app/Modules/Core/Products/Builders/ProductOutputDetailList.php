@@ -84,7 +84,11 @@ class ProductOutputDetailList extends MainList
               ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'],
               ['field' => 'warehouse_name', 'name' => 'Almacén' , 'type' => 'text'], 
               ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'amount'],
-              ['field' => 'amount', 'name' => 'Precio' , 'type' => 'amount']
+              ['field' => 'price', 'name' => 'Precio' , 'type' => 'amount'],
+              ['field' => 'amount', 'name' => 'Sub total' , 'type' => 'amount', 'total' => true],
+              ['field' => 'tax_amount', 'name' => 'Impuesto' , 'type' => 'amount', 'total' => true],
+              ['field' => 'discount_amount', 'name' => 'Descuento' , 'type' => 'amount', 'total' => true],
+              ['field' => 'total_amount', 'name' => 'Total' , 'type' => 'amount', 'total' => true],
             ])
             ->setFilter($filter)
             ->setEmptyList($empty)

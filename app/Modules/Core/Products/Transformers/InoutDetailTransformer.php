@@ -34,6 +34,7 @@ class InoutDetailTransformer extends Transformer
             'warehouse_name' => $this->warehouseName($item['warehouse_id']),
             'warehouse_id' => $item['warehouse_id'],
             'created_at'   => $item['created_at'],
+            'price' => $item['price'],
             'amount' => $item['amount'],
             'tax_amount' => $item['tax_amount'],
             'discount_amount' => $item['discount_amount'],
