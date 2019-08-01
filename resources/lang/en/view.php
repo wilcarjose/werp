@@ -52,6 +52,7 @@ return [
     'tax' => 'Tax',
     'discount' => 'Discount',
     'sale_order' => 'Sale order',
+    'address' => 'Address',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',

@@ -9,6 +9,7 @@
 namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
+use Werp\Builders\AddressInput;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\TextInputBuilder;
 use Werp\Builders\NameInputBuilder;
@@ -37,6 +38,7 @@ class CustomerForm extends FormBuilder
             ->addInput(new TextInputBuilder('document', trans('view.document')))
             ->addInput(new NameInputBuilder())
             ->addInput(new DescriptionInputBuilder)
+            ->addInput(new AddressInput)
             ->addSelect(new CustomerCategorySelectBuilder)
             ->addInput(new TextInputBuilder('contact_person', trans('view.contact_person')))
             ->addInput(new TextInputBuilder('economic_activity', trans('view.economic_activity')))
@@ -59,6 +61,7 @@ class CustomerForm extends FormBuilder
             ->addInput(new TextInputBuilder('document', trans('view.document')))
             ->addInput(new NameInputBuilder)
             ->addInput(new DescriptionInputBuilder)
+            ->addInput(new AddressInput)
             ->addSelect(new CustomerCategorySelectBuilder)
             ->addInput(new TextInputBuilder('contact_person', trans('view.contact_person')))
             ->addInput(new TextInputBuilder('economic_activity', trans('view.economic_activity')))

@@ -39,6 +39,8 @@ class CustomerController extends BaseController
         'description',
         'contact_person',
         'economic_activity',
+        'address_1',
+        'address_2',
         'category_id',
     ];
 

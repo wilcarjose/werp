@@ -54,6 +54,7 @@ return [
     'tax' => 'Impuesto',
     'discount' => 'Descuento',
     'sale_order' => 'Orden de venta',
+    'address' => 'Dirección',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',

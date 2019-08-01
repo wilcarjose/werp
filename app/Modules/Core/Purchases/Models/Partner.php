@@ -63,8 +63,14 @@ class Partner extends Model
             'category_id' => $this->category_id,
             'address_id' => $this->address_id,
             'status' => $this->status,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'address' => $this->address ? $this->address->toArray() : [],
         ];
+    }
+
+    public function address()
+    {
+        return $this->hasOne('Werp\Modules\Core\Maintenance\Models\Address', 'id', 'address_id');
     }
 
     public function isSupplier()
