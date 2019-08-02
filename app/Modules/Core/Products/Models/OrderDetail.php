@@ -77,5 +77,4 @@ class OrderDetail extends Model
     {
         return $this->order;
     }
-
 }

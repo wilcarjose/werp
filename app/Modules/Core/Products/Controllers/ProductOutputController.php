@@ -169,4 +169,35 @@ class ProductOutputController extends BaseController
             return redirect(route('admin.products.product_output.edit', $id));
         }
     }
+
+    public function print(Request $request, $id)
+    {
+        try {
+
+            $entity = $this->entityService->getById($id, false);
+
+            if (!$entity) {
+                $entity = $this->entityService->getByCode($id);
+            }
+
+            if (!$entity) {
+                flash(trans($this->getNotFoundKey()), 'info');
+                return back();
+            }
+
+            if ($request->get('view', false) == 'on') {
+                return view('admin.pdf.product-output', compact('entity'));
+            }
+
+            $pdf = \PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
+                ->loadView('admin.pdf.product-output', compact('entity'));
+                
+            return $pdf->download('product-output.pdf');
+
+        } catch (\Exception $e) {
+            flash($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine(), 'error', 'error');
+            return redirect(route('admin.products.product_output.edit', $id));
+        }
+
+    }
 }

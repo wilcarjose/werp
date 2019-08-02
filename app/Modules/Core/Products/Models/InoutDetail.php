@@ -134,4 +134,9 @@ class InoutDetail extends Model
     {
         return $this->inout;
     }
+
+    public function product()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Product');
+    }
 }

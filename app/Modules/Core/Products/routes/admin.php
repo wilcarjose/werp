@@ -76,6 +76,7 @@
 	Route::get('/product_output/{id}/process', 'ProductOutputController@process')->name('product_output.process');
 	Route::get('/product_output/{id}/reverse', 'ProductOutputController@reverse')->name('product_output.reverse');
 	Route::get('/product_output/{id}/cancel', 'ProductOutputController@cancel')->name('product_output.cancel');
+	Route::get('/product_output/{id}/print', 'ProductOutputController@print')->name('product_output.print');
 	Route::resource('/product_output','ProductOutputController');
 
 	// Movements

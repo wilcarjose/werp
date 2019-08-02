@@ -169,4 +169,9 @@ class Inout extends Model
 
         return config('products.document.actions.'.$this->getType().'.'.$this->state);
     }
+
+    public function partner()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Purchases\Models\Partner');
+    }
 }
