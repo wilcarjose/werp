@@ -14,19 +14,19 @@ class CreatePricesTable extends Migration
     public function up()
     {
         Schema::create('prices', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->dateTime('starting_at');
             $table->double('price', 10, 4)->default(0.0000);
             $table->string('currency')->default('USD');
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-            $table->integer('price_list_id')->unsigned();
+            $table->uuid('price_list_id');
             $table->foreign('price_list_id')
                 ->references('id')
                 ->on('price_lists');
-            $table->integer('price_list_type_id')->unsigned();
+            $table->uuid('price_list_type_id');
             $table->foreign('price_list_type_id')
                 ->references('id')
                 ->on('price_list_types');

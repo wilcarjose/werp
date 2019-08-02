@@ -14,13 +14,13 @@ class CreateProductPartnerTable extends Migration
     public function up()
     {
         Schema::create('product_partner', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name')->nullable();
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-                $table->integer('partner_id')->unsigned();
+            $table->uuid('partner_id');
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners');

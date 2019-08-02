@@ -14,7 +14,7 @@ class CreateSocialNetworksTable extends Migration
     public function up()
     {
         Schema::create('social_networks', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('social_network'); // create list in config
             $table->string('name');
             $table->string('email')->nullable();

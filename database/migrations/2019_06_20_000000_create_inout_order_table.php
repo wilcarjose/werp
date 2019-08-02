@@ -14,12 +14,12 @@ class CreateInoutOrderTable extends Migration
     public function up()
     {
         Schema::create('inout_order', function (Blueprint $table) {
-            //$table->increments('id');
-            $table->integer('inout_id')->unsigned();
+            //$table->uuid('id')->primary();
+            $table->uuid('inout_id');
             $table->foreign('inout_id')
                 ->references('id')
                 ->on('inouts');
-            $table->integer('order_id')->unsigned();
+            $table->uuid('order_id');
             $table->foreign('order_id')
                 ->references('id')
                 ->on('orders');

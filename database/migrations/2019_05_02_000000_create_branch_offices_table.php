@@ -14,15 +14,15 @@ class CreateBranchOfficesTable extends Migration
     public function up()
     {
         Schema::create('branch_offices', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('logo')->nullable();
             $table->text('description')->nullable();
-            $table->integer('company_id')->unsigned();
+            $table->uuid('company_id');
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies');
-            $table->integer('address_id')->unsigned()->nullable();
+            $table->uuid('address_id')->nullable();
             $table->foreign('address_id')
                 ->references('id')
                 ->on('addresses');

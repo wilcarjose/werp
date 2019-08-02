@@ -14,15 +14,15 @@ class CreateStockLimitTable extends Migration
     public function up()
     {
         Schema::create('stock_limit', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name')->nullable();
-            $table->integer('product_id')->unsigned();
             $table->double('max_qty');
             $table->double('min_qty')->nullable();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-            $table->integer('warehouse_id')->unsigned()->nullable();
+            $table->uuid('warehouse_id')->nullable();
             $table->foreign('warehouse_id')
                 ->references('id')
                 ->on('warehouses');

@@ -14,7 +14,7 @@ class CreateOrderDetailTable extends Migration
     public function up()
     {
         Schema::create('order_detail', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->dateTime('date');
             $table->string('reference');
             $table->double('price', 10, 4)->default(0.0000);
@@ -29,23 +29,23 @@ class CreateOrderDetailTable extends Migration
             $table->double('qty');
             $table->double('qty_delivered')->default(0);
             $table->double('qty_invoiced')->default(0);
-            $table->integer('order_id')->unsigned();
+            $table->uuid('order_id');
             $table->foreign('order_id')
                 ->references('id')
                 ->on('orders');
-            $table->integer('warehouse_id')->unsigned();
+            $table->uuid('warehouse_id');
             $table->foreign('warehouse_id')
                 ->references('id')
                 ->on('warehouses');
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-            $table->integer('tax_id')->unsigned()->nullable();
+            $table->uuid('tax_id')->nullable();
             $table->foreign('tax_id')
                 ->references('id')
                 ->on('taxs');
-            $table->integer('discount_id')->unsigned()->nullable();
+            $table->uuid('discount_id')->nullable();
             $table->foreign('discount_id')
                 ->references('id')
                 ->on('discounts');

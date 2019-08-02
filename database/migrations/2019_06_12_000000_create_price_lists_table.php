@@ -15,24 +15,24 @@ class CreatePriceListsTable extends Migration
     public function up()
     {
         Schema::create('price_lists', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('code')->unique();
             $table->dateTime('starting_at');
             $table->text('description')->nullable();
-            $table->integer('price_list_type_id')->unsigned();
+            $table->uuid('price_list_type_id');
             $table->foreign('price_list_type_id')
                 ->references('id')
                 ->on('price_list_types');
-            $table->integer('doctype_id')->unsigned();
+            $table->uuid('doctype_id');
             $table->foreign('doctype_id')
                 ->references('id')
                 ->on('doctypes');
-            $table->integer('reference_price_list_type_id')->unsigned()->nullable();
+            $table->uuid('reference_price_list_type_id')->nullable();
             $table->foreign('reference_price_list_type_id')
                 ->references('id')
                 ->on('price_list_types');
             $table->string('state', 2)->default(Basedoc::PE_STATE);
-            $table->integer('amount_operation_id')->unsigned()->nullable();
+            $table->uuid('amount_operation_id')->nullable();
             $table->foreign('amount_operation_id')
                 ->references('id')
                 ->on('amount_operations');

@@ -14,7 +14,7 @@ class CreateProductsTable extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('code');
             $table->string('name');
             $table->string('alternate_code')->nullable();
@@ -23,21 +23,21 @@ class CreateProductsTable extends Migration
             $table->string('barcode')->nullable();
             $table->string('qrcode')->nullable();
             $table->string('link')->nullable();
-            $table->integer('uom_id')->unsigned()->nullable();
+            $table->uuid('uom_id')->nullable();
             $table->foreign('uom_id')
                 ->references('id')
                 ->on('uom');
-            $table->integer('category_id')->unsigned()->nullable();
+            $table->uuid('category_id')->nullable();
             $table->string('image')->nullable();
             $table->enum('is_service', ['y','n'])->default('n');
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');
-            $table->integer('brand_id')->unsigned()->nullable();
+            $table->uuid('brand_id')->nullable();
             $table->foreign('brand_id')
                 ->references('id')
                 ->on('brands');
-            $table->integer('partner_id')->unsigned()->nullable();
+            $table->uuid('partner_id')->nullable();
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners');

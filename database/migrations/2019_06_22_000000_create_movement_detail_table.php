@@ -14,23 +14,23 @@ class CreateMovementDetailTable extends Migration
     public function up()
     {
         Schema::create('movement_detail', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->dateTime('date');
             $table->string('reference');
             $table->double('qty');
-            $table->integer('movement_id')->unsigned();
+            $table->uuid('movement_id');
             $table->foreign('movement_id')
                 ->references('id')
                 ->on('movements');
-            $table->integer('warehouse_from_id')->unsigned();
+            $table->uuid('warehouse_from_id');
             $table->foreign('warehouse_from_id')
                 ->references('id')
                 ->on('warehouses');
-            $table->integer('warehouse_to_id')->unsigned();
+            $table->uuid('warehouse_to_id');
             $table->foreign('warehouse_to_id')
                 ->references('id')
                 ->on('warehouses');
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');

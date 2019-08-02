@@ -14,7 +14,7 @@ class CreateAmountOperationsTable extends Migration
     public function up()
     {
         Schema::create('amount_operations', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('operation')->nullable();

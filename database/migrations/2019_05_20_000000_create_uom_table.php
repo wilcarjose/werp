@@ -14,7 +14,7 @@ class CreateUomTable extends Migration
     public function up()
     {
         Schema::create('uom', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('abbr')->nullable();

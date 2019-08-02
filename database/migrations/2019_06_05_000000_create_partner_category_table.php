@@ -14,13 +14,13 @@ class CreatePartnerCategoryTable extends Migration
     public function up()
     {
         Schema::create('partner_category', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name')->nullable();
-            $table->integer('partner_id')->unsigned();
+            $table->uuid('partner_id');
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners');
-                $table->integer('category_id')->unsigned();
+            $table->uuid('category_id');
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');

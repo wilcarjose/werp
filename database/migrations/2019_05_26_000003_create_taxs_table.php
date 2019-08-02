@@ -14,10 +14,10 @@ class CreateTaxsTable extends Migration
     public function up()
     {
         Schema::create('taxs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->integer('amount_operation_id')->unsigned()->nullable();
+            $table->uuid('amount_operation_id')->nullable();
             $table->foreign('amount_operation_id')
                 ->references('id')
                 ->on('amount_operations');

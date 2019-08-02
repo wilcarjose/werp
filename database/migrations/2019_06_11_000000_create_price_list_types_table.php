@@ -14,7 +14,7 @@ class CreatePriceListTypesTable extends Migration
     public function up()
     {
         Schema::create('price_list_types', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('currency')->default('USD');
             $table->text('description')->nullable();

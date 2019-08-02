@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('code')->unique();
             $table->dateTime('date');
             $table->text('description')->nullable();
@@ -31,33 +31,31 @@ class CreateOrdersTable extends Migration
             $table->enum('is_invoice_pending',['y','n'])->default('y');
             $table->enum('is_delivery_pending',['y','n'])->default('y');
             $table->string('state', 2)->default(Basedoc::PE_STATE);
-            $table->integer('partner_id')->unsigned();
+            $table->uuid('partner_id');
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners');
-            $table->integer('doctype_id')->unsigned();
+            $table->uuid('doctype_id');
             $table->foreign('doctype_id')
                 ->references('id')
                 ->on('doctypes');
-            $table->integer('warehouse_id')->unsigned();
+            $table->uuid('warehouse_id')->nullable();
             $table->foreign('warehouse_id')
                 ->references('id')
-                ->on('warehouses')
-                ->nullable();
-            $table->integer('price_list_type_id')->unsigned();
+                ->on('warehouses');
+            $table->uuid('price_list_type_id');
             $table->foreign('price_list_type_id')
                 ->references('id')
                 ->on('price_list_types');
-            $table->integer('sale_channel_id')->unsigned()->nullable();
+            $table->uuid('sale_channel_id')->nullable();
             $table->foreign('sale_channel_id')
                 ->references('id')
-                ->on('sales_channels')
-                ->nullable();
-            $table->integer('tax_id')->unsigned()->nullable();
+                ->on('sales_channels');
+            $table->uuid('tax_id')->nullable();
             $table->foreign('tax_id')
                 ->references('id')
                 ->on('taxs');
-            $table->integer('discount_id')->unsigned()->nullable();
+            $table->uuid('discount_id')->nullable();
             $table->foreign('discount_id')
                 ->references('id')
                 ->on('discounts');

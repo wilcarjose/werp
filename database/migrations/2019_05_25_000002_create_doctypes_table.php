@@ -14,9 +14,9 @@ class CreateDoctypesTable extends Migration
     public function up()
     {
         Schema::create('doctypes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
-            $table->integer('basedoc_id')->unsigned();
+            $table->uuid('basedoc_id');
             $table->foreign('basedoc_id')
                 ->references('id')
                 ->on('basedocs');

@@ -14,14 +14,14 @@ class CreateUomConversionTable extends Migration
     public function up()
     {
         Schema::create('uom_conversion', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->double('amount_from');
             $table->double('amount_to');
-            $table->integer('uom_from_id')->unsigned();
+            $table->uuid('uom_from_id');
             $table->foreign('uom_from_id')
                 ->references('id')
                 ->on('uom');
-            $table->integer('uom_to_id')->unsigned();
+            $table->uuid('uom_to_id');
             $table->foreign('uom_to_id')
                 ->references('id')
                 ->on('uom');

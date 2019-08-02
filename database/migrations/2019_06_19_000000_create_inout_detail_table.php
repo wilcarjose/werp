@@ -14,7 +14,7 @@ class CreateInoutDetailTable extends Migration
     public function up()
     {
         Schema::create('inout_detail', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->dateTime('date');
             $table->string('reference');
             $table->double('price', 10, 4)->default(0.0000);
@@ -27,27 +27,27 @@ class CreateInoutDetailTable extends Migration
             $table->double('total', 10, 4)->default(0.0000);
             $table->string('currency')->default('USD');
             $table->double('qty');
-            $table->integer('inout_id')->unsigned();
+            $table->uuid('inout_id');
             $table->foreign('inout_id')
                 ->references('id')
                 ->on('inouts');
-            $table->integer('warehouse_id')->unsigned();
+            $table->uuid('warehouse_id');
             $table->foreign('warehouse_id')
                 ->references('id')
                 ->on('warehouses');
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-            $table->integer('order_detail_id')->unsigned()->nullable();
+            $table->uuid('order_detail_id')->nullable();
             $table->foreign('order_detail_id')
                 ->references('id')
                 ->on('order_detail');
-            $table->integer('tax_id')->unsigned()->nullable();
+            $table->uuid('tax_id')->nullable();
             $table->foreign('tax_id')
                 ->references('id')
                 ->on('taxs');
-            $table->integer('discount_id')->unsigned()->nullable();
+            $table->uuid('discount_id')->nullable();
             $table->foreign('discount_id')
                 ->references('id')
                 ->on('discounts');

@@ -14,13 +14,13 @@ class CreateProductBrandTable extends Migration
     public function up()
     {
         Schema::create('product_brand', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name')->nullable();
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-                $table->integer('brand_id')->unsigned();
+            $table->uuid('brand_id');
             $table->foreign('brand_id')
                 ->references('id')
                 ->on('brands');

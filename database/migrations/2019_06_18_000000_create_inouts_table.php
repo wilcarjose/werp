@@ -16,7 +16,7 @@ class CreateInoutsTable extends Migration
     public function up()
     {
         Schema::create('inouts', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('code')->unique();
             $table->dateTime('date');
             $table->string('order_code')->nullable();
@@ -30,24 +30,23 @@ class CreateInoutsTable extends Migration
             $table->string('currency')->default('USD');
             $table->enum('type', [Inout::OUT_TYPE, Inout::IN_TYPE])->default(Inout::OUT_TYPE);
             $table->string('state', 2)->default(Basedoc::PE_STATE);
-            $table->integer('partner_id')->unsigned();
+            $table->uuid('partner_id');
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners');
-            $table->integer('doctype_id')->unsigned();
+            $table->uuid('doctype_id');
             $table->foreign('doctype_id')
                 ->references('id')
                 ->on('doctypes');
-            $table->integer('warehouse_id')->unsigned();
+            $table->uuid('warehouse_id')->nullable();
             $table->foreign('warehouse_id')
                 ->references('id')
-                ->on('warehouses')
-                ->nullable();
-            $table->integer('tax_id')->unsigned()->nullable();
+                ->on('warehouses');
+            $table->uuid('tax_id')->nullable();
             $table->foreign('tax_id')
                 ->references('id')
                 ->on('taxs');
-            $table->integer('discount_id')->unsigned()->nullable();
+            $table->uuid('discount_id')->nullable();
             $table->foreign('discount_id')
                 ->references('id')
                 ->on('discounts');

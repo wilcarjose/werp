@@ -14,20 +14,20 @@ class CreateInventoryDetailTable extends Migration
     public function up()
     {
         Schema::create('inventory_detail', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('reference');
             $table->dateTime('date');
             $table->text('description')->nullable();
             $table->double('qty');
-            $table->integer('inventory_id')->unsigned();
+            $table->uuid('inventory_id');
             $table->foreign('inventory_id')
                 ->references('id')
                 ->on('inventories');
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-            $table->integer('warehouse_id')->unsigned();
+            $table->uuid('warehouse_id');
             $table->foreign('warehouse_id')
                 ->references('id')
                 ->on('warehouses');

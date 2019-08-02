@@ -14,7 +14,7 @@ class CreateBasedocsTable extends Migration
     public function up()
     {
         Schema::create('basedocs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('type');
             $table->text('description')->nullable();

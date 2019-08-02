@@ -15,21 +15,21 @@ class CreateMovementsTable extends Migration
     public function up()
     {
         Schema::create('movements', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('code');
             $table->dateTime('date');
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
             $table->string('state', 2)->default(Basedoc::PE_STATE);
-            $table->integer('doctype_id')->unsigned();
+            $table->uuid('doctype_id');
             $table->foreign('doctype_id')
                 ->references('id')
                 ->on('doctypes');
-            $table->integer('warehouse_from_id')->unsigned();
+            $table->uuid('warehouse_from_id');
             $table->foreign('warehouse_from_id')
                 ->references('id')
                 ->on('warehouses');
-            $table->integer('warehouse_to_id')->unsigned();
+            $table->uuid('warehouse_to_id');
             $table->foreign('warehouse_to_id')
                 ->references('id')
                 ->on('warehouses');

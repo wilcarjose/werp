@@ -14,13 +14,13 @@ class CreateAddressPartnerTable extends Migration
     public function up()
     {
         Schema::create('address_partner', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name')->nullable();
-            $table->integer('partner_id')->unsigned();
+            $table->uuid('partner_id');
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners');
-                $table->integer('address_id')->unsigned();
+            $table->uuid('address_id');
             $table->foreign('address_id')
                 ->references('id')
                 ->on('addresses');

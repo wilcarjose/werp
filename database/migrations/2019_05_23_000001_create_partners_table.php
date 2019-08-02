@@ -14,7 +14,7 @@ class CreatePartnersTable extends Migration
     public function up()
     {
         Schema::create('partners', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('document');
             $table->string('name');
             $table->string('last_name')->nullable();
@@ -31,11 +31,11 @@ class CreatePartnersTable extends Migration
             $table->string('contact_person')->nullable();
             $table->string('economic_activity')->nullable(); // rubro
             $table->enum('gender',['m','f','o'])->nullable();
-            $table->integer('category_id')->unsigned()->nullable();
+            $table->uuid('category_id')->nullable();
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');
-            $table->integer('address_id')->unsigned()->nullable();
+            $table->uuid('address_id')->nullable();
             $table->foreign('address_id')
                 ->references('id')
                 ->on('addresses');

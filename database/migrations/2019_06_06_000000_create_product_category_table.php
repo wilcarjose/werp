@@ -14,13 +14,13 @@ class CreateProductCategoryTable extends Migration
     public function up()
     {
         Schema::create('product_category', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name')->nullable();
-            $table->integer('product_id')->unsigned();
+            $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-                $table->integer('category_id')->unsigned();
+            $table->uuid('category_id');
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');

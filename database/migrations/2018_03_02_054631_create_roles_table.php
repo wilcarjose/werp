@@ -14,18 +14,19 @@ class CreateRolesTable extends Migration
     public function up()
     {
         Schema::create('roles',function(Blueprint $table){
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('label')->nullable();
             $table->timestamps();
         });
 
         Schema::create('permissions',function(Blueprint $table){
-            $table->increments('id');
+            $table->uuid('id');
+            $table->primary('id');
             $table->string('name');
             $table->string('label')->nullable();
             $table->enum('is_group',['y','n'])->default('n');
-            $table->integer('permission_id')->unsigned()->nullable();
+            $table->uuid('permission_id')->nullable();
             $table->foreign('permission_id')
                 ->references('id')
                 ->on('permissions');
@@ -33,8 +34,8 @@ class CreateRolesTable extends Migration
         });
 
         Schema::create('permission_role',function(Blueprint $table){
-            $table->integer('permission_id')->unsigned();
-            $table->integer('role_id')->unsigned();
+            $table->uuid('permission_id');
+            $table->uuid('role_id');
 
             $table->foreign('permission_id')
                 ->references('id')
@@ -50,8 +51,8 @@ class CreateRolesTable extends Migration
         });
 
         Schema::create('admin_role',function(Blueprint $table){
-            $table->integer('role_id')->unsigned();
-            $table->integer('admin_id')->unsigned();
+            $table->uuid('role_id');
+            $table->uuid('admin_id');
 
             $table->foreign('role_id')
                 ->references('id')
@@ -67,8 +68,8 @@ class CreateRolesTable extends Migration
         });
 
         Schema::create('role_user',function(Blueprint $table){
-            $table->integer('role_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->uuid('role_id');
+            $table->uuid('user_id');
 
             $table->foreign('role_id')
                 ->references('id')

@@ -14,11 +14,12 @@ class CreateCategoriesTable extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id');
+            $table->primary('id');
             $table->string('name');
             $table->string('type');
             $table->enum('status',['active','inactive'])->default('active');
-            $table->integer('category_id')->unsigned()->nullable();
+            $table->uuid('category_id')->nullable();
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');

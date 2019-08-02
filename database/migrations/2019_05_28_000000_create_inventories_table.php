@@ -15,21 +15,20 @@ class CreateInventoriesTable extends Migration
     public function up()
     {
         Schema::create('inventories', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->string('code')->unique();
             $table->dateTime('date');
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
             $table->string('state', 2)->default(Basedoc::PE_STATE);
-            $table->integer('doctype_id')->unsigned();
+            $table->uuid('doctype_id');
             $table->foreign('doctype_id')
                 ->references('id')
                 ->on('doctypes');
-            $table->integer('warehouse_id')->unsigned();
+            $table->uuid('warehouse_id')->nullable();
             $table->foreign('warehouse_id')
                 ->references('id')
-                ->on('warehouses')
-                ->nullable();
+                ->on('warehouses');
             $table->timestamps();
         });
     }
