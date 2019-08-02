@@ -25,6 +25,7 @@ class FormBuilder extends ModuleBuilder
     protected $advanced = false;
     protected $list = null;
     protected $goBack = null;
+    protected $printAction = null;
 
     public function init($title)
     {
@@ -54,6 +55,22 @@ class FormBuilder extends ModuleBuilder
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function setPrintAction($printAction)
+    {
+        $this->printAction = $printAction;
+        return $this;
+    }
+
+    public function getPrintAction()
+    {
+        return $this->printAction;
+    }
+
+    public function hasPrintAction()
+    {
+        return $this->getPrintAction();
     }
 
     public function setShortAction($action)

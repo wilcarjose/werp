@@ -55,6 +55,7 @@ return [
     'discount' => 'Descuento',
     'sale_order' => 'Orden de venta',
     'address' => 'Dirección',
+    'print' => 'Imprimir',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',

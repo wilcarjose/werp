@@ -8,6 +8,7 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
+use Werp\Builders\PrintAction;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\DateBuilder;
 use Werp\Builders\SelectBuilder;
@@ -96,7 +97,8 @@ class ProductOutputForm extends FormBuilder
             ->setList(new ProductOutputDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.after_name')))
-            ->setStateColor(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.color'));
+            ->setStateColor(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.color'))
+            ->setPrintAction((new PrintAction)->setRoute(route($this->getRoute().'.print', $data['id'])))
         ;
 
         $actionKeys = config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.new_actions');

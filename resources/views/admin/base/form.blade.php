@@ -146,6 +146,33 @@
                     </div>
 
                     <div class="row">
+                        <div class="col s10">
+                          
+                        </div>
+                        <div class="col s2">
+                            @if (false && $page->hasPrintAction())
+                                @include('commons.form.actions.'.$page->getPrintAction()->getType(), ['action' => $page->getPrintAction()])
+
+                                <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">
+                                  <a class="btn-floating btn-large red">
+                                    <i class="material-icons">menu</i>
+                                  </a>
+                                  <ul>
+                                    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+                                    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                                    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+                                    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+                                    @if ($page->hasPrintAction())
+                                        <li><a class="btn tooltipped btn-floating grey" data-position="top" data-delay="50" data-tooltip="Imprimir" href="{{ $page->getPrintAction()->getRoute() }}"><i class="material-icons">print</i></a></li>
+                                    @endif
+                                  </ul>
+                                </div>
+
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
 
                         @foreach($page->getInputs() as $input)
                             @include('commons.form.inputs.'.$input->getType(), compact('input'))
@@ -163,15 +190,19 @@
                             @include('commons.form.inputs.list', ['input' => $page->getList()])
                         @endif
                     </div>
-                    @if (count($page->getActions()) > 0)
+                    
                     <div class="row">
                         <div class="input-field col s12 right-align">
+                            @if (true && $page->hasPrintAction())
+                                @include('commons.form.actions.'.$page->getPrintAction()->getType(), ['action' => $page->getPrintAction()])
+                            @endif
+
                             @foreach($page->getActions() as $action)
                                 @include('commons.form.actions.'.$action->getType(), compact('action'))
                             @endforeach
                         </div>
                     </div>
-                    @endif 
+                    
                 </div>
             </form>
         </div>
@@ -227,9 +258,13 @@
           //var years = moment().diff(start, 'years');
           //alert("You are " + years + " years old!");
         });
+
+        
     });
 
     $(window).on("load", function(){
+
+      $('.tooltipped').tooltip({delay: 50});
 
       $(".textbox .textbox-text").focus(function() {
           $(this).parent().next().addClass('active');

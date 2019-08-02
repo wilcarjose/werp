@@ -53,6 +53,7 @@ return [
     'discount' => 'Discount',
     'sale_order' => 'Sale order',
     'address' => 'Address',
+    'print' => 'Print',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
