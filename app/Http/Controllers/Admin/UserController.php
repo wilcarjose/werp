@@ -318,8 +318,8 @@ class UserController extends Controller
         $user = $this->user->find($id);
 
         if ($user) {
-            $newStatus = ($user->status == User::STATE_ACTIVE)? User::STATE_INACTIVE: User::STATE_ACTIVE;
-            $user->status = $newStatus;
+            $newStatus = ($user->active == User::STATUS_ACTIVE)? User::STATUS_INACTIVE: User::STATUS_ACTIVE;
+            $user->active = $newStatus;
             $user->save();
 
             // Get New updated Object of User
@@ -364,8 +364,8 @@ class UserController extends Controller
 
         if ($users->count() > 0) {
             foreach ($users as $user) {
-                $newStatus    = ($user->status == User::STATE_ACTIVE)? User::STATE_INACTIVE: User::STATE_ACTIVE;
-                $user->status = $newStatus;
+                $newStatus    = ($user->active == User::STATUS_ACTIVE)? User::STATUS_INACTIVE: User::STATUS_ACTIVE;
+                $user->active = $newStatus;
                 $user->save();
             }
 

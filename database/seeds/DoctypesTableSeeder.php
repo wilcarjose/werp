@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
 
@@ -14,7 +15,7 @@ class DoctypesTableSeeder extends Seeder
                 'name'        => 'Inventory',
                 'type'        => Basedoc::IN_DOC,
                 'description' => 'Inventory',
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -22,7 +23,7 @@ class DoctypesTableSeeder extends Seeder
                 'name'        => 'Price List',
                 'type'        => Basedoc::PL_DOC,
                 'description' => 'Price List',
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -30,7 +31,7 @@ class DoctypesTableSeeder extends Seeder
                 'name'        => 'Purchase Order',
                 'type'        => Basedoc::PO_DOC,
                 'description' => 'Purchase Order',
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -38,7 +39,7 @@ class DoctypesTableSeeder extends Seeder
                 'name'        => 'Sale Order',
                 'type'        => Basedoc::SO_DOC,
                 'description' => 'Sale Order',
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -46,7 +47,7 @@ class DoctypesTableSeeder extends Seeder
                 'name'        => 'Inventory Entry',
                 'type'        => Basedoc::IE_DOC,
                 'description' => 'Inventory entry',
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -54,7 +55,7 @@ class DoctypesTableSeeder extends Seeder
                 'name'        => 'Inventory Output',
                 'type'        => Basedoc::IO_DOC,
                 'description' => 'Inventory output',
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -62,7 +63,7 @@ class DoctypesTableSeeder extends Seeder
                 'name'        => 'Inventory Movement',
                 'type'        => Basedoc::IM_DOC,
                 'description' => 'Inventory movement',
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ]
@@ -80,7 +81,7 @@ class DoctypesTableSeeder extends Seeder
                 'last_number' => 0,
                 'use_zeros' => 'y',
                 'number_long' => 5,
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -92,7 +93,7 @@ class DoctypesTableSeeder extends Seeder
                 'last_number' => 0,
                 'use_zeros' => 'y',
                 'number_long' => 5,
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -104,7 +105,7 @@ class DoctypesTableSeeder extends Seeder
                 'last_number' => 0,
                 'use_zeros' => 'y',
                 'number_long' => 5,
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -116,7 +117,7 @@ class DoctypesTableSeeder extends Seeder
                 'last_number' => 0,
                 'use_zeros' => 'y',
                 'number_long' => 5,
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -128,7 +129,7 @@ class DoctypesTableSeeder extends Seeder
                 'last_number' => 0,
                 'use_zeros' => 'y',
                 'number_long' => 5,
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -140,7 +141,7 @@ class DoctypesTableSeeder extends Seeder
                 'last_number' => 0,
                 'use_zeros' => 'y',
                 'number_long' => 5,
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -152,7 +153,7 @@ class DoctypesTableSeeder extends Seeder
                 'last_number' => 0,
                 'use_zeros' => 'y',
                 'number_long' => 5,
-                'status'      => 'active',
+                'active'      => BaseModel::STATUS_ACTIVE,
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ]

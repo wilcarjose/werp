@@ -24,7 +24,7 @@ class BranchOffice extends Model
             'name' => $this->name,
             'description' => $this->description,
             'company_id' => $this->company_id,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at,
         ];
     }

@@ -227,8 +227,8 @@ class WarehouseController extends Controller
         $warehouse = $this->warehouse->find($id);
 
         if ($warehouse) {
-            $newStatus = ($warehouse->status == Warehouse::STATE_ACTIVE)? Warehouse::STATE_INACTIVE: Warehouse::STATE_ACTIVE;
-            $warehouse->status = $newStatus;
+            $newStatus = ($warehouse->active == Warehouse::STATUS_ACTIVE)? Warehouse::STATUS_INACTIVE: Warehouse::STATUS_ACTIVE;
+            $warehouse->active = $newStatus;
             $warehouse->save();
 
             // Get New updated Object of Warehouse
@@ -268,8 +268,8 @@ class WarehouseController extends Controller
 
         if ($warehouses->count() > 0) {
             foreach ($warehouses as $warehouse) {
-                $newStatus    = ($warehouse->status == Warehouse::STATE_ACTIVE)? Warehouse::STATE_INACTIVE: Warehouse::STATE_ACTIVE;
-                $warehouse->status = $newStatus;
+                $newStatus    = ($warehouse->active == Warehouse::STATUS_ACTIVE)? Warehouse::STATUS_INACTIVE: Warehouse::STATUS_ACTIVE;
+                $warehouse->active = $newStatus;
                 $warehouse->save();
             }
 

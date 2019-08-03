@@ -19,7 +19,7 @@ class ProductTransformer extends Transformer
             'link'        => $item['link'],
             'description' => $item['description'],
             'category_id' => $item['category_id'],
-            'status'      => $item['status'],
+            'active'      => $item['active'],
             'code_name'   => $item['code'].' - '.$item['name'],
             'created_at'  => $item['created_at']
         ];

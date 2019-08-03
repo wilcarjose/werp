@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Werp\Modules\Core\Base\Models\BaseModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,6 @@ $factory->define(\Werp\Modules\Core\Products\Models\Category::class, function (F
     return [
         'name' => $faker->word,
         'type' => $faker->randomElement(['product', 'supplier']),
-        'status' => 'active',
+        'active' => BaseModel::STATUS_ACTIVE,
     ];
 });

@@ -13,7 +13,7 @@ class CustomerTransformer extends Transformer
             'document'          => $item['document'],
             'name'              => $item['name'],
             'mobile'            => $item['mobile'],
-            'status'            => $item['status'],
+            'active'            => $item['active'],
             'phone' 			=> $item['phone'],
             'email' 			=> $item['email'],
             'web' 				=> $item['web'],

@@ -29,7 +29,7 @@ class SaleChannel extends Model
             'name' => $this->name,
             'description' => $this->description,
             'amount_operation_id' => $this->amount_operation_id,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

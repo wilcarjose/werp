@@ -5,14 +5,11 @@ namespace Werp;
 use Ramsey\Uuid\Uuid;
 use Werp\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Werp\Modules\Core\Base\Models\BaseAuthenticatable;
 
-class User extends Authenticatable
+class User extends BaseAuthenticatable
 {
     use Notifiable, HasRoles;
-
-    const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token', 'status', 'profile_pic'
+        'name', 'email', 'password', 'api_token', 'active', 'profile_pic'
     ];
 
     /**

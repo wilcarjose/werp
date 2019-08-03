@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateDoctypesTable extends Migration
@@ -25,7 +26,7 @@ class CreateDoctypesTable extends Migration
             $table->integer('last_number')->default(0);
             $table->enum('use_zeros',['y','n'])->default('y');
             $table->integer('number_long')->default(3);
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -18,7 +18,7 @@ class Price extends Model
      * @var array
      */
     protected $fillable = [
-        'starting_at', 'currency', 'price', 'product_id', 'price_list_id', 'price_list_type_id', 'status'
+        'starting_at', 'currency', 'price', 'product_id', 'price_list_id', 'price_list_type_id', 'active'
     ];
 
     public function priceListType()
@@ -33,7 +33,7 @@ class Price extends Model
             'starting_at' => $this->starting_at,
             'price' => $this->price,
             'currency' => $this->currency,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'product_id' => $this->product_id,

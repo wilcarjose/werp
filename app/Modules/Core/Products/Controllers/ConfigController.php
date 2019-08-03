@@ -44,7 +44,7 @@ class ConfigController extends Controller
 
         $selects = [
             'doctypes' => $this->basedoc->where('type', Basedoc::IN_DOC)->first()->doctypes()->get(),
-            'warehouses' => $this->warehouse->where('status', 'active')->get(),
+            'warehouses' => $this->warehouse->active()->get(),
         ];
 
         return $this->configForm->editConfigPage($config, $selects);

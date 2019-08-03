@@ -33,7 +33,7 @@ class SaleChannelSelect extends SelectBuilder
         $this->text  = $text ?: trans('view.sale_channel');
         $this->value = $value;
         $this->data  = SaleChannel::select('id', 'name')
-            ->where('status', 'active')
+            ->active()
             ->get();
         $this->disable  = $disable;
         $this->none = $none;

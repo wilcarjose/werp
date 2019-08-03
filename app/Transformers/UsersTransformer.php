@@ -10,7 +10,7 @@ class UsersTransformer extends Transformer
             'id'                    => $item['id'],
             'fullname'              => $item['name'],
             'email'                 => $item['email'],
-            'status'                => $item['status'],
+            'active'                => $item['active'],
             'created_at'            => $item['created_at']
         ];
     }

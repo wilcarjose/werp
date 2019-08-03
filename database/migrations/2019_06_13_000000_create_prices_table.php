@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePricesTable extends Migration
@@ -30,7 +31,7 @@ class CreatePricesTable extends Migration
             $table->foreign('price_list_type_id')
                 ->references('id')
                 ->on('price_list_types');
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });

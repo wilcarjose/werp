@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Schema\Blueprint;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateAdminsTable extends Migration
@@ -19,7 +20,7 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->string('pic')->nullable();
             $table->string('designation')->default('Manager');
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

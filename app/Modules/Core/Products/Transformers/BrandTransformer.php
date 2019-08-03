@@ -13,7 +13,7 @@ class BrandTransformer extends Transformer
             'name'              => $item['name'],
             'description'       => $item['description'],
             'country'           => $item['country'],
-            'status'            => $item['status'],
+            'active'            => $item['active'],
             'created_at'        => $item['created_at']
         ];
     }

@@ -32,7 +32,7 @@ class PriceListType extends Model
             'name' => $this->name,
             'description' => $this->description,
             'currency' => $this->currency,
-            'status' => $this->status,
+            'active' => $this->active,
             'type' => $this->type
         ];
     }

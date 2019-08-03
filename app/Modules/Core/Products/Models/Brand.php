@@ -25,7 +25,7 @@ class Brand extends Model
             'description' => $this->description,
             'country' => $this->country,
             'logo' => $this->logo,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at
         ];
     }

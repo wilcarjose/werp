@@ -3,6 +3,7 @@
 namespace Werp\Modules\Core\Sales\Services;
 
 use Werp\Modules\Core\Sales\Models\Price;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Sales\Models\PriceList;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -60,7 +61,7 @@ class PriceListService extends BaseService
 
         $data['starting_at'] = $entity->starting_at;
         $data['currency'] = $priceListType->currency;
-        $data['status'] = 'inactive';
+        $data['active'] = BaseModel::STATUS_INACTIVE;
         $data['price_list_type_id'] = $priceListType->id;
         
         return $data;
@@ -81,7 +82,7 @@ class PriceListService extends BaseService
         $entity->state = Basedoc::PR_STATE;
         $entity->save();
 
-        $entity->detail()->update(['status' => 'active']);
+        $entity->detail()->update(['active' => BaseModel::STATUS_ACTIVE]);
     }
 
     public function reverse($id)
@@ -90,7 +91,7 @@ class PriceListService extends BaseService
         $entity->state = Basedoc::PE_STATE;
         $entity->save();
 
-        $entity->detail()->update(['status' => 'inactive']);
+        $entity->detail()->update(['active' => BaseModel::STATUS_INACTIVE]);
     }
 
     public function generatePrices($entity)
@@ -114,7 +115,7 @@ class PriceListService extends BaseService
                     'price_list_type_id' => $entity->price_list_type_id,
                     'starting_at' => $entity->starting_at,
                     'currency' => $priceListType->currency,
-                    'status' => 'inactive',
+                    'active' => BaseModel::STATUS_INACTIVE,
                     'price' => $total,
                     'product_id' => $price->product_id
                 ];

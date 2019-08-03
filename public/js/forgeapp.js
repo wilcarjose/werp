@@ -37252,13 +37252,13 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this7 = this;
 
             this.resetAlert();
-            var newStat = obj.status == 'active' ? 'inactive' : 'active';
+            var newStat = obj.active == 'on' ? 'off' : 'on';
             var uri = this.route + '/status';
             axios.put(uri, obj).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
                     // Handling alert
-                    obj.status = newStat;
+                    obj.active = newStat;
                     _this7.alertHandler('success', res.message, true);
                 }
             }).catch(function (error) {});
@@ -37822,19 +37822,19 @@ var render = function() {
                               {
                                 on: {
                                   click: function($event) {
-                                    _vm.sortBy("status")
+                                    _vm.sortBy("active")
                                   }
                                 }
                               },
                               [
                                 _vm._v(
-                                  "\n                  Estatus\n                  "
+                                  "\n                  Activo\n                  "
                                 ),
-                                _vm.escapeSort.indexOf("status") < 0
+                                _vm.escapeSort.indexOf("active") < 0
                                   ? _c("span", {
                                       staticClass: "arrow",
                                       class:
-                                        _vm.sortOrder.field == "status"
+                                        _vm.sortOrder.field == "active"
                                           ? _vm.sortOrder.order
                                           : "asc"
                                     })
@@ -38031,7 +38031,7 @@ var render = function() {
                                         "button",
                                         {
                                           class:
-                                            runningData.status == "active"
+                                            runningData.active == "on"
                                               ? "btn success-bg"
                                               : "btn error-bg",
                                           on: {
@@ -38044,7 +38044,7 @@ var render = function() {
                                           _vm._v(
                                             "\n                    " +
                                               _vm._s(
-                                                runningData.status == "active"
+                                                runningData.active == "on"
                                                   ? "Activo"
                                                   : "Inactivo"
                                               ) +

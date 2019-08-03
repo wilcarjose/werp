@@ -23,7 +23,7 @@ class AmountOperation extends Model
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'status' => $this->status,
+            'active' => $this->active,
             'operation' => $this->operation,
             'value' => $this->value,
             'round' => $this->round,

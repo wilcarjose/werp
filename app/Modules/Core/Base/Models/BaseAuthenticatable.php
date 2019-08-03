@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class BaseAuthenticatable extends Authenticatable
 {
 	use SoftDeletes;
+
+	const STATUS_ACTIVE   = 'on';
+    const STATUS_INACTIVE = 'off';
 	
     public $incrementing = false;
  
@@ -25,4 +28,14 @@ class BaseAuthenticatable extends Authenticatable
 	        $model->id = (string) Uuid::uuid4();
 	    });
 	}
+
+	public function scopeActive($query)
+    {
+        return $query->where('active', self::STATUS_ACTIVE);
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('active', self::STATUS_INACTIVE);
+    }
 }

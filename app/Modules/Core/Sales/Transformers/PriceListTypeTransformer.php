@@ -14,7 +14,7 @@ class PriceListTypeTransformer extends Transformer
             'description'       => $item['description'],
             'currency'          => $item['currency'],
             'type'              => $item['type'],
-            'status'            => $item['status'],
+            'active'            => $item['active'],
             //'created_at'        => $item['created_at']
         ];
     }

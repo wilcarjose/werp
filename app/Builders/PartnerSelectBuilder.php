@@ -36,8 +36,8 @@ class PartnerSelectBuilder extends SelectBuilder
         }
 
         $partners = $key ?
-            Partner::where($key, 'y')->where('status', 'active')->get() :
-            Partner::where('status', 'active')->get();
+            Partner::where($key, 'y')->active()->get() :
+            Partner::active()->get();
 
         $this->name  = $name ?: 'partner_id';
         $this->type  = 'select';

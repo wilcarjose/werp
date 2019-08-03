@@ -15,7 +15,7 @@ class AmountOperationTransformer extends Transformer
             'operation'     => $item['operation'],
             'reference'     => $item['reference'],
             'round'         => $item['round'],
-            'status'        => $item['status'],
+            'active'        => $item['active'],
             'created_at'    => $item['created_at'],
             'updated_at'    => $item['updated_at'],
         ];

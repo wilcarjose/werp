@@ -30,8 +30,8 @@ class CategorySelectBuilder extends SelectBuilder
         }
 
         $data = $key ?
-            Category::where('type', $type)->where('status', 'active')->get() :
-            Category::where('status', 'active')->get();
+            Category::where('type', $type)->active()->get() :
+            Category::active()->get();
 
         $this->name  = $name ?: 'category_id';
         $this->type  = 'select';

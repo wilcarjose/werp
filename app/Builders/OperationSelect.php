@@ -21,7 +21,7 @@ class OperationSelect extends SelectBuilder
         $this->icon  = $icon;
         $this->text  = $text ?: trans('view.amount_operation');
         $this->value = $value;
-        $this->data  = AmountOperation::where('status', 'active')->get();
+        $this->data  = AmountOperation::active()->get();
         $this->disable  = $disable;
         $this->none = true;
         $this->advancedOption = $advancedOption;

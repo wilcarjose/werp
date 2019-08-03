@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePartnersTable extends Migration
@@ -39,7 +40,7 @@ class CreatePartnersTable extends Migration
             $table->foreign('address_id')
                 ->references('id')
                 ->on('addresses');
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });

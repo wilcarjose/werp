@@ -98,7 +98,7 @@ class AdminController extends Controller
         //$setPassword       = randomInteger();
         $input             = array_only($request->all(), ['name', 'email']);
         $input['password'] = bcrypt($request->password);
-        $input['status']   = Admin::STATE_ACTIVE;
+        $input['active']   = Admin::STATUS_ACTIVE;
 
         // Create Admin
         $admin = $this->admin->create($input);
@@ -215,8 +215,8 @@ class AdminController extends Controller
         $admin= $this->admin->findOrFail($id);
 
         if ($admin->count() > 0) {
-            $newStatus = ($admin->status == Admin::STATE_ACTIVE)? Admin::STATE_INACTIVE: Admin::STATE_ACTIVE;
-            $admin->status = $newStatus;
+            $newStatus = ($admin->active == Admin::STATUS_ACTIVE)? Admin::STATUS_INACTIVE: Admin::STATUS_ACTIVE;
+            $admin->active = $newStatus;
             $admin->save();
 
             // Get New updated Object of Admin
@@ -226,7 +226,7 @@ class AdminController extends Controller
             if ($request->wantsJson()) {
                 return response([
                     'data'        => $this->adminTransformer->single($updated),
-                    'message'     => trans('messages.admin-status', ['status' => $newStatus]),
+                    'message'     => trans('messages.admin-status', ['active' => $newStatus]),
                     'status_code' => 200
                 ], 200);
             }
@@ -257,8 +257,8 @@ class AdminController extends Controller
 
         if ($admins->count() > 0) {
             foreach ($admins as $admin) {
-                $newStatus = ($admin->status == Admin::STATE_ACTIVE)? Admin::STATE_INACTIVE: Admin::STATE_ACTIVE;
-                $admin->status = $newStatus;
+                $newStatus = ($admin->active == Admin::STATUS_ACTIVE)? Admin::STATUS_INACTIVE: Admin::STATUS_ACTIVE;
+                $admin->active = $newStatus;
                 $admin->save();
             }
 

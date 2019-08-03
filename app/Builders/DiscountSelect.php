@@ -35,7 +35,7 @@ class DiscountSelect extends SelectBuilder
         $this->value = $value;
         $this->data  = Discount::select('id', 'name')
             ->where('type', Order::SALE_TYPE)
-            ->where('status', 'active')
+            ->active()
             ->get();
         $this->disable  = $disable;
         $this->none = $none;

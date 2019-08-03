@@ -278,8 +278,8 @@ class SupplierController extends Controller
         $supplier = $this->supplier->find($id);
 
         if ($supplier) {
-            $newStatus = ($supplier->status == Partner::STATE_ACTIVE)? Partner::STATE_INACTIVE: Partner::STATE_ACTIVE;
-            $supplier->status = $newStatus;
+            $newStatus = ($supplier->active == Partner::STATUS_ACTIVE)? Partner::STATUS_INACTIVE: Partner::STATUS_ACTIVE;
+            $supplier->active = $newStatus;
             $supplier->save();
 
             // Get New updated Object of Supplier
@@ -319,8 +319,8 @@ class SupplierController extends Controller
 
         if ($suppliers->count() > 0) {
             foreach ($suppliers as $supplier) {
-                $newStatus    = ($supplier->status == Supplier::STATE_ACTIVE)? Supplier::STATE_INACTIVE: Supplier::STATE_ACTIVE;
-                $supplier->status = $newStatus;
+                $newStatus    = ($supplier->active == Supplier::STATUS_ACTIVE)? Supplier::STATUS_INACTIVE: Supplier::STATUS_ACTIVE;
+                $supplier->active = $newStatus;
                 $supplier->save();
             }
 

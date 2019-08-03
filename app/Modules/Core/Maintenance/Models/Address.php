@@ -42,7 +42,7 @@ class Address extends Model
             'zip_code' => $this->zip_code,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

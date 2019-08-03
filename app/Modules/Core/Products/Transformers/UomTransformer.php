@@ -14,7 +14,7 @@ class UomTransformer extends Transformer
             'description'       => $item['description'],
             'abbr'              => $item['abbr'],
             'symbol'            => $item['symbol'],
-            'status'            => $item['status'],
+            'active'            => $item['active'],
             'created_at'        => $item['created_at'],
             'updated_at'        => $item['updated_at']
         ];

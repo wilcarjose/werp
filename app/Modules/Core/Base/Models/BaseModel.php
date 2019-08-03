@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BaseModel extends Model
 {
 	use SoftDeletes;
-	
-    const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
+
+    const STATUS_ACTIVE   = 'on';
+    const STATUS_INACTIVE = 'off';
 
     public $incrementing = false;
  
@@ -28,4 +28,14 @@ class BaseModel extends Model
 	        $model->id = (string) Uuid::uuid4();
 	    });
 	}
+
+	public function scopeActive($query)
+    {
+        return $query->where('active', self::STATUS_ACTIVE);
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('active', self::STATUS_INACTIVE);
+    }
 }

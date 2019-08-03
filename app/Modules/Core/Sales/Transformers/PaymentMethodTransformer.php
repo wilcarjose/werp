@@ -12,7 +12,7 @@ class PaymentMethodTransformer extends Transformer
             'id'                => $item['id'],
             'name'              => $item['name'],
             'description'       => $item['description'],
-            'status'            => $item['status'],
+            'active'            => $item['active'],
             'amount_operation_id' => $item['amount_operation_id'],
             'updated_at' 		=> $item['updated_at'],
             'created_at'        => $item['created_at'],

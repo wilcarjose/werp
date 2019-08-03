@@ -25,7 +25,7 @@ class Uom extends Model
             'description' => $this->description,
             'abbr' => $this->abbr,
             'symbol' => $this->symbol,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -2,13 +2,10 @@
 
 namespace Werp\Modules\Core\Purchases\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Partner extends Model
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     const SUPPLIER_TYPE = 'supplier';
     const CUSTOMER_TYPE = 'customer';
 
@@ -62,7 +59,7 @@ class Partner extends Model
             'gender' => $this->gender,
             'category_id' => $this->category_id,
             'address_id' => $this->address_id,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at,
             'address' => $this->address ? $this->address->toArray() : [],
         ];

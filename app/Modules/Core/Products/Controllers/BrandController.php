@@ -224,8 +224,8 @@ class BrandController extends Controller
         $brand = $this->brand->find($id);
 
         if ($brand) {
-            $newStatus = ($brand->status == Brand::STATE_ACTIVE)? Brand::STATE_INACTIVE: Brand::STATE_ACTIVE;
-            $brand->status = $newStatus;
+            $newStatus = ($brand->active == Brand::STATUS_ACTIVE)? Brand::STATUS_INACTIVE: Brand::STATUS_ACTIVE;
+            $brand->active = $newStatus;
             $brand->save();
 
             // Get New updated Object of Brand
@@ -265,8 +265,8 @@ class BrandController extends Controller
 
         if ($brands->count() > 0) {
             foreach ($brands as $brand) {
-                $newStatus    = ($brand->status == Brand::STATE_ACTIVE)? Brand::STATE_INACTIVE: Brand::STATE_ACTIVE;
-                $brand->status = $newStatus;
+                $newStatus    = ($brand->active == Brand::STATUS_ACTIVE)? Brand::STATUS_INACTIVE: Brand::STATUS_ACTIVE;
+                $brand->active = $newStatus;
                 $brand->save();
             }
 

@@ -2,7 +2,7 @@
 
 namespace Werp\Services;
 
-use Werp\Models\BaseModel;
+use Werp\Modules\Core\Base\Models\BaseModel;
 
 class BaseService
 {
@@ -103,8 +103,8 @@ class BaseService
 
     protected function setStatus($entity)
     {
-    	if ($entity && isset($entity->status)) {
-            $entity->status = ($entity->status == BaseModel::STATE_ACTIVE) ? BaseModel::STATE_INACTIVE : BaseModel::STATE_ACTIVE;
+    	if ($entity && isset($entity->active)) {
+            $entity->active = ($entity->active == BaseModel::STATUS_ACTIVE) ? BaseModel::STATUS_INACTIVE : BaseModel::STATUS_ACTIVE;
             return $entity->save();
         }
 

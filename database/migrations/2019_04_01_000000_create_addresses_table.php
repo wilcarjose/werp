@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateAddressesTable extends Migration
@@ -27,7 +28,7 @@ class CreateAddressesTable extends Migration
             $table->string('zip_code')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -22,7 +22,7 @@ class Warehouse extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at
         ];
     }

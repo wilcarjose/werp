@@ -23,7 +23,7 @@ class PriceTransformer extends Transformer
             'starting_at'  => $item['starting_at'],
             'price'        => $item['price'],
             'currency'     => $item['currency'],
-            'status'       => $item['status'],
+            'active'       => $item['active'],
             'created_at'   => $item['created_at'],
             'updated_at'   => $item['updated_at'],
             'product_id'   => $item['product_id'],

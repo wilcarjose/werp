@@ -101,11 +101,11 @@
                             :class="sortOrder.field == 'state' ? sortOrder.order : 'asc'"
                             v-if="escapeSort.indexOf('state') < 0"></span>
                     </th>
-                    <th v-if="show_status" @click="sortBy('status')">
-                      Estatus
+                    <th v-if="show_status" @click="sortBy('active')">
+                      Activo
                       <span class="arrow"
-                            :class="sortOrder.field == 'status' ? sortOrder.order : 'asc'"
-                            v-if="escapeSort.indexOf('status') < 0"></span>
+                            :class="sortOrder.field == 'active' ? sortOrder.order : 'asc'"
+                            v-if="escapeSort.indexOf('active') < 0"></span>
                     </th>
                     <th v-if="show_actions && !disable">
                       Acciones
@@ -132,9 +132,9 @@
                       <h5 :style="'background: ' + runningData.state.color + '; text-align: center; border-radius: 9px; padding: 3px 0px; width: 120px; font-size: medium;'"> {{ runningData.state.name }}</h5>
                     </td>
                     <td v-if="show_status">
-                      <button :class="runningData.status == 'active'? 'btn success-bg': 'btn error-bg'"
+                      <button :class="runningData.active == 'on'? 'btn success-bg': 'btn error-bg'"
                         @click="switchStatus(runningData)">
-                        {{runningData.status == 'active' ? 'Activo' : 'Inactivo'}}
+                        {{runningData.active == 'on' ? 'Activo' : 'Inactivo'}}
                       </button>
                     </td>
                     <td v-if="show_actions && !disable">
@@ -670,13 +670,13 @@ export default {
         },
         switchStatus(obj) {
             this.resetAlert();
-            let newStat = (obj.status == 'active') ? 'inactive' : 'active';
+            let newStat = (obj.active == 'on') ? 'off' : 'on';
             let uri = `${this.route}/status`;
             axios.put(uri, obj).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
-                        obj.status = newStat;
+                        obj.active = newStat;
                         this.alertHandler('success', res.message, true);
                     }
                 })

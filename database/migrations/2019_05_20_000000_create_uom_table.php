@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateUomTable extends Migration
@@ -19,7 +20,7 @@ class CreateUomTable extends Migration
             $table->text('description')->nullable();
             $table->string('abbr')->nullable();
             $table->string('symbol')->nullable();
-            $table->enum('status',['active', 'inactive'])->default('active');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -12,16 +12,13 @@ class Admin extends BaseAuthenticatable
 {
     use Notifiable, HasRoles;
 
-    const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'pic', 'status', 'designation'
+        'name', 'email', 'password', 'pic', 'active', 'designation'
     ];
 
     /**

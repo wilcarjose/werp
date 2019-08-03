@@ -11,7 +11,7 @@ class WarehouseTransformer extends Transformer
         return [
             'id'                => $item['id'],
             'name'              => $item['name'],
-            'status'            => $item['status'],
+            'active'            => $item['active'],
             'created_at'        => $item['created_at']
         ];
     }

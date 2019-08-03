@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Products\Models\Category;
 
@@ -25,6 +26,6 @@ $factory->define(Product::class, function (Faker $faker) {
             	Category::where('type', 'product')->first()->id :
             	factory(Category::class)->create(['type' => 'product'])->id;
         },
-        'status' => 'active',
+        'active' => BaseModel::STATUS_ACTIVE,
     ];
 });

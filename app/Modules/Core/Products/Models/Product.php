@@ -46,7 +46,7 @@ class Product extends Model
             'description' => $this->description,
             'category_id' => $this->category_id,
             'uom_id' => $this->uom_id,
-            'status' => $this->status,
+            'active' => $this->active,
             'created_at' => $this->created_at
         ];
     }
@@ -69,7 +69,7 @@ class Product extends Model
     public function currentPrice($priceListType)
     {
         return $this->prices()->where('price_list_type_id', $priceListType)
-            ->where('status', 'active')
+            ->active()
             ->where('starting_at', '<', date('Y-m-d H:i:s'))
             ->orderBy('starting_at', 'desc')
             ->firstOrFail();

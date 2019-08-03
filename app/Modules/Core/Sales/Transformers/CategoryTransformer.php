@@ -12,7 +12,7 @@ class CategoryTransformer extends Transformer
             'id'                => $item['id'],
             'name'              => $item['name'],
             'category_id'       => $item['category_id'],
-            'status'            => $item['status'],
+            'active'            => $item['active'],
             'updated_at'        => $item['updated_at'],
             'created_at'        => $item['created_at']
         ];

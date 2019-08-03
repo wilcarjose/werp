@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Werp\Modules\Core\Base\Models\BaseModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,6 @@ use Faker\Generator as Faker;
 $factory->define(\Werp\Modules\Core\Products\Models\Warehouse::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
-        'status' => 'active',
+        'active' => BaseModel::STATUS_ACTIVE,
     ];
 });

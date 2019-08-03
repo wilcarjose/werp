@@ -58,6 +58,7 @@ class WarehouseForm extends FormBuilder
             ->setEdit()
             ->addInput(new InputBuilder('name', 'input', trans('view.name'), null, $data['name']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
+            ->setData($data)
             //->addAction(new ActionBuilder('cancel',ActionBuilder::TYPE_LINK, trans('view.cancel'), '', 'button', route('admin.products.warehouses.index')))
         ;
 

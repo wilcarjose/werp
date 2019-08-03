@@ -66,8 +66,8 @@ class ProductController extends BaseController
         return [
             'categories' => $this->category->where('type', 'product')->get(),
             'suppliers' => $this->supplier->where('is_supplier', 'y')->get(),
-            'brands' => $this->brand->where('status', 'active')->get(),
-            'uom' => Uom::where('status', 'active')->get(),
+            'brands' => $this->brand->active()->get(),
+            'uom' => Uom::active()->get(),
         ];
     }
 }
