@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Traits;
+namespace Werp\Modules\Core\Base\Traits;
 
 use Werp\Role;
 

@@ -7,8 +7,8 @@ use Werp\Admin;
 use Illuminate\Http\Request;
 use Werp\Mail\WelcomeNewAdmin;
 use Werp\Http\Controllers\Controller;
-use Werp\Traits\FileManipulationTrait;
 use Werp\Transformers\AdminTransformer;
+use Werp\Modules\Core\Base\Traits\FileManipulationTrait;
 
 class AdminController extends Controller
 {

@@ -3,8 +3,8 @@
 namespace Werp;
 
 use Ramsey\Uuid\Uuid;
-use Werp\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Werp\Modules\Core\Base\Traits\HasRoles;
 use Werp\Modules\Core\Base\Models\BaseAuthenticatable;
 
 class User extends BaseAuthenticatable

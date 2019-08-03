@@ -9,8 +9,8 @@ use Werp\User;
 use Illuminate\Http\Request;
 use Werp\Mail\AdminCreatedUserMail;
 use Werp\Http\Controllers\Controller;
-use Werp\Traits\FileManipulationTrait;
 use Werp\Transformers\UsersTransformer;
+use Werp\Modules\Core\Base\Traits\FileManipulationTrait;
 
 class UserController extends Controller
 {
