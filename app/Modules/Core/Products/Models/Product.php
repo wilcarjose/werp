@@ -2,9 +2,9 @@
 
 namespace Werp\Modules\Core\Products\Models;
 
-use Werp\Models\BaseModel;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
-class Product extends BaseModel
+class Product extends Model
 {
 	protected $table = 'products';
 

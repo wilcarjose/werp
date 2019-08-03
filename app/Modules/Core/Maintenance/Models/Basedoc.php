@@ -2,13 +2,10 @@
 
 namespace Werp\Modules\Core\Maintenance\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Basedoc extends Model
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     const IN_DOC = 'IN'; // inventory
     const PL_DOC = 'PL'; // product list
     const PO_DOC = 'PO'; // purchase order

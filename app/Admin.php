@@ -2,12 +2,13 @@
 
 namespace Werp;
 
+use Ramsey\Uuid\Uuid;
 use Werp\Traits\HasRoles;
-use Werp\Notifications\AdminResetPassword;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Werp\Notifications\AdminResetPassword;
+use Werp\Modules\Core\Base\Models\BaseAuthenticatable;
 
-class Admin extends Authenticatable
+class Admin extends BaseAuthenticatable
 {
     use Notifiable, HasRoles;
 

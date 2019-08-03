@@ -2,8 +2,8 @@
 
 namespace Werp\Modules\Core\Products\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Inout extends Model
 {

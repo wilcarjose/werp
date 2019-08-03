@@ -1,8 +1,8 @@
 <?php
 
 use Carbon\Carbon;
-use Werp\Permissions;
 use Illuminate\Database\Seeder;
+use Werp\Modules\Core\Products\Models\Uom;
 
 class UomTableSeeder extends Seeder
 {
@@ -33,12 +33,7 @@ class UomTableSeeder extends Seeder
     public function run()
     {
     	foreach ($this->uom as $uom) {
-	        DB::table('uom')->insert([
-	            [
-					'name' => $uom['name'],
-					'abbr' => $uom['abbr'],
-	            ],
-	        ]);
+	        Uom::create($uom);
 	    }
     }
 }

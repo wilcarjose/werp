@@ -3,28 +3,22 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Maintenance\Models\Doctype;
 
 class DoctypesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    protected function getBasedocs()
     {
-        DB::table('basedocs')->insert([
+        return [
             [
-                'id'          => 1,
-				'name'        => 'Inventory',
-				'type'        => Basedoc::IN_DOC,
-				'description' => 'Inventory',
-				'status'      => 'active',
+                'name'        => 'Inventory',
+                'type'        => Basedoc::IN_DOC,
+                'description' => 'Inventory',
+                'status'      => 'active',
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id'          => 2,
                 'name'        => 'Price List',
                 'type'        => Basedoc::PL_DOC,
                 'description' => 'Price List',
@@ -33,7 +27,6 @@ class DoctypesTableSeeder extends Seeder
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id'          => 3,
                 'name'        => 'Purchase Order',
                 'type'        => Basedoc::PO_DOC,
                 'description' => 'Purchase Order',
@@ -42,7 +35,6 @@ class DoctypesTableSeeder extends Seeder
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id'          => 4,
                 'name'        => 'Sale Order',
                 'type'        => Basedoc::SO_DOC,
                 'description' => 'Sale Order',
@@ -51,7 +43,6 @@ class DoctypesTableSeeder extends Seeder
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id'          => 5,
                 'name'        => 'Inventory Entry',
                 'type'        => Basedoc::IE_DOC,
                 'description' => 'Inventory entry',
@@ -60,7 +51,6 @@ class DoctypesTableSeeder extends Seeder
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id'          => 6,
                 'name'        => 'Inventory Output',
                 'type'        => Basedoc::IO_DOC,
                 'description' => 'Inventory output',
@@ -69,7 +59,6 @@ class DoctypesTableSeeder extends Seeder
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-                'id'          => 7,
                 'name'        => 'Inventory Movement',
                 'type'        => Basedoc::IM_DOC,
                 'description' => 'Inventory movement',
@@ -77,12 +66,15 @@ class DoctypesTableSeeder extends Seeder
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ]
-        ]);
+        ];
+    }
 
-        DB::table('doctypes')->insert([
+    protected function getDoctypes()
+    {
+        return [
             [
                 'name'        => 'Inventario',
-                'basedoc_id'  => 1,
+                'basedoc_id'  => Basedoc::where('type', Basedoc::IN_DOC)->first()->id,
                 'prefix'      => 'IN',
                 'increment_number' => 1,
                 'last_number' => 0,
@@ -94,7 +86,7 @@ class DoctypesTableSeeder extends Seeder
             ],
             [
                 'name'        => 'Lista de precio',
-                'basedoc_id'  => 2,
+                'basedoc_id'  => Basedoc::where('type', Basedoc::PL_DOC)->first()->id,
                 'prefix'      => 'LP',
                 'increment_number' => 1,
                 'last_number' => 0,
@@ -106,7 +98,7 @@ class DoctypesTableSeeder extends Seeder
             ],
             [
                 'name'        => 'Orden de Compra',
-                'basedoc_id'  => 3,
+                'basedoc_id'  => Basedoc::where('type', Basedoc::PO_DOC)->first()->id,
                 'prefix'      => 'OC',
                 'increment_number' => 1,
                 'last_number' => 0,
@@ -118,7 +110,7 @@ class DoctypesTableSeeder extends Seeder
             ],
             [
                 'name'        => 'Orden de Venta',
-                'basedoc_id'  => 4,
+                'basedoc_id'  => Basedoc::where('type', Basedoc::SO_DOC)->first()->id,
                 'prefix'      => 'OV',
                 'increment_number' => 1,
                 'last_number' => 0,
@@ -130,7 +122,7 @@ class DoctypesTableSeeder extends Seeder
             ],
             [
                 'name'        => 'Entrada de productos',
-                'basedoc_id'  => 5,
+                'basedoc_id'  => Basedoc::where('type', Basedoc::IE_DOC)->first()->id,
                 'prefix'      => 'EP',
                 'increment_number' => 1,
                 'last_number' => 0,
@@ -142,7 +134,7 @@ class DoctypesTableSeeder extends Seeder
             ],
             [
                 'name'        => 'Salida de productos',
-                'basedoc_id'  => 6,
+                'basedoc_id'  => Basedoc::where('type', Basedoc::IO_DOC)->first()->id,
                 'prefix'      => 'SP',
                 'increment_number' => 1,
                 'last_number' => 0,
@@ -154,7 +146,7 @@ class DoctypesTableSeeder extends Seeder
             ],
             [
                 'name'        => 'Movimiento de productos',
-                'basedoc_id'  => 7,
+                'basedoc_id'  => Basedoc::where('type', Basedoc::IM_DOC)->first()->id,
                 'prefix'      => 'MP',
                 'increment_number' => 1,
                 'last_number' => 0,
@@ -164,6 +156,22 @@ class DoctypesTableSeeder extends Seeder
                 'created_at'  => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at'  => Carbon::now()->format('Y-m-d H:i:s')
             ]
-        ]);
+        ];
+    }
+
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        foreach ($this->getBasedocs() as $basedoc) {
+            Basedoc::create($basedoc);
+        }
+
+        foreach ($this->getDoctypes() as $doctype) {
+            Doctype::create($doctype);
+        }
     }
 }

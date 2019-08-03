@@ -2,7 +2,7 @@
 
 namespace Werp\Modules\Core\Maintenance\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Config extends Model
 {

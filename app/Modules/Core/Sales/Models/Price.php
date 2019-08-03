@@ -4,13 +4,10 @@ namespace Werp\Modules\Core\Sales\Models;
 
 use Money\Money;
 use Money\Currency;
-use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Price extends Model
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     protected $table = 'prices';
 
     protected $priceObject = null;

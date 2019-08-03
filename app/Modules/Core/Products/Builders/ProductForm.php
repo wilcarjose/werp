@@ -74,6 +74,7 @@ class ProductForm extends FormBuilder
             ->addInput((new InputBuilder('link', 'input',  trans('view.products.link'), null, $data['link']))->advancedOption())
 
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
+            ->setData($data)
 
         ;
 

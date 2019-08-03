@@ -33,7 +33,7 @@ class ConfigTableSeeder extends Seeder
     public function run()
     {
     	foreach ($this->configs as $config) {
-	        DB::table('config')->insert([
+	        Config::create(
 	            [
 	            	'name'			=> $config[0],
 					'key'           => $config[1],
@@ -43,8 +43,8 @@ class ConfigTableSeeder extends Seeder
 					'type' 			=> $config[5],
 					'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
                 	'updated_at'    => Carbon::now()->format('Y-m-d H:i:s')
-	            ],
-	        ]);
+	            ]
+	        );
 	    }
     }
 }

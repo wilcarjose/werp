@@ -2,13 +2,10 @@
 
 namespace Werp\Modules\Core\Maintenance\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class BranchOffice extends Model
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     protected $table = 'branch_offices';
 
     /**

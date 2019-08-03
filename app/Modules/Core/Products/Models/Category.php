@@ -2,13 +2,10 @@
 
 namespace Werp\Modules\Core\Products\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Category extends Model
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     const PRODUCT_TYPE = 'product';
     const SUPPLIER_TYPE = 'supplier';
     const CUSTOMER_TYPE = 'customer';

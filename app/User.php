@@ -2,6 +2,7 @@
 
 namespace Werp;
 
+use Ramsey\Uuid\Uuid;
 use Werp\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -30,6 +31,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public $incrementing = false;
+ 
+    protected $keyType = 'string';
+
+    /**
+     *  Setup model event hooks
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            $model->id = (string) Uuid::uuid4();
+        });
+    }
 
     public function setEmailAttribute($email)
     {

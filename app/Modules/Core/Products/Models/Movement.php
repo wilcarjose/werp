@@ -2,8 +2,8 @@
 
 namespace Werp\Modules\Core\Products\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Movement extends Model
 {
@@ -11,7 +11,7 @@ class Movement extends Model
 
     protected $type = Basedoc::IM_DOC;
 
-    protected $stateArray = ['jj'];
+    //protected $stateArray = ['jj'];
 
     /**
      * The attributes that are mass assignable.

@@ -2,13 +2,10 @@
 
 namespace Werp\Modules\Core\Sales\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class SaleChannel extends Model
 {
-	const STATE_ACTIVE   = 'active';
-    const STATE_INACTIVE = 'inactive';
-
     protected $table = 'sales_channels';
 
     /**
