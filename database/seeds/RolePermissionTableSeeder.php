@@ -13,8 +13,8 @@ class RolePermissionTableSeeder extends Seeder
      */
     public function run()
     {
-		$permission = Permission::first();
-		$role       = Role::first();
+		$permission = Permission::where('name', 'developerOnly')->first();
+		$role       = Role::where('name', 'developer')->first();
 		$role->givePermissionTo($permission);
     }
 }
