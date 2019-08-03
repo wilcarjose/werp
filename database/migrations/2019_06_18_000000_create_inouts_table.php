@@ -18,7 +18,7 @@ class CreateInoutsTable extends Migration
         Schema::create('inouts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code')->unique();
-            $table->dateTime('date');
+            $table->timestamp('date');
             $table->string('order_code')->nullable();
             $table->string('alternate_code')->nullable();
             $table->text('description')->nullable();

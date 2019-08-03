@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code')->unique();
-            $table->dateTime('date');
+            $table->timestamp('date');
             $table->text('description')->nullable();
             $table->string('alternate_code')->nullable();
             $table->string('reference')->nullable();

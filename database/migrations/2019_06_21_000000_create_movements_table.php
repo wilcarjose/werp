@@ -17,7 +17,7 @@ class CreateMovementsTable extends Migration
         Schema::create('movements', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code');
-            $table->dateTime('date');
+            $table->timestamp('date');
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
             $table->string('state', 2)->default(Basedoc::PE_STATE);

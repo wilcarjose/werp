@@ -15,7 +15,7 @@ class CreateMovementDetailTable extends Migration
     {
         Schema::create('movement_detail', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->dateTime('date');
+            $table->timestamp('date');
             $table->string('reference');
             $table->double('qty');
             $table->uuid('movement_id');

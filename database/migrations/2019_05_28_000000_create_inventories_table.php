@@ -17,7 +17,7 @@ class CreateInventoriesTable extends Migration
         Schema::create('inventories', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('code')->unique();
-            $table->dateTime('date');
+            $table->timestamp('date');
             $table->text('description')->nullable();
             $table->string('reference')->nullable();
             $table->string('state', 2)->default(Basedoc::PE_STATE);

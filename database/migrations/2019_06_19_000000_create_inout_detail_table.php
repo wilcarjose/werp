@@ -15,7 +15,7 @@ class CreateInoutDetailTable extends Migration
     {
         Schema::create('inout_detail', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->dateTime('date');
+            $table->timestamp('date');
             $table->string('reference');
             $table->double('price', 10, 4)->default(0.0000);
             $table->double('tax', 10, 4)->default(0.0000);

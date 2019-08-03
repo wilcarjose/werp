@@ -15,7 +15,7 @@ class CreatePricesTable extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->dateTime('starting_at');
+            $table->timestamp('starting_at');
             $table->double('price', 10, 4)->default(0.0000);
             $table->string('currency')->default('USD');
             $table->uuid('product_id');

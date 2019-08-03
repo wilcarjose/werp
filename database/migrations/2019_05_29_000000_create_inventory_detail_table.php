@@ -16,7 +16,7 @@ class CreateInventoryDetailTable extends Migration
         Schema::create('inventory_detail', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('reference');
-            $table->dateTime('date');
+            $table->timestamp('date');
             $table->text('description')->nullable();
             $table->double('qty');
             $table->uuid('inventory_id');
