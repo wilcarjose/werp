@@ -37,6 +37,7 @@ class CreatePriceListsTable extends Migration
                 ->references('id')
                 ->on('amount_operations');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -29,6 +29,7 @@ class CreateAddressesTable extends Migration
             $table->string('longitude')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

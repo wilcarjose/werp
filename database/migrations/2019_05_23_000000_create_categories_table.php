@@ -24,6 +24,7 @@ class CreateCategoriesTable extends Migration
                 ->references('id')
                 ->on('categories');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

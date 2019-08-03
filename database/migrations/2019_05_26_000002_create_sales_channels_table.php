@@ -24,6 +24,7 @@ class CreateSalesChannelsTable extends Migration
             $table->string('type')->nullable();
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

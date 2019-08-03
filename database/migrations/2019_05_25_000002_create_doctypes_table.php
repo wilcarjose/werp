@@ -27,6 +27,7 @@ class CreateDoctypesTable extends Migration
             $table->integer('number_long')->default(3);
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

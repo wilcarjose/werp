@@ -35,6 +35,7 @@ class CreateMovementDetailTable extends Migration
                 ->references('id')
                 ->on('products');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

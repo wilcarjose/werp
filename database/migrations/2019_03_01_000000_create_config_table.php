@@ -23,6 +23,7 @@ class CreateConfigTable extends Migration
             $table->string('translate_key')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -27,6 +27,7 @@ class CreateUomConversionTable extends Migration
                 ->on('uom');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

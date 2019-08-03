@@ -41,6 +41,7 @@ class CreatePartnersTable extends Migration
                 ->on('addresses');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

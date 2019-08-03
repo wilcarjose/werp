@@ -52,6 +52,7 @@ class CreateInoutDetailTable extends Migration
                 ->references('id')
                 ->on('discounts');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

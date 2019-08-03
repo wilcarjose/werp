@@ -23,6 +23,7 @@ class CreateInoutOrderTable extends Migration
             $table->foreign('order_id')
                 ->references('id')
                 ->on('orders');
+            $table->softDeletes();
         });
     }
 

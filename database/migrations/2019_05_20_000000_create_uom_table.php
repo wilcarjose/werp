@@ -21,6 +21,7 @@ class CreateUomTable extends Migration
             $table->string('symbol')->nullable();
             $table->enum('status',['active', 'inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

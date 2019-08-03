@@ -18,6 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('name');
             $table->string('label')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('permissions',function(Blueprint $table){
@@ -31,6 +32,7 @@ class CreateRolesTable extends Migration
                 ->references('id')
                 ->on('permissions');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('permission_role',function(Blueprint $table){
@@ -48,6 +50,7 @@ class CreateRolesTable extends Migration
                 ->onDelete('cascade');
 
             $table->primary(['permission_id','role_id']);
+            $table->softDeletes();
         });
 
         Schema::create('admin_role',function(Blueprint $table){
@@ -65,6 +68,7 @@ class CreateRolesTable extends Migration
                 ->onDelete('cascade');
 
             $table->primary(['role_id','admin_id']);
+            $table->softDeletes();
         });
 
         Schema::create('role_user',function(Blueprint $table){
@@ -82,6 +86,7 @@ class CreateRolesTable extends Migration
                 ->onDelete('cascade');
 
             $table->primary(['role_id','user_id']);
+            $table->softDeletes();
         });
     }
 

@@ -43,6 +43,7 @@ class CreateProductsTable extends Migration
                 ->on('partners');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

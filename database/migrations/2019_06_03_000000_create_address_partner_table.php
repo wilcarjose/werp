@@ -25,6 +25,7 @@ class CreateAddressPartnerTable extends Migration
                 ->references('id')
                 ->on('addresses');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -21,6 +21,7 @@ class CreatePriceListTypesTable extends Migration
             $table->enum('type', ['sales', 'purchases', 'all'])->default('sales');
             $table->enum('status', ['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

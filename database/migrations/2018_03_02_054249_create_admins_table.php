@@ -22,6 +22,7 @@ class CreateAdminsTable extends Migration
             $table->enum('status',['active','inactive'])->default('active');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

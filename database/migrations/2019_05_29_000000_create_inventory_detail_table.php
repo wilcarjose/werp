@@ -32,6 +32,7 @@ class CreateInventoryDetailTable extends Migration
                 ->references('id')
                 ->on('warehouses');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

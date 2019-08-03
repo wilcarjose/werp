@@ -25,6 +25,7 @@ class CreateProductPartnerTable extends Migration
                 ->references('id')
                 ->on('partners');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

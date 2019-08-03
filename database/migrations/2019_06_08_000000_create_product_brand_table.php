@@ -25,6 +25,7 @@ class CreateProductBrandTable extends Migration
                 ->references('id')
                 ->on('brands');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

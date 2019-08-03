@@ -32,6 +32,7 @@ class CreatePricesTable extends Migration
                 ->on('price_list_types');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

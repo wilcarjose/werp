@@ -4,9 +4,12 @@ namespace Werp\Modules\Core\Base\Models;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BaseModel extends Model
 {
+	use SoftDeletes;
+	
     const STATE_ACTIVE   = 'active';
     const STATE_INACTIVE = 'inactive';
 

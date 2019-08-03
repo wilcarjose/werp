@@ -60,6 +60,7 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('discounts');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
