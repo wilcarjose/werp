@@ -2,6 +2,7 @@
 
 namespace Werp\Modules\Core\Sales\Models;
 
+use Werp\Modules\Core\Products\Models\Order;
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class Discount extends Model
@@ -20,6 +21,16 @@ class Discount extends Model
     public function operation()
     {
         return $this->hasOne('Werp\Modules\Core\Maintenance\Models\AmountOperation', 'id', 'amount_operation_id');
+    }
+
+    public function scopeSales($query)
+    {
+        return $query->where('type', Order::SALE_TYPE);
+    }
+
+    public function scopePurchases($query)
+    {
+        return $query->where('type', Order::PURCHASE_TYPE);
     }
 
     public function toArray()
