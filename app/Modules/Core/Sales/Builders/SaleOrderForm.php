@@ -16,6 +16,7 @@ use Werp\Builders\SaveActionBuilder;
 use Werp\Builders\SaleChannelSelect;
 use Werp\Builders\AmountInputBuilder;
 use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\PaymentMethodSelect;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\CustomerSelectBuilder;
 use Werp\Builders\ContinueActionBuilder;
@@ -46,6 +47,9 @@ class SaleOrderForm extends FormBuilder
             ->addSelect(new PriceListTypeSelectBuilder)
             ->addSelect(new WarehouseSelectBuilder)
             ->addSelect(new SaleChannelSelect)
+            ->addSelect((new TaxSelect))
+            ->addSelect((new DiscountSelect))
+            ->addSelect((new PaymentMethodSelect)->setNone(true))
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption())
 
@@ -90,6 +94,7 @@ class SaleOrderForm extends FormBuilder
             ->addSelect((new SaleChannelSelect)->setDisable($disable))
             ->addSelect((new TaxSelect)->setDisable($disable))
             ->addSelect((new DiscountSelect)->setDisable($disable))
+            ->addSelect((new PaymentMethodSelect)->setDisable($disable))
             //->addSelect((new CurrencySelectBuilder)->setDisable($disable))
 
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))

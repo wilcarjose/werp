@@ -2,9 +2,9 @@
 
 namespace Werp\Builders;
 
-use Werp\Modules\Core\Sales\Models\Discount;
+use Werp\Modules\Core\Sales\Models\PaymentMethod;
 
-class DiscountSelect extends SelectBuilder
+class PaymentMethodSelect extends SelectBuilder
 {
     protected $name;
     protected $type;
@@ -27,12 +27,12 @@ class DiscountSelect extends SelectBuilder
      */
     public function __construct($name = null, $text = null, $value = null, $none = true, $disable = false, $advancedOption = false,  $icon = null)
     {
-        $this->name  = $name ?: 'discount_id';
+        $this->name  = $name ?: 'payment_method_id';
         $this->type  = 'select';
         $this->icon  = $icon;
-        $this->text  = $text ?: trans('view.discount');
+        $this->text  = $text ?: trans('view.payment_method');
         $this->value = $value;
-        $this->data  = Discount::select('id', 'name')
+        $this->data  = PaymentMethod::select('id', 'name')
             ->sales()
             ->active()
             ->get();

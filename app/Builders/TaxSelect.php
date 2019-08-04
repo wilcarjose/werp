@@ -3,7 +3,6 @@
 namespace Werp\Builders;
 
 use Werp\Modules\Core\Sales\Models\Tax;
-use Werp\Modules\Core\Products\Models\Order;
 
 class TaxSelect extends SelectBuilder
 {
@@ -34,7 +33,7 @@ class TaxSelect extends SelectBuilder
         $this->text  = $text ?: trans('view.tax');
         $this->value = $value;
         $this->data  = Tax::select('id', 'name')
-            ->where('type', Order::SALE_TYPE)
+            ->sales()
             ->active()
             ->get();
         $this->disable  = $disable;

@@ -40,6 +40,7 @@ class SaleOrderController extends BaseController
         'sale_channel_id',
         'tax_id',
         'discount_id',
+        'payment_method_id',
     ];
 
     protected $storeRules = [

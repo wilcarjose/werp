@@ -4,6 +4,7 @@ use Werp\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Sales\Models\Tax;
+use Werp\Modules\Core\Products\Models\Order;
 use Werp\Modules\Core\Sales\Models\Discount;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Products\Models\Product;
@@ -11,6 +12,7 @@ use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Maintenance\Models\Company;
 use Werp\Modules\Core\Sales\Models\PriceListType;
+use Werp\Modules\Core\Sales\Models\PaymentMethod;
 use Werp\Modules\Core\Maintenance\Models\AmountOperation;
 
 class TestsDataSeeder extends Seeder
@@ -29,9 +31,25 @@ class TestsDataSeeder extends Seeder
             'round'      => 2,   
         ]);
 
+        $cashPaymentMethod = PaymentMethod::create([
+            'name' => 'Efectivo',
+            'type' => Order::SALE_TYPE,
+        ]);
+
+        $transferPaymentMethod = PaymentMethod::create([
+            'name' => 'Transferencia',
+            'type' => Order::SALE_TYPE,
+        ]);
+
+        $posPaymentMethod = PaymentMethod::create([
+            'name' => 'Punto de venta',
+            'type' => Order::SALE_TYPE,
+        ]);
+
         $tax1 = Tax::create([
             'name'                => 'Impuesto 10%',
             'amount_operation_id' => $amount1->id,
+            'type' => Order::SALE_TYPE,
         ]);
 
         $amount2 = AmountOperation::create([
@@ -44,6 +62,7 @@ class TestsDataSeeder extends Seeder
         $discount1 = Discount::create([
             'name'                => 'Descuento 15%',
             'amount_operation_id' => $amount2->id,
+            'type' => Order::SALE_TYPE,
         ]);
 
         $supplier = Partner::create([

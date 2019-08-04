@@ -63,6 +63,10 @@ class CreateOrdersTable extends Migration
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies');
+            $table->uuid('payment_method_id')->nullable();
+            $table->foreign('payment_method_id')
+                ->references('id')
+                ->on('payment_methods');
             $table->timestamps();
             $table->softDeletes();
         });

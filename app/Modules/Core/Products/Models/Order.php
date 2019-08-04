@@ -38,7 +38,8 @@ class Order extends Model
         'reference',
         'is_invoice_pending',
         'is_delivery_pending',
-        'alternate_code'
+        'alternate_code',
+        'payment_method_id'
     ];
 
     /**
@@ -108,6 +109,7 @@ class Order extends Model
             'discount_id' => $this->discount_id,
             'tax_id' => $this->tax_id,
             'sale_channel_id' => $this->sale_channel_id,
+            'payment_method_id' => $this->payment_method_id,
         ];
     }
 
