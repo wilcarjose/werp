@@ -17,6 +17,10 @@ class CreateRolesTable extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('label')->nullable();
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +31,10 @@ class CreateRolesTable extends Migration
             $table->string('name');
             $table->string('label')->nullable();
             $table->enum('is_group',['y','n'])->default('n');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->uuid('permission_id')->nullable();
             $table->foreign('permission_id')
                 ->references('id')
@@ -48,7 +56,10 @@ class CreateRolesTable extends Migration
                 ->references('id')
                 ->on('roles')
                 ->onDelete('cascade');
-
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->primary(['permission_id','role_id']);
             $table->softDeletes();
         });
@@ -66,7 +77,10 @@ class CreateRolesTable extends Migration
                 ->references('id')
                 ->on('admins')
                 ->onDelete('cascade');
-
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->primary(['role_id','admin_id']);
             $table->softDeletes();
         });
@@ -84,7 +98,10 @@ class CreateRolesTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->primary(['role_id','user_id']);
             $table->softDeletes();
         });

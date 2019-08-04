@@ -50,6 +50,10 @@ class CreateInoutsTable extends Migration
             $table->foreign('discount_id')
                 ->references('id')
                 ->on('discounts');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

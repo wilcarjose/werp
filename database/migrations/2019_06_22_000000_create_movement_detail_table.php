@@ -34,6 +34,10 @@ class CreateMovementDetailTable extends Migration
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

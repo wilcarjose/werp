@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProductUomTable extends Migration
+class CreateInoutOrderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,15 @@ class CreateProductUomTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_uom', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('uom_id');
-            $table->foreign('uom_id')
+        Schema::create('admin_company', function (Blueprint $table) {
+            $table->uuid('admin_id');
+            $table->foreign('admin_id')
                 ->references('id')
-                ->on('uom');
-            $table->uuid('product_id');
-            $table->foreign('product_id')
-                ->references('id')
-                ->on('products');
-            $table->uuid('company_id')->nullable();
+                ->on('admins');
+            $table->uuid('company_id');
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies');
-            $table->timestamps();
             $table->softDeletes();
         });
     }
@@ -39,6 +33,6 @@ class CreateProductUomTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_uom');
+        Schema::dropIfExists('admin_company');
     }
 }

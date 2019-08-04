@@ -15,6 +15,10 @@ class CreateAdminPasswordResetsTable extends Migration
         Schema::create('admin_password_resets', function (Blueprint $table) {
             $table->string('email')->index();
             $table->string('token')->index();
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamp('created_at')->nullable();
             $table->softDeletes();
         });

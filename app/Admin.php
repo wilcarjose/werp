@@ -45,4 +45,12 @@ class Admin extends BaseAuthenticatable
     {
         $this->attributes['email'] = strtolower($email);
     }
+
+    /**
+     * The companies that belong to the user.
+     */
+    public function companies()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Maintenance\Models\Company');
+    }
 }

@@ -17,7 +17,14 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('document')->nullable();
+            $table->string('document2')->nullable();
             $table->string('logo')->nullable();
+            $table->string('phone1')->nullable();
+            $table->string('phone2')->nullable();
+            $table->string('phone3')->nullable();
+            $table->string('email')->nullable();
             $table->uuid('address_id')->nullable();
             $table->foreign('address_id')
                 ->references('id')
@@ -35,6 +42,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::drop('companies');
     }
 }

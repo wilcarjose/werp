@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Werp\Permissions;
 use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Maintenance\Models\Config;
+use Werp\Modules\Base\Maintenance\Models\Company;
 
 class ConfigTableSeeder extends Seeder
 {
@@ -32,6 +33,8 @@ class ConfigTableSeeder extends Seeder
      */
     public function run()
     {
+    	$company = Company::first();
+    	
     	foreach ($this->configs as $config) {
 	        Config::create(
 	            [
@@ -42,7 +45,8 @@ class ConfigTableSeeder extends Seeder
 					'translate_key' => $config[4],
 					'type' 			=> $config[5],
 					'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
-                	'updated_at'    => Carbon::now()->format('Y-m-d H:i:s')
+                	'updated_at'    => Carbon::now()->format('Y-m-d H:i:s'),
+                	'company_id' 	=> $company->id,
 	            ]
 	        );
 	    }

@@ -23,6 +23,10 @@ class CreateSalesChannelsTable extends Migration
                 ->references('id')
                 ->on('amount_operations');
             $table->string('type')->nullable();
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();

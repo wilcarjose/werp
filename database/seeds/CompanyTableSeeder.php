@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Base\Maintenance\Models\Company;
 
-class AdminsTableSeeder extends Seeder
+class CompanyTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,15 +14,13 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        $admin = Admin::create([
-			'name'       => 'admin',
-			'email'      => 'admin@mail.com',
-			'password'   => bcrypt('123456'),
+        Company::create([
+			'name'       => 'Default name',
+            'document'   => '123456',
+			'email'      => 'company@mail.com',
 			'active'     => BaseModel::STATUS_ACTIVE,
 			'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
 			'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
-
-        $admin->companies()->attach(Company::first()->id);
     }
 }

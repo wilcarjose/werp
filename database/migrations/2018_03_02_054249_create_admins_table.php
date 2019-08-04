@@ -20,6 +20,10 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->string('pic')->nullable();
             $table->string('designation')->default('Manager');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->rememberToken();
             $table->timestamps();

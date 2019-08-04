@@ -5,6 +5,7 @@ use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
+use Werp\Modules\Base\Maintenance\Models\Company;
 
 class DoctypesTableSeeder extends Seeder
 {
@@ -167,11 +168,15 @@ class DoctypesTableSeeder extends Seeder
      */
     public function run()
     {
+        $company = Company::first();
+
         foreach ($this->getBasedocs() as $basedoc) {
+            $basedoc['company_id']  = $company->id;
             Basedoc::create($basedoc);
         }
 
         foreach ($this->getDoctypes() as $doctype) {
+            $doctype['company_id']  = $company->id;
             Doctype::create($doctype);
         }
     }

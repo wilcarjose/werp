@@ -24,6 +24,10 @@ class CreateAddressPartnerTable extends Migration
             $table->foreign('address_id')
                 ->references('id')
                 ->on('addresses');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

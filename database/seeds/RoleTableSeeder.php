@@ -3,6 +3,7 @@
 use Werp\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Werp\Modules\Base\Maintenance\Models\Company;
 
 class RoleTableSeeder extends Seeder
 {
@@ -37,7 +38,9 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
+        $company_id = Company::first()->id;
         foreach ($this->getRoles() as $role) {
+            $role['company_id'] = $company_id;
             Role::create($role);
         }
     }

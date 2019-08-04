@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Werp\Permission;
 use Illuminate\Database\Seeder;
+use Werp\Modules\Base\Maintenance\Models\Company;
 
 class PermissionTableSeeder extends Seeder
 {
@@ -125,14 +126,18 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
+    	$company = Company::first();
+
     	foreach ($this->getPermissions() as $permission) {
 
     		$children = $permission['permissions'];
     		unset($permission['permissions']);
+    		$permission['company_id'] = $company->id;
 	        $perm = Permission::create($permission);
 
 	        foreach ($children as $son) {
 	        	$son['permission_id'] = $perm->id;
+	        	$son['company_id'] = $company->id;
 	        	Permission::create($son);
 	        }
 	    }

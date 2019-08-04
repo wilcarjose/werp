@@ -20,6 +20,10 @@ class CreateBrandsTable extends Migration
             $table->text('description')->nullable();
             $table->string('country')->nullable();
             $table->string('logo')->nullable();
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();

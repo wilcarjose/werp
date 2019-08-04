@@ -24,6 +24,10 @@ class CreateProductPartnerTable extends Migration
             $table->foreign('partner_id')
                 ->references('id')
                 ->on('partners');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

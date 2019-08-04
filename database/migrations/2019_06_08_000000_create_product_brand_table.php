@@ -24,6 +24,10 @@ class CreateProductBrandTable extends Migration
             $table->foreign('brand_id')
                 ->references('id')
                 ->on('brands');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

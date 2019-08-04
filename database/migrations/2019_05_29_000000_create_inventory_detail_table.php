@@ -31,6 +31,10 @@ class CreateInventoryDetailTable extends Migration
             $table->foreign('warehouse_id')
                 ->references('id')
                 ->on('warehouses');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -17,8 +17,10 @@ class CreateBranchOfficesTable extends Migration
         Schema::create('branch_offices', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('logo')->nullable();
             $table->text('description')->nullable();
+            $table->string('document')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('phone1')->nullable();
             $table->uuid('company_id');
             $table->foreign('company_id')
                 ->references('id')

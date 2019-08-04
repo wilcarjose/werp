@@ -36,6 +36,10 @@ class CreatePriceListsTable extends Migration
             $table->foreign('amount_operation_id')
                 ->references('id')
                 ->on('amount_operations');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

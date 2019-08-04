@@ -28,6 +28,10 @@ class CreateAddressesTable extends Migration
             $table->string('zip_code')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();

@@ -26,6 +26,10 @@ class CreateDoctypesTable extends Migration
             $table->integer('last_number')->default(0);
             $table->enum('use_zeros',['y','n'])->default('y');
             $table->integer('number_long')->default(3);
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();

@@ -24,6 +24,10 @@ class CreateCategoriesTable extends Migration
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');
+            $table->uuid('company_id')->nullable();
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies');
             $table->timestamps();
             $table->softDeletes();
         });

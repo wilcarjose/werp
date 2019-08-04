@@ -14,7 +14,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name', 'description', 'document', 
     ];
 
     public function toArray()
@@ -22,13 +22,21 @@ class Company extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'description' => $this->description,
+            'document' => $this->document,
+            'document2' => $this->document2,
+            'logo' => $this->logo,
+            'phone1' => $this->phone1,
+            'phone2' => $this->phone2,
+            'phone3' => $this->phone3,
+            'address_id' => $this->address_id,
             'active' => $this->active,
             'created_at' => $this->created_at
         ];
     }
 
     /**
-     * Get the detail for the inventory.
+     * Get the branch offices.
      */
     public function branchOffices()
     {
