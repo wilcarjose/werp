@@ -4,7 +4,9 @@ namespace Werp\Modules\Core\Base\Models;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Werp\Modules\Core\Maintenance\Models\Company;
 
 class BaseModel extends Model
 {
@@ -26,7 +28,10 @@ class BaseModel extends Model
 
 	    self::creating(function ($model) {
 	        $model->id = (string) Uuid::uuid4();
+            $model->company_id = session('company') ? session('company')->id : Company::first()->id;
 	    });
+
+        static::addGlobalScope(new CompanyScope);
 	}
 
 	public function scopeActive($query)
@@ -37,5 +42,10 @@ class BaseModel extends Model
     public function scopeInactive($query)
     {
         return $query->where('active', self::STATUS_INACTIVE);
+    }
+
+    public function getCompanyKey()
+    {
+        return $this->getTable().'.company_id';
     }
 }

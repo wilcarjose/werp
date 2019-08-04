@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Products\Models\Uom;
-use Werp\Modules\Base\Maintenance\Models\Company;
+use Werp\Modules\Core\Maintenance\Models\Company;
 
 class UomTableSeeder extends Seeder
 {

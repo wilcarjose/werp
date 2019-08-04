@@ -3,7 +3,7 @@
 use Werp\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Werp\Modules\Base\Maintenance\Models\Company;
+use Werp\Modules\Core\Maintenance\Models\Company;
 
 class RoleTableSeeder extends Seeder
 {

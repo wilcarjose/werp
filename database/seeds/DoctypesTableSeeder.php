@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
-use Werp\Modules\Base\Maintenance\Models\Company;
+use Werp\Modules\Core\Maintenance\Models\Company;
 
 class DoctypesTableSeeder extends Seeder
 {

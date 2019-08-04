@@ -91,4 +91,10 @@ class LoginController extends Controller
 
         return redirect(route('login'));
     }
+
+    protected function authenticated(Request $request, $user)
+    {
+        $company = $user->companies->first();
+        session(['company' => $company]);
+    }
 }

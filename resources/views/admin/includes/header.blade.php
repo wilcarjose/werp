@@ -34,7 +34,7 @@
                     </span>
                 </a>
             </li>
-            {{-- <li><a href="#">Sass</a></li> --}}
+         <li><h5 style="margin: 20px 10px;">{{ session('company')->name }}</h5></li> 
         </ul>
         <!-- Right Menu-->
         <ul class="right">

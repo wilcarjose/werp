@@ -25,10 +25,6 @@ class CreateCompaniesTable extends Migration
             $table->string('phone2')->nullable();
             $table->string('phone3')->nullable();
             $table->string('email')->nullable();
-            $table->uuid('address_id')->nullable();
-            $table->foreign('address_id')
-                ->references('id')
-                ->on('addresses');
             $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();

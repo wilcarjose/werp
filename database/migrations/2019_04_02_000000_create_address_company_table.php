@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAdminCompanyTable extends Migration
+class CreateAddressCompanyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateAdminCompanyTable extends Migration
      */
     public function up()
     {
-        Schema::create('admin_company', function (Blueprint $table) {
-            $table->uuid('admin_id');
-            $table->foreign('admin_id')
+        Schema::create('address_company', function (Blueprint $table) {
+            $table->uuid('address_id');
+            $table->foreign('address_id')
                 ->references('id')
-                ->on('admins');
+                ->on('addresses');
             $table->uuid('company_id');
             $table->foreign('company_id')
                 ->references('id')
@@ -33,6 +33,6 @@ class CreateAdminCompanyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admin_company');
+        Schema::dropIfExists('address_company');
     }
 }

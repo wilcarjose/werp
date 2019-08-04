@@ -1,9 +1,10 @@
 <?php
 
+use Werp\Admin;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Base\Models\BaseModel;
-use Werp\Modules\Base\Maintenance\Models\Company;
+use Werp\Modules\Core\Maintenance\Models\Company;
 
 class AdminsTableSeeder extends Seeder
 {

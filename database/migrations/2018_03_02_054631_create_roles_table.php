@@ -31,10 +31,6 @@ class CreateRolesTable extends Migration
             $table->string('name');
             $table->string('label')->nullable();
             $table->enum('is_group',['y','n'])->default('n');
-            $table->uuid('company_id')->nullable();
-            $table->foreign('company_id')
-                ->references('id')
-                ->on('companies');
             $table->uuid('permission_id')->nullable();
             $table->foreign('permission_id')
                 ->references('id')

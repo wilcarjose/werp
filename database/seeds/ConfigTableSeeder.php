@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Werp\Permissions;
 use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Maintenance\Models\Config;
-use Werp\Modules\Base\Maintenance\Models\Company;
+use Werp\Modules\Core\Maintenance\Models\Company;
 
 class ConfigTableSeeder extends Seeder
 {
