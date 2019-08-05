@@ -2,7 +2,7 @@
 
 namespace Werp\Builders;
 
-use Werp\Modules\Core\Sales\Models\Tax;
+use Werp\Modules\Core\Sales\Models\TaxDiscount;
 
 class TaxSelect extends SelectBuilder
 {
@@ -32,8 +32,9 @@ class TaxSelect extends SelectBuilder
         $this->icon  = $icon;
         $this->text  = $text ?: trans('view.tax');
         $this->value = $value;
-        $this->data  = Tax::select('id', 'name')
+        $this->data  = TaxDiscount::select('id', 'name')
             ->sales()
+            ->taxs()
             ->active()
             ->get();
         $this->disable  = $disable;

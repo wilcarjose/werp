@@ -26,24 +26,24 @@ class PriceListController extends BaseController
 
     protected $storeRules = [
         'starting_at'        => 'required|date',
-        'price_list_type_id' => 'required|numeric',
-        'doctype_id' => 'required|numeric',
+        'price_list_type_id' => 'required',
+        'doctype_id' => 'required',
     ];
 
     protected $updateRules = [
         'starting_at'        => 'required|date',
-        'price_list_type_id' => 'required|numeric',
-        'doctype_id' => 'required|numeric',
+        'price_list_type_id' => 'required',
+        'doctype_id' => 'required',
     ];
 
     protected $storeDetailRules = [
         'price'  => 'numeric',
-        'product_id' => 'required|numeric',
+        'product_id' => 'required',
     ];
 
     protected $updateDetailRules = [
         'price'  => 'numeric',
-        'product_id' => 'required|numeric',
+        'product_id' => 'required',
     ];
 
     protected $detailInputs = [

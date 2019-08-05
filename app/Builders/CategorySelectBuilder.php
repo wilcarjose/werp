@@ -21,7 +21,7 @@ class CategorySelectBuilder extends SelectBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($type = 'all', $value = null, $name = null, $text = null, $none = false, $disable = false, $advancedOption = false, $icon = null)
+    public function __construct($id = null, $type = 'all', $value = null, $name = null, $text = null, $none = false, $disable = false, $advancedOption = false, $icon = null)
     {
         $key = true;
 
@@ -29,9 +29,11 @@ class CategorySelectBuilder extends SelectBuilder
             $key = false;
         }
 
-        $data = $key ?
-            Category::where('type', $type)->active()->get() :
-            Category::active()->get();
+        $query = $key ?
+            Category::where('type', $type)->active() :
+            Category::active();
+
+        $data = $id ? $query->where('id', '<>', $id)->get() : $query->get();
 
         $this->name  = $name ?: 'category_id';
         $this->type  = 'select';

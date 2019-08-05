@@ -3,11 +3,10 @@
 use Werp\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Werp\Modules\Core\Sales\Models\Tax;
 use Werp\Modules\Core\Products\Models\Order;
-use Werp\Modules\Core\Sales\Models\Discount;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Products\Models\Product;
+use Werp\Modules\Core\Sales\Models\TaxDiscount;
 use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Maintenance\Models\Company;
@@ -46,9 +45,10 @@ class TestsDataSeeder extends Seeder
             'type' => Order::SALE_TYPE,
         ]);
 
-        $tax1 = Tax::create([
+        $tax1 = TaxDiscount::create([
             'name'                => 'Impuesto 10%',
             'amount_operation_id' => $amount1->id,
+            'is_tax' => 'y',
             'type' => Order::SALE_TYPE,
         ]);
 
@@ -59,9 +59,10 @@ class TestsDataSeeder extends Seeder
             'round'      => 2,  
         ]);
 
-        $discount1 = Discount::create([
+        $discount1 = TaxDiscount::create([
             'name'                => 'Descuento 15%',
             'amount_operation_id' => $amount2->id,
+            'is_tax' => 'n',
             'type' => Order::SALE_TYPE,
         ]);
 

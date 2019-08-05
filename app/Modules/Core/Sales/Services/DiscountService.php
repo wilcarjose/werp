@@ -2,7 +2,7 @@
 
 namespace Werp\Modules\Core\Sales\Services;
 
-use Werp\Modules\Core\Sales\Models\Discount;
+use Werp\Modules\Core\Sales\Models\TaxDiscount;
 use Werp\Modules\Core\Products\Models\Order;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;
@@ -12,7 +12,7 @@ class DiscountService extends BaseService
 	protected $entity;
     protected $operationService;
 
-    public function __construct(Discount $entity, AmountOperationService $operationService)
+    public function __construct(TaxDiscount $entity, AmountOperationService $operationService)
     {
         $this->entity = $entity;
         $this->operationService = $operationService;
@@ -20,18 +20,26 @@ class DiscountService extends BaseService
 
     protected function filters($entity)
     {
-    	return $entity->where('type', Order::SALE_TYPE);
+    	return $entity->sales()->discounts();
     }
 
     protected function makeUpdateData($id, $data)
     {
     	$data['type'] = Order::SALE_TYPE;
+        $data['is_tax'] = 'n';
+        if (isset($data['amount_operation_id']) && !$data['amount_operation_id']) {
+            $data['amount_operation_id'] = null;
+        }
         return $data;
     }
 
     protected function makeCreateData($data)
     {
     	$data['type'] = Order::SALE_TYPE;
+        $data['is_tax'] = 'n';
+        if (isset($data['amount_operation_id']) && !$data['amount_operation_id']) {
+            $data['amount_operation_id'] = null;
+        }
         return $data;
     }
 

@@ -30,12 +30,10 @@ class CategoryController extends BaseController
 
     protected $storeRules = [
         'name'  => 'required|max:255',
-        'category_id'  => 'numeric|nullable',
     ];
 
     protected $updateRules = [
         'name'  => 'required|max:255',
-        'category_id'  => 'numeric|nullable',
     ];
 
     protected $routeBase = 'admin.products.categories';

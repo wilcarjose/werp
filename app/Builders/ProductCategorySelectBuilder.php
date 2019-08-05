@@ -20,9 +20,9 @@ class ProductCategorySelectBuilder extends CategorySelectBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($value = null, $name = null, $text = null, $none = false, $disable = false, $advancedOption = false,  $icon = null)
+    public function __construct($id = null, $value = null, $name = null, $text = null, $none = false, $disable = false, $advancedOption = false,  $icon = null)
     {
 
-        parent::__construct(Category::PRODUCT_TYPE, $value, $name ?: 'category_id', $text ?: trans('view.category'), $none, $disable, $advancedOption, $icon);
+        parent::__construct($id, Category::PRODUCT_TYPE, $value, $name ?: 'category_id', $text ?: trans('view.category'), $none, $disable, $advancedOption, $icon);
     }
 }

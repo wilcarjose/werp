@@ -35,12 +35,10 @@ class SaleChannelController extends BaseController
 
     protected $storeRules = [
         'name'  => 'required|max:255',
-        'amount_operation_id'  => 'numeric|nullable',
     ];
 
     protected $updateRules = [
         'name'  => 'required|max:255',
-        'amount_operation_id'  => 'numeric|nullable',
     ];
 
     protected $routeBase = 'admin.sales.sales_channels';

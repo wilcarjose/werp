@@ -54,11 +54,11 @@ class CreateOrdersTable extends Migration
             $table->uuid('tax_id')->nullable();
             $table->foreign('tax_id')
                 ->references('id')
-                ->on('taxs');
+                ->on('taxs_discounts');
             $table->uuid('discount_id')->nullable();
             $table->foreign('discount_id')
                 ->references('id')
-                ->on('discounts');
+                ->on('taxs_discounts');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')

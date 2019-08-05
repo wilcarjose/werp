@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDiscountsTable extends Migration
+class CreateTaxsDiscountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateDiscountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('discounts', function (Blueprint $table) {
+        Schema::create('taxs_discounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
             $table->text('description')->nullable();
@@ -22,6 +22,7 @@ class CreateDiscountsTable extends Migration
             $table->foreign('amount_operation_id')
                 ->references('id')
                 ->on('amount_operations');
+            $table->enum('is_tax',['y','n'])->default('y');
             $table->string('type')->nullable();
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
@@ -40,6 +41,6 @@ class CreateDiscountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('discounts');
+        Schema::dropIfExists('taxs_discounts');
     }
 }

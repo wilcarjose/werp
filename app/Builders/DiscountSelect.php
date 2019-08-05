@@ -2,7 +2,7 @@
 
 namespace Werp\Builders;
 
-use Werp\Modules\Core\Sales\Models\Discount;
+use Werp\Modules\Core\Sales\Models\TaxDiscount;
 
 class DiscountSelect extends SelectBuilder
 {
@@ -32,8 +32,9 @@ class DiscountSelect extends SelectBuilder
         $this->icon  = $icon;
         $this->text  = $text ?: trans('view.discount');
         $this->value = $value;
-        $this->data  = Discount::select('id', 'name')
+        $this->data  = TaxDiscount::select('id', 'name')
             ->sales()
+            ->discounts()
             ->active()
             ->get();
         $this->disable  = $disable;
