@@ -56,6 +56,9 @@ return [
     'sale_order' => 'Orden de venta',
     'address' => 'Dirección',
     'print' => 'Imprimir',
+    'save_and_new' => 'Guardar y nuevo',
+    'save_and_edit' => 'Guardar y editar',
+    'save_and_list' => 'Guardar y listar',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',

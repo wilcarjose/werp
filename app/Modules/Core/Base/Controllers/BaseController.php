@@ -205,19 +205,24 @@ class BaseController extends Controller
             flash(trans($this->getAddedKey()), 'success', 'success') :
             flash(trans($this->getFailCreateKey()), 'error', 'error');
 
-        if ($request->get('go_back', null) == 'edit') {
-            return redirect(route($this->routeBase.'.edit', $entity->id));
+        return $this->goBackTo($request, $entity->id);
+    }
+
+    protected function goBackTo($request, $id)
+    {
+        if ($request->get('go_back', null) == 'edit' || $request->input('save', null) == 'edit') {
+            return redirect(route($this->routeBase.'.edit', $id));
         }
 
-        if ($request->get('go_back', null) == 'new') {
+        if ($request->get('go_back', null) == 'new' || $request->input('save', null) == 'new') {
             return redirect(route($this->routeBase.'.create'));
         }
 
-        if ($request->get('go_back', null) == 'list') {
+        if ($request->get('go_back', null) == 'list' || $request->input('save', null) == 'list') {
             return redirect(route($this->routeBase.'.index'));
         }
 
-        if ($request->get('go_back', null) == 'home') {
+        if ($request->get('go_back', null) == 'home' || $request->input('save', null) == 'home') {
             return redirect(route('admin.home'));
         }
 
@@ -298,23 +303,7 @@ class BaseController extends Controller
             flash(trans($this->getUpdatedKey()), 'success', 'success') :
             flash(trans($this->getFailUpdateKey()), 'error', 'error');
 
-        if ($request->get('go_back', null) == 'edit') {
-            return redirect(route($this->routeBase.'.edit', $id));
-        }
-
-        if ($request->get('go_back', null) == 'new') {
-            return redirect(route($this->routeBase.'.create'));
-        }
-
-        if ($request->get('go_back', null) == 'list') {
-            return redirect(route($this->routeBase.'.index'));
-        }
-
-        if ($request->get('go_back', null) == 'home') {
-            return redirect(route('admin.home'));
-        }
-        
-        return back();
+        return $this->goBackTo($request, $id);
     }
 
     /**

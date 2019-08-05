@@ -15,11 +15,11 @@ use Werp\Builders\ActionBuilder;
 use Werp\Builders\TextInputBuilder;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveActionBuilder;
+use Werp\Builders\SaveAction;
 use Werp\Builders\AmountInputBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\UpdateAction;
 use Werp\Builders\DoctypeSelectBuilder;
-use Werp\Builders\ContinueActionBuilder;
+use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\SupplierSelectBuilder;
 use Werp\Builders\WarehouseSelectBuilder;
@@ -49,7 +49,7 @@ class ProductEntryForm extends FormBuilder
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption())
 
-            ->addAction(new ContinueActionBuilder)
+            ->addAction(new ContinueAction)
             ->goBackEdit()
             
             //->setGoBack('edit')
@@ -101,7 +101,7 @@ class ProductEntryForm extends FormBuilder
             ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateActionBuilder);
+            $this->addAction(new UpdateAction);
         }
 
         $this

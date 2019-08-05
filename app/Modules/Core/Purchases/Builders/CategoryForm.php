@@ -11,8 +11,9 @@ namespace Werp\Modules\Core\Purchases\Builders;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\NameInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveActionBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\SaveAndEditAction;
+use Werp\Builders\UpdateAction;
+use Werp\Builders\SaveAndNewAction;
 use Werp\Builders\SupplierCategorySelectBuilder;
 
 
@@ -35,7 +36,8 @@ class CategoryForm extends FormBuilder
             ->newConfig('Nueva categoria')
             ->addInput(new NameInputBuilder)
             ->addSelect((new SupplierCategorySelectBuilder)->setText('Categoria padre')->addNone())
-            ->addAction(new SaveActionBuilder)
+            ->addAction(new SaveAndEditAction)
+            ->addAction(new SaveAndNewAction)
         ;
 
         return $this->view();
@@ -49,7 +51,8 @@ class CategoryForm extends FormBuilder
             ->editConfig('Editar categoria')
             ->addInput(new NameInputBuilder)
             ->addSelect((new SupplierCategorySelectBuilder($data['id']))->setText('Categoria padre')->addNone())
-            ->addAction(new UpdateActionBuilder)
+            ->addAction(new UpdateAction)
+            ->addAction(new SaveAndNewAction)
             ->setData($data)
         ;
 

@@ -54,6 +54,9 @@ return [
     'sale_order' => 'Sale order',
     'address' => 'Address',
     'print' => 'Print',
+    'save_and_new' => 'Save and new',
+    'save_and_edit' => 'Save and edit',
+    'save_and_list' => 'Save and list',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',

@@ -17,8 +17,8 @@ use Werp\Builders\OperationSelect;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\AmountInputBuilder;
-use Werp\Builders\UpdateActionBuilder;
-use Werp\Builders\ContinueActionBuilder;
+use Werp\Builders\UpdateAction;
+use Werp\Builders\ContinueAction;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Builders\PriceListTypeSelectBuilder;
@@ -48,7 +48,7 @@ class PriceListForm extends FormBuilder
             ->addSelect(new OperationSelect)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption())
-            ->addAction(new ContinueActionBuilder)
+            ->addAction(new ContinueAction)
             //->setMaxWidth()
             ->goBackEdit()
             ->setAdvancedOptions()
@@ -78,7 +78,7 @@ class PriceListForm extends FormBuilder
             ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateActionBuilder);
+            $this->addAction(new UpdateAction);
         }
 
         $this->setList(new PriceList(false, $data['id'], $disable))

@@ -12,8 +12,8 @@ use Werp\Builders\FormBuilder;
 use Werp\Builders\InputBuilder;
 use Werp\Builders\NameInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveActionBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\SaveAction;
+use Werp\Builders\UpdateAction;
 use Werp\Builders\DescriptionInputBuilder;
 
 class UomForm extends FormBuilder
@@ -34,7 +34,7 @@ class UomForm extends FormBuilder
             ->addInput(new InputBuilder('abbr', 'input', trans('view.abbr')))
             ->addInput(new InputBuilder('symbol', 'input', trans('view.symbol')))
             ->addInput(new DescriptionInputBuilder)
-            ->addAction(new SaveActionBuilder)
+            ->addAction(new SaveAction)
         ;
 
         return $this->view();
@@ -50,7 +50,7 @@ class UomForm extends FormBuilder
             ->addInput(new InputBuilder('abbr', 'input', trans('view.abbr')))
             ->addInput(new InputBuilder('symbol', 'input', trans('view.symbol')))
             ->addInput(new DescriptionInputBuilder)
-            ->addAction(new UpdateActionBuilder)
+            ->addAction(new UpdateAction)
             ->setData($data)
         ;
 

@@ -9,7 +9,7 @@
 namespace Werp\Builders;
 
 
-class SaveActionBuilder extends ActionBuilder
+class SaveAction extends ActionBuilder
 {
 
     /**
@@ -27,7 +27,7 @@ class SaveActionBuilder extends ActionBuilder
         $this->type = ActionBuilder::TYPE_BUTTON;
         $this->event = 'submit';
         $this->text = trans('view.save');
-        $this->icon = 'add';
+        $this->icon = null;
         $this->route = null;
     }
 

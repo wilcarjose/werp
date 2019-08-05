@@ -9,7 +9,7 @@
 namespace Werp\Builders;
 
 
-class ContinueActionBuilder extends ActionBuilder
+class SaveAndListAction extends ActionBuilder
 {
 
     /**
@@ -26,9 +26,10 @@ class ContinueActionBuilder extends ActionBuilder
         $this->name = 'save';
         $this->type = ActionBuilder::TYPE_BUTTON;
         $this->event = 'submit';
-        $this->text = trans('view.continue');
-        $this->icon = 'add';
+        $this->text = trans('view.save_and_list');
+        $this->icon = null;
         $this->route = null;
+        $this->value = 'list';
     }
 
 }

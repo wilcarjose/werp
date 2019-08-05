@@ -21,6 +21,7 @@ class ActionBuilder
     protected $text;
     protected $icon;
     protected $route;
+    protected $value = null;
 
     /**
      * ActionBuilder constructor.
@@ -31,7 +32,7 @@ class ActionBuilder
      * @param $icon
      * @param $route
      */
-    public function __construct($name = null, $type = null, $text = null, $icon = null, $event = null, $route = null)
+    public function __construct($name = null, $type = null, $text = null, $icon = null, $event = null, $route = null, $value = null)
     {
         $this->name = $name;
         $this->type = $type;
@@ -39,6 +40,7 @@ class ActionBuilder
         $this->text = $text;
         $this->icon = $icon;
         $this->route = $route;
+        $this->value = $value;
     }
 
 
@@ -150,4 +152,21 @@ class ActionBuilder
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return ActionBuilder
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
 }

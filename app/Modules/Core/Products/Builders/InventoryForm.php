@@ -14,9 +14,9 @@ use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\UpdateAction;
 use Werp\Builders\DoctypeSelectBuilder;
-use Werp\Builders\ContinueActionBuilder;
+use Werp\Builders\ContinueAction;
 use Werp\Builders\WarehouseSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
@@ -40,7 +40,7 @@ class InventoryForm extends FormBuilder
             ->addInput(new DescriptionInputBuilder)
             ->addSelect(new WarehouseSelectBuilder)
             ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))
-            ->addAction(new ContinueActionBuilder)
+            ->addAction(new ContinueAction)
             //->setMaxWidth()
             ->goBackEdit()
             ->setAdvancedOptions()
@@ -67,7 +67,7 @@ class InventoryForm extends FormBuilder
             ->setAdvancedOptions();
 
         if ($noProcessed) {
-            $this->addAction(new UpdateActionBuilder);
+            $this->addAction(new UpdateAction);
         }
 
         $this

@@ -15,8 +15,8 @@ use Werp\Builders\TextInputBuilder;
 use Werp\Builders\NameInputBuilder;
 use Werp\Builders\EmailInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveActionBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\SaveAction;
+use Werp\Builders\UpdateAction;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Builders\CustomerCategorySelectBuilder;
 
@@ -46,7 +46,7 @@ class CustomerForm extends FormBuilder
             ->addInput(new TextInputBuilder('phone', trans('view.phone')))
             ->addInput(new EmailInputBuilder)
             ->addInput(new TextInputBuilder('web', trans('view.web')))
-            ->addAction(new SaveActionBuilder)
+            ->addAction(new SaveAction)
         ;
 
         return $this->view();
@@ -69,7 +69,7 @@ class CustomerForm extends FormBuilder
             ->addInput(new TextInputBuilder('phone', trans('view.phone')))
             ->addInput(new EmailInputBuilder)
             ->addInput(new TextInputBuilder('web', trans('view.web')))
-            ->addAction(new UpdateActionBuilder)
+            ->addAction(new UpdateAction)
             ->setData($data)
         ;
 

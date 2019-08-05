@@ -3,8 +3,10 @@
 namespace Werp\Modules\Core\Base\Builders;
 
 use Werp\Builders\FormBuilder;
-use Werp\Builders\SaveActionBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\SaveAction;
+use Werp\Builders\UpdateAction;
+use Werp\Builders\SaveAndNewAction;
+use Werp\Builders\SaveAndEditAction;
 
 abstract class SimpleBaseForm extends FormBuilder
 {
@@ -23,7 +25,8 @@ abstract class SimpleBaseForm extends FormBuilder
         $this
             ->newConfig($this->newTitle)
             ->makeInputs()
-            ->addAction(new SaveActionBuilder)
+            ->addAction(new SaveAndEditAction)
+            ->addAction(new SaveAndNewAction)
         ;
 
         return $this->view();
@@ -34,7 +37,8 @@ abstract class SimpleBaseForm extends FormBuilder
         $this
             ->editConfig($this->editTitle)
             ->makeInputs()
-            ->addAction(new UpdateActionBuilder)
+            ->addAction(new UpdateAction)
+            ->addAction(new SaveAndNewAction)
             ->setData($data)
         ;
 

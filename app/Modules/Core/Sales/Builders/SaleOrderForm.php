@@ -12,14 +12,14 @@ use Werp\Builders\DiscountSelect;
 use Werp\Builders\TextInputBuilder;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveActionBuilder;
+use Werp\Builders\SaveAction;
 use Werp\Builders\SaleChannelSelect;
 use Werp\Builders\AmountInputBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\UpdateAction;
 use Werp\Builders\PaymentMethodSelect;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\CustomerSelectBuilder;
-use Werp\Builders\ContinueActionBuilder;
+use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\WarehouseSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
@@ -53,7 +53,7 @@ class SaleOrderForm extends FormBuilder
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption())
 
-            ->addAction(new ContinueActionBuilder)
+            ->addAction(new ContinueAction)
             ->goBackEdit()
             
             //->setGoBack('edit')
@@ -105,7 +105,7 @@ class SaleOrderForm extends FormBuilder
             ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateActionBuilder);
+            $this->addAction(new UpdateAction);
         }
 
         $this

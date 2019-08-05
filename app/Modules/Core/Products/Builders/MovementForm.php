@@ -15,9 +15,9 @@ use Werp\Builders\ActionBuilder;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\TextInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\UpdateActionBuilder;
+use Werp\Builders\UpdateAction;
 use Werp\Builders\DoctypeSelectBuilder;
-use Werp\Builders\ContinueActionBuilder;
+use Werp\Builders\ContinueAction;
 use Werp\Builders\WarehouseSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
@@ -42,7 +42,7 @@ class MovementForm extends FormBuilder
             ->addSelect(new WarehouseSelectBuilder('warehouse_from_id', trans('view.from')))
             ->addSelect(new WarehouseSelectBuilder('warehouse_to_id', trans('view.to')))
             ->addSelect(new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))
-            ->addAction(new ContinueActionBuilder)
+            ->addAction(new ContinueAction)
             ->goBackEdit()
             ->setAdvancedOptions()
         ;
@@ -75,7 +75,7 @@ class MovementForm extends FormBuilder
             ->setAdvancedOptions();
 
         if ($noProcessed) {
-            $this->addAction(new UpdateActionBuilder);
+            $this->addAction(new UpdateAction);
         }
 
         $this
