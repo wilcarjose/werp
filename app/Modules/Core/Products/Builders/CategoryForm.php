@@ -48,7 +48,7 @@ class CategoryForm extends FormBuilder
         $this
             ->editConfig('Editar categoria')
             ->addInput(new NameInputBuilder)
-            ->addSelect((new ProductCategorySelectBuilder)->setText('Categoria padre')->addNone())
+            ->addSelect((new ProductCategorySelectBuilder($data['id']))->setText('Categoria padre')->addNone())
             ->addAction(new UpdateActionBuilder)
             ->setData($data)
         ;

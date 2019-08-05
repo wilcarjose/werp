@@ -24,13 +24,14 @@ class CategoryService extends BaseService
     protected function makeUpdateData($id, $data)
     {
         $data['type'] = $this->type;
+        $data['category_id'] = isset($data['category_id']) && $data['category_id'] ? $data['category_id'] : null;
         return $data;
     }
 
     protected function makeCreateData($data)
     {
         $data['type'] = $this->type;
-
+        $data['category_id'] = isset($data['category_id']) && $data['category_id'] ? $data['category_id'] : null;
         return $data;
     }
 }
