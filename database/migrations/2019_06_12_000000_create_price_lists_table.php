@@ -16,7 +16,7 @@ class CreatePriceListsTable extends Migration
     {
         Schema::create('price_lists', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('code')->unique();
+            $table->string('code');
             $table->timestamp('starting_at');
             $table->text('description')->nullable();
             $table->uuid('price_list_type_id');

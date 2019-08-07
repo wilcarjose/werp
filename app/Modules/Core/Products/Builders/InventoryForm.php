@@ -17,7 +17,7 @@ use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\UpdateAction;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\ContinueAction;
-use Werp\Builders\WarehouseSelectBuilder;
+use Werp\Builders\WarehouseSelect;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -38,7 +38,7 @@ class InventoryForm extends FormBuilder
             ->newConfig('Nuevo inventario')
             ->addInput(new DateBuilder)
             ->addInput(new DescriptionInputBuilder)
-            ->addSelect(new WarehouseSelectBuilder)
+            ->addSelect(new WarehouseSelect)
             ->addSelect(new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))
             ->addAction(new ContinueAction)
             //->setMaxWidth()
@@ -61,7 +61,7 @@ class InventoryForm extends FormBuilder
             ->addInput(new CodeInputBuilder)
             ->addInput((new DateBuilder)->setDisable($disable))
             ->addInput((new DescriptionInputBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
+            ->addSelect((new WarehouseSelect)->setDisable($disable))
             ->addSelect((new DoctypeSelectBuilder(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))->setDisable($disable))
             ->setData($data)
             ->setAdvancedOptions();

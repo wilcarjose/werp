@@ -23,7 +23,7 @@ use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\CustomerSelectBuilder;
-use Werp\Builders\WarehouseSelectBuilder;
+use Werp\Builders\WarehouseSelect;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -45,7 +45,7 @@ class ProductOutputForm extends FormBuilder
 
             ->addInput(new DateBuilder)            
             ->addSelect(new CustomerSelectBuilder)
-            ->addSelect(new WarehouseSelectBuilder)
+            ->addSelect(new WarehouseSelect)
             ->addSelect(new CurrencySelectBuilder)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
@@ -78,7 +78,7 @@ class ProductOutputForm extends FormBuilder
         $this
             ->addInput((new DateBuilder)->setDisable($disable))
             ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
+            ->addSelect((new WarehouseSelect)->setDisable($disable))
             ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
             
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))

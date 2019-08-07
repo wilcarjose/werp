@@ -25,7 +25,7 @@
             <div class="col s12">
               <h5 class="content-headline">{{ title }}</h5>
             </div>
-            <div class="col s12 m8" v-if="show_actions && !disable">
+            <div class="col s12 m8" v-if="show_multi_actions && !disable">
               <transition name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
                 <a class="btn btn-default pull-right btn-floating" :href="route + '/create'" v-show="showAdd" v-if="!use_modal">
                   <i class="material-icons">add</i>
@@ -76,7 +76,7 @@
               <table class="responsive-table bordered">
                 <thead>
                   <tr>
-                    <th  class="multiple-cb" v-if="show_actions && delete_multiple">
+                    <th  class="multiple-cb" v-if="show_multi_actions && delete_multiple">
                       <p>
                         <input type="checkbox" value="1" id="toggleAll" @click="toggleAll()" v-model="isAll">
                         <label for="toggleAll" v-if="use_modal" style="left: -0.25rem;top: -0.5rem;"></label>
@@ -114,19 +114,56 @@
                 </thead>
                 <tbody  v-if="componentData.length">
                   <tr v-for="runningData in componentData">
-                    <th class="multiple-cb" v-if="show_actions && delete_multiple">
+                    <th class="multiple-cb" v-if="show_multi_actions && delete_multiple">
 
-                      <p>
+                      <p v-if="!show_state || runningData.state.key == 'pending'">
                         <input type="checkbox" :value="runningData.id" :id="runningData.id" v-model="multiSelection">
                         <label :for="runningData.id" v-if="use_modal" style="left: -0.25rem;top: -0.5rem;"></label>
                         <label :for="runningData.id" v-else></label>
                       </p>
                     </th>
                     <td v-for="(cols,index) in columns"> 
-                        <span v-if="cols.type == 'amount'" style="float: right; margin-right: 50px;">{{ numberFormat(runningData[cols.field]) }}</span>
-                        <span v-if="cols.type == 'text'">{{ runningData[cols.field] }}</span>
-                        <span v-if="cols.type == 'date'">{{ dateFormat(runningData[cols.field]) }}</span>
-                        <span v-if="cols.type == 'link'"> <a :href="runningData[cols.field]['url']"  target="_blank">{{ runningData[cols.field]['text'] }}</a> </span>
+                        
+                        <span v-if="cols.type == 'amount'" style="float: right; margin-right: 50px;">
+                            <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
+                                {{ numberFormat(runningData[cols.field]) }}
+                            </a>
+                            <a href="javascript:void(0);" @click="show(runningData)" v-if="cols.link && use_modal" style="font-weight: 600;">
+                                {{ numberFormat(runningData[cols.field]) }}
+                            </a>
+                            <span v-if="!cols.link">
+                                {{ numberFormat(runningData[cols.field]) }}
+                            </span>
+                        </span>
+                        
+                        <span v-if="cols.type == 'text'">
+                            <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
+                                {{ runningData[cols.field] }}
+                            </a>
+                            <a href="javascript:void(0);" @click="show(runningData)" v-if="cols.link && use_modal" style="font-weight: 600;">
+                                {{ runningData[cols.field] }}
+                            </a>
+                            <span v-if="!cols.link">
+                                {{ runningData[cols.field] }}
+                            </span>
+                        </span>
+                        
+                        <span v-if="cols.type == 'date'">
+                            <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
+                                {{ dateFormat(runningData[cols.field]) }}
+                            </a>
+                            <a href="javascript:void(0);" @click="show(runningData)" v-if="cols.link && use_modal" style="font-weight: 600;">
+                                {{ dateFormat(runningData[cols.field]) }}
+                            </a>
+                            <span v-if="!cols.link">
+                                {{ dateFormat(runningData[cols.field]) }}
+                            </span>
+                        </span>
+
+                        <span v-if="cols.type == 'link'">
+                            <a :href="runningData[cols.field]['url']"  target="_blank">{{ runningData[cols.field]['text'] }}</a>
+                        </span>
+
                     </td>
                     <td v-if="show_state">
                       <h5 :style="'background: ' + runningData.state.color + '; text-align: center; border-radius: 9px; padding: 3px 0px; width: 120px; font-size: medium;'"> {{ runningData.state.name }}</h5>
@@ -154,7 +191,7 @@
 
                   <tr>
 
-                    <th v-if="show_actions && delete_multiple">
+                    <th v-if="show_multi_actions && delete_multiple">
                     </th>
                     <td v-for="(cols,index) in columns"> 
                         <span v-if="cols.total" style="float: right; margin-right: 50px;">
@@ -219,43 +256,68 @@
           <form @submit.prevent="isNotValidateForm" name="callback" class="col s12" style="margin-top: 10px;">
               <div class="input-field col s12" v-for="field in modal.fields" :style="field.type == 'select' || 'amount' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
 
+                <!-- selects -->
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
                   <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required">
                       <option value="" disabled=>Seleccione...</option>
                       <option value="0" v-if="field.none">Ninguno</option>
                       <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
+                  <!-- selects -->
                   
+                  <!-- texts inputs -->
                   <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]" :required="field.required">
                   <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
+                  <!-- texts inputs -->
 
+                   <!-- amounts inputs -->
                   <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;" :required="field.required">
                   <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
                   <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
+                  <!-- texts inputs -->
+
+                  <!-- checks -->
+                  <input v-if="field.type == 'check'" type="checkbox" checked="checked" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required"/>
+                  <label v-if="field.type == 'check'" :for="'modal-'+field.id">{{ field.label }}</label>
+                  <!-- checks -->
 
               </div>
-              <div v-show="show_advanced_options" class="input-field col s12 advanced-modal-options" v-for="field in modal.advanced_fields" :style="field.type == 'select' || 'amount' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
 
-                  <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
-                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required">
-                      <option value="" disabled=>Seleccione...</option>
-                      <option value="0" v-if="field.none">Ninguno</option>
-                      <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
-                  </select>
-                  
-                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]" :required="field.required">
-                  <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
-
-                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;" :required="field.required">
-                  <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
-                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
-
-              </div>
               <div class="input-field col s12" v-show="show_advanced">
                 <a href="javascript:void(0);" @click="switchAdvancedOptions()">
-                    Opciones avanzadas
+                    {{ more_options }}
                 </a>
               </div>
+
+              <div v-show="show_advanced_options" class="input-field col s12 advanced-modal-options" v-for="field in modal.advanced_fields" :style="field.type == 'select' || 'amount' || 'ckeck' ? 'margin-bottom: 30px;' : 'margin-bottom: 0px;'">
+
+                  <!-- selects -->
+                  <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
+                  <select v-if="field.type == 'select'" class="select2_select" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required">
+                      <option value="" disabled=>Seleccione...</option>
+                      <option value="0" v-if="field.none">Ninguno</option>
+                      <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
+                  </select>
+                  <!-- selects -->
+
+                  <!-- texts inputs -->
+                  <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]" :required="field.required">
+                  <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
+                  <!-- texts inputs -->
+
+                  <!-- amounts inputs -->
+                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;" :required="field.required">
+                  <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
+                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
+                  <!-- amounts inputs -->
+
+                  <!-- checks -->
+                  <input v-if="field.type == 'check'" type="checkbox" checked="checked" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required"/>
+                  <label v-if="field.type == 'check'" :for="'modal-'+field.id">{{ field.label }}</label>
+                  <!-- checks -->
+
+              </div>
+              
               <!--
               <div class="input-field col s12" style="margin-bottom: 15px; margin-top: 25px;">
                 <input class="custom-numberbox" id="numero" name="numero" value="98123.26" style="width:100%;">
@@ -320,11 +382,13 @@ export default {
             dependencies: [],
             modal: this.config.modal,
             show_actions: this.config.show_actions,
+            show_multi_actions: this.config.show_multi_actions,
             show_filters: false,
             reloadOnSave: this.config.reload_on_save,
             show_advanced_options: false,
             show_advanced: this.config.show_advanced,
             show_total: this.config.show_total,
+            more_options: this.config.more_options,
             amount: {
               decimalSeparator: ",",
               groupSeparator: ".",
@@ -469,12 +533,12 @@ export default {
             this.pupupMod = 'edit';
             this.modalAction = 'Editar';
             this.resetAlert(this.modal.object);
-            console.log(this.modal.object);
+            //console.log(this.modal.object);
             this.modal.fields.forEach((item, index) => {
 
                 if (item.type == 'select') {
                     if (obj[item.name] != '') {
-                        var id = parseInt(obj[item.name]);
+                        var id = obj[item.name];
                         $('#modal-'+ item.id).val(id);
                         $('#modal-'+ item.id).select2().trigger('change');
                     }
@@ -496,7 +560,7 @@ export default {
 
                 if (item.type == 'select') {
                     if (obj[item.name] != '') {
-                        var id = parseInt(obj[item.name]);
+                        var id = obj[item.name];
                         $('#modal-'+ item.id).val(id);
                         $('#modal-'+ item.id).select2().trigger('change');
                     }
@@ -590,7 +654,7 @@ export default {
             if (this.filter) {
               let suffix = `${this.filter}/detail`;
               let uri = `${this.route}/${suffix}`;
-              console.log(this.modal.object)
+              //console.log(this.modal.object)
               axios.post(uri, this.modal.object).then((response) => {
                       let res = response.data;
                       if (res.status_code == 201) {
@@ -652,7 +716,8 @@ export default {
         },
         removeMultiple() {
             this.resetAlert();
-            let uri = `${this.route}/removeBulk`;
+            let suffix = this.filter ? `${this.filter}/detail/` : '';
+            let uri = `${this.route}/${suffix}removeBulk`;
             if (this.multiSelection.length) {
                 axios.post(uri, this.multiSelection).then((response) => {
                         let res = response.data;

@@ -133,8 +133,14 @@ class BaseService
 
     public function deleteDetail($id, $detailId)
     {
-        $entity = $this->entityDetail->findOrFail($detailId);
-        $entity->delete();
+        $ids = is_array($detailId) ? $detailId : [$detailId];
+
+        foreach ($ids as $id) {
+            $entity = $this->entityDetail->findOrFail($id);
+            $entity->delete();
+        }
+        
+        return true;
     }
 
     protected function makeData($data, $entity = null)

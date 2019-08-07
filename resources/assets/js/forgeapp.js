@@ -38,6 +38,7 @@ Vue.component('permissions', require('./components/admin/Permissions.vue'));
 Vue.component('assign-permission', require('./components/admin/AssignPermission.vue'));
 Vue.component('administrator', require('./components/admin/Administrator.vue'));
 Vue.component('users', require('./components/admin/User.vue'));
+
 const app = new Vue({
     el: '#app',
     mounted() {

@@ -3,16 +3,19 @@
 namespace Werp\Modules\Core\Maintenance\Services;
 
 use Werp\Modules\Core\Base\Services\BaseService;
+use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\AmountOperation;
 
 class AmountOperationService extends BaseService
 {
+    protected $config;
 	protected $entity;
 	protected $operation;
 
-    public function __construct(AmountOperation $entity)
+    public function __construct(AmountOperation $entity, Config $config)
     {
         $this->entity = $entity;
+        $this->config = $config;
     }
 
     public function setOperation($operation)
@@ -31,7 +34,9 @@ class AmountOperationService extends BaseService
     	$result = 0.0000;
 
     	// VERIFICAR CONFIG KEY
-    	$value = empty($this->operation->config_key) ? $this->operation->value : 100;
+    	$value = empty($this->operation->config_key) ?
+            $this->operation->value :
+            $this->config->where('key', $this->operation->config_key)->firstOrFail()->value;
 
         if ($this->operation->operation == 'multiply') {
             $result = $amount * $value;

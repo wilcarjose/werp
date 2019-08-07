@@ -10,6 +10,8 @@
 	Route::put('/price_lists/{id}/detail/{detail}', 'PriceListController@updateDetail')->name('price_lists.detail.update');
 	Route::post('/price_lists/{id}/detail', 'PriceListController@storeDetail')->name('price_lists.detail.update');
 	Route::delete('/price_lists/{id}/detail/{detail}', 'PriceListController@destroyDetail')->name('price_lists.detail.update');
+	Route::post('/price_lists/{id}/detail/removeBulk','PriceListController@destroyDetailBulk');
+
 	Route::get('/price_lists/{id}/process', 'PriceListController@process')->name('price_lists.process');
 	Route::get('/price_lists/{id}/reverse', 'PriceListController@reverse')->name('price_lists.reverse');
 

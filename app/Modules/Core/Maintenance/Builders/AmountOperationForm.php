@@ -12,7 +12,7 @@ use Werp\Modules\Core\Base\Builders\SimpleBaseForm;
 class AmountOperationForm extends SimpleBaseForm
 {
     protected $moduleRoute = 'admin.maintenance.amount_operations';
-    protected $mainTitle = 'Metodos de pagos';
+    protected $mainTitle = 'Operaciones de montos';
     protected $newTitle = 'Nuevo';
     protected $editTitle = 'Editar';
 

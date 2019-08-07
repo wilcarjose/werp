@@ -19,7 +19,7 @@ class CreateAmountOperationsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('operation')->nullable();
-            $table->double('value', 8, 2)->nullable();
+            $table->double('value', 20, 2)->nullable();
             $table->string('config_key')->nullable();
             $table->string('round')->default(0);
             $table->string('type')->nullable();

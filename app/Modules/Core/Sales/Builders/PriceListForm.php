@@ -8,17 +8,20 @@
 
 namespace Werp\Modules\Core\Sales\Builders;
 
+use Werp\Builders\BrandSelect;
 use Werp\Builders\DateBuilder;
 use Werp\Builders\FormBuilder;
+use Werp\Builders\UpdateAction;
 use Werp\Builders\InputBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
+use Werp\Builders\ContinueAction;
 use Werp\Builders\OperationSelect;
+use Werp\Builders\WarehouseSelect;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\AmountInputBuilder;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\ContinueAction;
+use Werp\Builders\ProductCategorySelect;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Builders\PriceListTypeSelectBuilder;
@@ -43,13 +46,13 @@ class PriceListForm extends FormBuilder
     {
         $this->newConfig('Nueva lista de precio')
             ->addInput(new DateBuilder('starting_at', trans('view.from')))
-            ->addSelect(new PriceListTypeSelectBuilder)
-            ->addSelect(new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista de referencia', true))
+            ->addSelect((new PriceListTypeSelectBuilder)->setText('Lista a generar'))
+            ->addSelect(new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista precio base', true))
             ->addSelect(new OperationSelect)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption())
             ->addAction(new ContinueAction)
-            //->setMaxWidth()
+            ->setMaxWidth()
             ->goBackEdit()
             ->setAdvancedOptions()
         ;
@@ -68,13 +71,18 @@ class PriceListForm extends FormBuilder
             ->addInput((new CodeInputBuilder())->setValue($data['code']))
             ->addInput((new DateBuilder('starting_at', trans('view.from'), $data['starting_at']))->setDisable($disable))
             //->addInput((new InputBuilder('starting_at', 'input',  trans('view.from'), $data['starting_at']))->setDisable($disable))
-            ->addSelect((new PriceListTypeSelectBuilder($data['price_list_type_id']))->setDisable($disable))
-            ->addSelect((new PriceListTypeSelectBuilder($data['reference_price_list_type_id'], 'reference_price_list_type_id', 'Lista de referencia', true))->setDisable($disable))
+            ->addSelect((new PriceListTypeSelectBuilder($data['price_list_type_id']))->setText('Lista a generar')->setDisable($disable))
+            ->addSelect((new PriceListTypeSelectBuilder($data['reference_price_list_type_id'], 'reference_price_list_type_id', 'Lista precio base', true))->setDisable($disable))
             ->addSelect((new OperationSelect)->setDisable($disable))
             ->addInput((new DescriptionInputBuilder($data['description']))->setDisable($disable)->advancedOption())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC, $data['doctype_id']))->advancedOption()->setDisable($disable))
             ->setAdvancedOptions()
+            ->setFilter('admin.core.sales.filters.price_list')
+            ->addFilters((new WarehouseSelect))
+            ->addFilters((new ProductCategorySelect))
+            ->addFilters((new BrandSelect))
             ->setData($data)
+            ->setMaxWidth()
             ;
 
         if ($noProcessed) {

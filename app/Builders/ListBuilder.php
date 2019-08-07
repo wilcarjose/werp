@@ -41,11 +41,19 @@ class ListBuilder extends ModuleBuilder
 
     protected $showActions = true;
 
+    protected $showMultiActions = true;
+
     protected $reloadOnSave = false;
+
+    protected $name = false;
+
+    protected $moreOptions = 'Opciones avanzadas';
 
     public function view()
     {
-        return view('admin.base.list', [
+        $name = $this->name ?: 'list';
+
+        return view('admin.base.'.$name, [
             'page' => $this
         ]);
     }
@@ -61,6 +69,19 @@ class ListBuilder extends ModuleBuilder
     {
         return $this->config;
     }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
 
     /**
      * @return mixed
@@ -299,6 +320,24 @@ class ListBuilder extends ModuleBuilder
     /**
      * @return mixed
      */
+    public function getShowMultiActions()
+    {
+        return $this->showMultiActions;
+    }
+
+    /**
+     * @param mixed $showMultiActions
+     * @return ListBuilder
+     */
+    public function setShowMultiActions($showMultiActions)
+    {
+        $this->showMultiActions = $showMultiActions;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getReloadOnSave()
     {
         return $this->reloadOnSave;
@@ -332,6 +371,24 @@ class ListBuilder extends ModuleBuilder
         return $this;
     }
 
+     /**
+     * @return mixed
+     */
+    public function getMoreOptions()
+    {
+        return $this->moreOptions;
+    }
+
+    /**
+     * @param mixed $moreOptions
+     * @return ListBuilder
+     */
+    public function setMoreOptions($moreOptions)
+    {
+        $this->moreOptions = $moreOptions;
+        return $this;
+    }
+
     public function makeConfig()
     {
         // "{ title: 'Usuarios', fields: [{ field: 'fullname', name: 'nombre'}, {field: 'email', name: 'email'}], route: '/admin/user', show_status: true }";
@@ -356,8 +413,10 @@ class ListBuilder extends ModuleBuilder
             'modal'      => $this->getModalConfig(),
             'fields' => $this->getFields(),
             'show_actions' => $this->getShowActions(),
+            'show_multi_actions' => $this->getShowMultiActions(),
             'reload_on_save' => $this->getReloadOnSave(),
             'show_advanced' => $this->getShowAdvancedOptions(),
+            'more_options' => $this->getMoreOptions(),
         ];
 
         $this->setConfig(json_encode($config));

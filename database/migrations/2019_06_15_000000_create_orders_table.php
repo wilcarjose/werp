@@ -17,15 +17,15 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('code')->unique();
+            $table->string('code');
             $table->timestamp('date');
             $table->text('description')->nullable();
             $table->string('alternate_code')->nullable();
             $table->string('reference')->nullable();
-            $table->double('total_price', 10, 4)->default(0.0000);
-            $table->double('total_tax', 10, 4)->default(0.0000);
-            $table->double('total_discount', 10, 4)->default(0.0000);
-            $table->double('total', 10, 4)->default(0.0000);
+            $table->double('total_price', 20, 4)->default(0.0000);
+            $table->double('total_tax', 20, 4)->default(0.0000);
+            $table->double('total_discount', 20, 4)->default(0.0000);
+            $table->double('total', 20, 4)->default(0.0000);
             $table->string('currency')->default('USD');
             $table->enum('type',[Order::SALE_TYPE, Order::PURCHASE_TYPE])->default(Order::SALE_TYPE);
             $table->enum('is_invoice_pending',['y','n'])->default('y');

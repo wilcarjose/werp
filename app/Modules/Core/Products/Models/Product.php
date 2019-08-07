@@ -66,13 +66,15 @@ class Product extends Model
         return $this->hasOne('Werp\Modules\Core\Products\Models\Uom', 'id', 'uom_id');
     }
 
-    public function currentPrice($priceListType)
+    public function currentPrice($priceListTypeId, $default = 0)
     {
-        return $this->prices()->where('price_list_type_id', $priceListType)
+        $price = $this->prices()->where('price_list_type_id', $priceListTypeId)
             ->active()
             ->where('starting_at', '<', date('Y-m-d H:i:s'))
             ->orderBy('starting_at', 'desc')
-            ->firstOrFail();
+            ->first();
+
+        return $price ? $price->price : $default;
     }
 
     public function prices()

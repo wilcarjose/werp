@@ -31,13 +31,13 @@ class StockService
     	return $this;
     }
 
-    public function setProductId(int $productId)
+    public function setProductId($productId)
     {
     	$this->productId = $productId;
     	return $this;
     }
 
-    public function setWarehouseId(int $warehouseId)
+    public function setWarehouseId($warehouseId)
     {
     	$this->warehouseId = $warehouseId;
     	return $this;

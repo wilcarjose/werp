@@ -2,6 +2,7 @@
 
 namespace Werp\Modules\Core\Sales\Models;
 
+use Werp\Modules\Core\Sales\Models\Price;
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class PriceListType extends Model
@@ -22,7 +23,16 @@ class PriceListType extends Model
      */
     public function prices()
     {
-        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'price_list_type_id', 'id');
+        return $this->hasMany(Price::class, 'price_list_type_id', 'id');
+    }
+
+    public function currentPrices()
+    {
+        //return $this->prices->groupBy('product_id');
+        return Price::where('price_list_type_id', $this->id)
+            ->orderBy('starting_at', 'desc')
+            ->get()
+            ->unique('product_id');
     }
 
     public function toArray()

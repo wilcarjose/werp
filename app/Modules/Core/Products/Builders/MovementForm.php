@@ -18,7 +18,7 @@ use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\UpdateAction;
 use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\ContinueAction;
-use Werp\Builders\WarehouseSelectBuilder;
+use Werp\Builders\WarehouseSelect;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -39,8 +39,8 @@ class MovementForm extends FormBuilder
             ->newConfig('Nuevo movimiento')
             ->addInput(new DateBuilder)
             ->addInput(new DescriptionInputBuilder)
-            ->addSelect(new WarehouseSelectBuilder('warehouse_from_id', trans('view.from')))
-            ->addSelect(new WarehouseSelectBuilder('warehouse_to_id', trans('view.to')))
+            ->addSelect(new WarehouseSelect('warehouse_from_id', trans('view.from')))
+            ->addSelect(new WarehouseSelect('warehouse_to_id', trans('view.to')))
             ->addSelect(new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))
             ->addAction(new ContinueAction)
             ->goBackEdit()
@@ -68,8 +68,8 @@ class MovementForm extends FormBuilder
         $this
             ->addInput((new DateBuilder)->setDisable($disable))
             ->addInput((new DescriptionInputBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder('warehouse_from_id', trans('view.from')))->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder('warehouse_to_id', trans('view.to')))->setDisable($disable))
+            ->addSelect((new WarehouseSelect('warehouse_from_id', trans('view.from')))->setDisable($disable))
+            ->addSelect((new WarehouseSelect('warehouse_to_id', trans('view.to')))->setDisable($disable))
             ->addSelect((new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->setDisable($disable))
             ->setData($data)
             ->setAdvancedOptions();

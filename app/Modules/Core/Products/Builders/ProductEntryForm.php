@@ -22,7 +22,7 @@ use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\SupplierSelectBuilder;
-use Werp\Builders\WarehouseSelectBuilder;
+use Werp\Builders\WarehouseSelect;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -44,7 +44,7 @@ class ProductEntryForm extends FormBuilder
 
             ->addInput(new DateBuilder)            
             ->addSelect(new SupplierSelectBuilder)
-            ->addSelect(new WarehouseSelectBuilder)
+            ->addSelect(new WarehouseSelect)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
             ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption())
@@ -85,7 +85,7 @@ class ProductEntryForm extends FormBuilder
         $this
             ->addInput((new DateBuilder)->setDisable($disable))
             ->addSelect((new SupplierSelectBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
+            ->addSelect((new WarehouseSelect)->setDisable($disable))
             ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
             ->addInput((new AmountInputBuilder)->disabled())
             ->addInput((new AmountInputBuilder('total_tax', trans('view.total_tax')))->disabled())

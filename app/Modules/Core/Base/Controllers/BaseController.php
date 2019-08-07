@@ -4,6 +4,7 @@ namespace Werp\Modules\Core\Base\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Model;
 
 class BaseController extends Controller
 {
@@ -290,20 +291,27 @@ class BaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validator = validator()->make($request->all(), $this->getUpdateRules());
-        
-        if ($validator->fails()) {dd($validator->errors());
-            flash(trans($this->getFailValidationKey()), 'error', 'error');
-            return back()->withErrors($validator)->withInput();
+        try {
+
+            $validator = validator()->make($request->all(), $this->getUpdateRules());
+            
+            if ($validator->fails()) {dd($validator->errors());
+                flash(trans($this->getFailValidationKey()), 'error', 'error');
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $data = array_only($request->all(), $this->getInputs());
+
+            $this->entityService->update($id, $data) ?
+                flash(trans($this->getUpdatedKey()), 'success', 'success') :
+                flash(trans($this->getFailUpdateKey()), 'error', 'error');
+
+            return $this->goBackTo($request, $id);
+
+        } catch (\Exception $e) {
+            flash($e->getMessage(). ' - '.$e->getFile(). ' - '.$e->getLine(), 'error', 'error');
+            return $this->goBackTo($request, $id);
         }
-
-        $data = array_only($request->all(), $this->getInputs());
-
-        $this->entityService->update($id, $data) ?
-            flash(trans($this->getUpdatedKey()), 'success', 'success') :
-            flash(trans($this->getFailUpdateKey()), 'error', 'error');
-
-        return $this->goBackTo($request, $id);
     }
 
     /**
@@ -453,9 +461,13 @@ class BaseController extends Controller
 
             $entityDetail = $this->entityService->createDetail($id, $data);
 
+            $result = $entityDetail instanceof Model ?
+                $this->entityDetailTransformer->transform($entityDetail->toArray()) :
+                [];
+
             if ($request->wantsJson()) {
                 return response([
-                    'data'        => $this->entityDetailTransformer->transform($entityDetail->toArray()),
+                    'data'        => $result,
                     'message'     => trans($this->getUpdatedKey()),
                     'status_code' => 201
                 ], 201);
@@ -514,13 +526,17 @@ class BaseController extends Controller
 
         try {
 
-            $data = array_only($request->all(), $this->getDetailInputs());        
+            $data = array_only($request->all(), $this->getDetailInputs());
 
             $entityDetail = $this->entityService->updateDetail($data, $detail);
 
+            $result = $entityDetail instanceof Model ?
+                $this->entityDetailTransformer->transform($entityDetail->toArray()) :
+                [];
+
             if ($request->wantsJson()) {
                 return response([
-                    'data'        => $this->entityDetailTransformer->transform($entityDetail->toArray()),
+                    'data'        => $result,
                     'message'     => trans($this->getUpdatedKey()),
                     'status_code' => 200
                 ], 200);
@@ -572,6 +588,61 @@ class BaseController extends Controller
         try {
 
             $this->entityService->deleteDetail($id, $detail);
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => trans($this->getDeleteKey()),
+                    'status_code' => 200
+                ], 200);
+            }
+
+            flash(trans($this->getDeleteKey()), 'success', 'success');
+            return back();
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+
+            if ($request->wantsJson()) {
+                return response([
+                    'data'        => [],
+                    'message'     => $message,
+                    'status_code' => 400
+                ], 400);
+            }
+
+            flash($message, 'error', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * Remove the bulk resource from storage.
+     *
+     * @param  Request $request [description]
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyDetailBulk(Request $request, $id)
+    {
+        try {
+
+            $this->entityService->deleteDetail($id, $request->all());
 
             if ($request->wantsJson()) {
                 return response([

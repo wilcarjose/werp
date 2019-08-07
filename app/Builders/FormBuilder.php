@@ -24,6 +24,8 @@ class FormBuilder extends ModuleBuilder
     protected $stateColor = null;
     protected $advanced = false;
     protected $list = null;
+    protected $filters = [];
+    protected $filter = null;
     protected $goBack = null;
     protected $printAction = null;
 
@@ -190,6 +192,45 @@ class FormBuilder extends ModuleBuilder
     public function hasList()
     {
         return !is_null($this->list);
+    }
+
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
+        return $this;
+    }
+
+    public function getFilter()
+    {
+        return $this->filter;
+    }
+
+    public function hasFilter()
+    {
+        return !is_null($this->filter);
+    }
+
+    public function setFilters($filters)
+    {
+        $this->filters = $filters;
+        return $this;
+    }
+
+    public function getFilters()
+    {
+        return $this->filters;
+    }
+
+    public function hasFilters()
+    {
+        return !is_null($this->filters);
+    }
+
+    public function addFilters($filter)
+    {
+        $this->filters = $this->to_collection($this->filters);
+        $this->filters->push($filter);
+        return $this;
     }
 
     public function setAdvancedOptions($advanced = true)

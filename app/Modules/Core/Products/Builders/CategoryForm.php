@@ -13,7 +13,7 @@ use Werp\Builders\NameInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveAction;
 use Werp\Builders\UpdateAction;
-use Werp\Builders\ProductCategorySelectBuilder;
+use Werp\Builders\ProductCategorySelect;
 
 
 class CategoryForm extends FormBuilder
@@ -34,7 +34,7 @@ class CategoryForm extends FormBuilder
         $this
             ->newConfig('Nueva categoria')
             ->addInput(new NameInputBuilder)
-            ->addSelect((new ProductCategorySelectBuilder)->setText('Categoria padre')->addNone())
+            ->addSelect((new ProductCategorySelect)->setText('Categoria padre')->addNone())
             ->addAction(new SaveAction)
         ;
 
@@ -48,7 +48,7 @@ class CategoryForm extends FormBuilder
         $this
             ->editConfig('Editar categoria')
             ->addInput(new NameInputBuilder)
-            ->addSelect((new ProductCategorySelectBuilder($data['id']))->setText('Categoria padre')->addNone())
+            ->addSelect((new ProductCategorySelect($data['id']))->setText('Categoria padre')->addNone())
             ->addAction(new UpdateAction)
             ->setData($data)
         ;

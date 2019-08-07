@@ -18,7 +18,17 @@ class Price extends Model
      * @var array
      */
     protected $fillable = [
-        'starting_at', 'currency', 'price', 'product_id', 'price_list_id', 'price_list_type_id', 'active'
+        'starting_at',
+        'currency',
+        'price',
+        'product_id',
+        'price_list_id',
+        'price_list_type_id',
+        'amount_operation_id',
+        'base_price',
+        'before_price',
+        'operation_name',
+        'active',
     ];
 
     public function priceListType()
@@ -32,13 +42,17 @@ class Price extends Model
             'id' => $this->id,
             'starting_at' => $this->starting_at,
             'price' => $this->price,
+            'base_price' => $this->base_price,
+            'before_price' => $this->before_price,
             'currency' => $this->currency,
             'active' => $this->active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'product_id' => $this->product_id,
             'price_list_id' => $this->price_list_id,
-            'price_list_type_id' => $this->price_list_type_id
+            'operation_name' => $this->operation_name,
+            'price_list_type_id' => $this->price_list_type_id,
+            'amount_operation_id' => $this->amount_operation_id,
         ];
     }
 
@@ -63,5 +77,10 @@ class Price extends Model
     public function getMaster()
     {
         return $this->priceList;
+    }
+
+    public function product()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Product');
     }
 }

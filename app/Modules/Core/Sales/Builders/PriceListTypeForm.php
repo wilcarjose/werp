@@ -69,6 +69,7 @@ class PriceListTypeForm extends FormBuilder
             ->addSelect(new SelectBuilder('type', 'Tipo', $this->types, $this->data['type']))
             ->addSelect(new CurrencySelectBuilder($this->data['currency']))
             ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
+            ->setData($data)
         ;
 
         return $this->view();

@@ -31589,6 +31589,7 @@ Vue.component('permissions', __webpack_require__(74));
 Vue.component('assign-permission', __webpack_require__(77));
 Vue.component('administrator', __webpack_require__(80));
 Vue.component('users', __webpack_require__(83));
+
 var app = new Vue({
     el: '#app',
     mounted: function mounted() {
@@ -36848,6 +36849,68 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 $(document).ready(function () {
@@ -36895,11 +36958,13 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             dependencies: [],
             modal: this.config.modal,
             show_actions: this.config.show_actions,
+            show_multi_actions: this.config.show_multi_actions,
             show_filters: false,
             reloadOnSave: this.config.reload_on_save,
             show_advanced_options: false,
             show_advanced: this.config.show_advanced,
             show_total: this.config.show_total,
+            more_options: this.config.more_options,
             amount: {
                 decimalSeparator: ",",
                 groupSeparator: ".",
@@ -37052,12 +37117,12 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.pupupMod = 'edit';
             this.modalAction = 'Editar';
             this.resetAlert(this.modal.object);
-            console.log(this.modal.object);
+            //console.log(this.modal.object);
             this.modal.fields.forEach(function (item, index) {
 
                 if (item.type == 'select') {
                     if (obj[item.name] != '') {
-                        var id = parseInt(obj[item.name]);
+                        var id = obj[item.name];
                         $('#modal-' + item.id).val(id);
                         $('#modal-' + item.id).select2().trigger('change');
                     }
@@ -37076,7 +37141,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
                 if (item.type == 'select') {
                     if (obj[item.name] != '') {
-                        var id = parseInt(obj[item.name]);
+                        var id = obj[item.name];
                         $('#modal-' + item.id).val(id);
                         $('#modal-' + item.id).select2().trigger('change');
                     }
@@ -37170,7 +37235,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             if (this.filter) {
                 var suffix = this.filter + '/detail';
                 var uri = this.route + '/' + suffix;
-                console.log(this.modal.object);
+                //console.log(this.modal.object)
                 axios.post(uri, this.modal.object).then(function (response) {
                     var res = response.data;
                     if (res.status_code == 201) {
@@ -37231,7 +37296,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this6 = this;
 
             this.resetAlert();
-            var uri = this.route + '/removeBulk';
+            var suffix = this.filter ? this.filter + '/detail/' : '';
+            var uri = this.route + '/' + suffix + 'removeBulk';
             if (this.multiSelection.length) {
                 axios.post(uri, this.multiSelection).then(function (response) {
                     var res = response.data;
@@ -37472,7 +37538,7 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm.show_actions && !_vm.disable
+              _vm.show_multi_actions && !_vm.disable
                 ? _c(
                     "div",
                     { staticClass: "col s12 m8" },
@@ -37682,7 +37748,7 @@ var render = function() {
                     _c(
                       "tr",
                       [
-                        _vm.show_actions && _vm.delete_multiple
+                        _vm.show_multi_actions && _vm.delete_multiple
                           ? _c("th", { staticClass: "multiple-cb" }, [
                               _c("p", [
                                 _c("input", {
@@ -37863,75 +37929,78 @@ var render = function() {
                             return _c(
                               "tr",
                               [
-                                _vm.show_actions && _vm.delete_multiple
+                                _vm.show_multi_actions && _vm.delete_multiple
                                   ? _c("th", { staticClass: "multiple-cb" }, [
-                                      _c("p", [
-                                        _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.multiSelection,
-                                              expression: "multiSelection"
-                                            }
-                                          ],
-                                          attrs: {
-                                            type: "checkbox",
-                                            id: runningData.id
-                                          },
-                                          domProps: {
-                                            value: runningData.id,
-                                            checked: Array.isArray(
-                                              _vm.multiSelection
-                                            )
-                                              ? _vm._i(
-                                                  _vm.multiSelection,
-                                                  runningData.id
-                                                ) > -1
-                                              : _vm.multiSelection
-                                          },
-                                          on: {
-                                            change: function($event) {
-                                              var $$a = _vm.multiSelection,
-                                                $$el = $event.target,
-                                                $$c = $$el.checked
-                                                  ? true
-                                                  : false
-                                              if (Array.isArray($$a)) {
-                                                var $$v = runningData.id,
-                                                  $$i = _vm._i($$a, $$v)
-                                                if ($$el.checked) {
-                                                  $$i < 0 &&
-                                                    (_vm.multiSelection = $$a.concat(
-                                                      [$$v]
-                                                    ))
-                                                } else {
-                                                  $$i > -1 &&
-                                                    (_vm.multiSelection = $$a
-                                                      .slice(0, $$i)
-                                                      .concat(
-                                                        $$a.slice($$i + 1)
-                                                      ))
+                                      !_vm.show_state ||
+                                      runningData.state.key == "pending"
+                                        ? _c("p", [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.multiSelection,
+                                                  expression: "multiSelection"
                                                 }
-                                              } else {
-                                                _vm.multiSelection = $$c
-                                              }
-                                            }
-                                          }
-                                        }),
-                                        _vm._v(" "),
-                                        _vm.use_modal
-                                          ? _c("label", {
-                                              staticStyle: {
-                                                left: "-0.25rem",
-                                                top: "-0.5rem"
+                                              ],
+                                              attrs: {
+                                                type: "checkbox",
+                                                id: runningData.id
                                               },
-                                              attrs: { for: runningData.id }
-                                            })
-                                          : _c("label", {
-                                              attrs: { for: runningData.id }
-                                            })
-                                      ])
+                                              domProps: {
+                                                value: runningData.id,
+                                                checked: Array.isArray(
+                                                  _vm.multiSelection
+                                                )
+                                                  ? _vm._i(
+                                                      _vm.multiSelection,
+                                                      runningData.id
+                                                    ) > -1
+                                                  : _vm.multiSelection
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$a = _vm.multiSelection,
+                                                    $$el = $event.target,
+                                                    $$c = $$el.checked
+                                                      ? true
+                                                      : false
+                                                  if (Array.isArray($$a)) {
+                                                    var $$v = runningData.id,
+                                                      $$i = _vm._i($$a, $$v)
+                                                    if ($$el.checked) {
+                                                      $$i < 0 &&
+                                                        (_vm.multiSelection = $$a.concat(
+                                                          [$$v]
+                                                        ))
+                                                    } else {
+                                                      $$i > -1 &&
+                                                        (_vm.multiSelection = $$a
+                                                          .slice(0, $$i)
+                                                          .concat(
+                                                            $$a.slice($$i + 1)
+                                                          ))
+                                                    }
+                                                  } else {
+                                                    _vm.multiSelection = $$c
+                                                  }
+                                                }
+                                              }
+                                            }),
+                                            _vm._v(" "),
+                                            _vm.use_modal
+                                              ? _c("label", {
+                                                  staticStyle: {
+                                                    left: "-0.25rem",
+                                                    top: "-0.5rem"
+                                                  },
+                                                  attrs: { for: runningData.id }
+                                                })
+                                              : _c("label", {
+                                                  attrs: { for: runningData.id }
+                                                })
+                                          ])
+                                        : _vm._e()
                                     ])
                                   : _vm._e(),
                                 _vm._v(" "),
@@ -37947,34 +38016,238 @@ var render = function() {
                                             }
                                           },
                                           [
-                                            _vm._v(
-                                              _vm._s(
-                                                _vm.numberFormat(
-                                                  runningData[cols.field]
+                                            cols.link && !_vm.use_modal
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticStyle: {
+                                                      "font-weight": "600"
+                                                    },
+                                                    attrs: {
+                                                      href:
+                                                        _vm.route +
+                                                        "/" +
+                                                        runningData.id +
+                                                        "/edit"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                            " +
+                                                        _vm._s(
+                                                          _vm.numberFormat(
+                                                            runningData[
+                                                              cols.field
+                                                            ]
+                                                          )
+                                                        ) +
+                                                        "\n                        "
+                                                    )
+                                                  ]
                                                 )
-                                              )
-                                            )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            cols.link && _vm.use_modal
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticStyle: {
+                                                      "font-weight": "600"
+                                                    },
+                                                    attrs: {
+                                                      href:
+                                                        "javascript:void(0);"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.show(runningData)
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                            " +
+                                                        _vm._s(
+                                                          _vm.numberFormat(
+                                                            runningData[
+                                                              cols.field
+                                                            ]
+                                                          )
+                                                        ) +
+                                                        "\n                        "
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            !cols.link
+                                              ? _c("span", [
+                                                  _vm._v(
+                                                    "\n                            " +
+                                                      _vm._s(
+                                                        _vm.numberFormat(
+                                                          runningData[
+                                                            cols.field
+                                                          ]
+                                                        )
+                                                      ) +
+                                                      "\n                        "
+                                                  )
+                                                ])
+                                              : _vm._e()
                                           ]
                                         )
                                       : _vm._e(),
                                     _vm._v(" "),
                                     cols.type == "text"
                                       ? _c("span", [
-                                          _vm._v(
-                                            _vm._s(runningData[cols.field])
-                                          )
+                                          cols.link && !_vm.use_modal
+                                            ? _c(
+                                                "a",
+                                                {
+                                                  staticStyle: {
+                                                    "font-weight": "600"
+                                                  },
+                                                  attrs: {
+                                                    href:
+                                                      _vm.route +
+                                                      "/" +
+                                                      runningData.id +
+                                                      "/edit"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                            " +
+                                                      _vm._s(
+                                                        runningData[cols.field]
+                                                      ) +
+                                                      "\n                        "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          cols.link && _vm.use_modal
+                                            ? _c(
+                                                "a",
+                                                {
+                                                  staticStyle: {
+                                                    "font-weight": "600"
+                                                  },
+                                                  attrs: {
+                                                    href: "javascript:void(0);"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.show(runningData)
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                            " +
+                                                      _vm._s(
+                                                        runningData[cols.field]
+                                                      ) +
+                                                      "\n                        "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          !cols.link
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  "\n                            " +
+                                                    _vm._s(
+                                                      runningData[cols.field]
+                                                    ) +
+                                                    "\n                        "
+                                                )
+                                              ])
+                                            : _vm._e()
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
                                     cols.type == "date"
                                       ? _c("span", [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.dateFormat(
-                                                runningData[cols.field]
+                                          cols.link && !_vm.use_modal
+                                            ? _c(
+                                                "a",
+                                                {
+                                                  staticStyle: {
+                                                    "font-weight": "600"
+                                                  },
+                                                  attrs: {
+                                                    href:
+                                                      _vm.route +
+                                                      "/" +
+                                                      runningData.id +
+                                                      "/edit"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                            " +
+                                                      _vm._s(
+                                                        _vm.dateFormat(
+                                                          runningData[
+                                                            cols.field
+                                                          ]
+                                                        )
+                                                      ) +
+                                                      "\n                        "
+                                                  )
+                                                ]
                                               )
-                                            )
-                                          )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          cols.link && _vm.use_modal
+                                            ? _c(
+                                                "a",
+                                                {
+                                                  staticStyle: {
+                                                    "font-weight": "600"
+                                                  },
+                                                  attrs: {
+                                                    href: "javascript:void(0);"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.show(runningData)
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                            " +
+                                                      _vm._s(
+                                                        _vm.dateFormat(
+                                                          runningData[
+                                                            cols.field
+                                                          ]
+                                                        )
+                                                      ) +
+                                                      "\n                        "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          !cols.link
+                                            ? _c("span", [
+                                                _vm._v(
+                                                  "\n                            " +
+                                                    _vm._s(
+                                                      _vm.dateFormat(
+                                                        runningData[cols.field]
+                                                      )
+                                                    ) +
+                                                    "\n                        "
+                                                )
+                                              ])
+                                            : _vm._e()
                                         ])
                                       : _vm._e(),
                                     _vm._v(" "),
@@ -38161,7 +38434,7 @@ var render = function() {
                           _c(
                             "tr",
                             [
-                              _vm.show_actions && _vm.delete_multiple
+                              _vm.show_multi_actions && _vm.delete_multiple
                                 ? _c("th")
                                 : _vm._e(),
                               _vm._v(" "),
@@ -38575,10 +38848,107 @@ var render = function() {
                               },
                               [_vm._v(_vm._s(field.label))]
                             )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "check"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.modal.object[field.name],
+                                  expression: "modal.object[field.name]"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                checked: "checked",
+                                id: "modal-" + field.id,
+                                name: field.name,
+                                required: field.required
+                              },
+                              domProps: {
+                                checked: Array.isArray(
+                                  _vm.modal.object[field.name]
+                                )
+                                  ? _vm._i(_vm.modal.object[field.name], null) >
+                                    -1
+                                  : _vm.modal.object[field.name]
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.modal.object[field.name],
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.modal.object[
+                                          field.name
+                                        ] = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.modal.object[
+                                          field.name
+                                        ] = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.$set(_vm.modal.object, field.name, $$c)
+                                  }
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "check"
+                          ? _c(
+                              "label",
+                              { attrs: { for: "modal-" + field.id } },
+                              [_vm._v(_vm._s(field.label))]
+                            )
                           : _vm._e()
                       ]
                     )
                   }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.show_advanced,
+                          expression: "show_advanced"
+                        }
+                      ],
+                      staticClass: "input-field col s12"
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "javascript:void(0);" },
+                          on: {
+                            click: function($event) {
+                              _vm.switchAdvancedOptions()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(_vm.more_options) +
+                              "\n            "
+                          )
+                        ]
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
                   _vm._l(_vm.modal.advanced_fields, function(field) {
                     return _c(
@@ -38595,8 +38965,8 @@ var render = function() {
                         staticClass:
                           "input-field col s12 advanced-modal-options",
                         style:
-                          field.type == "select" || "amount"
-                            ? "margin-bottom: 10px;"
+                          field.type == "select" || "amount" || "ckeck"
+                            ? "margin-bottom: 30px;"
                             : "margin-bottom: 0px;"
                       },
                       [
@@ -38741,43 +39111,72 @@ var render = function() {
                               },
                               [_vm._v(_vm._s(field.label))]
                             )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "check"
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.modal.object[field.name],
+                                  expression: "modal.object[field.name]"
+                                }
+                              ],
+                              attrs: {
+                                type: "checkbox",
+                                checked: "checked",
+                                id: "modal-" + field.id,
+                                name: field.name,
+                                required: field.required
+                              },
+                              domProps: {
+                                checked: Array.isArray(
+                                  _vm.modal.object[field.name]
+                                )
+                                  ? _vm._i(_vm.modal.object[field.name], null) >
+                                    -1
+                                  : _vm.modal.object[field.name]
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.modal.object[field.name],
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = null,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.modal.object[
+                                          field.name
+                                        ] = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.modal.object[
+                                          field.name
+                                        ] = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.$set(_vm.modal.object, field.name, $$c)
+                                  }
+                                }
+                              }
+                            })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        field.type == "check"
+                          ? _c(
+                              "label",
+                              { attrs: { for: "modal-" + field.id } },
+                              [_vm._v(_vm._s(field.label))]
+                            )
                           : _vm._e()
                       ]
                     )
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.show_advanced,
-                          expression: "show_advanced"
-                        }
-                      ],
-                      staticClass: "input-field col s12"
-                    },
-                    [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "javascript:void(0);" },
-                          on: {
-                            click: function($event) {
-                              _vm.switchAdvancedOptions()
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                Opciones avanzadas\n            "
-                          )
-                        ]
-                      )
-                    ]
-                  )
+                  })
                 ],
                 2
               )

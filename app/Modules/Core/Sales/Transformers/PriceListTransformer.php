@@ -4,9 +4,19 @@ namespace Werp\Modules\Core\Sales\Transformers;
 
 use Werp\Transformers\Transformer;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Sales\Models\PriceListType;
 
 class PriceListTransformer extends Transformer
 {
+    protected $listTypes = [];
+
+    public function __construct()
+    {        
+        if (empty($this->listTypes)) {
+            $this->setListTypes(PriceListType::all());
+        }
+    }
+
     public function transform($item)
     {
         return [
@@ -15,7 +25,7 @@ class PriceListTransformer extends Transformer
             'description'        => $item['description'],
             'starting_at'        => $item['starting_at'],
             'state'              => $this->makeState($item),
-            //'state'              => $item['state'],
+            'list_name'          => $this->listName($item['price_list_type_id']),
             'price_list_type_id' => $item['price_list_type_id'],
             'updated_at'         => $item['updated_at'],
             'created_at'         => $item['created_at'],
@@ -36,5 +46,19 @@ class PriceListTransformer extends Transformer
             'key' => $data['key'],
             'state' => $item['state']
         ];
+    }
+
+    public function setListTypes($listTypes = [])
+    {
+        foreach ($listTypes as $listType) {
+            $this->listTypes[$listType['id']] = $listType['name'] . ' (' . $listType['currency'] .')';
+        }
+
+        return $this;
+    }
+
+    protected function listName($id)
+    {
+        return isset($this->listTypes[$id]) ? $this->listTypes[$id] : '';
     }
 }

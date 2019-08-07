@@ -21,7 +21,7 @@ use Werp\Builders\DoctypeSelectBuilder;
 use Werp\Builders\CustomerSelectBuilder;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
-use Werp\Builders\WarehouseSelectBuilder;
+use Werp\Builders\WarehouseSelect;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Builders\PriceListTypeSelectBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
@@ -45,7 +45,7 @@ class SaleOrderForm extends FormBuilder
             ->addInput(new DateBuilder)            
             ->addSelect(new CustomerSelectBuilder)
             ->addSelect(new PriceListTypeSelectBuilder)
-            ->addSelect(new WarehouseSelectBuilder)
+            ->addSelect(new WarehouseSelect)
             ->addSelect(new SaleChannelSelect)
             ->addSelect((new TaxSelect))
             ->addSelect((new DiscountSelect))
@@ -90,7 +90,7 @@ class SaleOrderForm extends FormBuilder
             ->addInput((new DateBuilder)->setDisable($disable))
             ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelectBuilder)->setDisable($disable))
+            ->addSelect((new WarehouseSelect)->setDisable($disable))
             ->addSelect((new SaleChannelSelect)->setDisable($disable))
             ->addSelect((new TaxSelect)->setDisable($disable))
             ->addSelect((new DiscountSelect)->setDisable($disable))

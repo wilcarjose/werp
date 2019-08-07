@@ -15,7 +15,7 @@ class PriceList extends Model
      */
     protected $fillable = [
         'code', 'starting_at', 'description', 'price_list_type_id', 'doctype_id',
-        'reference_price_list_type_id', 'operation', 'reference', 'round'
+        'reference_price_list_type_id', 'amount_operation_id', 'reference', 'round'
 
     ];
 
@@ -32,7 +32,7 @@ class PriceList extends Model
             'doctype_id' => $this->doctype_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'operation' => $this->operation,
+            'amount_operation_id' => $this->amount_operation_id,
             'reference' => $this->reference,
             'round' => $this->round,
         ];
@@ -59,6 +59,11 @@ class PriceList extends Model
     public function referencePriceListType()
     {
         return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'reference_price_list_type_id');
+    }
+
+    public function operation()
+    {
+        return $this->hasOne('Werp\Modules\Core\Maintenance\Models\AmountOperation', 'id', 'amount_operation_id');
     }
 
     public function getState($state = null)

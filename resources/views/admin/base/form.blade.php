@@ -186,9 +186,20 @@
                           </div>
                         @endif
 
+                        @if (false)
+                          @if ($page->hasFilter())
+                              @include($page->getFilter(), ['input' => ''])
+                          @endif
+
+                          @foreach($page->getFilters() as $input)
+                              @include('commons.form.inputs.'.$input->getType(), compact('input'))
+                          @endforeach
+                        @endif
+
                         @if ($page->hasList())
                             @include('commons.form.inputs.list', ['input' => $page->getList()])
                         @endif
+
                     </div>
                     
                     <div class="row">

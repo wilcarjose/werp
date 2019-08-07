@@ -18,10 +18,13 @@ class PriceListList extends MainList
             ->setRoute('admin.sales.price_lists')
             ->setShowStatus(false)
             ->setFields([
-              ['field' => 'code', 'name' => 'Código' , 'type' => 'text'], 
+              ['field' => 'code', 'name' => 'Código' , 'type' => 'text', 'link' => true],
+              ['field' => 'list_name', 'name' => 'Lista de precio' , 'type' => 'text'], 
               ['field' => 'starting_at', 'name' => 'Fecha' , 'type' => 'text']
             ])
             ->setShowState(true)
+            ->setReloadOnSave(true)
+            ->setShowActions(false)
             ->makeConfig();
 
         parent::__construct();

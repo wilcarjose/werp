@@ -37,10 +37,10 @@ class BrandController extends BaseController
         BrandService $entityService,
         BrandTransformer $entityTransformer
     ) {
-        $this->entityService            = $entityService;
+        $this->entityForm        = $entityForm;
+        $this->entityList        = $entityList;
+        $this->entityService     = $entityService;
         $this->entityTransformer = $entityTransformer;
-        $this->entityForm     = $entityForm;
-        $this->entityList     = $entityList;
     }
 
 }
