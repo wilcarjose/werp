@@ -16,7 +16,7 @@ use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\TextInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\UpdateAction;
-use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\DoctypeSelect;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\WarehouseSelect;
 use Werp\Builders\DescriptionInputBuilder;
@@ -41,7 +41,7 @@ class MovementForm extends FormBuilder
             ->addInput(new DescriptionInputBuilder)
             ->addSelect(new WarehouseSelect('warehouse_from_id', trans('view.from')))
             ->addSelect(new WarehouseSelect('warehouse_to_id', trans('view.to')))
-            ->addSelect(new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))
+            ->addSelect(new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))
             ->addAction(new ContinueAction)
             ->goBackEdit()
             ->setAdvancedOptions()
@@ -70,7 +70,7 @@ class MovementForm extends FormBuilder
             ->addInput((new DescriptionInputBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelect('warehouse_from_id', trans('view.from')))->setDisable($disable))
             ->addSelect((new WarehouseSelect('warehouse_to_id', trans('view.to')))->setDisable($disable))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->setDisable($disable))
+            ->addSelect((new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->setDisable($disable))
             ->setData($data)
             ->setAdvancedOptions();
 

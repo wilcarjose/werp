@@ -9,8 +9,10 @@
 namespace Werp\Builders;
 
 
-class ModuleBuilder extends PageBuilder
+class ModuleBuilder
 {
+    use BaseBuilder;
+
     protected $title;
     protected $breadcrumbs;
     protected $route;
@@ -43,7 +45,7 @@ class ModuleBuilder extends PageBuilder
     {
         return $this->breadcrumbs;
     }
-
+/*
     public function setRoute($route)
     {
         $this->route = $route;
@@ -54,7 +56,7 @@ class ModuleBuilder extends PageBuilder
     {
         return $this->route;
     }
-
+*/
     public function getListRoute()
     {
         return route($this->route.'.index');

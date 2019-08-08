@@ -4,7 +4,7 @@ namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\OperationSelect;
 use Werp\Builders\NameInputBuilder;;
-use Werp\Builders\AmountInputBuilder;
+use Werp\Builders\AmountInput;
 use Werp\Builders\DescriptionInputBuilder;
 use Werp\Modules\Core\Base\Builders\SimpleBaseForm;
 

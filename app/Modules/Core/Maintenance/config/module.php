@@ -9,6 +9,7 @@ return [
             'icon' => 'settings',
             'route' => 'admin.maintenance',
             'routes' => [
+                'admin.maintenance.config.edit',
                 'admin.maintenance.amount_operations.index',
             ],
             'items' => [
@@ -19,9 +20,14 @@ return [
                     'icon' => '',
                     'route' => 'admin.maintenance.general',
                     'routes' => [
+                        'admin.maintenance.config.edit',
                         'admin.maintenance.amount_operations.index',
                     ],
                     'items' => [
+                        [
+                            'name' => 'view.menu.config',
+                            'route' => 'admin.maintenance.config.edit',
+                        ],
                         [
                             'name' => 'view.menu.amount_operations',
                             'route' => 'admin.maintenance.amount_operations.index',

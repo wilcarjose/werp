@@ -16,9 +16,9 @@ use Werp\Builders\TextInputBuilder;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveAction;
-use Werp\Builders\AmountInputBuilder;
+use Werp\Builders\AmountInput;
 use Werp\Builders\UpdateAction;
-use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\DoctypeSelect;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\SupplierSelectBuilder;
@@ -47,7 +47,7 @@ class ProductEntryForm extends FormBuilder
             ->addSelect(new WarehouseSelect)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption())
+            ->addSelect((new DoctypeSelect(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption())
 
             ->addAction(new ContinueAction)
             ->goBackEdit()
@@ -87,14 +87,14 @@ class ProductEntryForm extends FormBuilder
             ->addSelect((new SupplierSelectBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelect)->setDisable($disable))
             ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
-            ->addInput((new AmountInputBuilder)->disabled())
-            ->addInput((new AmountInputBuilder('total_tax', trans('view.total_tax')))->disabled())
-            ->addInput((new AmountInputBuilder('total_discount', trans('view.total_discount')))->disabled())
-            ->addInput((new AmountInputBuilder('total', trans('view.total')))->disabled())
+            ->addInput((new AmountInput)->disabled())
+            ->addInput((new AmountInput('total_tax', trans('view.total_tax')))->disabled())
+            ->addInput((new AmountInput('total_discount', trans('view.total_discount')))->disabled())
+            ->addInput((new AmountInput('total', trans('view.total')))->disabled())
 
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IE_DOC,  Config::INV_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelect(Basedoc::IE_DOC,  Config::INV_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)

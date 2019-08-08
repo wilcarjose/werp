@@ -17,9 +17,9 @@ use Werp\Builders\TextInputBuilder;
 use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveAction;
-use Werp\Builders\AmountInputBuilder;
+use Werp\Builders\AmountInput;
 use Werp\Builders\UpdateAction;
-use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\DoctypeSelect;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\CustomerSelectBuilder;
@@ -49,7 +49,7 @@ class ProductOutputForm extends FormBuilder
             ->addSelect(new CurrencySelectBuilder)
             ->addInput((new DescriptionInputBuilder)->advancedOption())
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC, Config::INV_DEFAULT_IO_DOC))->advancedOption())
+            ->addSelect((new DoctypeSelect(Basedoc::IO_DOC, Config::INV_DEFAULT_IO_DOC))->advancedOption())
 
             ->addAction(new ContinueAction)
             ->goBackEdit()
@@ -83,7 +83,7 @@ class ProductOutputForm extends FormBuilder
             
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
             ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::IO_DOC,  Config::INV_DEFAULT_IO_DOC))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelect(Basedoc::IO_DOC,  Config::INV_DEFAULT_IO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)

@@ -14,10 +14,10 @@ use Werp\Builders\CodeInputBuilder;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveAction;
 use Werp\Builders\SaleChannelSelect;
-use Werp\Builders\AmountInputBuilder;
+use Werp\Builders\AmountInput;
 use Werp\Builders\UpdateAction;
 use Werp\Builders\PaymentMethodSelect;
-use Werp\Builders\DoctypeSelectBuilder;
+use Werp\Builders\DoctypeSelect;
 use Werp\Builders\CustomerSelectBuilder;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
@@ -51,7 +51,7 @@ class SaleOrderForm extends FormBuilder
             ->addSelect((new DiscountSelect))
             ->addSelect((new PaymentMethodSelect)->setNone(true))
             ->addInput((new DescriptionInputBuilder)->advancedOption())
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption())
+            ->addSelect((new DoctypeSelect(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption())
 
             ->addAction(new ContinueAction)
             ->goBackEdit()
@@ -98,7 +98,7 @@ class SaleOrderForm extends FormBuilder
             //->addSelect((new CurrencySelectBuilder)->setDisable($disable))
 
             ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
-            ->addSelect((new DoctypeSelectBuilder(Basedoc::SO_DOC,  Config::INV_DEFAULT_SO_DOC))->advancedOption()->setDisable($disable))
+            ->addSelect((new DoctypeSelect(Basedoc::SO_DOC,  Config::INV_DEFAULT_SO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()
             ->setData($data)

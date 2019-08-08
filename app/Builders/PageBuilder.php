@@ -2,32 +2,64 @@
 /**
  * Created by PhpStorm.
  * User: wilcar
- * Date: 16/02/19
- * Time: 04:03 PM
+ * Date: 19/02/19
+ * Time: 05:33 PM
  */
 
 namespace Werp\Builders;
 
-class PageBuilder
+
+class PageBuilder extends ModuleBuilder
 {
-    // move to helpers
-    protected function is_collection($elements)
+    protected $forms;
+
+    public function init($title)
     {
-        return $elements instanceof \Illuminate\Database\Eloquent\Collection;
+        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
+        $this->setTitle($title)
+            ->setRoute($this->moduleRoute)
+            ->addBreadcrumb($homeBreadcrumb);
     }
 
-    // move to helpers
-    protected function is_not_collection($elements)
+    public function addForm(FormBuilder $form)
     {
-        return !$this->is_collection($elements);
+        $this->forms = $this->to_collection($this->forms);
+        $this->forms->push($form);
+        return $this;
     }
 
-    protected function to_collection($elements)
+    public function setForms($forms)
     {
-        if ($this->is_collection($elements)) {
-            return $elements;
-        }
+        $this->forms = $this->to_collection($forms);
+        return $this;
+    }
 
-        return collect($elements);
+    public function getForms()
+    {
+        return $this->forms;
+    }
+
+    public function newConfig($actionName)
+    {
+        return $this->setAction($actionName)
+            ->setShortAction('Nueva')
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action));
+    }
+
+    public function editConfig($actionName)
+    {
+        return $this->setAction($actionName)
+            ->setShortAction('Editar')
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
+            ->setEdit();
+    }
+
+    public function view()
+    {
+        return view('admin.base.form', [
+            'page' => $this
+        ]);
     }
 }

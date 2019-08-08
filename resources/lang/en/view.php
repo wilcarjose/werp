@@ -110,6 +110,11 @@ return [
         'category' => 'Category',
         'default_inventory_doc' => 'Default inventory doctype',
         'default_warehouse' => 'Default warehouse',
+        'default_ie_doc' => 'Default product entry doctype',
+        'default_po_doc' => 'Default purchase order doctype',
+        'default_io_doc' => 'Default product output doctype',
+        'default_so_doc' => 'Default sales order doctype',
+        'default_im_doc' => 'Default product movement doctype',
         'part_number' => 'Part number',
         'supplier' => 'Supplier',
         'brand' => 'Brand',
@@ -128,6 +133,6 @@ return [
         'inventory_movement' => 'Product movement',
     ],
     'maintenance' => [
-        'dolar_value' => 'Dolar value',
+        'dolar_value' => 'Dolar value $$',
     ]
 ];

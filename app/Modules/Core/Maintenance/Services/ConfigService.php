@@ -3,12 +3,13 @@
 namespace Werp\Modules\Core\Maintenance\Services;
 
 use Werp\Modules\Core\Maintenance\Models\Config;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class ConfigService
 {
     protected $config;
     protected $configObject;
-    protected $selectsConfig;
+    protected $docsConfig;
     protected $transactionService;
 
     public function __construct(
@@ -16,9 +17,22 @@ class ConfigService
     ) {
         $this->config = $config;
 
-        $this->selectsConfig = [
-            'doctypes' => 'inv_default_inventory_doctype',
-            'warehouses' => 'inv_default_warehouse'
+        $this->docsConfig = [
+            Basedoc::IN_DOC => Config::INV_DEFAULT_IN_DOC,
+            Basedoc::PL_DOC => Config::PRI_DEFAULT_PL_DOC,
+            Basedoc::IE_DOC => Config::INV_DEFAULT_IE_DOC,
+            Basedoc::PO_DOC => Config::INV_DEFAULT_PO_DOC,
+            Basedoc::IO_DOC => Config::INV_DEFAULT_IO_DOC,
+            Basedoc::SO_DOC => Config::INV_DEFAULT_SO_DOC,
+            Basedoc::IM_DOC => Config::INV_DEFAULT_IM_DOC,
+        ];
+
+        $this->productsConfig = [
+            Config::INV_DEFAULT_WAREHOUSE,
+        ];
+
+        $this->inputsConfig = [
+            Config::CURRENT_DOLAR_CONVERSION,
         ];
     }
 
@@ -26,20 +40,42 @@ class ConfigService
     {
         $configs = [];
 
-        $configs['selects'] = $this->getSelects();
+        $configs['docs'] = $this->getDocs();
+        $configs['products'] = $this->getProducts();
+        $configs['inputs'] = $this->getInputs();
 
         return $configs;
     }
 
-    protected function getSelects()
+    protected function getInputs()
     {
-        $configs = $this->config->whereIn('key', $this->selectsConfig)->get();
-
         $data = [];
 
-        foreach ($configs as $config) {
+        foreach ($this->inputsConfig as $value) {
+
+            $config = $this->config->where('key', $value)->first();
     
             $data[] = [
+                'key' => $config->key,
+                'value' => $config->value,
+                'translate_key' => $config->translate_key,
+                'type' => 'input',
+            ];
+        }
+
+        return $data;
+    }
+
+    protected function getDocs()
+    {
+        $data = [];
+
+        foreach ($this->docsConfig as $key => $value) {
+
+            $config = $this->config->where('key', $value)->first();
+
+            $data[] = [
+                'doc' => $key,
                 'key' => $config->key,
                 'value' => $config->value,
                 'translate_key' => $config->translate_key,
@@ -51,9 +87,36 @@ class ConfigService
         return $data;
     }
 
+    protected function getProducts()
+    {
+        $data = [];
+
+        foreach ($this->productsConfig as $value) {
+
+            $config = $this->config->where('key', $value)->first();
+
+            $data[] = [
+                'key' => $config->key,
+                'value' => $config->value,
+                'translate_key' => $config->translate_key,
+                'type' => 'select',
+                'options' => $this->getSelectKey($config->key),
+                'select' => 'warehouse'
+            ];
+        }
+
+        return $data;
+    }
+
     protected function getSelectKey($option)
     {
-        foreach ($this->selectsConfig as $key => $select) {
+        foreach ($this->docsConfig as $key => $select) {
+            if ($select == $option) {
+                return $key;
+            }
+        }
+
+        foreach ($this->productsConfig as $key => $select) {
             if ($select == $option) {
                 return $key;
             }
@@ -62,7 +125,23 @@ class ConfigService
 
     public function updateConfig($data)
     {
-        foreach ($this->selectsConfig as $key) {
+        foreach ($this->docsConfig as $key) {
+            if (isset($data[$key])) {
+                $config = $this->config->where('key', $key)->first();
+                $config->value = $data[$key];
+                $config->save();
+            }
+        }
+
+        foreach ($this->productsConfig as $key) {
+            if (isset($data[$key])) {
+                $config = $this->config->where('key', $key)->first();
+                $config->value = $data[$key];
+                $config->save();
+            }
+        }
+
+        foreach ($this->inputsConfig as $key) {
             if (isset($data[$key])) {
                 $config = $this->config->where('key', $key)->first();
                 $config->value = $data[$key];

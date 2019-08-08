@@ -14,16 +14,16 @@ class ConfigTableSeeder extends Seeder
 		['Valor del Dolar ($)', Config::CURRENT_DOLAR_CONVERSION, 0, 'mai', 'view.maintenance.dolar_value', 'amount'],
 
 		// Default warehouse
-		['view.products.default_warehouse', Config::INV_DEFAULT_WAREHOUSE, 0, 'inv', 'view.products.default_warehouse', 'entity'],
+		['view.products.default_warehouse', Config::INV_DEFAULT_WAREHOUSE, null, 'inv', 'view.products.default_warehouse', 'entity'],
 
 		// Default doctypes
-		['view.products.default_inventory_doc', Config::INV_DEFAULT_IN_DOC, 1, 'inv', 'view.products.default_inventory_doc', 'doctype'],
-		['view.products.default_price_list_doc', Config::PRI_DEFAULT_PL_DOC, 2, 'pri', 'view.products.default_price_list_doc', 'doctype'],
-		['view.products.default_ie_doc', Config::INV_DEFAULT_IE_DOC, 0, 'inv', 'view.products.default_ie_doc', 'doctype'],
-		['view.products.default_po_doc', Config::INV_DEFAULT_PO_DOC, 0, 'inv', 'view.products.default_po_doc', 'doctype'],
-		['view.products.default_io_doc', Config::INV_DEFAULT_IO_DOC, 0, 'inv', 'view.products.default_io_doc', 'doctype'],
-		['view.products.default_so_doc', Config::INV_DEFAULT_SO_DOC, 0, 'inv', 'view.products.default_so_doc', 'doctype'],
-		['view.products.default_im_doc', Config::INV_DEFAULT_IM_DOC, 0, 'inv', 'view.products.default_im_doc', 'doctype'],
+		['view.products.default_inventory_doc', Config::INV_DEFAULT_IN_DOC, null, 'inv', 'view.products.default_inventory_doc', 'doctype'],
+		['view.products.default_price_list_doc', Config::PRI_DEFAULT_PL_DOC, null, 'pri', 'view.products.default_price_list_doc', 'doctype'],
+		['view.products.default_ie_doc', Config::INV_DEFAULT_IE_DOC, null, 'inv', 'view.products.default_ie_doc', 'doctype'],
+		['view.products.default_po_doc', Config::INV_DEFAULT_PO_DOC, null, 'inv', 'view.products.default_po_doc', 'doctype'],
+		['view.products.default_io_doc', Config::INV_DEFAULT_IO_DOC, null, 'inv', 'view.products.default_io_doc', 'doctype'],
+		['view.products.default_so_doc', Config::INV_DEFAULT_SO_DOC, null, 'inv', 'view.products.default_so_doc', 'doctype'],
+		['view.products.default_im_doc', Config::INV_DEFAULT_IM_DOC, null, 'inv', 'view.products.default_im_doc', 'doctype'],
 	];
 
     /**

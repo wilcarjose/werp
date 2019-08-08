@@ -129,93 +129,94 @@
                 @include('flash')
             </div>
 
-            {{--  PROFILE UPDATE  --}}
-            <form class="col @if ($page->maxWidth()) m12 @endif @if ($page->midWidth()) m8 push-m2 @endif s12 profile-info-form" role="form" method="POST" action="{{ $page->getSaveRoute() }}" enctype="multipart/form-data">
-                {{ csrf_field() }}
-                @if ($page->edit()) {{ method_field('PUT') }} @endif
-                <div class="card-panel profile-form-cardpanel">
-                    <div class="row box-title">
-                        <div class="col s9">
-                            <h5>{{ $page->getAction() }}</h5>
+            @foreach ($page->getForms() as $form)
+                <form class="col @if ($form->maxWidth()) m12 @endif @if ($form->midWidth()) m8 push-m2 @endif @if ($form->middleWidth()) m6 @endif  s12 profile-info-form" role="form" method="POST" action="{{ $form->getSaveRoute() }}" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    @if ($form->edit()) {{ method_field('PUT') }} @endif
+                    <div class="card-panel profile-form-cardpanel">
+                        <div class="row box-title">
+                            <div class="col s9">
+                                <h5>{{ $form->getAction() }}</h5>
+                            </div>
+                            <div class="col s3">
+                                @if ($form->getState())
+                                  <h5 style="background: {{ $form->getStateColor() }}; text-align: center; border-radius: 9px; padding: 3px 0px; font-weight: 300;">{{ $form->getState() }}</h5>
+                                @endif
+                            </div>
                         </div>
-                        <div class="col s3">
-                            @if ($page->getState())
-                              <h5 style="background: {{ $page->getStateColor() }}; text-align: center; border-radius: 9px; padding: 3px 0px; font-weight: 300;">{{ $page->getState() }}</h5>
-                            @endif
+
+                        <div class="row">
+                            <div class="col s10">
+                              
+                            </div>
+                            <div class="col s2">
+                                @if (false && $form->hasPrintAction())
+                                    @include('commons.form.actions.'.$form->getPrintAction()->getType(), ['action' => $form->getPrintAction()])
+
+                                    <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">
+                                      <a class="btn-floating btn-large red">
+                                        <i class="material-icons">menu</i>
+                                      </a>
+                                      <ul>
+                                        <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
+                                        <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                                        <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+                                        <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+                                        @if ($form->hasPrintAction())
+                                            <li><a class="btn tooltipped btn-floating grey" data-position="top" data-delay="50" data-tooltip="Imprimir" href="{{ $form->getPrintAction()->getRoute() }}"><i class="material-icons">print</i></a></li>
+                                        @endif
+                                      </ul>
+                                    </div>
+
+                                @endif
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col s10">
-                          
-                        </div>
-                        <div class="col s2">
-                            @if (false && $page->hasPrintAction())
-                                @include('commons.form.actions.'.$page->getPrintAction()->getType(), ['action' => $page->getPrintAction()])
+                        <div class="row">
 
-                                <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">
-                                  <a class="btn-floating btn-large red">
-                                    <i class="material-icons">menu</i>
-                                  </a>
-                                  <ul>
-                                    <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-                                    <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-                                    <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-                                    <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-                                    @if ($page->hasPrintAction())
-                                        <li><a class="btn tooltipped btn-floating grey" data-position="top" data-delay="50" data-tooltip="Imprimir" href="{{ $page->getPrintAction()->getRoute() }}"><i class="material-icons">print</i></a></li>
-                                    @endif
-                                  </ul>
-                                </div>
-
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        @foreach($page->getInputs() as $input)
-                            @include('commons.form.inputs.'.$input->getType(), compact('input'))
-                        @endforeach
-
-                        @if ($page->advancedOption())
-                          <div class="col s12">
-                            <a type="link" href="#" onclick="showAdvancedOption(); return false;" style="margin-left: 45px;">
-                                {{ trans('view.advanced_options') }}
-                            </a>
-                          </div>
-                        @endif
-
-                        @if (false)
-                          @if ($page->hasFilter())
-                              @include($page->getFilter(), ['input' => ''])
-                          @endif
-
-                          @foreach($page->getFilters() as $input)
-                              @include('commons.form.inputs.'.$input->getType(), compact('input'))
-                          @endforeach
-                        @endif
-
-                        @if ($page->hasList())
-                            @include('commons.form.inputs.list', ['input' => $page->getList()])
-                        @endif
-
-                    </div>
-                    
-                    <div class="row">
-                        <div class="input-field col s12 right-align">
-                            @if (true && $page->hasPrintAction())
-                                @include('commons.form.actions.'.$page->getPrintAction()->getType(), ['action' => $page->getPrintAction()])
-                            @endif
-
-                            @foreach($page->getActions() as $action)
-                                @include('commons.form.actions.'.$action->getType(), compact('action'))
+                            @foreach($form->getInputs() as $input)
+                                @include('commons.form.inputs.'.$input->getType(), compact('input'))
                             @endforeach
+
+                            @if ($form->advancedOption())
+                              <div class="col s12">
+                                <a type="link" href="#" onclick="showAdvancedOption(); return false;" style="margin-left: 45px;">
+                                    {{ trans('view.advanced_options') }}
+                                </a>
+                              </div>
+                            @endif
+
+                            @if (false)
+                              @if ($form->hasFilter())
+                                  @include($form->getFilter(), ['input' => ''])
+                              @endif
+
+                              @foreach($form->getFilters() as $input)
+                                  @include('commons.form.inputs.'.$input->getType(), compact('input'))
+                              @endforeach
+                            @endif
+
+                            @if ($form->hasList())
+                                @include('commons.form.inputs.list', ['input' => $form->getList()])
+                            @endif
+
                         </div>
+                        
+                        <div class="row">
+                            <div class="input-field col s12 right-align">
+                                @if (true && $form->hasPrintAction())
+                                    @include('commons.form.actions.'.$form->getPrintAction()->getType(), ['action' => $form->getPrintAction()])
+                                @endif
+
+                                @foreach($form->getActions() as $action)
+                                    @include('commons.form.actions.'.$action->getType(), compact('action'))
+                                @endforeach
+                            </div>
+                        </div>
+                        
                     </div>
-                    
-                </div>
-            </form>
+                </form>
+            @endforeach
         </div>
     </div>
 

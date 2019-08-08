@@ -37113,6 +37113,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
         show: function show(obj) {
             var _this2 = this;
 
+            if (this.disable) {
+                return false;
+            }
+
             this.modal.object = obj;
             this.pupupMod = 'edit';
             this.modalAction = 'Editar';

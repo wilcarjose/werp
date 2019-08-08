@@ -44,10 +44,7 @@
 	Route::get('/inventories/{id}/cancel', 'InventoryController@cancel')->name('inventories.cancel');
 	Route::resource('/inventories','InventoryController');
 
-	// Config
-	Route::get('/config/edit', 'ConfigController@edit')->name('config.edit');
-	Route::put('/config/update', 'ConfigController@update')->name('config.update');
-
+	
 	// Stock
 	Route::get('/stock', 'StockController@index')->name('stock.index');
 

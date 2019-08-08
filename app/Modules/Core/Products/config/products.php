@@ -14,17 +14,13 @@ return [
                 'admin.products.warehouses.index',
                 'admin.products.inventories.index',
                 'admin.products.brands.index',
-                'admin.products.config.edit',
                 'admin.products.stock.index',
                 'admin.products.transactions.index',
                 'admin.products.uom.index',
                 'admin.products.movements.index',
             ],
             'items' => [
-                [
-                    'name' => 'view.menu.config',
-                    'route' => 'admin.products.config.edit',
-                ],
+                
             ],
             'submodules' => [
                 [

@@ -529,6 +529,10 @@ export default {
         },
         show(obj) {
             
+            if (this.disable) {
+                return false;
+            }
+
             this.modal.object = obj;
             this.pupupMod = 'edit';
             this.modalAction = 'Editar';

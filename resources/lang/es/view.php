@@ -108,15 +108,20 @@ return [
     ],
     'products' => [
         'category' => 'Categoría',
-        'default_inventory_doc' => 'Tipo de documento de inventario por defecto',
+        'default_inventory_doc' => 'Documento de inventario por defecto',
         'default_warehouse' => 'Almacén por defecto',
+        'default_ie_doc' => 'Documento de entregas por defecto',
+        'default_po_doc' => 'Documento de orden de compra por defecto',
+        'default_io_doc' => 'Documento de salida de producto por defecto',
+        'default_so_doc' => 'Documento de orden de venta por defecto',
+        'default_im_doc' => 'Documento de movimiento de productos por defecto',
         'part_number' => 'Número de parte',
         'supplier' => 'Proveedor',
         'brand' => 'Marca',
         'barcode' => 'Código de barra',
         'link' => 'Enlace',
         'price_list_type' => 'Tipo de lista de precio',
-        'default_price_list_doc' => 'Tipo de documento de listas de precios por defecto',
+        'default_price_list_doc' => 'Documento de listas de precios por defecto',
         'warehouse' => 'Almacén',
         'qty' => 'Cantidad',
     ],
@@ -128,6 +133,6 @@ return [
         'inventory_movement' => 'Movimiento de inventario',
     ],
     'maintenance' => [
-        'dolar_value' => 'Valor del dolar',
+        'dolar_value' => 'Valor del dolar $$',
     ]
 ];

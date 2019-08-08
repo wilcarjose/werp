@@ -8,9 +8,14 @@
 
 namespace Werp\Builders;
 
+use Werp\Builders\Inputs\InputBuilder;
+use Werp\Builders\Actions\ActionBuilder;
+use Werp\Builders\Selects\SelectBuilder;
 
-class FormBuilder extends ModuleBuilder
+class FormBuilder // extends ModuleBuilder
 {
+    use BaseBuilder;
+
     protected $objectId = null;
     protected $edit = false;
     protected $action;
@@ -20,6 +25,7 @@ class FormBuilder extends ModuleBuilder
     protected $actions = [];
     protected $maxWidth = false;
     protected $midWidth = true;
+    protected $middleWidth = false;
     protected $state = null;
     protected $stateColor = null;
     protected $advanced = false;
@@ -28,14 +34,7 @@ class FormBuilder extends ModuleBuilder
     protected $filter = null;
     protected $goBack = null;
     protected $printAction = null;
-
-    public function init($title)
-    {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle($title)
-            ->setRoute($this->moduleRoute)
-            ->addBreadcrumb($homeBreadcrumb);
-    }
+    protected $route = null;
 
     public function setObjectId($id = null)
     {
@@ -57,6 +56,17 @@ class FormBuilder extends ModuleBuilder
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function setRoute($route)
+    {
+        $this->route = $route;
+        return $this;
+    }
+
+    public function getRoute()
+    {
+        return $this->route;
     }
 
     public function setPrintAction($printAction)
@@ -124,13 +134,6 @@ class FormBuilder extends ModuleBuilder
     public function getSaveRoute()
     {
         return $this->edit ? $this->getUpdateRoute() : $this->getStoreRoute();
-    }
-
-    public function view()
-    {
-        return view('admin.base.form', [
-            'page' => $this
-        ]);
     }
 
     public function addInput(InputBuilder $input)
@@ -254,10 +257,16 @@ class FormBuilder extends ModuleBuilder
         return $this->midWidth;
     }
 
+    public function middleWidth()
+    {
+        return $this->middleWidth;
+    }
+
     public function setMaxWidth()
     {
         $this->maxWidth = true;
         $this->midWidth = false;
+        $this->middleWidth = false;
         return $this;    
     }
 
@@ -265,7 +274,16 @@ class FormBuilder extends ModuleBuilder
     {
         $this->midWidth = true;
         $this->maxWidth = false;
+        $this->middleWidth = false;
         return $this;
+    }
+
+    public function setMiddleWidth()
+    {
+        $this->maxWidth = false;
+        $this->midWidth = false;
+        $this->middleWidth = true;
+        return $this;    
     }
 
     public function setState($state)
@@ -334,22 +352,5 @@ class FormBuilder extends ModuleBuilder
     {
         $this->goBack = 'home';
         return $this;
-    }
-
-    public function newConfig($actionName)
-    {
-        return $this->setAction($actionName)
-            ->setShortAction('Nueva')
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action));
-    }
-
-    public function editConfig($actionName)
-    {
-        return $this->setAction($actionName)
-            ->setShortAction('Editar')
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->setEdit();
     }
 }
