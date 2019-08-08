@@ -30,7 +30,7 @@ class InventoryService extends BaseService
         $this->transactionService   = $transactionService;
     }
 
-    public function inventoryId(int $id)
+    public function inventoryId($id)
     {
         $this->inventoryObject = $this->entity->find($id);
 
