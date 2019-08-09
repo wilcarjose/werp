@@ -43,6 +43,8 @@ class ProductController extends BaseController
         'name'  => 'required|max:255',
     ];
 
+    protected $routeBase = 'admin.products.products';
+
     public function __construct(
         ProductService $entityService,
         ProductTransformer $entityTransformer,
@@ -59,15 +61,5 @@ class ProductController extends BaseController
         $this->entityTransformer = $entityTransformer;
         $this->entityForm        = $entityForm;
         $this->entityList        = $entityList;
-    }
-
-    protected function getDependencies()
-    {
-        return [
-            'categories' => $this->category->where('type', 'product')->get(),
-            'suppliers' => $this->supplier->where('is_supplier', 'y')->get(),
-            'brands' => $this->brand->active()->get(),
-            'uom' => Uom::active()->get(),
-        ];
     }
 }
