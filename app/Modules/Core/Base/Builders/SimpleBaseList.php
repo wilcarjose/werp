@@ -13,7 +13,7 @@ abstract class SimpleBaseList extends MainList
     public function __construct()
     {
         $this->setTitle($this->title)
-            ->setRoute($this->route)
+            //->setRoute($this->route)
             ->setShowStatus(true)
             ->setFields($this->fields)
             ->makeConfig();

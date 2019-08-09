@@ -19,7 +19,7 @@ class FormBuilder // extends ModuleBuilder
     protected $objectId = null;
     protected $edit = false;
     protected $action;
-    protected $short_action;
+    
     protected $data = [];
     protected $inputs;
     protected $actions = [];
@@ -35,6 +35,11 @@ class FormBuilder // extends ModuleBuilder
     protected $goBack = null;
     protected $printAction = null;
     protected $route = null;
+
+    public function makeInputs()
+    {
+        return $this;
+    }
 
     public function setObjectId($id = null)
     {
@@ -85,11 +90,7 @@ class FormBuilder // extends ModuleBuilder
         return $this->getPrintAction();
     }
 
-    public function setShortAction($action)
-    {
-        $this->short_action = $action;
-        return $this;
-    }
+    
 
     public function setEdit($edit = true)
     {

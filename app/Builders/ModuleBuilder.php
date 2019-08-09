@@ -45,7 +45,7 @@ class ModuleBuilder
     {
         return $this->breadcrumbs;
     }
-/*
+
     public function setRoute($route)
     {
         $this->route = $route;
@@ -56,9 +56,25 @@ class ModuleBuilder
     {
         return $this->route;
     }
-*/
+
     public function getListRoute()
     {
         return route($this->route.'.index');
+    }
+
+    public function getEditRoute()
+    {
+        return route($this->route.'.edit', $this->getObjectId());
+    }
+
+    public function getCreateRoute()
+    {
+        return route($this->route.'.create');
+    }
+
+    public function getActionRoute()
+    {
+        $this->edit = false;
+        return $this->edit ? $this->getEditRoute() : $this->getCreateRoute();
     }
 }

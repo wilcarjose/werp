@@ -38,7 +38,6 @@ class ConfigForm extends PageBuilder
             
             ;
 
-
         return $this->view();
     }
 
@@ -47,7 +46,7 @@ class ConfigForm extends PageBuilder
         $form = new FormBuilder;
 
         $form->setAction('Documentos por defecto')
-            ->setShortAction('Actualizar')
+            //->setShortAction('Actualizar')
             ->setEdit()
             ->setRoute('admin.maintenance.config')
             ->setMiddleWidth()
@@ -70,7 +69,7 @@ class ConfigForm extends PageBuilder
         $form = new FormBuilder;
 
         $form->setAction('Productos')
-            ->setShortAction('Actualizar')
+            //->setShortAction('Actualizar')
             ->setEdit()
             ->setRoute('admin.maintenance.config')
             ->setMiddleWidth()
@@ -92,7 +91,7 @@ class ConfigForm extends PageBuilder
         $form = new FormBuilder;
 
         $form->setAction('Montos')
-            ->setShortAction('Actualizar')
+            //->setShortAction('Actualizar')
             ->setEdit()
             ->setRoute('admin.maintenance.config')
             ->setMiddleWidth()

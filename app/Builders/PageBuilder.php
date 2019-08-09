@@ -12,6 +12,7 @@ namespace Werp\Builders;
 class PageBuilder extends ModuleBuilder
 {
     protected $forms;
+    protected $short_action;
 
     public function init($title)
     {
@@ -19,6 +20,12 @@ class PageBuilder extends ModuleBuilder
         $this->setTitle($title)
             ->setRoute($this->moduleRoute)
             ->addBreadcrumb($homeBreadcrumb);
+    }
+
+    public function setShortAction($action)
+    {
+        $this->short_action = $action;
+        return $this;
     }
 
     public function addForm(FormBuilder $form)
@@ -39,21 +46,19 @@ class PageBuilder extends ModuleBuilder
         return $this->forms;
     }
 
-    public function newConfig($actionName)
+    public function newConfig()
     {
-        return $this->setAction($actionName)
-            ->setShortAction('Nueva')
+        return $this
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action));
     }
 
-    public function editConfig($actionName)
+    public function editConfig()
     {
-        return $this->setAction($actionName)
-            ->setShortAction('Editar')
+        return $this
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
-            ->setEdit();
+            ;
     }
 
     public function view()
@@ -62,4 +67,6 @@ class PageBuilder extends ModuleBuilder
             'page' => $this
         ]);
     }
+
+
 }

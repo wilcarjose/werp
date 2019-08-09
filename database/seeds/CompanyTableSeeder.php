@@ -15,7 +15,7 @@ class CompanyTableSeeder extends Seeder
     public function run()
     {
         Company::create([
-			'name'       => 'Default name',
+			'name'       => 'Company name',
             'document'   => '123456',
 			'email'      => 'company@mail.com',
 			'active'     => BaseModel::STATUS_ACTIVE,
