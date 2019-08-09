@@ -1,5 +1,6 @@
-@if(config('werp.show_elements'))
+
 <div class="other-verticalSections">
+    @if(config('werp.show_elements'))
     <!-- ============================-->
     <!-- THEME SETTING-->
     <!-- ============================-->
@@ -45,6 +46,7 @@
             </div>
         </div>
     </div>
+    @endif
     <!-- ============================-->
     <!-- RIGHT SIDEBAR NOTIFICATION SECTION-->
     <!-- ============================-->
@@ -57,6 +59,7 @@
                         <i class="material-icons small">widgets</i>
                     </a>
                 </li>
+                
                 <li class="tab col s4">
                     <a href="#rsb-notifications">
                         <i class="material-icons small">notifications</i>
@@ -69,7 +72,9 @@
                         <span class="badge-count teal lighten-2 white-text">14</span>
                     </a>
                 </li>
+                
             </ul>
+            @if (false)
             <div class="col s12" id="rsb-notifications">
                 <ul class="notification-list collection" id="psNotificationList">
                     <li class="collection-item notification-item waves-effect waves-set">
@@ -193,9 +198,11 @@
                     </a>
                 </div>
             </div>
+            @endif
             <div class="col s12" id="rsb-shortcuts">
                 <ul class="tab-shortcut collection" id="psTabShortcut">
-                <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons blue-text">photo_library</i><span class="shortcut-name">Gallary</span></a></li>
+                <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons blue-text">photo_library</i><span class="shortcut-name">Productos</span></a></li>
+                @if (false)
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons orange-text">mail</i><span class="shortcut-name">Mail</span></a></li>
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons yellow-text">file_download</i><span class="shortcut-name">Downloads</span></a></li>
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons green-text">event</i><span class="shortcut-name">Events</span></a></li>
@@ -203,9 +210,9 @@
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons cyan-text">settings</i><span class="shortcut-name">Settings</span></a></li>
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons amber-text">lock</i><span class="shortcut-name">Lock Screen</span></a></li>
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons red-text">power_settings_new</i><span class="shortcut-name">Logout</span></a></li>
+                @endif
                 </ul>
             </div>
         </div>
     </div>
 </div>
-@endif

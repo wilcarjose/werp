@@ -59,7 +59,6 @@
                 </a>
             </li>
 
-            @if (config('werp.show_elements'))
             <li class="hide-on-med-and-down">
                 <a class="morph notify small notification-toggle-open waves-effect waves-light" href="javascript:void(0)">
                     <span>
@@ -69,7 +68,6 @@
                     </span>
                 </a>
             </li>
-            @endif
 
             <li class="hide-on-large-only">
                 <a class="waves-effect waves-set toggle-topnav-hidden-menu" href="javascript:void(0);"><i class="material-icons">more_vert</i></a>
