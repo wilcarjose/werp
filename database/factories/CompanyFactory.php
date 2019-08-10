@@ -2,7 +2,6 @@
 
 use Faker\Generator as Faker;
 use Werp\Modules\Core\Base\Models\BaseModel;
-use Werp\Modules\Core\Maintenance\Models\Company;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +14,10 @@ use Werp\Modules\Core\Maintenance\Models\Company;
 |
 */
 
-$factory->define(\Werp\Modules\Core\Products\Models\Category::class, function (Faker $faker) {
+$factory->define(\Werp\Modules\Core\Maintenance\Models\Company::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
-        'type' => $faker->randomElement(['product', 'supplier']),
+        'description' => $faker->text,
         'active' => BaseModel::STATUS_ACTIVE,
-        'company_id' => function () {
-            return Company::where('active', BaseModel::STATUS_ACTIVE)->count() > 0 ?
-                Company::inRandomOrder()->first()->id :
-                factory(Company::class)->create()->id;
-        },
     ];
 });
