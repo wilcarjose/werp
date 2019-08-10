@@ -8,6 +8,7 @@
 	Route::resource('/categories','CategoryController');
 
 	// Products
+	Route::get('/products/stock','ProductController@getProductsStock');
 	Route::put('/products/status','ProductController@switchStatus')->name('product_status');
 	Route::post('/products/removeBulk','ProductController@destroyBulk');
 	Route::put('/products/statusBulk','ProductController@switchStatusBulk');

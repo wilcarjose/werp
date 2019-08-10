@@ -62,4 +62,24 @@ class ProductController extends BaseController
         $this->entityForm        = $entityForm;
         $this->entityList        = $entityList;
     }
+
+    public function getProductsStock(Request $request)
+    {
+        $data = $this->entityService->getProductsStock();
+
+        if (empty($data)) {
+            return response([
+                'status_code' => 404,
+            //    'message'     => trans($this->getNotFoundKey())
+            ], 404);
+        }
+
+        $data = $this->entityTransformer->transformCollection($data);
+
+        return response([
+            'data'        => $data,
+            //'paginator'   => $paginator,
+            'status_code' => 200
+        ], 200);
+    }
 }

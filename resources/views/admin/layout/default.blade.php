@@ -64,5 +64,6 @@
         <script src="{{ asset('js/forgeapp.js') }}"></script>
         <script src="{{ asset('js/init.js') }}"></script>
         @yield('jsPostApp')
+        @yield('jsRightSideBar')
     </body>
 </html>

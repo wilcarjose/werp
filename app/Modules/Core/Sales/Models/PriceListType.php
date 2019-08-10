@@ -35,6 +35,11 @@ class PriceListType extends Model
             ->unique('product_id');
     }
 
+    public function scopeSaleLists($query)
+    {
+        return $query->active()->where('type', 'sales');
+    }
+
     public function toArray()
     {
         return [

@@ -201,7 +201,7 @@
             @endif
             <div class="col s12" id="rsb-shortcuts">
                 <ul class="tab-shortcut collection" id="psTabShortcut">
-                <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons blue-text">photo_library</i><span class="shortcut-name">Productos</span></a></li>
+                <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#products_modal"><i class="material-icons blue-text">photo_library</i><span class="shortcut-name">Productos</span></a></li>
                 @if (false)
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons orange-text">mail</i><span class="shortcut-name">Mail</span></a></li>
                 <li class="collection-item waves-effect waves-set"><a class="shortcut-aItem" href="#"><i class="material-icons yellow-text">file_download</i><span class="shortcut-name">Downloads</span></a></li>
@@ -216,3 +216,113 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Structure -->
+<div id="products_modal" class="modal modal-fixed-footer">
+    <div class="modal-content">
+
+        <div class="row">
+          <div class="col s12">
+            <div class="card card-dash">
+              <div class="card-header primary-bg z-depth-2"><i class="material-icons left">style</i>
+                <span class="caption">Productos</span>
+              </div>
+              <div class="card-content">
+                
+                <div class="row">
+                    <div class="col s12">
+                        <div class="datatable-wrapper" style="color: #3d3d3d">
+                            <table id="products-table" cellspacing="0" width="100%" class="responsive-table display">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Existencia</th>
+                                        <th>Precio Bs</th>
+                                        <th>Precio $</th>
+                                    </tr>
+                                </thead>
+
+                                <tfoot>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Existencia</th>
+                                        <th>Precio Bs</th>
+                                        <th>Precio $</th>
+                                    </tr>
+                                </tfoot>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="stats"><i class="material-icons red-text">favorite</i><a href="#">Administrar productos.</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+                
+            
+
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
+    </div>
+</div>
+
+
+@section('jsRightSideBar')
+
+    <script type="text/javascript">
+    
+        $(document).ready(function() {
+            // the "href" attribute of . must specify the modal ID that wants to be triggered
+            $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: .5, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '4%', // Starting top style attribute
+                endingTop: '10%', // Ending top style attribute
+                ready: function(modal, trigger) { // Callback for Modal open. Modal and trigger parameters available.
+                    console.log(modal, trigger);
+                },
+                complete: function() {
+                    console.log('Closed');
+                } // Callback for Modal close
+            });
+
+            var singleSelect = $('#products-table').DataTable({
+                ajax: '/admin/products/products/stock',
+                "columns": [
+                    { "data": "code" },
+                    { "data": "name" },
+                    { "data": "description" },
+                    { "data": "stock" },
+                    { "data": "VEF" },
+                    { "data": "USD" }
+                ]
+            });
+
+            $('#products-table tbody').on('click', 'tr', function() {
+                if ($(this).hasClass('success')) {
+                    $(this).removeClass('success');
+                }
+                else {
+                    singleSelect.$('tr.success').removeClass('success');
+                    $(this).addClass('success');
+                }
+            });
+        });
+
+    </script>
+
+@endsection

@@ -8,7 +8,7 @@ class ProductTransformer extends Transformer
 {
     public function transform($item)
     {
-        return [
+        $data =  [
             'id'          => $item['id'],
             'code'        => $item['code'],
             'name'        => $item['name'],
@@ -21,7 +21,13 @@ class ProductTransformer extends Transformer
             'category_id' => $item['category_id'],
             'active'      => $item['active'],
             'code_name'   => $item['code'].' - '.$item['name'],
-            'created_at'  => $item['created_at']
+            'created_at'  => $item['created_at'],
         ];
+
+        $data['VEF'] = isset($item['VEF']) ? $item['VEF'] : 0;
+        $data['USD'] = isset($item['USD']) ? $item['USD'] : 0;
+        $data['stock'] = isset($item['stock']) ? $item['stock'] : 0;
+
+        return $data;
     }
 }
