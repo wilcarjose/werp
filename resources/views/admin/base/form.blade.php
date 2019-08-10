@@ -8,7 +8,7 @@
     <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/easyui/easyui.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet"/>
 
     <style type="text/css">
 
@@ -330,8 +330,8 @@
   @yield('js-datebox')
 
   <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <script type="text/javascript" src={{ asset('plugins/momentjs/moment.min.js') }}></script>
+  <script type="text/javascript" src={{ asset('plugins/daterangepicker/daterangepicker.min.js') }}></script>
 
 
 @endsection

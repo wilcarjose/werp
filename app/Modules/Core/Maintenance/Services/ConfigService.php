@@ -162,7 +162,7 @@ class ConfigService
 
     public function getDefaultWarehouse()
     {
-        return $this->getValue('inv_default_warehouse');
+        return $this->getValue(Config::INV_DEFAULT_WAREHOUSE);
     }
 
     public function getValue($key)

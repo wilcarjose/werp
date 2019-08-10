@@ -3,8 +3,8 @@
 namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\Inputs\InputBuilder;
-use Werp\Builders\Inputs\NameInputBuilder;
-use Werp\Builders\Inputs\DescriptionInputBuilder;
+use Werp\Builders\Inputs\NameInput;
+use Werp\Builders\Inputs\DescriptionInput;
 use Werp\Builders\Selects\UomSelect;
 use Werp\Builders\Selects\BrandSelect;
 use Werp\Builders\Selects\ProductCategorySelect;
@@ -23,8 +23,8 @@ class ProductForm extends SimplePage
     {
         return [
             new InputBuilder('code', 'input',  trans('view.code')),
-            new NameInputBuilder,
-            new DescriptionInputBuilder,
+            new NameInput,
+            new DescriptionInput,
             new InputBuilder('part_number', 'input',  trans('view.products.part_number')),
             new UomSelect,
             new BrandSelect,

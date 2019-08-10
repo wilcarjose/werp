@@ -54,6 +54,14 @@
     <div class="row notification-sidebar fixed animated" id="sb-notification">
         <div class="col s12">
             <ul class="tabs rsb-notifications">
+
+                <li class="tab col s12">
+                    <a href="#rsb-shortcuts">
+                        <i class="material-icons small">widgets</i>
+                    </a>
+                </li>
+
+                @if (false)    
                 <li class="tab col s4">
                     <a href="#rsb-shortcuts">
                         <i class="material-icons small">widgets</i>
@@ -72,6 +80,7 @@
                         <span class="badge-count teal lighten-2 white-text">14</span>
                     </a>
                 </li>
+                @endif
                 
             </ul>
             @if (false)
@@ -237,8 +246,10 @@
                                     <tr>
                                         <th>Código</th>
                                         <th>Nombre</th>
-                                        <th>Descripción</th>
+                                        <th>Marca</th>
+                                        <!-- <th>Descripción</th> -->
                                         <th>Existencia</th>
+                                        <th>Unidad de M.</th>
                                         <th>Precio Bs</th>
                                         <th>Precio $</th>
                                     </tr>
@@ -248,8 +259,10 @@
                                     <tr>
                                         <th>Código</th>
                                         <th>Nombre</th>
-                                        <th>Descripción</th>
+                                        <th>Marca</th>
+                                        <!-- <th>Descripción</th> -->
                                         <th>Existencia</th>
+                                        <th>Unidad de M.</th>
                                         <th>Precio Bs</th>
                                         <th>Precio $</th>
                                     </tr>
@@ -282,7 +295,7 @@
 @section('jsRightSideBar')
 
     <script type="text/javascript">
-    
+
         $(document).ready(function() {
             // the "href" attribute of . must specify the modal ID that wants to be triggered
             $('.modal').modal({
@@ -301,16 +314,52 @@
             });
 
             var singleSelect = $('#products-table').DataTable({
+                language: {
+                    paginate: {'next': 'Próximo &rarr;', 'previous': '&larr; Anterior'}
+                },
                 ajax: '/admin/products/products/stock',
                 "columns": [
                     { "data": "code" },
                     { "data": "name" },
-                    { "data": "description" },
-                    { "data": "stock" },
-                    { "data": "VEF" },
-                    { "data": "USD" }
+                    { "data": "brand" },
+                  //  { "data": "description" },
+                    { "data": "stock", className: "center-align" },
+                    { "data": "uom" },
+                    { "data": "VEF", className: "right-align", render: function (data, type, row ) {
+                        
+                        return numberFormatCell(data);
+
+                    }},
+                    { "data": "USD", className: "right-align", render: function (data, type, row ) {
+
+                        return numberFormatCell(data);
+                    }},
                 ]
             });
+
+            function numberFormatCell(data) {
+                var decimal_point = ',';
+                        var thousands_sep = '.';
+                        
+                        if ( typeof data === 'undefined' || data === null ) {
+                            return '0' + decimal_point + '00';
+                        }
+                       
+                        var strArray = data.toString().split(".");
+
+                        var unit = strArray[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousands_sep);
+
+                        if (strArray.length === 1) {
+                            return unit + decimal_point + '00';
+                        }
+
+                        if (strArray[1].length < 2) {
+                            return unit + decimal_point + strArray[1] + '0';
+                        }
+
+                        return unit + decimal_point + strArray[1];
+                        
+            }
 
             $('#products-table tbody').on('click', 'tr', function() {
                 if ($(this).hasClass('success')) {

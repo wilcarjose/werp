@@ -66,6 +66,11 @@ class Product extends Model
         return $this->hasOne('Werp\Modules\Core\Products\Models\Uom', 'id', 'uom_id');
     }
 
+    public function brand()
+    {
+        return $this->hasOne('Werp\Modules\Core\Products\Models\Brand', 'id', 'brand_id');
+    }
+
     public function currentPrice($priceListTypeId, $default = 0)
     {
         $price = $this->prices()->where('price_list_type_id', $priceListTypeId)

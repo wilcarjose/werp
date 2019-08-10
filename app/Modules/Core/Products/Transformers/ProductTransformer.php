@@ -27,6 +27,8 @@ class ProductTransformer extends Transformer
         $data['VEF'] = isset($item['VEF']) ? $item['VEF'] : 0;
         $data['USD'] = isset($item['USD']) ? $item['USD'] : 0;
         $data['stock'] = isset($item['stock']) ? $item['stock'] : 0;
+        $data['uom'] = isset($item['uom']) ? $item['uom'] : '';
+        $data['brand'] = isset($item['brand']) ? $item['brand'] : '';
 
         return $data;
     }

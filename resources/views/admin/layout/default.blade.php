@@ -34,6 +34,7 @@
         <link rel="stylesheet" href="{{ asset('css/dynamic.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/scrollbar/perfect-scrollbar.min.css') }}">
         <link href="{{ asset('css/admin/app.css') }}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatable/jquery.dataTables.min.css') }}">
         @yield('css')
     </head>
     <body>
@@ -58,11 +59,12 @@
         @yield('appPost')
         <!-- Scripts -->
         <script type="text/javascript" src="{{ asset('js/all.js') }}"></script>
-
+        
         @yield('jsPreApp')
         {{-- APP AND INIT --}}
         <script src="{{ asset('js/forgeapp.js') }}"></script>
         <script src="{{ asset('js/init.js') }}"></script>
+        <script src="{{ asset('plugins/datatable/jquery.dataTables.min.js') }}" type="text/javascript"></script>
         @yield('jsPostApp')
         @yield('jsRightSideBar')
     </body>
