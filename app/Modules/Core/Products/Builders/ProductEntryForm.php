@@ -9,60 +9,60 @@
 namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\FormBuilder;
-use Werp\Builders\DateBuilder;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\ActionBuilder;
-use Werp\Builders\TextInputBuilder;
-use Werp\Builders\CodeInputBuilder;
+use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\Selects\SelectBuilder;
+use Werp\Builders\Actions\ActionBuilder;
+use Werp\Builders\Inputs\TextInput;
+use Werp\Builders\Inputs\CodeInput;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveAction;
-use Werp\Builders\AmountInput;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\DoctypeSelect;
-use Werp\Builders\ContinueAction;
-use Werp\Builders\CurrencySelectBuilder;
-use Werp\Builders\SupplierSelectBuilder;
-use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\Actions\SaveAction;
+use Werp\Builders\Inputs\AmountInput;
+use Werp\Builders\Actions\UpdateAction;
+use Werp\Builders\Selects\DoctypeSelect;
+use Werp\Builders\Actions\ContinueAction;
+use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\SupplierSelectBuilder;
+use Werp\Builders\Selects\WarehouseSelect;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class ProductEntryForm extends FormBuilder
+class ProductEntryForm extends SimplePage
 {
-    public function __construct()
+    protected $moduleRoute = 'admin.products.product_entry';
+    protected $mainTitle = 'Entrada de productos';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
+
+    protected function getInputs()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Entrada de productos')
-            ->setRoute('admin.products.product_entry')
-            ->addBreadcrumb($homeBreadcrumb);
+        return [
+            new DateInput,
+            new SupplierSelectBuilder,
+            new WarehouseSelect,
+            (new DescriptionInput)->advancedOption(),
+            (new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled(),
+            (new DoctypeSelect(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption(),
+        ];
     }
 
-    public function createPage($selects, $defaults)
+    public function createPage()
     {
-        $this
-            ->newConfig('Nueva entrada de productos')
-
-            ->addInput(new DateBuilder)            
-            ->addSelect(new SupplierSelectBuilder)
-            ->addSelect(new WarehouseSelect)
-            ->addInput((new DescriptionInputBuilder)->advancedOption())
-            ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelect(Basedoc::IE_DOC, Config::INV_DEFAULT_IE_DOC))->advancedOption())
-
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->newTitle)
+            ->setInputs($this->getInputs())
             ->addAction(new ContinueAction)
-            ->goBackEdit()
-            
-            //->setGoBack('edit')
-            //->goBackHome()
-            //->goBackEdit()
-            //->goBackNew()
-            //->goBackList()
-
-            //->setMaxWidth()
             ->setAdvancedOptions()
-            ;
+            ->goBackEdit()
+        ;
 
-        return $this->view();
+        return $this
+            ->setShortAction('Nueva')
+            ->newConfig()
+            ->addForm($form)->view()
+        ;
     }
 
     public function editPage($data)
@@ -72,39 +72,40 @@ class ProductEntryForm extends FormBuilder
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
-        $this
-            ->editConfig('Editar entrada de productos')
-
-            ->addInput(new CodeInputBuilder)
-            ;
+        $inputs = [
+            new CodeInput,            
+        ];
 
         if ($data['reference']) {
-            $this->addInput((new TextInputBuilder('reference', 'Referencia'))->disabled());
+            $inputs[] = (new TextInput('reference', 'Referencia'))->disabled();
         }
 
-        $this
-            ->addInput((new DateBuilder)->setDisable($disable))
-            ->addSelect((new SupplierSelectBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelect)->setDisable($disable))
-            ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
-            ->addInput((new AmountInput)->disabled())
-            ->addInput((new AmountInput('total_tax', trans('view.total_tax')))->disabled())
-            ->addInput((new AmountInput('total_discount', trans('view.total_discount')))->disabled())
-            ->addInput((new AmountInput('total', trans('view.total')))->disabled())
+        $inputs[] = (new DateInput)->setDisable($disable);
+        $inputs[] = (new SupplierSelectBuilder)->setDisable($disable);
+        $inputs[] = (new WarehouseSelect)->setDisable($disable);
+        $inputs[] = (new CurrencySelectBuilder)->setDisable($disable);
+        $inputs[] = (new AmountInput)->disabled();
+        $inputs[] = (new AmountInput('total_tax', trans('view.total_tax')))->disabled();
+        $inputs[] = (new AmountInput('total_discount', trans('view.total_discount')))->disabled();
+        $inputs[] = (new AmountInput('total', trans('view.total')))->disabled();
 
-            ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
-            ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelect(Basedoc::IE_DOC,  Config::INV_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable))
+        $inputs[] = (new DescriptionInput)->advancedOption()->setDisable($disable);
+        $inputs[] = (new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled();
+        $inputs[] = (new DoctypeSelect(Basedoc::IE_DOC,  Config::INV_DEFAULT_IE_DOC))->advancedOption()->setDisable($disable);
 
-            ->setAdvancedOptions()
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->editTitle)
+            ->setInputs($inputs)
             ->setData($data)
-            ;
+            ->setEdit();
+        ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateAction);
+            $form->addAction(new UpdateAction);
         }
 
-        $this
+        $form
             ->setList(new ProductEntryDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.after_name')))
@@ -115,9 +116,13 @@ class ProductEntryForm extends FormBuilder
 
         foreach ($actionKeys as $key) {
             $action = config('products.document.actions.'.Basedoc::IE_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.product_entry.'.$action['key'], $data['id'])));
-        }
+            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.product_entry.'.$action['key'], $data['id'])));
+        }        
 
-        return $this->view();
+        return $this
+            ->setShortAction('Editar')
+            ->editConfig()
+            ->addForm($form)->view()
+        ;
     }
 }

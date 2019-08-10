@@ -8,18 +8,18 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
-use Werp\Builders\DateBuilder;
+use Werp\Builders\DateInput;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
-use Werp\Builders\CodeInputBuilder;
-use Werp\Builders\TextInputBuilder;
+use Werp\Builders\CodeInput;
+use Werp\Builders\TextInput;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\UpdateAction;
 use Werp\Builders\DoctypeSelect;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\DescriptionInput;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
@@ -37,8 +37,8 @@ class MovementForm extends FormBuilder
     {
         $this
             ->newConfig('Nuevo movimiento')
-            ->addInput(new DateBuilder)
-            ->addInput(new DescriptionInputBuilder)
+            ->addInput(new DateInput)
+            ->addInput(new DescriptionInput)
             ->addSelect(new WarehouseSelect('warehouse_from_id', trans('view.from')))
             ->addSelect(new WarehouseSelect('warehouse_to_id', trans('view.to')))
             ->addSelect(new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))
@@ -59,15 +59,15 @@ class MovementForm extends FormBuilder
 
         $this
             ->editConfig('Editar movimiento')
-            ->addInput(new CodeInputBuilder);
+            ->addInput(new CodeInput);
 
         if ($data['reference']) {
-            $this->addInput((new TextInputBuilder('reference', 'Referencia'))->disabled());
+            $this->addInput((new TextInput('reference', 'Referencia'))->disabled());
         }
 
         $this
-            ->addInput((new DateBuilder)->setDisable($disable))
-            ->addInput((new DescriptionInputBuilder)->setDisable($disable))
+            ->addInput((new DateInput)->setDisable($disable))
+            ->addInput((new DescriptionInput)->setDisable($disable))
             ->addSelect((new WarehouseSelect('warehouse_from_id', trans('view.from')))->setDisable($disable))
             ->addSelect((new WarehouseSelect('warehouse_to_id', trans('view.to')))->setDisable($disable))
             ->addSelect((new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->setDisable($disable))

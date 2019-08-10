@@ -2,7 +2,7 @@
 
 namespace Werp\Builders\Inputs;
 
-class AddressInput extends TextInputBuilder
+class AddressInput extends TextInput
 {
     protected $addressName1;
     protected $addressName2;

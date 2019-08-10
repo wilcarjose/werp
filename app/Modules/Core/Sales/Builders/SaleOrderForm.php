@@ -5,12 +5,12 @@ namespace Werp\Modules\Core\Sales\Builders;
 use Werp\Builders\TaxSelect;
 use Werp\Builders\FormSelect;
 use Werp\Builders\FormBuilder;
-use Werp\Builders\DateBuilder;
+use Werp\Builders\DateInput;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
 use Werp\Builders\DiscountSelect;
-use Werp\Builders\TextInputBuilder;
-use Werp\Builders\CodeInputBuilder;
+use Werp\Builders\TextInput;
+use Werp\Builders\CodeInput;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveAction;
 use Werp\Builders\SaleChannelSelect;
@@ -22,7 +22,7 @@ use Werp\Builders\CustomerSelectBuilder;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\DescriptionInput;
 use Werp\Builders\PriceListTypeSelectBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -42,7 +42,7 @@ class SaleOrderForm extends FormBuilder
         $this
             ->newConfig('Crear nueva')
 
-            ->addInput(new DateBuilder)            
+            ->addInput(new DateInput)            
             ->addSelect(new CustomerSelectBuilder)
             ->addSelect(new PriceListTypeSelectBuilder)
             ->addSelect(new WarehouseSelect)
@@ -50,7 +50,7 @@ class SaleOrderForm extends FormBuilder
             ->addSelect((new TaxSelect))
             ->addSelect((new DiscountSelect))
             ->addSelect((new PaymentMethodSelect)->setNone(true))
-            ->addInput((new DescriptionInputBuilder)->advancedOption())
+            ->addInput((new DescriptionInput)->advancedOption())
             ->addSelect((new DoctypeSelect(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption())
 
             ->addAction(new ContinueAction)
@@ -79,15 +79,15 @@ class SaleOrderForm extends FormBuilder
         $this
             ->editConfig('Editar')
 
-            ->addInput(new CodeInputBuilder)
+            ->addInput(new CodeInput)
             ;
 
         if ($data['reference']) {
-            $this->addInput((new TextInputBuilder('reference', 'Referencia'))->disabled());
+            $this->addInput((new TextInput('reference', 'Referencia'))->disabled());
         }
 
         $this
-            ->addInput((new DateBuilder)->setDisable($disable))
+            ->addInput((new DateInput)->setDisable($disable))
             ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelect)->setDisable($disable))
@@ -97,7 +97,7 @@ class SaleOrderForm extends FormBuilder
             ->addSelect((new PaymentMethodSelect)->setDisable($disable))
             //->addSelect((new CurrencySelectBuilder)->setDisable($disable))
 
-            ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
+            ->addInput((new DescriptionInput)->advancedOption()->setDisable($disable))
             ->addSelect((new DoctypeSelect(Basedoc::SO_DOC,  Config::INV_DEFAULT_SO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()

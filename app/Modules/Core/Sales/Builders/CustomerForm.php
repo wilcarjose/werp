@@ -1,78 +1,37 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:40 PM
- */
 
 namespace Werp\Modules\Core\Sales\Builders;
 
-use Werp\Builders\FormBuilder;
-use Werp\Builders\AddressInput;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\TextInputBuilder;
-use Werp\Builders\NameInputBuilder;
-use Werp\Builders\EmailInputBuilder;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveAction;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\DescriptionInputBuilder;
-use Werp\Builders\CustomerCategorySelectBuilder;
+use Werp\Builders\Inputs\AddressInput;
+use Werp\Builders\Selects\SelectBuilder;
+use Werp\Builders\Inputs\TextInput;
+use Werp\Builders\Inputs\NameInput;
+use Werp\Builders\Inputs\EmailInput;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Builders\Selects\CustomerCategorySelectBuilder;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 
-
-class CustomerForm extends FormBuilder
+class CustomerForm extends SimplePage
 {
-    public function __construct()
+    protected $moduleRoute = 'admin.sales.customers';
+    protected $mainTitle = 'Clientes';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
+
+    protected function getInputs()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'),  trans('view.dashboard'));
-        $this->setTitle('Clientes')
-            ->setRoute('admin.sales.customers')
-            ->addBreadcrumb($homeBreadcrumb);
-    }
-
-    public function createPage()
-    {
-        $this
-            ->newConfig('Nuevo cliente')
-            ->addInput(new TextInputBuilder('document', trans('view.document')))
-            ->addInput(new NameInputBuilder())
-            ->addInput(new DescriptionInputBuilder)
-            ->addInput(new AddressInput)
-            ->addSelect(new CustomerCategorySelectBuilder)
-            ->addInput(new TextInputBuilder('contact_person', trans('view.contact_person')))
-            ->addInput(new TextInputBuilder('economic_activity', trans('view.economic_activity')))
-            ->addInput(new TextInputBuilder('mobile', trans('view.mobile')))
-            ->addInput(new TextInputBuilder('phone', trans('view.phone')))
-            ->addInput(new EmailInputBuilder)
-            ->addInput(new TextInputBuilder('web', trans('view.web')))
-            ->addAction(new SaveAction)
-        ;
-
-        return $this->view();
-    }
-
-    public function editPage($data)
-    {
-        $this->data = $data;
-
-        $this
-            ->editConfig('Editar cliente')
-            ->addInput(new TextInputBuilder('document', trans('view.document')))
-            ->addInput(new NameInputBuilder)
-            ->addInput(new DescriptionInputBuilder)
-            ->addInput(new AddressInput)
-            ->addSelect(new CustomerCategorySelectBuilder)
-            ->addInput(new TextInputBuilder('contact_person', trans('view.contact_person')))
-            ->addInput(new TextInputBuilder('economic_activity', trans('view.economic_activity')))
-            ->addInput(new TextInputBuilder('mobile', trans('view.mobile')))
-            ->addInput(new TextInputBuilder('phone', trans('view.phone')))
-            ->addInput(new EmailInputBuilder)
-            ->addInput(new TextInputBuilder('web', trans('view.web')))
-            ->addAction(new UpdateAction)
-            ->setData($data)
-        ;
-
-        return $this->view();
+        return [
+            new TextInput('document', trans('view.document')),
+            new NameInput(),
+            new DescriptionInput,
+            new AddressInput,
+            new CustomerCategorySelectBuilder,
+            new TextInput('contact_person', trans('view.contact_person')),
+            new TextInput('economic_activity', trans('view.economic_activity')),
+            new TextInput('mobile', trans('view.mobile')),
+            new TextInput('phone', trans('view.phone')),
+            new EmailInput,
+            new TextInput('web', trans('view.web')),
+        ];
     }
 }

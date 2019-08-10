@@ -9,7 +9,7 @@
 namespace Werp\Builders\Inputs;
 
 
-class DateBuilder extends InputBuilder
+class DateInput extends InputBuilder
 {
     protected $name;
     protected $type;

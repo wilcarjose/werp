@@ -9,8 +9,15 @@
 namespace Werp\Builders\Inputs;
 
 
-class EmailInputBuilder extends TextInputBuilder
+class DescriptionInput extends TextAreaInput
 {
+    protected $name;
+    protected $type;
+    protected $icon;
+    protected $text;
+    protected $value;
+    protected $disabled = false;
+
     /**
      * InputBuilder constructor.
      * @param $name
@@ -21,11 +28,12 @@ class EmailInputBuilder extends TextInputBuilder
      */
     public function __construct($value = null, $disabled = false, $icon = null)
     {
-        $this->name = 'email';
-        $this->type = 'email';
+        $this->name = 'description';
+        $this->type = 'textarea';
         $this->icon = $icon;
-        $this->text = trans('view.email');
+        $this->text = trans('view.description');
         $this->value = $value;
         $this->disabled = $disabled;
     }
+
 }

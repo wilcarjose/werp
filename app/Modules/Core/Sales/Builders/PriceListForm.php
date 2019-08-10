@@ -9,7 +9,7 @@
 namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\BrandSelect;
-use Werp\Builders\DateBuilder;
+use Werp\Builders\DateInput;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\UpdateAction;
 use Werp\Builders\InputBuilder;
@@ -18,12 +18,12 @@ use Werp\Builders\ActionBuilder;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\OperationSelect;
 use Werp\Builders\WarehouseSelect;
-use Werp\Builders\CodeInputBuilder;
+use Werp\Builders\CodeInput;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\AmountInput;
 use Werp\Builders\ProductCategorySelect;
 use Werp\Builders\DoctypeSelect;
-use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\DescriptionInput;
 use Werp\Builders\PriceListTypeSelectBuilder;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -45,11 +45,11 @@ class PriceListForm extends FormBuilder
     public function createPage($dependencies = [])
     {
         $this->newConfig('Nueva lista de precio')
-            ->addInput(new DateBuilder('starting_at', trans('view.from')))
+            ->addInput(new DateInput('starting_at', trans('view.from')))
             ->addSelect((new PriceListTypeSelectBuilder)->setText('Lista a generar'))
             ->addSelect(new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista precio base', true))
             ->addSelect(new OperationSelect)
-            ->addInput((new DescriptionInputBuilder)->advancedOption())
+            ->addInput((new DescriptionInput)->advancedOption())
             ->addSelect((new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption())
             ->addAction(new ContinueAction)
             ->setMaxWidth()
@@ -68,13 +68,13 @@ class PriceListForm extends FormBuilder
         $noProcessed = $data['state']['state'] == Basedoc::PE_STATE;
 
         $this->editConfig('Editar lista de precio')
-            ->addInput((new CodeInputBuilder())->setValue($data['code']))
-            ->addInput((new DateBuilder('starting_at', trans('view.from'), $data['starting_at']))->setDisable($disable))
+            ->addInput((new CodeInput())->setValue($data['code']))
+            ->addInput((new DateInput('starting_at', trans('view.from'), $data['starting_at']))->setDisable($disable))
             //->addInput((new InputBuilder('starting_at', 'input',  trans('view.from'), $data['starting_at']))->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder($data['price_list_type_id']))->setText('Lista a generar')->setDisable($disable))
             ->addSelect((new PriceListTypeSelectBuilder($data['reference_price_list_type_id'], 'reference_price_list_type_id', 'Lista precio base', true))->setDisable($disable))
             ->addSelect((new OperationSelect)->setDisable($disable))
-            ->addInput((new DescriptionInputBuilder($data['description']))->setDisable($disable)->advancedOption())
+            ->addInput((new DescriptionInput($data['description']))->setDisable($disable)->advancedOption())
             ->addSelect((new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC, $data['doctype_id']))->advancedOption()->setDisable($disable))
             ->setAdvancedOptions()
             ->setFilter('admin.core.sales.filters.price_list')

@@ -2,24 +2,24 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
-use Werp\Builders\InputBuilder;
-use Werp\Builders\NameInputBuilder;
-use Werp\Builders\DescriptionInputBuilder;
-use Werp\Modules\Core\Base\Builders\SimpleBaseForm;
+use Werp\Builders\Inputs\InputBuilder;
+use Werp\Builders\Inputs\NameInput;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 
-class BrandForm extends SimpleBaseForm
+class BrandForm extends SimplePage
 {
     protected $moduleRoute = 'admin.products.brands';
     protected $mainTitle = 'Marcas';
     protected $newTitle = 'Nueva';
     protected $editTitle = 'Editar';
 
-    protected function makeInputs()
+    protected function getInputs()
     {
-        return $this
-            ->addInput(new NameInputBuilder)
-            ->addInput(new DescriptionInputBuilder)
-            ->addInput(new InputBuilder('country', 'input', trans('view.country')))
-        ;
+        return [
+            new NameInput,
+            new DescriptionInput,
+            new InputBuilder('country', 'input', trans('view.country')),
+        ];
     }
 }

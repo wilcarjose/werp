@@ -1,61 +1,52 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:40 PM
- */
 
 namespace Werp\Modules\Core\Purchases\Builders;
 
 use Werp\Builders\FormBuilder;
-use Werp\Builders\NameInputBuilder;
+use Werp\Builders\Inputs\NameInput;
 use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveAndEditAction;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\SaveAndNewAction;
-use Werp\Builders\SupplierCategorySelectBuilder;
+use Werp\Builders\Actions\UpdateAction;
+use Werp\Builders\Actions\SaveAndNewAction;
+use Werp\Builders\Actions\SaveAndEditAction;
+use Werp\Modules\Core\Base\Builders\SimplePage;
+use Werp\Builders\Selects\SupplierCategorySelect;
 
-
-class CategoryForm extends FormBuilder
+class CategoryForm extends SimplePage
 {
     protected $moduleRoute = 'admin.purchases.categories';
-    protected $listRoute = 'admin.purchases.categories.index';
+    protected $mainTitle = 'Categorias de proveedores';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
 
-    public function __construct()
+    protected function getInputs()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Categorias de proveedores')
-            ->setRoute($this->moduleRoute)
-            ->addBreadcrumb($homeBreadcrumb);
-    }
-
-    public function createPage()
-    {
-        $this
-            ->newConfig('Nueva categoria')
-            ->addInput(new NameInputBuilder)
-            ->addSelect((new SupplierCategorySelectBuilder)->setText('Categoria padre')->addNone())
-            ->addAction(new SaveAndEditAction)
-            ->addAction(new SaveAndNewAction)
-        ;
-
-        return $this->view();
+        return [
+            new NameInput,
+            (new SupplierCategorySelect)->setText('Categoria padre')->addNone(),
+        ];
     }
 
     public function editPage($data)
     {
-        $this->data = $data;
+        $inputs = [
+            new NameInput,
+            (new SupplierCategorySelect($data['id']))->setText('Categoria padre')->addNone(),
+        ];
 
-        $this
-            ->editConfig('Editar categoria')
-            ->addInput(new NameInputBuilder)
-            ->addSelect((new SupplierCategorySelectBuilder($data['id']))->setText('Categoria padre')->addNone())
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->editTitle)
+            ->setInputs($inputs)
             ->addAction(new UpdateAction)
             ->addAction(new SaveAndNewAction)
             ->setData($data)
+            ->setEdit();
         ;
 
-        return $this->view();
+        return $this
+            ->setShortAction('Editar')
+            ->editConfig()
+            ->addForm($form)->view()
+        ;
     }
 }

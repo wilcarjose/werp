@@ -3,9 +3,9 @@
 namespace Werp\Modules\Core\Maintenance\Builders;
 
 use Werp\Builders\Selects\SelectBuilder;
-use Werp\Builders\Inputs\NameInputBuilder;
+use Werp\Builders\Inputs\NameInput;
 use Werp\Builders\Inputs\AmountInput;
-use Werp\Builders\Inputs\DescriptionInputBuilder;
+use Werp\Builders\Inputs\DescriptionInput;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 
@@ -21,8 +21,8 @@ class AmountOperationForm extends SimplePage
         $values = Config::where('type', 'amount')->get();
 
         return [
-            (new NameInputBuilder),
-            (new DescriptionInputBuilder),
+            (new NameInput),
+            (new DescriptionInput),
             (new SelectBuilder('operation', 'Operación', config('werp.operations'), 'multiply', true)),
             ((new SelectBuilder('config_key', 'Valor', $values, '', true))->setIdKey('key')->setLabelKey('name')),
             (new AmountInput('value', 'O usar valor manual')),

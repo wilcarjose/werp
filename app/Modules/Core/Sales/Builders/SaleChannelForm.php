@@ -2,23 +2,24 @@
 
 namespace Werp\Modules\Core\Sales\Builders;
 
-use Werp\Builders\OperationSelect;
-use Werp\Builders\NameInputBuilder;
-use Werp\Builders\DescriptionInputBuilder;
-use Werp\Modules\Core\Base\Builders\SimpleBaseForm;
+use Werp\Builders\Selects\OperationSelect;
+use Werp\Builders\Inputs\NameInput;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 
-class SaleChannelForm extends SimpleBaseForm
+class SaleChannelForm extends SimplePage
 {
     protected $moduleRoute = 'admin.sales.sales_channels';
     protected $mainTitle = 'Canales de ventas';
     protected $newTitle = 'Nuevo';
     protected $editTitle = 'Editar';
 
-    protected function makeInputs()
+    protected function getInputs()
     {
-        return $this
-            ->addInput(new NameInputBuilder)
-            ->addInput(new DescriptionInputBuilder)
-            ->addSelect(new OperationSelect);
+        return [
+            new NameInput,
+            new DescriptionInput,
+            new OperationSelect
+        ];
     }
 }

@@ -36,6 +36,8 @@ class PriceListTypeController extends BaseController
         'type'     => 'required|in:sales,purchases,all',
     ];
 
+    protected $routeBase = 'admin.sales.price_list_types';
+
     public function __construct(
         PriceListTypeForm $entityForm,
         PriceListTypeList $entityList,

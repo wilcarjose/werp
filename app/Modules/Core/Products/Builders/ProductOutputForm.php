@@ -10,11 +10,11 @@ namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\PrintAction;
 use Werp\Builders\FormBuilder;
-use Werp\Builders\DateBuilder;
+use Werp\Builders\DateInput;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
-use Werp\Builders\TextInputBuilder;
-use Werp\Builders\CodeInputBuilder;
+use Werp\Builders\TextInput;
+use Werp\Builders\CodeInput;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\SaveAction;
 use Werp\Builders\AmountInput;
@@ -24,7 +24,7 @@ use Werp\Builders\ContinueAction;
 use Werp\Builders\CurrencySelectBuilder;
 use Werp\Builders\CustomerSelectBuilder;
 use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\DescriptionInput;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
@@ -43,12 +43,12 @@ class ProductOutputForm extends FormBuilder
         $this
             ->newConfig('Nueva')
 
-            ->addInput(new DateBuilder)            
+            ->addInput(new DateInput)            
             ->addSelect(new CustomerSelectBuilder)
             ->addSelect(new WarehouseSelect)
             ->addSelect(new CurrencySelectBuilder)
-            ->addInput((new DescriptionInputBuilder)->advancedOption())
-            ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
+            ->addInput((new DescriptionInput)->advancedOption())
+            ->addInput((new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled())
             ->addSelect((new DoctypeSelect(Basedoc::IO_DOC, Config::INV_DEFAULT_IO_DOC))->advancedOption())
 
             ->addAction(new ContinueAction)
@@ -69,20 +69,20 @@ class ProductOutputForm extends FormBuilder
         $this
             ->editConfig('Editar')
 
-            ->addInput(new CodeInputBuilder);
+            ->addInput(new CodeInput);
 
         if ($data['reference']) {
-            $this->addInput((new TextInputBuilder('reference', 'Referencia'))->disabled());
+            $this->addInput((new TextInput('reference', 'Referencia'))->disabled());
         }
 
         $this
-            ->addInput((new DateBuilder)->setDisable($disable))
+            ->addInput((new DateInput)->setDisable($disable))
             ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
             ->addSelect((new WarehouseSelect)->setDisable($disable))
             ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
             
-            ->addInput((new DescriptionInputBuilder)->advancedOption()->setDisable($disable))
-            ->addInput((new TextInputBuilder('order_code', 'Código de orden'))->advancedOption()->disabled())
+            ->addInput((new DescriptionInput)->advancedOption()->setDisable($disable))
+            ->addInput((new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled())
             ->addSelect((new DoctypeSelect(Basedoc::IO_DOC,  Config::INV_DEFAULT_IO_DOC))->advancedOption()->setDisable($disable))
 
             ->setAdvancedOptions()

@@ -9,7 +9,7 @@
 namespace Werp\Builders\Inputs;
 
 
-class DescriptionInputBuilder extends TextAreaInputBuilder
+class TextAreaInput extends InputBuilder
 {
     protected $name;
     protected $type;
@@ -26,14 +26,13 @@ class DescriptionInputBuilder extends TextAreaInputBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($value = null, $disabled = false, $icon = null)
+    public function __construct($name = null, $label = null, $value = null, $disabled = false, $icon = null)
     {
-        $this->name = 'description';
+        $this->name = $name;
         $this->type = 'textarea';
         $this->icon = $icon;
-        $this->text = trans('view.description');
+        $this->text = $label;
         $this->value = $value;
         $this->disabled = $disabled;
     }
-
 }

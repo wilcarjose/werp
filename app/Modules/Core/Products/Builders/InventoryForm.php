@@ -8,17 +8,17 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
-use Werp\Builders\DateBuilder;
+use Werp\Builders\DateInput;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\SelectBuilder;
 use Werp\Builders\ActionBuilder;
-use Werp\Builders\CodeInputBuilder;
+use Werp\Builders\CodeInput;
 use Werp\Builders\BreadcrumbBuilder;
 use Werp\Builders\UpdateAction;
 use Werp\Builders\DoctypeSelect;
 use Werp\Builders\ContinueAction;
 use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\DescriptionInput;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
@@ -36,8 +36,8 @@ class InventoryForm extends FormBuilder
     {
         $this
             ->newConfig('Nuevo inventario')
-            ->addInput(new DateBuilder)
-            ->addInput(new DescriptionInputBuilder)
+            ->addInput(new DateInput)
+            ->addInput(new DescriptionInput)
             ->addSelect(new WarehouseSelect)
             ->addSelect(new DoctypeSelect(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))
             ->addAction(new ContinueAction)
@@ -58,9 +58,9 @@ class InventoryForm extends FormBuilder
 
         $this
             ->editConfig('Editar inventario')
-            ->addInput(new CodeInputBuilder)
-            ->addInput((new DateBuilder)->setDisable($disable))
-            ->addInput((new DescriptionInputBuilder)->setDisable($disable))
+            ->addInput(new CodeInput)
+            ->addInput((new DateInput)->setDisable($disable))
+            ->addInput((new DescriptionInput)->setDisable($disable))
             ->addSelect((new WarehouseSelect)->setDisable($disable))
             ->addSelect((new DoctypeSelect(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))->setDisable($disable))
             ->setData($data)

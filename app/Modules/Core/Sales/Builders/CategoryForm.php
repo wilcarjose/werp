@@ -1,58 +1,51 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:40 PM
- */
 
 namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
-use Werp\Builders\NameInputBuilder;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveAction;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\CustomerCategorySelectBuilder;
+use Werp\Builders\Inputs\NameInput;
+use Werp\Builders\Actions\UpdateAction;
+use Werp\Builders\Actions\SaveAndNewAction;
+use Werp\Builders\Selects\CustomerCategorySelectBuilder;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 
 
-class CategoryForm extends FormBuilder
+class CategoryForm extends SimplePage
 {
     protected $moduleRoute = 'admin.sales.categories';
-    protected $listRoute = 'admin.sales.categories.index';
+    protected $mainTitle = 'Categorias de clientes';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
 
-    public function __construct()
+    protected function getInputs()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Categorias de clientes')
-            ->setRoute($this->moduleRoute)
-            ->addBreadcrumb($homeBreadcrumb);
-    }
-
-    public function createPage()
-    {
-        $this
-            ->newConfig('Nueva categoria')
-            ->addInput(new NameInputBuilder)
-            ->addSelect((new CustomerCategorySelectBuilder)->setText('Categoria padre')->addNone())
-            ->addAction(new SaveAction)
-        ;
-
-        return $this->view();
+        return [
+            new NameInput,
+            (new CustomerCategorySelectBuilder)->setText('Categoria padre')->addNone(),
+        ];
     }
 
     public function editPage($data)
     {
-        $this->data = $data;
+        $inputs = [
+            new NameInput,
+            (new CustomerCategorySelectBuilder($data['id']))->setText('Categoria padre')->addNone(),
+        ];
 
-        $this
-            ->editConfig('Editar categoria')
-            ->addInput(new NameInputBuilder)
-            ->addSelect((new CustomerCategorySelectBuilder($data['id']))->setText('Categoria padre')->addNone())
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->editTitle)
+            ->setInputs($inputs)
             ->addAction(new UpdateAction)
+            ->addAction(new SaveAndNewAction)
             ->setData($data)
+            ->setEdit();
         ;
 
-        return $this->view();
+        return $this
+            ->setShortAction('Editar')
+            ->editConfig()
+            ->addForm($form)->view()
+        ;
     }
 }

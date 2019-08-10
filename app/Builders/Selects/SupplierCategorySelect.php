@@ -10,7 +10,7 @@ namespace Werp\Builders\Selects;
 
 use Werp\Modules\Core\Products\Models\Category;
 
-class SupplierCategorySelectBuilder extends CategorySelectBuilder
+class SupplierCategorySelect extends CategorySelectBuilder
 {
     /**
      * InputBuilder constructor.

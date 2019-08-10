@@ -9,7 +9,7 @@
 namespace Werp\Builders\Inputs;
 
 
-class AmountInput extends TextInputBuilder
+class AmountInput extends TextInput
 {
     /**
      * InputBuilder constructor.

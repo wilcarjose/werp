@@ -36,6 +36,6 @@ class CategoryController extends BaseController
         'name'  => 'required|max:255',
     ];
 
-    protected $routeBase = 'admin.customers.categories';
+    protected $routeBase = 'admin.sales.categories';
 
 }

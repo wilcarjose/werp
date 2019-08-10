@@ -9,7 +9,7 @@
 namespace Werp\Builders\Inputs;
 
 
-class NameInputBuilder extends TextInputBuilder
+class NameInput extends TextInput
 {
     protected $name;
     protected $type;

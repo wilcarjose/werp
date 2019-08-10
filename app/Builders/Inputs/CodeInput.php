@@ -9,7 +9,7 @@
 namespace Werp\Builders\Inputs;
 
 
-class CodeInputBuilder extends TextInputBuilder
+class CodeInput extends TextInput
 {
     protected $name;
     protected $type;

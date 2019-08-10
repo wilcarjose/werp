@@ -8,28 +8,23 @@
 
 namespace Werp\Modules\Core\Sales\Builders;
 
-use Werp\Builders\FormBuilder;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\ActionBuilder;
-use Werp\Builders\NameInputBuilder;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\CurrencySelectBuilder;
-use Werp\Builders\DescriptionInputBuilder;
+use Werp\Builders\Selects\SelectBuilder;
+use Werp\Builders\Inputs\NameInput;
+use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 
 
-class PriceListTypeForm extends FormBuilder
+class PriceListTypeForm extends SimplePage
 {
-    protected $types = [];
     protected $defaultType = 'sales';
 
-    public function __construct()
-    {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'),  trans('view.dashboard'));
-        $this->setTitle('Tipos de listas de precios')
-            ->setRoute('admin.sales.price_list_types')
-            ->addBreadcrumb($homeBreadcrumb);
+    protected $moduleRoute = 'admin.sales.price_list_types';
+    protected $mainTitle = 'Lista de precios';
+    protected $newTitle = 'Nueva';
+    protected $editTitle = 'Editar';
 
-        $this->types = [
+    protected $types = [
             [ 
                 'id' => 'sales',
                 'name' => 'Ventas'
@@ -43,35 +38,14 @@ class PriceListTypeForm extends FormBuilder
                 'name' => 'Compra y Ventas'
             ],
         ];
-    }
 
-    public function createPage($dependencies = [])
+    protected function getInputs()
     {
-        $this
-            ->newConfig('Nuevo tipo de lista de precios')
-            ->addInput(new NameInputBuilder())
-            ->addInput(new DescriptionInputBuilder())
-            ->addSelect(new SelectBuilder('type', 'Tipo', $this->types, $this->defaultType))
-            ->addSelect(new CurrencySelectBuilder())
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.save'), 'add', 'submit'))
-        ;
-
-        return $this->view();
-    }
-
-    public function editPage($data, $dependencies = [])
-    {
-        $this->data = $data;
-
-        $this->editConfig('Editar tipo de lista de precios')
-            ->addInput(new NameInputBuilder($this->data['name']))
-            ->addInput(new DescriptionInputBuilder($this->data['description']))
-            ->addSelect(new SelectBuilder('type', 'Tipo', $this->types, $this->data['type']))
-            ->addSelect(new CurrencySelectBuilder($this->data['currency']))
-            ->addAction(new ActionBuilder('save',ActionBuilder::TYPE_BUTTON, trans('view.update'), 'save', 'submit'))
-            ->setData($data)
-        ;
-
-        return $this->view();
+        return [
+            new NameInput(),
+            new DescriptionInput(),
+            new SelectBuilder('type', 'Tipo', $this->types, $this->defaultType),
+            new CurrencySelectBuilder(),
+        ];
     }
 }
