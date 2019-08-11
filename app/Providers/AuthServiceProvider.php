@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (!Schema::hasTable('permissions')) {
+        if (!Schema::hasTable('permissions') || !Schema::hasTable('companies')) {
             return false;
         }
 

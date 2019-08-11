@@ -1,96 +1,107 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:40 PM
- */
 
 namespace Werp\Modules\Core\Products\Builders;
 
-use Werp\Builders\DateInput;
 use Werp\Builders\FormBuilder;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\ActionBuilder;
-use Werp\Builders\CodeInput;
-use Werp\Builders\TextInput;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\DoctypeSelect;
-use Werp\Builders\ContinueAction;
-use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInput;
+use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\Inputs\CodeInput;
+use Werp\Builders\Inputs\TextInput;
+use Werp\Builders\Actions\UpdateAction;
+use Werp\Builders\Selects\SelectBuilder;
+use Werp\Builders\Actions\ActionBuilder;
+use Werp\Builders\Selects\DoctypeSelect;
+use Werp\Builders\Actions\ContinueAction;
+use Werp\Builders\Selects\WarehouseSelect;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class MovementForm extends FormBuilder
+class MovementForm extends SimplePage
 {
-    public function __construct()
+    protected $moduleRoute = 'admin.products.movements';
+    protected $mainTitle = 'Movimientos';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
+
+    protected function getInputs()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Movimiento de inventario')
-            ->setRoute('admin.products.movements')
-            ->addBreadcrumb($homeBreadcrumb);
+        return [
+            new DateInput,
+            new WarehouseSelect('warehouse_from_id', trans('view.from')),
+            new WarehouseSelect('warehouse_to_id', trans('view.to')),
+            (new DescriptionInput)->advancedOption(),
+            (new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->advancedOption(),
+        ];
     }
 
-    public function createPage($selects, $defaults)
+    public function createPage()
     {
-        $this
-            ->newConfig('Nuevo movimiento')
-            ->addInput(new DateInput)
-            ->addInput(new DescriptionInput)
-            ->addSelect(new WarehouseSelect('warehouse_from_id', trans('view.from')))
-            ->addSelect(new WarehouseSelect('warehouse_to_id', trans('view.to')))
-            ->addSelect(new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->newTitle)
+            ->setInputs($this->getInputs())
             ->addAction(new ContinueAction)
-            ->goBackEdit()
             ->setAdvancedOptions()
+            ->goBackEdit()
         ;
 
-        return $this->view();
+        return $this
+            ->setShortAction($this->newTitle)
+            ->newConfig()
+            ->addForm($form)->view()
+        ;
     }
 
-    public function editPage($data, $selects = null)
+    public function editPage($data)
     {
-        $this->data = $data;
-
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
-        $this
-            ->editConfig('Editar movimiento')
-            ->addInput(new CodeInput);
+        $inputs = [
+            new CodeInput,
+            (new DateInput)->setDisable($disable),   
+            (new WarehouseSelect('warehouse_from_id', trans('view.from')))->setDisable($disable),
+            (new WarehouseSelect('warehouse_to_id', trans('view.to')))->setDisable($disable),
+            (new DescriptionInput)->advancedOption()->setDisable($disable),
+            (new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->advancedOption()->setDisable($disable),
+        ];
 
         if ($data['reference']) {
-            $this->addInput((new TextInput('reference', 'Referencia'))->disabled());
+            $inputs[] = (new TextInput('reference', 'Referencia'))->advancedOption()->disabled();
         }
 
-        $this
-            ->addInput((new DateInput)->setDisable($disable))
-            ->addInput((new DescriptionInput)->setDisable($disable))
-            ->addSelect((new WarehouseSelect('warehouse_from_id', trans('view.from')))->setDisable($disable))
-            ->addSelect((new WarehouseSelect('warehouse_to_id', trans('view.to')))->setDisable($disable))
-            ->addSelect((new DoctypeSelect(Basedoc::IM_DOC, Config::INV_DEFAULT_IM_DOC))->setDisable($disable))
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->editTitle)
+            ->setInputs($inputs)
             ->setData($data)
-            ->setAdvancedOptions();
+            ->setAdvancedOptions()
+            ->setEdit();
+        ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateAction);
+            $form->addAction(new UpdateAction);
         }
 
-        $this
+        $form
             ->setList(new MovementDetailList(false, $data['id'], $disable))
+            //->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.color'));
-        ;
+            ;
 
         $actionKeys = config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
             $action = config('products.document.actions.'.Basedoc::IM_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->getRoute().'.'.$action['key'], $data['id'])));
-        }
+            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->moduleRoute.'.'.$action['key'], $data['id'])));
+        }        
 
-        return $this->view();
+        return $this
+            ->setShortAction($this->editTitle)
+            ->editConfig()
+            ->addForm($form)->view()
+        ;
     }
 }

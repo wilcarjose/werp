@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:40 PM
- */
 
 namespace Werp\Modules\Core\Products\Builders;
 
@@ -98,6 +92,7 @@ class ProductEntryForm extends SimplePage
             ->setAction($this->editTitle)
             ->setInputs($inputs)
             ->setData($data)
+            ->setAdvancedOptions()
             ->setEdit();
         ;
 

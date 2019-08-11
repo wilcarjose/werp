@@ -1,89 +1,101 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:40 PM
- */
 
 namespace Werp\Modules\Core\Products\Builders;
 
-use Werp\Builders\DateInput;
 use Werp\Builders\FormBuilder;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\ActionBuilder;
-use Werp\Builders\CodeInput;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\DoctypeSelect;
-use Werp\Builders\ContinueAction;
-use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInput;
+use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\Inputs\CodeInput;
+use Werp\Builders\Actions\UpdateAction;
+use Werp\Builders\Selects\DoctypeSelect;
+use Werp\Builders\Actions\ActionBuilder;
+use Werp\Builders\Actions\ContinueAction;
+use Werp\Builders\Selects\WarehouseSelect;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class InventoryForm extends FormBuilder
+class InventoryForm extends SimplePage
 {
-    public function __construct()
+    protected $moduleRoute = 'admin.products.inventories';
+    protected $mainTitle = 'Inventarios';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
+
+    protected function getInputs()
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Inventarios')
-            ->setRoute('admin.products.inventories')
-            ->addBreadcrumb($homeBreadcrumb);
+        return [
+            new DateInput,
+            new WarehouseSelect,
+            (new DescriptionInput)->advancedOption(),
+            (new DoctypeSelect(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))->advancedOption(),
+        ];
     }
 
-    public function createPage($selects, $defaults)
+    public function createPage()
     {
-        $this
-            ->newConfig('Nuevo inventario')
-            ->addInput(new DateInput)
-            ->addInput(new DescriptionInput)
-            ->addSelect(new WarehouseSelect)
-            ->addSelect(new DoctypeSelect(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->newTitle)
+            ->setInputs($this->getInputs())
             ->addAction(new ContinueAction)
-            //->setMaxWidth()
-            ->goBackEdit()
             ->setAdvancedOptions()
+            ->goBackEdit()
         ;
 
-        return $this->view();
+        return $this
+            ->setShortAction($this->newTitle)
+            ->newConfig()
+            ->addForm($form)->view()
+        ;
     }
 
-    public function editPage($data, $selects = null)
+    public function editPage($data)
     {
         $this->data = $data;
 
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
-        $this
-            ->editConfig('Editar inventario')
-            ->addInput(new CodeInput)
-            ->addInput((new DateInput)->setDisable($disable))
-            ->addInput((new DescriptionInput)->setDisable($disable))
-            ->addSelect((new WarehouseSelect)->setDisable($disable))
-            ->addSelect((new DoctypeSelect(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))->setDisable($disable))
+        $inputs = [
+            new CodeInput,
+            (new DateInput)->setDisable($disable),   
+            (new WarehouseSelect)->setDisable($disable),
+            (new DescriptionInput)->advancedOption()->setDisable($disable),
+            (new DoctypeSelect(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))->advancedOption()->setDisable($disable),
+        ];
+
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->editTitle)
+            ->setInputs($inputs)
             ->setData($data)
-            ->setAdvancedOptions();
+            ->setAdvancedOptions()
+            ->setEdit();
+        ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateAction);
+            $form->addAction(new UpdateAction);
         }
 
-        $this
+        $form
             ->setList(new InventoryDetailList(false, $data['id'], $disable))
             //->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.color'));
-        ;
+            ;
 
         $actionKeys = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
             $action = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.inventories.'.$action['key'], $data['id'])));
-        }
+            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.inventories.'.$action['key'], $data['id'])));
+        }        
 
-        return $this->view();
+        return $this
+            ->setShortAction('Editar')
+            ->editConfig()
+            ->addForm($form)->view()
+        ;
     }
 }
