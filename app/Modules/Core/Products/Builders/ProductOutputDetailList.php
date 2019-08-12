@@ -45,14 +45,6 @@ class ProductOutputDetailList extends MainList
                   'label' => 'Cantidad',
                   'required' => true,
                 ],
-                [
-                  'key' => 'total_price',
-                  'type' => 'amount',
-                  'name' => 'total_price',
-                  'id' => 'total_price',
-                  'label' => 'Precio',
-                  'required' => true,
-                ],
 
               ],
                 

@@ -360,7 +360,7 @@ export default {
         return {
             pupupMod: 'add',
             modalAction: '',
-            showAdd: false,
+            showAdd: this.config.show_add,
             // Component
             columns: this.config.fields,
             escapeSort: ['action'],
@@ -423,7 +423,7 @@ export default {
     mounted() {
         this.all();
         
-        this.showAdd = true;
+        //this.showAdd = true;
         let vm = this;
 
         if (vm.use_modal) {

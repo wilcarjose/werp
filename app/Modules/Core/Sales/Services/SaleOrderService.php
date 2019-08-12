@@ -196,7 +196,7 @@ class SaleOrderService extends OrderService
         $taxId = $entityDetail->tax_id ? $entityDetail->tax_id : $entity->tax_id;
         $descountId = $entityDetail->discount_id ? $entityDetail->discount_id : $entity->discount_id;
 
-        $amountData = $this->getAmounts($price->price, $entityDetail->qty, $taxId, $descountId);
+        $amountData = $this->getAmounts($price, $entityDetail->qty, $taxId, $descountId);
 
         $entityDetail->update($amountData);
     }

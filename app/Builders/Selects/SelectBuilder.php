@@ -165,7 +165,7 @@ class SelectBuilder
 
     public function disabled()
     {
-        $this->setDisabled(true);
+        $this->setDisable(true);
         return $this;
     }
 

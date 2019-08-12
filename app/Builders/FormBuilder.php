@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:33 PM
- */
 
 namespace Werp\Builders;
 
 use Werp\Builders\Inputs\InputBuilder;
 use Werp\Builders\Actions\ActionBuilder;
 use Werp\Builders\Selects\SelectBuilder;
+use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class FormBuilder // extends ModuleBuilder
 {
@@ -314,6 +309,10 @@ class FormBuilder // extends ModuleBuilder
         foreach ($this->getInputs() as $input) {
             if (isset($data[$input->getName()])) {
                 $input->setValue($data[$input->getName()]);
+            }
+
+            if (isset($data['state']) && $data['state'] != Basedoc::PE_STATE) {
+                $input->disabled();
             }
         }
 

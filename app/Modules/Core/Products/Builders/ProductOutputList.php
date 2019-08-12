@@ -14,7 +14,7 @@ class ProductOutputList extends MainList
 {
     public function __construct()
     {
-        $this->setTitle('Notas de entrega')
+        $this->setTitle('Entregas de productos')
             ->setRoute('admin.products.product_output')
             ->setShowStatus(false)
             ->setFields([
@@ -22,6 +22,7 @@ class ProductOutputList extends MainList
               ['field' => 'date', 'name' => 'Fecha' , 'type' => 'text']
             ])
             ->setShowState(true)
+            ->setShowAdd(false)
             ->makeConfig();
 
         parent::__construct();

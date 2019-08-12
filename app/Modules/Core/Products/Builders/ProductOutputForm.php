@@ -8,94 +8,91 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
-use Werp\Builders\PrintAction;
 use Werp\Builders\FormBuilder;
-use Werp\Builders\DateInput;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\ActionBuilder;
-use Werp\Builders\TextInput;
-use Werp\Builders\CodeInput;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveAction;
-use Werp\Builders\AmountInput;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\DoctypeSelect;
-use Werp\Builders\ContinueAction;
-use Werp\Builders\CurrencySelectBuilder;
-use Werp\Builders\CustomerSelectBuilder;
-use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInput;
+use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\Actions\PrintAction;
+use Werp\Builders\Selects\SelectBuilder;
+use Werp\Builders\Actions\ActionBuilder;
+use Werp\Builders\Inputs\TextInput;
+use Werp\Builders\Inputs\CodeInput;
+use Werp\Builders\Actions\SaveAction;
+use Werp\Builders\Inputs\AmountInput;
+use Werp\Builders\Actions\UpdateAction;
+use Werp\Builders\Selects\DoctypeSelect;
+use Werp\Builders\Actions\ContinueAction;
+use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CustomerSelectBuilder;
+use Werp\Builders\Selects\WarehouseSelect;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class ProductOutputForm extends FormBuilder
+class ProductOutputForm extends SimplePage
 {
-    public function __construct()
+    protected $moduleRoute = 'admin.products.product_output';
+    protected $mainTitle = 'Entrega de productos';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
+
+    protected function getInputs($new = false)
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Notas de entregas')
-            ->setRoute('admin.products.product_output')
-            ->addBreadcrumb($homeBreadcrumb);
+        if (!$new) {
+            $inputs[] = new CodeInput;
+        }
+
+        $inputs[] = new DateInput;
+        $inputs[] = new CustomerSelectBuilder;
+        $inputs[] = new WarehouseSelect;
+        $inputs[] = new CurrencySelectBuilder;
+        $inputs[] = (new DescriptionInput)->advancedOption();
+        $inputs[] = (new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled();
+        $inputs[] = (new DoctypeSelect(Basedoc::IO_DOC, Config::INV_DEFAULT_IO_DOC))->advancedOption();
+
+        return $inputs;
     }
 
     public function createPage()
     {
-        $this
-            ->newConfig('Nueva')
-
-            ->addInput(new DateInput)            
-            ->addSelect(new CustomerSelectBuilder)
-            ->addSelect(new WarehouseSelect)
-            ->addSelect(new CurrencySelectBuilder)
-            ->addInput((new DescriptionInput)->advancedOption())
-            ->addInput((new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelect(Basedoc::IO_DOC, Config::INV_DEFAULT_IO_DOC))->advancedOption())
-
+        return $this;
+        
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->newTitle)
+            ->setInputs($this->getInputs(true))
             ->addAction(new ContinueAction)
-            ->goBackEdit()
             ->setAdvancedOptions()
-            ;
+            ->goBackEdit()
+        ;
 
-        return $this->view();
+        return $this
+            ->setShortAction($this->newTitle)
+            ->newConfig()
+            ->addForm($form)->view()
+        ;
     }
 
     public function editPage($data)
     {
-        $this->data = $data;
-
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
-        $this
-            ->editConfig('Editar')
-
-            ->addInput(new CodeInput);
-
-        if ($data['reference']) {
-            $this->addInput((new TextInput('reference', 'Referencia'))->disabled());
-        }
-
-        $this
-            ->addInput((new DateInput)->setDisable($disable))
-            ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelect)->setDisable($disable))
-            ->addSelect((new CurrencySelectBuilder)->setDisable($disable))
-            
-            ->addInput((new DescriptionInput)->advancedOption()->setDisable($disable))
-            ->addInput((new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled())
-            ->addSelect((new DoctypeSelect(Basedoc::IO_DOC,  Config::INV_DEFAULT_IO_DOC))->advancedOption()->setDisable($disable))
-
-            ->setAdvancedOptions()
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->editTitle)
+            ->setInputs($this->getInputs())
             ->setData($data)
-            ;
+            ->setAdvancedOptions()
+            ->setMaxWidth()
+            ->setEdit();
+        ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateAction);
+            $form->addAction(new UpdateAction);
         }
 
-        $this
+        $form
             ->setList(new ProductOutputDetailList(false, $data['id'], $disable))
-            ->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.color'))
             ->setPrintAction((new PrintAction)->setRoute(route($this->getRoute().'.print', $data['id'])))
@@ -105,9 +102,13 @@ class ProductOutputForm extends FormBuilder
 
         foreach ($actionKeys as $key) {
             $action = config('products.document.actions.'.Basedoc::IO_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.product_output.'.$action['key'], $data['id'])));
+            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.product_output.'.$action['key'], $data['id'])));
         }
 
-        return $this->view();
+        return $this
+            ->setShortAction($this->editTitle)
+            ->editConfig()
+            ->addForm($form)->view()
+        ;
     }
 }

@@ -36936,7 +36936,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
         return {
             pupupMod: 'add',
             modalAction: '',
-            showAdd: false,
+            showAdd: this.config.show_add,
             // Component
             columns: this.config.fields,
             escapeSort: ['action'],
@@ -37000,7 +37000,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
     mounted: function mounted() {
         this.all();
 
-        this.showAdd = true;
+        //this.showAdd = true;
         var vm = this;
 
         if (vm.use_modal) {

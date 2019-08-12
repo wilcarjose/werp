@@ -2,113 +2,96 @@
 
 namespace Werp\Modules\Core\Sales\Builders;
 
-use Werp\Builders\TaxSelect;
-use Werp\Builders\FormSelect;
 use Werp\Builders\FormBuilder;
-use Werp\Builders\DateInput;
-use Werp\Builders\SelectBuilder;
-use Werp\Builders\ActionBuilder;
-use Werp\Builders\DiscountSelect;
-use Werp\Builders\TextInput;
-use Werp\Builders\CodeInput;
-use Werp\Builders\BreadcrumbBuilder;
-use Werp\Builders\SaveAction;
-use Werp\Builders\SaleChannelSelect;
-use Werp\Builders\AmountInput;
-use Werp\Builders\UpdateAction;
-use Werp\Builders\PaymentMethodSelect;
-use Werp\Builders\DoctypeSelect;
-use Werp\Builders\CustomerSelectBuilder;
-use Werp\Builders\ContinueAction;
-use Werp\Builders\CurrencySelectBuilder;
-use Werp\Builders\WarehouseSelect;
-use Werp\Builders\DescriptionInput;
-use Werp\Builders\PriceListTypeSelectBuilder;
+use Werp\Builders\Selects\TaxSelect;
+use Werp\Builders\Selects\FormSelect;
+use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\Selects\SelectBuilder;
+use Werp\Builders\Actions\ActionBuilder;
+use Werp\Builders\Selects\DiscountSelect;
+use Werp\Builders\Inputs\TextInput;
+use Werp\Builders\Inputs\CodeInput;
+use Werp\Builders\Actions\SaveAction;
+use Werp\Builders\Selects\SaleChannelSelect;
+use Werp\Builders\Inputs\AmountInput;
+use Werp\Builders\Actions\UpdateAction;
+use Werp\Builders\Selects\PaymentMethodSelect;
+use Werp\Builders\Selects\DoctypeSelect;
+use Werp\Builders\Selects\CustomerSelectBuilder;
+use Werp\Builders\Actions\ContinueAction;
+use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\WarehouseSelect;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Builders\Selects\PriceListTypeSelectBuilder;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class SaleOrderForm extends FormBuilder
+class SaleOrderForm extends SimplePage
 {
-    public function __construct()
+    protected $moduleRoute = 'admin.sales.orders';
+    protected $mainTitle = 'Orden de venta';
+    protected $newTitle = 'Nuevo';
+    protected $editTitle = 'Editar';
+
+    protected function getInputs($new = false)
     {
-        $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
-        $this->setTitle('Orden de venta')
-            ->setRoute('admin.sales.orders')
-            ->addBreadcrumb($homeBreadcrumb);
+        if (!$new) {
+            $inputs[] = new CodeInput;
+        }
+
+        $inputs[] = new DateInput;
+        $inputs[] = new CustomerSelectBuilder;
+        $inputs[] = new PriceListTypeSelectBuilder;
+        $inputs[] = new WarehouseSelect;
+        $inputs[] = new SaleChannelSelect;
+        $inputs[] = new TaxSelect;
+        $inputs[] = new DiscountSelect;
+        $inputs[] = (new PaymentMethodSelect)->setNone(true);
+        $inputs[] = (new DescriptionInput)->advancedOption();
+        $inputs[] = (new DoctypeSelect(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption();
+
+        return $inputs;
     }
 
-    public function createPage($selects, $defaults)
+    public function createPage()
     {
-        $this
-            ->newConfig('Crear nueva')
-
-            ->addInput(new DateInput)            
-            ->addSelect(new CustomerSelectBuilder)
-            ->addSelect(new PriceListTypeSelectBuilder)
-            ->addSelect(new WarehouseSelect)
-            ->addSelect(new SaleChannelSelect)
-            ->addSelect((new TaxSelect))
-            ->addSelect((new DiscountSelect))
-            ->addSelect((new PaymentMethodSelect)->setNone(true))
-            ->addInput((new DescriptionInput)->advancedOption())
-            ->addSelect((new DoctypeSelect(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption())
-
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->newTitle)
+            ->setInputs($this->getInputs(true))
             ->addAction(new ContinueAction)
-            ->goBackEdit()
-            
-            //->setGoBack('edit')
-            //->goBackHome()
-            //->goBackEdit()
-            //->goBackNew()
-            //->goBackList()
-
-            //->setMaxWidth()
             ->setAdvancedOptions()
-            ;
+            ->goBackEdit()
+        ;
 
-        return $this->view();
+        return $this
+            ->setShortAction($this->newTitle)
+            ->newConfig()
+            ->addForm($form)->view()
+        ;
     }
 
     public function editPage($data)
     {
-        $this->data = $data;
-
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
-        $this
-            ->editConfig('Editar')
-
-            ->addInput(new CodeInput)
-            ;
-
-        if ($data['reference']) {
-            $this->addInput((new TextInput('reference', 'Referencia'))->disabled());
-        }
-
-        $this
-            ->addInput((new DateInput)->setDisable($disable))
-            ->addSelect((new CustomerSelectBuilder)->setDisable($disable))
-            ->addSelect((new PriceListTypeSelectBuilder)->setDisable($disable))
-            ->addSelect((new WarehouseSelect)->setDisable($disable))
-            ->addSelect((new SaleChannelSelect)->setDisable($disable))
-            ->addSelect((new TaxSelect)->setDisable($disable))
-            ->addSelect((new DiscountSelect)->setDisable($disable))
-            ->addSelect((new PaymentMethodSelect)->setDisable($disable))
-            //->addSelect((new CurrencySelectBuilder)->setDisable($disable))
-
-            ->addInput((new DescriptionInput)->advancedOption()->setDisable($disable))
-            ->addSelect((new DoctypeSelect(Basedoc::SO_DOC,  Config::INV_DEFAULT_SO_DOC))->advancedOption()->setDisable($disable))
-
-            ->setAdvancedOptions()
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setAction($this->editTitle)
+            ->setInputs($this->getInputs())
             ->setData($data)
-            ;
+            ->setAdvancedOptions()
+            ->setMaxWidth()
+            ->setEdit();
+        ;
 
         if ($noProcessed) {
-            $this->addAction(new UpdateAction);
+            $form->addAction(new UpdateAction);
         }
 
-        $this
+        $form
             ->setList(new SaleOrderDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
             ->setState(trans(config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.after_name')))
@@ -119,9 +102,13 @@ class SaleOrderForm extends FormBuilder
 
         foreach ($actionKeys as $key) {
             $action = config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$key);
-            $this->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->getRoute().'.'.$action['key'], $data['id'])));
+            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->getRoute().'.'.$action['key'], $data['id'])));
         }
 
-        return $this->view();
+        return $this
+            ->setShortAction($this->editTitle)
+            ->editConfig()
+            ->addForm($form)->view()
+        ;
     }
 }

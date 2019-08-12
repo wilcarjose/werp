@@ -17,6 +17,8 @@ class ListBuilder extends ModuleBuilder
 
     protected $showSearch = true;
 
+    protected $showAdd = true;
+
     protected $fields;
 
     protected $filter = null;
@@ -48,6 +50,8 @@ class ListBuilder extends ModuleBuilder
     protected $name = false;
 
     protected $moreOptions = 'Opciones avanzadas';
+
+
 
     public function view()
     {
@@ -116,6 +120,24 @@ class ListBuilder extends ModuleBuilder
     public function setShowSearch($showSearch)
     {
         $this->showSearch = $showSearch;
+        return $this;
+    }
+
+     /**
+     * @return mixed
+     */
+    public function getShowAdd()
+    {
+        return $this->showAdd;
+    }
+
+    /**
+     * @param mixed $showAdd
+     * @return ListBuilder
+     */
+    public function setShowAdd($showAdd)
+    {
+        $this->showAdd = $showAdd;
         return $this;
     }
 
@@ -416,6 +438,7 @@ class ListBuilder extends ModuleBuilder
             'show_multi_actions' => $this->getShowMultiActions(),
             'reload_on_save' => $this->getReloadOnSave(),
             'show_advanced' => $this->getShowAdvancedOptions(),
+            'show_add' => $this->getShowAdd(),
             'more_options' => $this->getMoreOptions(),
         ];
 
