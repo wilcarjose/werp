@@ -52,6 +52,7 @@ return [
     'tax' => 'Tax',
     'discount' => 'Discount',
     'sale_order' => 'Sale order',
+    'purchase_order' => 'Purchase order',
     'address' => 'Address',
     'print' => 'Print',
     'save_and_new' => 'Save and new',
@@ -96,6 +97,7 @@ return [
         'taxs' => 'Taxs',
         'discounts' => 'Discounts',
         'sales_orders' => 'Sales orders',
+        'purchases_orders' => 'Purchases orders',
     ],
     'profile' => [
         'profile' => 'Profile',

@@ -40,6 +40,11 @@ class PriceListType extends Model
         return $query->active()->where('type', 'sales');
     }
 
+    public function scopePurchaseLists($query)
+    {
+        return $query->active()->where('type', 'purchases');
+    }
+
     public function toArray()
     {
         return [

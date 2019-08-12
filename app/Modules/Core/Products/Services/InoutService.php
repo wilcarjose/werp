@@ -18,7 +18,7 @@ use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 class InoutService extends BaseService
 {
     protected $entity;
-    protected $orderService;
+    //protected $orderService;
     protected $doctypeService;
     protected $transactionService;
 
@@ -26,12 +26,12 @@ class InoutService extends BaseService
         Inout $entity,
         InoutDetail $entityDetail,
         DoctypeService $doctypeService,
-        PurchaseOrderService $orderService,
+        //PurchaseOrderService $orderService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
         $this->entityDetail         = $entityDetail;
-        $this->orderService         = $orderService;
+        //$this->orderService         = $orderService;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
     }
@@ -120,7 +120,7 @@ class InoutService extends BaseService
                     'is_delivery_pending' => 'n',
                 ];
 
-                $order = $this->orderService->createFromInout($data);
+                //$order = $this->orderService->createFromInout($data);
                 $order->state = Basedoc::PR_STATE;
                 $order->save();
                 $entity->orders()->attach($order->id);

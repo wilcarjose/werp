@@ -54,6 +54,7 @@ return [
     'tax' => 'Impuesto',
     'discount' => 'Descuento',
     'sale_order' => 'Orden de venta',
+    'purchase_order' => 'Orden de compra',
     'address' => 'Dirección',
     'print' => 'Imprimir',
     'save_and_new' => 'Guardar y nuevo',
@@ -96,6 +97,7 @@ return [
         'taxs' => 'Impuestos',
         'discounts' => 'Descuentos',
         'sales_orders' => 'Órdenes de ventas',
+        'purchases_orders' => 'Órdenes de compra',
     ],
     'profile' => [
         'profile' => 'Perfil',

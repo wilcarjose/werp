@@ -26,6 +26,7 @@ class SaleOrderService extends OrderService
     protected $inventoryObject;
     protected $transactionService;
     protected $outputService;
+    protected $entityDetail;
 
     public function __construct(
         Order $entity,
@@ -39,19 +40,16 @@ class SaleOrderService extends OrderService
         $this->entity             = $entity;
         $this->taxService         = $taxService;
         $this->entityDetail       = $entityDetail;
-        $this->outputService     = $outputService;
+        $this->outputService      = $outputService;
         $this->doctypeService     = $doctypeService;
         $this->discountService    = $discountService;
         $this->transactionService = $transactionService;
     }
 
-    public function getDetail($detailId)
-    {
-        return $this->entityDetail->findOrFail($detailId);
-    }
-
     public function create(array $data)
     {
+        $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
+        $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
         $data['type'] = Order::SALE_TYPE;
         $data['state'] = Basedoc::PE_STATE;
@@ -102,163 +100,6 @@ class SaleOrderService extends OrderService
         $data['type'] = Order::SALE_TYPE;
         $data['state'] = Basedoc::PR_STATE;
         return $this->entity->create($data);
-    }
-
-    protected function makeData($data, $entity = null)
-    {
-        $data['reference'] = $entity->code;
-        $data['date'] = $entity->date;
-        $data['currency'] = $entity->currency;
-        $data['warehouse_id'] = isset($data['warehouse_id']) ? $data['warehouse_id'] : $entity->warehouse_id;
-        $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
-        $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
-        $data['qty_delivered'] = 0;
-        $data['qty_invoiced'] = 0;
-        
-        return $data;
-    }
-
-    public function createDetail($id, $data)
-    {
-        $entity = $this->getById($id);
-
-        try {
-
-            DB::beginTransaction();
-
-            $data = $this->makeData($data, $entity);
-
-            $entityDetail = $entity->detail()->create($data);
-
-            $this->updateDetailAmounts($entityDetail, $entity);
-
-            $totalAmountData = $this->getTotalAmounts($entityDetail->order);
-
-            $entity->update($totalAmountData);
-
-            DB::commit();
-
-            return $entityDetail;
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
-        }
-    }
-
-    protected function getAmounts($price, $qty, $taxId, $discountId)
-    {
-        $amountData['price'] = $price;
-        $amountData['tax'] = $this->taxService->getTaxAmount($taxId, $price);
-        $amountData['discount'] = $this->discountService->getDiscountAmount($discountId, $price);
-        $amountData['full_price'] = $price + $amountData['tax'] - $amountData['discount'];
-
-        $amountData['total_price'] = $price * $qty;
-        $amountData['total_tax'] = $amountData['tax'] * $qty;
-        $amountData['total_discount'] = $amountData['discount'] * $qty;
-        $amountData['total'] = $amountData['full_price'] * $qty;
-
-        return $amountData;
-    }
-
-    protected function getTotalAmounts($order)
-    {
-        $total_price = 0;
-        $total_tax = 0;
-        $total_discount = 0;
-        $total = 0;
-
-        foreach ($order->detail as $detail) {
-            $total_price = $total_price + $detail->total_price;
-            $total_tax = $total_tax + $detail->total_tax;
-            $total_discount = $total_discount + $detail->total_discount;
-            $total = $total + $detail->total;
-        }
-
-        return [
-            'total_price' => $total_price,
-            'total_tax' => $total_tax,
-            'total_discount' => $total_discount,
-            'total' => $total,
-        ];
-    }
-
-    protected function updateDetailAmounts($entityDetail, $entity = null)
-    {
-        if (!$entity) {
-            $entity = $entityDetail->order;
-        }
-
-        $price = $entityDetail->product->currentPrice($entity->price_list_type_id);
-
-        $taxId = $entityDetail->tax_id ? $entityDetail->tax_id : $entity->tax_id;
-        $descountId = $entityDetail->discount_id ? $entityDetail->discount_id : $entity->discount_id;
-
-        $amountData = $this->getAmounts($price, $entityDetail->qty, $taxId, $descountId);
-
-        $entityDetail->update($amountData);
-    }
-
-    public function updateDetail($data, $detailId)
-    {
-        try {
-
-            DB::beginTransaction();
-
-            $entityDetail = $this->getDetail($detailId);
-
-            $entity = $entityDetail->order;
-
-            $data = $this->makeData($data, $entity);
-            $entityDetail->update($data);
-
-            $this->updateDetailAmounts($entityDetail);
-
-            $totalAmountData = $this->getTotalAmounts($entityDetail->order);
-
-            $entity->update($totalAmountData);
-
-            DB::commit();
-
-            return $entityDetail;
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
-        }
-    }
-
-    public function deleteDetail($id, $detailId)
-    {
-        $entity = $this->entity->findOrFail($id);
-        $entityDetail = $this->getDetail($detailId);
-
-        try {
-
-            DB::beginTransaction();
-    
-            $entityDetail->delete();
-
-            foreach ($entity->fresh()->detail as $detail) {
-                $this->updateDetailAmounts($detail);
-            }
-
-            $totalAmountData = $this->getTotalAmounts($entity);
-
-            $entity->update($totalAmountData);
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-
-            throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
-        }
     }
 
     public function process($id)

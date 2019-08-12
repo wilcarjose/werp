@@ -17,6 +17,17 @@
 	Route::get('/config/edit', 'ConfigController@edit')->name('config.edit');
 	Route::put('/config/update', 'ConfigController@update')->name('config.update');
 
+	// Purchases orders
+	Route::post('/orders/removeBulk','PurchaseOrderController@destroyBulk');
+	Route::get('/orders/{id}/detail', 'PurchaseOrderController@indexDetail')->name('orders.detail.index');
+	Route::get('/orders/{id}/detail/{detail}', 'PurchaseOrderController@showDetail')->name('orders.detail.show');
+	Route::put('/orders/{id}/detail/{detail}', 'PurchaseOrderController@updateDetail')->name('orders.detail.update');
+	Route::post('/orders/{id}/detail', 'PurchaseOrderController@storeDetail')->name('orders.detail.update');
+	Route::delete('/orders/{id}/detail/{detail}', 'PurchaseOrderController@destroyDetail')->name('orders.detail.update');
+	Route::get('/orders/{id}/process', 'PurchaseOrderController@process')->name('orders.process');
+	Route::get('/orders/{id}/reverse', 'PurchaseOrderController@reverse')->name('orders.reverse');
+	Route::get('/orders/{id}/cancel', 'PurchaseOrderController@cancel')->name('orders.cancel');
+	Route::resource('/orders','PurchaseOrderController');
 
 
 

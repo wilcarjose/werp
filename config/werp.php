@@ -93,6 +93,10 @@ return [
 
 	'sales_orders' => [
 		'generate_output' => true,
-	]
+	],
+
+	'purchases_orders' => [
+		'generate_entry' => true,
+	],	
 
 ];

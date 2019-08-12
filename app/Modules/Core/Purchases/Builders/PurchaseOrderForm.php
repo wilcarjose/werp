@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Builders;
+namespace Werp\Modules\Core\Purchases\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\Selects\TaxSelect;
@@ -12,25 +12,24 @@ use Werp\Builders\Selects\DiscountSelect;
 use Werp\Builders\Inputs\TextInput;
 use Werp\Builders\Inputs\CodeInput;
 use Werp\Builders\Actions\SaveAction;
-use Werp\Builders\Selects\SaleChannelSelect;
 use Werp\Builders\Inputs\AmountInput;
 use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\PaymentMethodSelect;
 use Werp\Builders\Selects\DoctypeSelect;
-use Werp\Builders\Selects\CustomerSelectBuilder;
+use Werp\Builders\Selects\SupplierSelectBuilder;
 use Werp\Builders\Actions\ContinueAction;
 use Werp\Builders\Selects\CurrencySelectBuilder;
 use Werp\Builders\Selects\WarehouseSelect;
 use Werp\Builders\Inputs\DescriptionInput;
-use Werp\Builders\Selects\SalePriceListSelect;
+use Werp\Builders\Selects\PurchasePriceListSelect;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
-class SaleOrderForm extends SimplePage
+class PurchaseOrderForm extends SimplePage
 {
-    protected $moduleRoute = 'admin.sales.orders';
-    protected $mainTitle = 'Orden de venta';
+    protected $moduleRoute = 'admin.purchases.orders';
+    protected $mainTitle = 'Orden de compra';
     protected $newTitle = 'Nuevo';
     protected $editTitle = 'Editar';
 
@@ -41,15 +40,14 @@ class SaleOrderForm extends SimplePage
         }
 
         $inputs[] = new DateInput;
-        $inputs[] = new CustomerSelectBuilder;
-        $inputs[] = new SalePriceListSelect;
+        $inputs[] = new SupplierSelectBuilder;
+        $inputs[] = new PurchasePriceListSelect;
         $inputs[] = new WarehouseSelect;
-        $inputs[] = new SaleChannelSelect;
         $inputs[] = new TaxSelect;
         $inputs[] = new DiscountSelect;
         $inputs[] = (new PaymentMethodSelect)->setNone(true);
         $inputs[] = (new DescriptionInput)->advancedOption();
-        $inputs[] = (new DoctypeSelect(Basedoc::SO_DOC, Config::INV_DEFAULT_SO_DOC))->advancedOption();
+        $inputs[] = (new DoctypeSelect(Basedoc::PO_DOC, Config::INV_DEFAULT_PO_DOC))->advancedOption();
 
         return $inputs;
     }
@@ -92,16 +90,16 @@ class SaleOrderForm extends SimplePage
         }
 
         $form
-            ->setList(new SaleOrderDetailList(false, $data['id'], $disable))
+            ->setList(new PurchaseOrderDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
-            ->setState(trans(config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.after_name')))
-            ->setStateColor(config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.color'));
+            ->setState(trans(config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$data['state'].'.after_name')))
+            ->setStateColor(config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$data['state'].'.color'));
             ;
 
-        $actionKeys = config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.new_actions');
+        $actionKeys = config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
-            $action = config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$key);
+            $action = config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$key);
             $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->getRoute().'.'.$action['key'], $data['id'])));
         }
 
