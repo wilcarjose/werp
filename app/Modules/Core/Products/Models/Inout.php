@@ -25,7 +25,7 @@ class Inout extends Model
         'total_tax',
         'total_discount',
         'total',
-        'currency',
+        'currency_id',
         'doctype_id',
         'warehouse_id',
         'partner_id',
@@ -43,11 +43,11 @@ class Inout extends Model
         'warehouse_id',
         'date',
         'type',
+        'currency_id',
         'total_price',
         'total_tax',
         'total_discount',
         'total',
-        'currency',
         'partner_id',
         'alternate_code'
     ];
@@ -58,6 +58,7 @@ class Inout extends Model
         'warehouse_id',
         'date',
         'type',
+        'currency_id',
         'order_code',
         'currency',
         'partner_id',
@@ -131,7 +132,7 @@ class Inout extends Model
             'total_tax' => $this->total_tax,
             'total_discount' => $this->total_discount,
             'total' => $this->total,
-            'currency' => $this->currency,
+            'currency_id' => $this->currency_id,
             'partner_id' => $this->partner_id,
             'alternate_code' => $this->alternate_code,
         ];
@@ -173,5 +174,10 @@ class Inout extends Model
     public function partner()
     {
         return $this->belongsTo('Werp\Modules\Core\Purchases\Models\Partner');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\Currency');
     }
 }

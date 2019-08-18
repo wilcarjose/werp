@@ -8,6 +8,7 @@ use Werp\Modules\Core\Sales\Services\TaxService;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
+use Werp\Modules\Core\Sales\Models\PriceListType;
 use Werp\Modules\Core\Products\Models\OrderDetail;
 use Werp\Modules\Core\Products\Services\OrderService;
 use Werp\Modules\Core\Sales\Services\DiscountService;
@@ -48,6 +49,7 @@ class SaleOrderService extends OrderService
 
     public function create(array $data)
     {
+        $data['currency_id'] = PriceListType::find($data['price_list_type_id'])->currency_id;
         $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
         $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
@@ -70,6 +72,7 @@ class SaleOrderService extends OrderService
 
             $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
             $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
+            $data['currency_id'] = PriceListType::find($data['price_list_type_id'])->currency_id;
 
             $this->entity->where('id', $id)->update($data);
 
@@ -136,7 +139,7 @@ class SaleOrderService extends OrderService
                     'total_tax' => $entity->total_tax,
                     'total_discount' => $entity->total_discount,
                     'total' => $entity->total,
-                    'currency' => $entity->currency,
+                    'currency_id' => $entity->currency_id,
                     'partner_id' => $entity->partner_id,
                     'tax_id' => $entity->tax_id,
                     'discount_id' => $entity->discount_id,
@@ -163,7 +166,7 @@ class SaleOrderService extends OrderService
                         'total_tax' => $detail->total_tax,
                         'total_discount' => $detail->total_discount,
                         'total' => $detail->total,
-                        'currency' => $detail->currency,
+                        'currency_id' => $detail->currency_id,
                         'order_detail_id' => $detail->id,
                     ];
                     
@@ -209,7 +212,7 @@ class SaleOrderService extends OrderService
             $entity->state = Basedoc::CA_STATE;
             $entity->save();
 
-            if (config('werp.sales_orders.generate_output')) {            
+            if (config('werp.sales_orders.generate_output')) {
                 foreach ($entity->inouts as $output) {
                     $this->outputService->cancel($output->id);
                 }

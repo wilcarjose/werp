@@ -25,7 +25,10 @@ class CreateOrderDetailTable extends Migration
             $table->double('total_tax', 20, 4)->default(0.0000);
             $table->double('total_discount', 20, 4)->default(0.0000);
             $table->double('total', 20, 4)->default(0.0000);
-            $table->string('currency')->default('USD');
+            $table->uuid('currency_id');
+            $table->foreign('currency_id')
+                ->references('id')
+                ->on('currencies');
             $table->double('qty');
             $table->double('qty_delivered')->default(0);
             $table->double('qty_invoiced')->default(0);

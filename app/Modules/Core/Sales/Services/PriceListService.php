@@ -313,7 +313,8 @@ class PriceListService extends BaseService
         $priceData = [
             'price_list_type_id' => $entity->price_list_type_id,
             'starting_at' => $entity->starting_at,
-            'currency' => $entity->priceListType->currency,
+            'currency_id' => $entity->priceListType->currency_id,
+            'currency_abbr' => $entity->priceListType->currency_abbr,
             'active' => BaseModel::STATUS_INACTIVE,
             'price' => $price,
             'product_id' => $product->id,

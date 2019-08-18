@@ -20,7 +20,7 @@ class PriceListTypeList extends MainList
             ->setFields([
               ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text'],
               ['field' => 'type', 'name' => trans('view.type') , 'type' => 'text'],
-              ['field' => 'currency', 'name' => trans('view.currency') , 'type' => 'text']
+              ['field' => 'currency_abbr', 'name' => trans('view.currency') , 'type' => 'text']
             ])
             ->makeConfig();
 

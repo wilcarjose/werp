@@ -44,7 +44,7 @@ class ProductService extends BaseService
 
         	foreach ($saleLists as $list) {
         		$price = $product->currentPrice($list->id);
-        		$data[$list->currency] = $price;
+        		$data[$list->currency_abbr] = $price;
         	}
 
         	return $data;

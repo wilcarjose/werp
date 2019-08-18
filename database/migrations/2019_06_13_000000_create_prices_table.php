@@ -21,7 +21,11 @@ class CreatePricesTable extends Migration
             $table->double('before_price', 20, 4)->nullable();
             $table->double('base_price', 20, 4)->nullable();
             $table->string('operation_name')->nullable();
-            $table->string('currency')->default('USD');
+            $table->uuid('currency_id');
+            $table->foreign('currency_id')
+                ->references('id')
+                ->on('currencies');
+            $table->string('currency_abbr');
             $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')

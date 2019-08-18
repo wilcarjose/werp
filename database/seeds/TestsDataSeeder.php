@@ -12,6 +12,7 @@ use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Maintenance\Models\Company;
 use Werp\Modules\Core\Sales\Models\PriceListType;
 use Werp\Modules\Core\Sales\Models\PaymentMethod;
+use Werp\Modules\Core\Maintenance\Models\Currency;
 use Werp\Modules\Core\Maintenance\Models\AmountOperation;
 
 class TestsDataSeeder extends Seeder
@@ -101,7 +102,8 @@ class TestsDataSeeder extends Seeder
 
         $listType = PriceListType::create([
             'name' => 'Lista de venta en dolares',
-            'currency' => 'USD',
+            'currency_abbr' => 'USD',
+            'currency_id' => Currency::where('abbr', 'USD')->first()->id,
             'type' => 'sales',
         ]);
     }

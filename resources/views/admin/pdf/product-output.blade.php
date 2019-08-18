@@ -237,8 +237,8 @@
                     </div>
                     <div class="shop-address">
                         Dirección:
-                        {{ $entity->partner->address->address_1 }}<br>
-                        {{ $entity->partner->address->address_2 }}
+                        {{ isset($entity->partner->address->address_1) ? $entity->partner->address->address_1 : '' }}<br>
+                        {{ isset($entity->partner->address->address_2) ? $entity->partner->address->address_2 : '' }}
                     </div>
                 </td>
             </tr>

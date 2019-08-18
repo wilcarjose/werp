@@ -8,6 +8,7 @@ use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
+use Werp\Modules\Core\Sales\Models\PriceListType;
 use Werp\Modules\Core\Products\Services\OrderService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
@@ -21,6 +22,7 @@ class PurchaseOrderService extends OrderService
         $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
         $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
+        $data['currency_id'] = PriceListType::find($data['price_list_type_id'])->currency_id;
         $data['type'] = Order::PURCHASE_TYPE;
         $data['state'] = Basedoc::PE_STATE;
         return $this->entity->create($data);
@@ -74,7 +76,7 @@ class PurchaseOrderService extends OrderService
                     'total_tax' => $entity->total_tax,
                     'total_discount' => $entity->total_discount,
                     'total' => $entity->total,
-                    'currency' => $entity->currency,
+                    'currency_id' => $entity->currency_id,
                     'partner_id' => $entity->partner_id,
                     'tax_id' => $entity->tax_id,
                     'discount_id' => $entity->discount_id,
@@ -101,7 +103,7 @@ class PurchaseOrderService extends OrderService
                         'total_tax' => $detail->total_tax,
                         'total_discount' => $detail->total_discount,
                         'total' => $detail->total,
-                        'currency' => $detail->currency,
+                        'currency_id' => $detail->currency_id,
                         'order_detail_id' => $detail->id,
                     ];
                     
@@ -129,6 +131,36 @@ class PurchaseOrderService extends OrderService
 
             DB::rollBack();
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
+        }
+    }
+
+    public function cancel($id)
+    {
+        $entity = $this->getById($id);
+
+        if ($this->canNotCancel($entity)) {
+            throw new CanNotProcessException("No se puede anular este registro");
+        }
+
+        try {
+
+            DB::beginTransaction();
+
+            $entity->state = Basedoc::CA_STATE;
+            $entity->save();
+
+            if (config('werp.purchases_orders.generate_entry')) {
+                foreach ($entity->inouts as $output) {
+                    $this->inoutService->cancel($output->id);
+                }
+            }
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            throw new \Exception("Error Processing Request: " . $e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
     }
 }

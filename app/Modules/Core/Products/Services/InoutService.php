@@ -180,7 +180,6 @@ class InoutService extends BaseService
     {
         $data['reference'] = $entity->code;
         $data['date'] = $entity->date;
-        $data['currency'] = $entity->currency;
         $data['date'] = $entity->date;
         $data['warehouse_id'] = isset($data['warehouse_id']) && $data['warehouse_id'] ?
             $data['warehouse_id'] :

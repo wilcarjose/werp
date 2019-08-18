@@ -24,7 +24,7 @@ class Order extends Model
         'total_tax',
         'total_discount',
         'total',
-        'currency',
+        'currency_id',
         'doctype_id',
         'warehouse_id',
         'partner_id',
@@ -100,7 +100,7 @@ class Order extends Model
             'total_tax' => $this->total_tax,
             'total_discount' => $this->total_discount,
             'total' => $this->total,
-            'currency' => $this->currency,
+            'currency_id' => $this->currency_id,
             'partner_id' => $this->partner_id,
             'is_invoice_pending' => $this->is_invoice_pending,
             'is_delivery_pending' => $this->is_delivery_pending,
@@ -130,5 +130,10 @@ class Order extends Model
     public function priceListType()
     {
         return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'price_list_type_id');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\Currency');
     }
 }

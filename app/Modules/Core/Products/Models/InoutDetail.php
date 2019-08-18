@@ -24,7 +24,7 @@ class InoutDetail extends Model
         'total_tax',
         'total_discount',
         'total',
-        'currency',
+        'currency_id',
         'qty',
         'inout_id',
         'product_id',
@@ -48,7 +48,7 @@ class InoutDetail extends Model
         'total_tax',
         'total_discount',
         'total',
-        'currency',
+        'currency_id',
         'discount_id',
         'tax_id',
     ];
@@ -58,7 +58,7 @@ class InoutDetail extends Model
         'date',
         'product_id',
         'warehouse_id',
-        'currency',
+        'currency_id',
         'order_detail_id',
         'discount_id',
         'tax_id',
@@ -94,7 +94,7 @@ class InoutDetail extends Model
             'total_tax' => $this->total_tax,
             'total_discount' => $this->total_discount,
             'total' => $this->total,
-            'currency' => $this->currency,
+            'currency_id' => $this->currency_id,
             'order_detail_id' => $this->order_detail_id,
             'tax_id' => $this->tax_id,
             'discount_id' => $this->discount_id,
@@ -138,5 +138,10 @@ class InoutDetail extends Model
     public function product()
     {
         return $this->belongsTo('Werp\Modules\Core\Products\Models\Product');
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\Currency');
     }
 }

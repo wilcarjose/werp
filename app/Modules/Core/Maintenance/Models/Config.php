@@ -15,6 +15,8 @@ class Config extends Model
     const INV_DEFAULT_IO_DOC = 'inv_default_io_doc';
     const INV_DEFAULT_SO_DOC = 'inv_default_so_doc';
     const INV_DEFAULT_IM_DOC = 'inv_default_im_doc';
+    const MAI_DEFAULT_CURRENCY = 'mai_default_currency';
+    const MAI_BASE_CURRENCY = 'mai_base_currency';
 
     protected $table = 'config';
 

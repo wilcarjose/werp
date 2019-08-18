@@ -19,7 +19,8 @@ class Price extends Model
      */
     protected $fillable = [
         'starting_at',
-        'currency',
+        'currency_id',
+        'currency_abbr',
         'price',
         'product_id',
         'price_list_id',
@@ -44,7 +45,8 @@ class Price extends Model
             'price' => $this->price,
             'base_price' => $this->base_price,
             'before_price' => $this->before_price,
-            'currency' => $this->currency,
+            'currency_id' => $this->currency_id,
+            'currency_abbr' => $this->currency_abbr,
             'active' => $this->active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
@@ -82,5 +84,10 @@ class Price extends Model
     public function product()
     {
         return $this->belongsTo('Werp\Modules\Core\Products\Models\Product');
+    }
+
+    public function currency()
+    {
+        return $this->hasOne('Werp\Modules\Core\Maintenance\Models\Currency');
     }
 }

@@ -106,7 +106,7 @@ class PriceList extends MainList
               ['field' => 'base_price', 'name' => 'Precio base' , 'type' => 'amount'],
               ['field' => 'operation_name', 'name' => 'Operación' , 'type' => 'text'],
               ['field' => 'price', 'name' => 'Precio final' , 'type' => 'amount'],
-              ['field' => 'currency', 'name' => 'Moneda' , 'type' => 'text']
+              ['field' => 'currency_abbr', 'name' => 'Moneda' , 'type' => 'text']
             ])
             ->setFilter($filter)
             ->setEmptyList($empty)

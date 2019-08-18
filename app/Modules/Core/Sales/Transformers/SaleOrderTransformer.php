@@ -17,7 +17,7 @@ class SaleOrderTransformer extends Transformer
             'total_tax'        => $item['total_tax'],
             'total_discount'   => $item['total_discount'],
             'total'      => $item['total'],
-            'currency'          => $item['currency'],
+            'currency_id'          => $item['currency_id'],
             'doctype_id'        => $item['doctype_id'],
             'warehouse_id'      => $item['warehouse_id'],
             'partner_id'        => $item['partner_id'],

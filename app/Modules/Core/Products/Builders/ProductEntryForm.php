@@ -78,10 +78,10 @@ class ProductEntryForm extends SimplePage
         $inputs[] = (new SupplierSelectBuilder)->setDisable($disable);
         $inputs[] = (new WarehouseSelect)->setDisable($disable);
         $inputs[] = (new CurrencySelectBuilder)->setDisable($disable);
-        $inputs[] = (new AmountInput)->disabled();
-        $inputs[] = (new AmountInput('total_tax', trans('view.total_tax')))->disabled();
-        $inputs[] = (new AmountInput('total_discount', trans('view.total_discount')))->disabled();
-        $inputs[] = (new AmountInput('total', trans('view.total')))->disabled();
+        //$inputs[] = (new AmountInput)->disabled();
+        //$inputs[] = (new AmountInput('total_tax', trans('view.total_tax')))->disabled();
+        //$inputs[] = (new AmountInput('total_discount', trans('view.total_discount')))->disabled();
+        //$inputs[] = (new AmountInput('total', trans('view.total')))->disabled();
 
         $inputs[] = (new DescriptionInput)->advancedOption()->setDisable($disable);
         $inputs[] = (new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled();

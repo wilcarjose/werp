@@ -52,7 +52,7 @@ class ProductEntryDetailList extends MainList
                   'id' => 'total_price',
                   'label' => 'Precio',
                   'required' => true,
-                ],                
+                ],
               ],
               'advanced_fields' => [
                 [
@@ -81,7 +81,8 @@ class ProductEntryDetailList extends MainList
               ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'],
               ['field' => 'warehouse_name', 'name' => 'Almacén' , 'type' => 'text'], 
               ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'amount'],
-              ['field' => 'total_price', 'name' => 'Precio' , 'type' => 'amount']
+              ['field' => 'full_price', 'name' => 'Precio' , 'type' => 'amount'],
+              ['field' => 'total', 'name' => 'Total' , 'type' => 'amount', 'total' => true]
             ])
             ->setFilter($filter)
             ->setEmptyList($empty)

@@ -24,6 +24,8 @@ class ConfigTableSeeder extends Seeder
 		['view.products.default_io_doc', Config::INV_DEFAULT_IO_DOC, null, 'inv', 'view.products.default_io_doc', 'doctype'],
 		['view.products.default_so_doc', Config::INV_DEFAULT_SO_DOC, null, 'inv', 'view.products.default_so_doc', 'doctype'],
 		['view.products.default_im_doc', Config::INV_DEFAULT_IM_DOC, null, 'inv', 'view.products.default_im_doc', 'doctype'],
+		['view.maintenance.default_currency', Config::MAI_DEFAULT_CURRENCY, null, 'mai', 'view.maintenance.default_currency', 'currency'],
+		['view.maintenance.base_currency', Config::MAI_BASE_CURRENCY, null, 'mai', 'view.maintenance.base_currency', 'currency'],
 	];
 
     /**

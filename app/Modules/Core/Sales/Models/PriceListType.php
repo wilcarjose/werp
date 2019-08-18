@@ -15,7 +15,7 @@ class PriceListType extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'currency', 'description', 'type'
+        'name', 'currency_abbr', 'description', 'type', 'currency_id'
     ];
 
     /**
@@ -45,13 +45,19 @@ class PriceListType extends Model
         return $query->active()->where('type', 'purchases');
     }
 
+    public function currency()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\Currency');
+    }
+
     public function toArray()
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'currency' => $this->currency,
+            'currency_abbr' => $this->currency_abbr,
+            'currency_id' => $this->currency_id,
             'active' => $this->active,
             'type' => $this->type
         ];

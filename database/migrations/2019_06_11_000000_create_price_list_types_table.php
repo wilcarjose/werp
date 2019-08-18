@@ -17,7 +17,11 @@ class CreatePriceListTypesTable extends Migration
         Schema::create('price_list_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('currency')->default('USD');
+            $table->uuid('currency_id');
+            $table->foreign('currency_id')
+                ->references('id')
+                ->on('currencies');
+            $table->string('currency_abbr');
             $table->text('description')->nullable();
             $table->enum('type', ['sales', 'purchases', 'all'])->default('sales');
             $table->uuid('company_id')->nullable();

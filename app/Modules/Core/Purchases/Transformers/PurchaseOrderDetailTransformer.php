@@ -42,7 +42,7 @@ class PurchaseOrderDetailTransformer extends Transformer
             'total_tax'         => $item['total_tax'],
             'total_discount'    => $item['total_discount'],
             'total'             => $item['total'],
-            'currency'          => $item['currency'],
+            'currency_id'          => $item['currency_id'],
             'order_id'          => $item['order_id'],
             'tax_id'            => $item['tax_id'],
             'discount_id'       => $item['discount_id'],

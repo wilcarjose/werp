@@ -8,6 +8,7 @@
 
 namespace Werp\Builders\Selects;
 
+use Werp\Modules\Core\Maintenance\Models\Currency;
 
 class CurrencySelectBuilder extends SelectBuilder
 {
@@ -32,17 +33,17 @@ class CurrencySelectBuilder extends SelectBuilder
      */
     public function __construct($value = null, $none = false, $disable = false, $advancedOption = false,  $icon = null)
     {
-        $this->name  = 'currency';
+        $this->name  = 'currency_id';
         $this->type  = 'select';
         $this->icon  = $icon;
         $this->text  = trans('view.currency');
         $this->value = $value;
-        $this->data  = config('werp.currencies');
+        $this->data  = Currency::active()->get();
         $this->disable  = $disable;
         $this->none = $none;
         $this->advancedOption = $advancedOption;
-        $this->idKey = 'abbr';
-        $this->isArrayItem = true;
+        //$this->idKey = 'abbr';
+        //$this->isArrayItem = true;
     }
 
 }

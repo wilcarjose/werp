@@ -20,19 +20,19 @@ class PriceListTypeController extends BaseController
     protected $inputs = [
         'name',
         'description',
-        'currency',
+        'currency_id',
         'type',
     ];
 
     protected $storeRules = [
         'name'     => 'required|max:255',
-        'currency' => 'required',
+        'currency_id' => 'required',
         'type'     => 'required|in:sales,purchases,all',
     ];
 
     protected $updateRules = [
         'name'     => 'required|max:255',
-        'currency' => 'required',
+        'currency_id' => 'required',
         'type'     => 'required|in:sales,purchases,all',
     ];
 

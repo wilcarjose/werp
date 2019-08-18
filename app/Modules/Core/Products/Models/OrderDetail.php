@@ -24,7 +24,7 @@ class OrderDetail extends Model
         'total_tax',
         'total_discount',
         'total',
-        'currency',
+        'currency_id',
         'qty',
         'qty_delivered',
         'qty_invoiced',
@@ -57,7 +57,7 @@ class OrderDetail extends Model
             'total_tax' => $this->total_tax,
             'total_discount' => $this->total_discount,
             'total' => $this->total,
-            'currency' => $this->currency,
+            'currency_id' => $this->currency_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
@@ -76,5 +76,10 @@ class OrderDetail extends Model
     public function getMaster()
     {
         return $this->order;
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\Currency');
     }
 }

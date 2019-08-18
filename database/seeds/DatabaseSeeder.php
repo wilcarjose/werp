@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DoctypesTableSeeder::class);
         $this->call(UomTableSeeder::class);
         $this->call(ConfigTableSeeder::class);
+        $this->call(CurrencyTableSeeder::class);
     }
 }

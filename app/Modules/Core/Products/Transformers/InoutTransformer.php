@@ -18,7 +18,7 @@ class InoutTransformer extends Transformer
             'total_tax' => $item['total_tax'],
             'total_discount' => $item['total_discount'],
             'total' => $item['total'],
-            'currency' => $item['currency'],
+            'currency_id' => $item['currency_id'],
             'description'       => $item['description'],
             'doctype_id'        => $item['doctype_id'],
             'warehouse_id'      => $item['warehouse_id'],

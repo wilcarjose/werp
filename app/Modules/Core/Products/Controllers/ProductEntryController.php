@@ -33,7 +33,6 @@ class ProductEntryController extends BaseController
         'total_tax',
         'total_discount',
         'total',
-        'currency',
         'doctype_id',
         'warehouse_id',
         'partner_id',

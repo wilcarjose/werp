@@ -125,7 +125,7 @@ class OrderService extends BaseService
     {
         $data['reference'] = $entity->code;
         $data['date'] = $entity->date;
-        $data['currency'] = $entity->currency;
+        $data['currency_id'] = $entity->currency_id;
         $data['warehouse_id'] = isset($data['warehouse_id']) ? $data['warehouse_id'] : $entity->warehouse_id;
         $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
         $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
