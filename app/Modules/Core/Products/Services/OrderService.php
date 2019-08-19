@@ -227,12 +227,14 @@ class OrderService extends BaseService
 
     protected function getAmounts($price, $qty, $taxId, $discountId)
     {
-        $amountData['price'] = $price;
-        $amountData['tax'] = $this->taxService->getTaxAmount($taxId, $price);
-        $amountData['discount'] = $this->discountService->getDiscountAmount($discountId, $price);
-        $amountData['full_price'] = $price + $amountData['tax'] - $amountData['discount'];
+        $priceAmount = $price ? $price->price : 0;
+        $amountData['price_id'] = $price ? $price->id : null;
+        $amountData['price'] = $priceAmount;
+        $amountData['tax'] = $this->taxService->getTaxAmount($taxId, $priceAmount);
+        $amountData['discount'] = $this->discountService->getDiscountAmount($discountId, $priceAmount);
+        $amountData['full_price'] = $priceAmount + $amountData['tax'] - $amountData['discount'];
 
-        $amountData['total_price'] = $price * $qty;
+        $amountData['total_price'] = $priceAmount * $qty;
         $amountData['total_tax'] = $amountData['tax'] * $qty;
         $amountData['total_discount'] = $amountData['discount'] * $qty;
         $amountData['total'] = $amountData['full_price'] * $qty;
@@ -268,7 +270,7 @@ class OrderService extends BaseService
             $entity = $entityDetail->order;
         }
 
-        $price = $entityDetail->product->currentPrice($entity->price_list_type_id);
+        $price = $entityDetail->product->currentPriceObject($entity->price_list_type_id);
 
         $taxId = $entityDetail->tax_id ? $entityDetail->tax_id : $entity->tax_id;
         $descountId = $entityDetail->discount_id ? $entityDetail->discount_id : $entity->discount_id;

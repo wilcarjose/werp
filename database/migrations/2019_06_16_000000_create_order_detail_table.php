@@ -52,6 +52,10 @@ class CreateOrderDetailTable extends Migration
             $table->foreign('discount_id')
                 ->references('id')
                 ->on('taxs_discounts');
+            $table->uuid('price_id')->nullable();
+            $table->foreign('price_id')
+                ->references('id')
+                ->on('prices');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')

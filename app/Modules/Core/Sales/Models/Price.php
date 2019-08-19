@@ -29,6 +29,8 @@ class Price extends Model
         'base_price',
         'before_price',
         'operation_name',
+        'operation_calc',
+        'operation_value',
         'active',
     ];
 
@@ -53,6 +55,8 @@ class Price extends Model
             'product_id' => $this->product_id,
             'price_list_id' => $this->price_list_id,
             'operation_name' => $this->operation_name,
+            'operation_calc' => $this->operation_calc,
+            'operation_value' => $this->operation_value,
             'price_list_type_id' => $this->price_list_type_id,
             'amount_operation_id' => $this->amount_operation_id,
         ];

@@ -73,13 +73,18 @@ class Product extends Model
 
     public function currentPrice($priceListTypeId, $default = 0)
     {
-        $price = $this->prices()->where('price_list_type_id', $priceListTypeId)
+        $price = $this->currentPriceObject($priceListTypeId);
+
+        return $price ? $price->price : $default;
+    }
+
+    public function currentPriceObject($priceListTypeId)
+    {
+        return $this->prices()->where('price_list_type_id', $priceListTypeId)
             ->active()
             ->where('starting_at', '<', date('Y-m-d H:i:s'))
             ->orderBy('starting_at', 'desc')
             ->first();
-
-        return $price ? $price->price : $default;
     }
 
     public function prices()

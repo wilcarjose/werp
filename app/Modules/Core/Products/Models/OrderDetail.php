@@ -33,6 +33,7 @@ class OrderDetail extends Model
         'warehouse_id',
         'tax_id',
         'discount_id',
+        'price_id',
     ];
 
     public function toArray()
@@ -58,6 +59,7 @@ class OrderDetail extends Model
             'total_discount' => $this->total_discount,
             'total' => $this->total,
             'currency_id' => $this->currency_id,
+            'price_id' => $this->price_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

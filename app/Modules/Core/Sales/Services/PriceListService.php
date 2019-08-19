@@ -9,6 +9,7 @@ use Werp\Modules\Core\Sales\Models\PriceList;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;
 
@@ -20,6 +21,7 @@ class PriceListService extends BaseService
     	PriceList $entity,
         Price $entityDetail,
         Product $product,
+        ConfigService $configService,
     	DoctypeService $doctypeService,
         AmountOperationService $operationService
     ) {
@@ -27,6 +29,7 @@ class PriceListService extends BaseService
         $this->product = $product;
         $this->entityDetail = $entityDetail;
         $this->doctypeService = $doctypeService;
+        $this->configService      = $configService;
         $this->operationService = $operationService;
     }
 
@@ -91,7 +94,7 @@ class PriceListService extends BaseService
         $priceListType = $entity->priceListType;
 
         $data['starting_at'] = $entity->starting_at;
-        $data['currency'] = $priceListType->currency;
+        $data['currency_id'] = $priceListType->currency_id;
         $data['active'] = BaseModel::STATUS_INACTIVE;
         $data['price_list_type_id'] = $priceListType->id;
         
@@ -309,6 +312,10 @@ class PriceListService extends BaseService
         $beforePrice = $product->currentPrice($entity->priceListType->id);
 
         $operationName = $entity->operation ? $entity->operation->name : null;
+        $operationCalc = $entity->operation ? $entity->operation->operation : null;
+        $operationValue = $entity->operation ? 
+            ($entity->operation->config_key ? $this->configService->getValue($entity->operation->config_key) : $entity->operation->value) :
+            null;
 
         $priceData = [
             'price_list_type_id' => $entity->price_list_type_id,
@@ -322,6 +329,8 @@ class PriceListService extends BaseService
             'base_price' => $manually ? null : $basePrice,
             'amount_operation_id' => $manually ? null : $entity->amount_operation_id,
             'operation_name' => $manually ? null : $operationName,
+            'operation_calc' => $manually ? null : $operationCalc,
+            'operation_value' => $manually ? null : $operationValue,
         ];
 
         return $entity->detail()->create($priceData);
