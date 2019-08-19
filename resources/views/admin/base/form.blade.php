@@ -44,10 +44,10 @@
       }
 
       .textbox-focused {
-        border-color: #fff;
-        box-shadow: 0 0 0 0 #fff;
-        -webkit-box-shadow: 0 0 0 0 #fff;
-        -moz-box-shadow: 0 0 0 0 #fff;
+          border-color: #fff;
+          box-shadow: 0 0 0 0 #fff;
+          -webkit-box-shadow: 0 0 0 0 #fff;
+          -moz-box-shadow: 0 0 0 0 #fff;
       }
 
       .daterangepicker .calendar-table th, .daterangepicker .calendar-table td {
@@ -87,6 +87,10 @@
           border: 0px solid #aaa;
           border-radius: 0px;
           border-bottom: 1px solid #757575;
+      }
+
+      .select2-container--default.select2-container--disabled .select2-selection--single {
+          background-color: #fbfbfb !important;
       }
 
     </style>

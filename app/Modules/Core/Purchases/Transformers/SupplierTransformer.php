@@ -10,6 +10,7 @@ class SupplierTransformer extends Transformer
     {
         return [
             'id'                => $item['id'],
+            'doc_and_name'      => $item['document'] . ' - '.$item['name'],
             'document'          => $item['document'],
             'name'              => $item['name'],
             'mobile'            => $item['mobile'],

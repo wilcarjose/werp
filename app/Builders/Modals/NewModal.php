@@ -12,6 +12,7 @@ class NewModal
     protected $endpoint;
     protected $inputs;
     protected $title;
+    protected $label = 'name';
 
     /**
      * NewModal constructor.
@@ -19,11 +20,12 @@ class NewModal
      * @param $title
      * @param $icon
      */
-    public function __construct($endpoint = null, $title = null, $inputs = [])
+    public function __construct($endpoint = null, $title = null, $inputs = [], $label = 'name')
     {
         $this->endpoint = $endpoint;
         $this->title = $title;
         $this->inputs = $inputs;
+        $this->label = $label;
     }
 
     /**
@@ -78,6 +80,24 @@ class NewModal
     {
         $this->inputs = $this->to_collection($this->inputs);
         $this->inputs->push($input);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param mixed $label
+     * @return string
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
         return $this;
     }
 }

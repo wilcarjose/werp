@@ -93,6 +93,21 @@ class ProductEntryController extends BaseController
         $this->entityDetailTransformer = $entityDetailTransformer;
     }
 
+    public function create()
+    {
+        return back();
+    }
+
+    public function store(Request $request)
+    {
+        return back();
+    }
+
+    public function update(Request $request, $id)
+    {
+        return back();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -4,7 +4,7 @@ namespace Werp\Builders\Modals;
 
 use Werp\Builders\Inputs\InputBuilder;
 
-class NewClientModal extends NewModal
+class NewSupplierModal extends NewModal
 {
     /**
      * NewModal constructor.
@@ -14,8 +14,8 @@ class NewClientModal extends NewModal
      */
     public function __construct()
     {
-        $this->endpoint = '/admin/sales/customers';
-        $this->title = 'Nuevo cliente';
+        $this->endpoint = '/admin/purchases/suppliers';
+        $this->title = 'Nuevo proveedor';
         $this->label = 'doc_and_name';
         $this->addInput(new InputBuilder('document', 'input', 'Documento'))
             ->addInput(new InputBuilder('name', 'input', 'Nombre'))

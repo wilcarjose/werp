@@ -11,6 +11,8 @@ class Partner extends Model
 
     protected $table = 'partners';
 
+    protected $appends = ['doc_and_name'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,6 +43,7 @@ class Partner extends Model
     {
         return [
             'id' => $this->id,
+            'doc_and_name' => $this->document . ' - '.$this->name,
             'document' => $this->document,
             'name' => $this->name,
             'last_name' => $this->last_name,
@@ -63,6 +66,11 @@ class Partner extends Model
             'created_at' => $this->created_at,
             'address' => $this->address ? $this->address->toArray() : [],
         ];
+    }
+
+    public function getDocAndNameAttribute()
+    {
+        return $this->document . ' - '.$this->name;
     }
 
     public function address()

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 08/06/19
- * Time: 10:43 AM
- */
 
 namespace Werp\Builders\Selects;
 
@@ -49,6 +43,7 @@ class PartnerSelectBuilder extends SelectBuilder
         $this->disable  = $disable;
         $this->none = $none;
         $this->advancedOption = $advancedOption;
+        $this->labelKey = 'doc_and_name';
         $this->allowNew = true;
         $this->modal = new NewClientModal;
     }
