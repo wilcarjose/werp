@@ -136,5 +136,7 @@ return [
     ],
     'maintenance' => [
         'dolar_value' => 'Dolar value $$',
+        'default_currency' => 'Default currency',
+        'base_currency' => 'Base currency',
     ]
 ];

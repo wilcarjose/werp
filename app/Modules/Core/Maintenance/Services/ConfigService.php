@@ -34,6 +34,11 @@ class ConfigService
         $this->inputsConfig = [
             Config::CURRENT_DOLAR_CONVERSION,
         ];
+
+        $this->currenciesConfig = [
+            Config::MAI_DEFAULT_CURRENCY,
+            Config::MAI_BASE_CURRENCY,
+        ];
     }
 
     public function getConfig()
@@ -43,6 +48,7 @@ class ConfigService
         $configs['docs'] = $this->getDocs();
         $configs['products'] = $this->getProducts();
         $configs['inputs'] = $this->getInputs();
+        $configs['currencies'] = $this->getCurrencies();
 
         return $configs;
     }
@@ -71,6 +77,27 @@ class ConfigService
         $data = [];
 
         foreach ($this->docsConfig as $key => $value) {
+
+            $config = $this->config->where('key', $value)->first();
+
+            $data[] = [
+                'doc' => $key,
+                'key' => $config->key,
+                'value' => $config->value,
+                'translate_key' => $config->translate_key,
+                'type' => 'select',
+                'options' => $this->getSelectKey($config->key)
+            ];
+        }
+
+        return $data;
+    }
+
+    protected function getCurrencies()
+    {
+        $data = [];
+
+        foreach ($this->currenciesConfig as $key => $value) {
 
             $config = $this->config->where('key', $value)->first();
 
@@ -121,6 +148,12 @@ class ConfigService
                 return $key;
             }
         }
+
+        foreach ($this->currenciesConfig as $key => $select) {
+            if ($select == $option) {
+                return $key;
+            }
+        }
     }
 
     public function updateConfig($data)
@@ -142,6 +175,14 @@ class ConfigService
         }
 
         foreach ($this->inputsConfig as $key) {
+            if (isset($data[$key])) {
+                $config = $this->config->where('key', $key)->first();
+                $config->value = $data[$key];
+                $config->save();
+            }
+        }
+
+        foreach ($this->currenciesConfig as $key) {
             if (isset($data[$key])) {
                 $config = $this->config->where('key', $key)->first();
                 $config->value = $data[$key];

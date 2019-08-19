@@ -136,5 +136,7 @@ return [
     ],
     'maintenance' => [
         'dolar_value' => 'Valor del dolar $$',
+        'default_currency' => 'Moneda por defecto',
+        'base_currency' => 'Moneda base',
     ]
 ];

@@ -16,6 +16,7 @@ use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Selects\WarehouseSelect;
+use Werp\Builders\Selects\CurrencySelectBuilder;
 
 class ConfigForm extends PageBuilder
 {
@@ -23,7 +24,6 @@ class ConfigForm extends PageBuilder
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), trans('view.dashboard'));
         $this->setTitle('Configuración General')
-            //->setRoute('admin.maintenance.config')
             ->addBreadcrumb($homeBreadcrumb)
             ->addBreadcrumb(new BreadcrumbBuilder('admin.maintenance.config.edit', 'Configurar'));
     }
@@ -32,7 +32,7 @@ class ConfigForm extends PageBuilder
     {
         $this
             ->addForm($this->getDefaultDocsForm($data['docs']))
-            ->addForm($this->getConfigValuesForm($data['inputs']))
+            ->addForm($this->getConfigValuesForm($data['inputs'], $data['currencies']))
             ->addForm($this->getProductForm($data['products']))
             
             
@@ -46,7 +46,6 @@ class ConfigForm extends PageBuilder
         $form = new FormBuilder;
 
         $form->setAction('Documentos por defecto')
-            //->setShortAction('Actualizar')
             ->setEdit()
             ->setRoute('admin.maintenance.config')
             ->setMiddleWidth()
@@ -69,7 +68,6 @@ class ConfigForm extends PageBuilder
         $form = new FormBuilder;
 
         $form->setAction('Productos')
-            //->setShortAction('Actualizar')
             ->setEdit()
             ->setRoute('admin.maintenance.config')
             ->setMiddleWidth()
@@ -77,7 +75,6 @@ class ConfigForm extends PageBuilder
         ;
 
         foreach ($products as $config) {
-
             if ($config['select'] == 'warehouse') {
                 $form->addSelect((new WarehouseSelect($config['key'], trans($config['translate_key']))));
             }
@@ -86,12 +83,11 @@ class ConfigForm extends PageBuilder
         return $form;
     }
 
-     protected function getConfigValuesForm($configs)
+    protected function getConfigValuesForm($configs, $currencies)
     {
         $form = new FormBuilder;
 
-        $form->setAction('Montos')
-            //->setShortAction('Actualizar')
+        $form->setAction('Monedas')
             ->setEdit()
             ->setRoute('admin.maintenance.config')
             ->setMiddleWidth()
@@ -100,6 +96,14 @@ class ConfigForm extends PageBuilder
 
         foreach ($configs as $config) {
             $form->addInput((new AmountInput($config['key'], trans($config['translate_key']), $config['value'])));
+        }
+
+        foreach ($currencies as $currency) {
+            $form->addSelect((new CurrencySelectBuilder())
+                ->setName($currency['key'])
+                ->setText(trans($currency['translate_key']))
+                ->setValue($currency['value'])
+            );
         }
 
         return $form;
