@@ -51,7 +51,7 @@ class PriceListTransformer extends Transformer
     public function setListTypes($listTypes = [])
     {
         foreach ($listTypes as $listType) {
-            $this->listTypes[$listType['id']] = $listType['name'] . ' (' . $listType['currency'] .')';
+            $this->listTypes[$listType['id']] = $listType['name'] . ' (' . $listType->currency->abbr .')';
         }
 
         return $this;

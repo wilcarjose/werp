@@ -136,4 +136,14 @@ class Order extends Model
     {
         return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\Currency');
     }
+
+    public function scopeSales($query)
+    {
+        return $query->where('type', self::SALE_TYPE);
+    }
+
+    public function scopePurchases($query)
+    {
+        return $query->where('type', self::PURCHASE_TYPE);
+    }
 }

@@ -47,6 +47,11 @@ class SaleOrderService extends OrderService
         $this->transactionService = $transactionService;
     }
 
+    protected function filters($entity)
+    {
+        return $entity->sales();
+    }
+
     public function create(array $data)
     {
         $data['currency_id'] = PriceListType::find($data['price_list_type_id'])->currency_id;

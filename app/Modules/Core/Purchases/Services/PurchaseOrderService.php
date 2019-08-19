@@ -17,6 +17,11 @@ use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 
 class PurchaseOrderService extends OrderService
 {
+    protected function filters($entity)
+    {
+        return $entity->purchases();
+    }
+
     public function create(array $data)
     {
         $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
