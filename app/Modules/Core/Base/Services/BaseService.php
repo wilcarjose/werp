@@ -2,6 +2,7 @@
 
 namespace Werp\Modules\Core\Base\Services;
 
+use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Base\Models\BaseModel;
 
 class BaseService
@@ -9,6 +10,21 @@ class BaseService
 	protected $entity;
 
     protected $entityDetail;
+
+    public function begin()
+    {
+        DB::beginTransaction();
+    }
+
+    public function commit()
+    {
+        DB::commit();
+    }
+
+    public function rollback()
+    {
+        DB::rollBack();
+    }
 
     public function getById($id, $exception = true)
     {

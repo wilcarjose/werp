@@ -2,7 +2,6 @@
 
 namespace Werp\Modules\Core\Sales\Services;
 
-use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Address;
@@ -22,13 +21,13 @@ class CustomerService extends BaseService
     {
         try {
 
-            DB::beginTransaction();
+            $this->begin();
             
             if (isset($data['address_1'])) {
                 $address = $this->address->create([
                     'name'      => 'default',
                     'address_1' => $data['address_1'],
-                    'address_2' => $data['address_2'],
+                    'address_2' => $data['address_2'] ?? '',
                 ]);
 
                 $data['address_id'] = $address->id;
@@ -40,13 +39,13 @@ class CustomerService extends BaseService
 
             $customer = $this->entity->create($data);
 
-            DB::commit();
+            $this->commit();
 
             return $customer;
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
 
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
@@ -56,7 +55,7 @@ class CustomerService extends BaseService
     {
         try {
 
-            DB::beginTransaction();
+            $this->begin();
 
             $entity = $this->entity->find($id);
 
@@ -87,13 +86,13 @@ class CustomerService extends BaseService
 
             $this->entity->where('id', $id)->update($data);
 
-            DB::commit();
+            $this->commit();
 
             return $entity->fresh();
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
 
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }

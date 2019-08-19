@@ -23,6 +23,8 @@ class SelectBuilder
     protected $labelKey = 'name';
     protected $idKey = 'id';
     protected $isArrayItem = false;
+    protected $allowNew = false;
+    protected $modal = null;
 
     /**
      * InputBuilder constructor.
@@ -276,6 +278,42 @@ class SelectBuilder
     public function setArrayItem($isArrayItem)
     {
         $this->isArrayItem = $isArrayItem;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function allowNew()
+    {
+        return $this->allowNew;
+    }
+
+    /**
+     * @param mixed $allowNew
+     * @return InputBuilder
+     */
+    public function setAllowNew($allowNew)
+    {
+        $this->allowNew = $allowNew;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModal()
+    {
+        return $this->modal;
+    }
+
+    /**
+     * @param mixed $modal
+     * @return InputBuilder
+     */
+    public function setModal($modal)
+    {
+        $this->modal = $modal;
         return $this;
     }
 }

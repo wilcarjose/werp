@@ -226,6 +226,14 @@
 @section('jsPostApp')
 
   <script>
+
+    function formatState (state) {
+      if (state.id != 'new') { return state.text; }
+      var $state = $(
+        '<span><img src="/images/icons/new.png" class="img-flag" /> ' + state.text + ' </span>'
+     );
+     return $state;
+    };
     
     function confirmAction(route) {
       var result = confirm("¿Está seguro?");
@@ -244,12 +252,6 @@
         $('.advanced-option').show(500);
       }
     }
-
-    $('select.select2_select').select2();
-    $('select.select2-placeholder').select2({
-      placeholder: "Select a state",
-      allowClear: true
-    });
 
     $(document).ready(function() {
 
@@ -326,6 +328,8 @@
     })
 
   </script>
+
+  @stack('selects')
 
   @yield('js-datebox')
 

@@ -281,10 +281,6 @@
           </div>
         </div>
 
-        
-                
-            
-
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cerrar</a>
@@ -298,7 +294,7 @@
 
         $(document).ready(function() {
             // the "href" attribute of . must specify the modal ID that wants to be triggered
-            $('.modal').modal({
+            $('#products_modal').modal({
                 dismissible: true, // Modal can be dismissed by clicking outside of the modal
                 opacity: .5, // Opacity of modal background
                 inDuration: 300, // Transition in duration

@@ -8,6 +8,7 @@
 
 namespace Werp\Builders\Selects;
 
+use Werp\Builders\Modals\NewClientModal;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Purchases\Models\Partner;
 
@@ -48,5 +49,7 @@ class PartnerSelectBuilder extends SelectBuilder
         $this->disable  = $disable;
         $this->none = $none;
         $this->advancedOption = $advancedOption;
+        $this->allowNew = true;
+        $this->modal = new NewClientModal;
     }
 }

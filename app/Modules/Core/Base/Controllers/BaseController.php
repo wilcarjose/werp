@@ -194,6 +194,15 @@ class BaseController extends Controller
         $validator = validator()->make($request->all(), $this->getStoreRules());
     
         if ($validator->fails()) {
+
+            if (request()->ajax() || request()->wantsJson()) {
+                return response([
+                    'status_code' => 400,
+                    'message'     => trans($this->getFailCreateKey()),
+                    'errors'      => $validator->errors()
+                ], 400);
+            }
+
             flash(trans($this->getFailValidationKey()), 'error', 'error');
             return back()->withErrors($validator)->withInput();
         }
@@ -201,6 +210,19 @@ class BaseController extends Controller
         $data = array_only($request->all(), $this->getInputs());
 
         $entity = $this->entityService->create($data);
+
+        if (request()->ajax() || request()->wantsJson()) {
+            return $entity ?
+            response([
+                'data'        => $entity->toArray(),
+                'message' => trans($this->getAddedKey()),
+                'status_code' => 200
+            ], 200) :
+            response([
+                'status_code' => 400,
+                'message'     => trans($this->getFailCreateKey()),
+            ], 400);
+        }
 
         $entity ?
             flash(trans($this->getAddedKey()), 'success', 'success') :
@@ -295,7 +317,7 @@ class BaseController extends Controller
 
             $validator = validator()->make($request->all(), $this->getUpdateRules());
             
-            if ($validator->fails()) {dd($validator->errors());
+            if ($validator->fails()) {
                 flash(trans($this->getFailValidationKey()), 'error', 'error');
                 return back()->withErrors($validator)->withInput();
             }

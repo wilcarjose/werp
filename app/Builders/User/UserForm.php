@@ -19,9 +19,9 @@ class UserForm extends FormBuilder
     public function __construct()
     {
         $homeBreadcrumb = new BreadcrumbBuilder(route('admin.home'), 'Home');
-        $this->setTitle('Usuarios')
-            ->setRoute('admin.user')
-            ->addBreadcrumb($homeBreadcrumb);
+        //$this->setTitle('Usuarios')
+        //    ->setRoute('admin.user')
+        //    ->addBreadcrumb($homeBreadcrumb);
     }
 
     public function showPage($action = 'new', $data = [])
