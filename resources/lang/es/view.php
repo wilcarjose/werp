@@ -62,6 +62,7 @@ return [
     'save_and_list' => 'Guardar y listar',
     'currency' => 'Moneda',
     'numeric_code' => 'Código numérico',
+    'exchange_rate' => 'Tasa de cambio',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -83,7 +84,7 @@ return [
         'suppliers' => 'Proveedores',
         'brands' => 'Marcas',
         'price_list' => 'Lista de precios',
-        'price_list_types' => 'Tipos de L.P.',
+        'price_list_types' => 'Listas de Precios',
         'stock' => 'Existencia',
         'transactions' => 'Transacciones',
         'product_entry' => 'Entradas',
@@ -101,6 +102,7 @@ return [
         'sales_orders' => 'Órdenes de ventas',
         'purchases_orders' => 'Órdenes de compra',
         'currencies' => 'Monedas',
+        'exchange_rates' => 'Tasas de cambio',
     ],
     'profile' => [
         'profile' => 'Perfil',

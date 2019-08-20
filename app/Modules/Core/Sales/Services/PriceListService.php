@@ -2,7 +2,6 @@
 
 namespace Werp\Modules\Core\Sales\Services;
 
-use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Sales\Models\Price;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Sales\Models\PriceList;
@@ -11,6 +10,7 @@ use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
+use Werp\Modules\Core\Maintenance\Services\ExchangeRateService;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;
 
 class PriceListService extends BaseService
@@ -23,13 +23,15 @@ class PriceListService extends BaseService
         Product $product,
         ConfigService $configService,
     	DoctypeService $doctypeService,
+        ExchangeRateService $exchangeService,
         AmountOperationService $operationService
     ) {
-        $this->entity = $entity;
-        $this->product = $product;
-        $this->entityDetail = $entityDetail;
-        $this->doctypeService = $doctypeService;
-        $this->configService      = $configService;
+        $this->entity           = $entity;
+        $this->product          = $product;
+        $this->entityDetail     = $entityDetail;
+        $this->doctypeService   = $doctypeService;
+        $this->configService    = $configService;
+        $this->exchangeService  = $exchangeService;
         $this->operationService = $operationService;
     }
 
@@ -37,23 +39,27 @@ class PriceListService extends BaseService
     {
         try {
 
-            DB::beginTransaction();
+            $this->begin();
 
             $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
         
+            $useExchange = isset($data['use_exchange_rate']) && $data['use_exchange_rate'] == 'on';
+
             $data = $this->makeUpdateData($data);
 
             $entity = $this->entity->create($data);
 
+            $entity = $this->setExchange($entity, $useExchange);
+
             $this->generatePrices($entity);
 
-            DB::commit();
+            $this->commit();
 
             return $entity;
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
 
             return null;
         }
@@ -63,7 +69,7 @@ class PriceListService extends BaseService
     {
         try {
 
-            DB::beginTransaction();
+            $this->begin();
 
             $entity = $this->entity->find($id);
 
@@ -73,17 +79,21 @@ class PriceListService extends BaseService
 
             $data = $this->makeUpdateData($data, $id);
 
+            $useExchange = isset($data['use_exchange_rate']) && $data['use_exchange_rate'] == 'on';
+
             $entity->update($data);
 
-            $this->generatePrices($entity->refresh());
+            $entity = $this->setExchange($entity, $useExchange);
 
-            DB::commit();
+            $this->generatePrices($entity);
+
+            $this->commit();
 
             return $entity;
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
 
             throw new \Exception($e->getMessage(). ' - '.$e->getFile(). ' - '.$e->getLine());
         }
@@ -103,16 +113,29 @@ class PriceListService extends BaseService
 
     protected function makeUpdateData($data, $id = null)
     {
-
-        if (isset($data['reference_price_list_type_id']) && $data['reference_price_list_type_id'] === "0") {
-            $data['reference_price_list_type_id'] = null;
-        }
-
-        if (isset($data['amount_operation_id']) && $data['amount_operation_id'] === "0") {
-            $data['amount_operation_id'] = null;
-        }
-
         return $data;
+    }
+
+    protected function setExchange($entity, $useExchange)
+    {
+        if ($useExchange && $entity->referencePriceListType) {
+
+            $exchangeName = $entity->referencePriceListType->currency->abbr .'/'.$entity->priceListType->currency->abbr;
+            $exchange = $this->exchangeService->getByName($exchangeName);
+
+            if ($exchange) {
+                $entity->exchange_rate_id = $exchange->id;
+                $entity->amount_operation_id = null;
+                $entity->save();
+
+                return $entity;
+            }            
+        }
+
+        $entity->exchange_rate_id = null;
+        $entity->save();
+
+        return $entity;
     }
 
     public function process($id)
@@ -137,21 +160,20 @@ class PriceListService extends BaseService
     {
         $products = is_array($products) ? collect($products) : $products;
 
-        $priceListType = $entity->priceListType;
-        $referencePriceListType = $entity->referencePriceListType;
-
         if ($products->isNotEmpty()) {
 
             foreach($products as $product) {
                 // obtener la operación y pasar como parámetro
                 //$total = $this->operationService->setOperation($operation)->calculate($price->price);
-                $list = $referencePriceListType ?: $priceListType;
+                $list = $entity->referencePriceListType ?: $entity->priceListType;
                 //\Log::info($list->name);
                 $price = $product->currentPrice($list->id);
 
-                $total = $entity->operation ?
-                    $this->operationService->setOperation($entity->operation)->calculate($price) :
-                    $price;
+                $total = $entity->exchangeRate ?
+                    $this->exchangeService->exchangePrice($entity->exchangeRate, $price) :
+                    ($entity->operation ?
+                        $this->operationService->setOperation($entity->operation)->calculate($price) :
+                        $price);
 
                 $this->deletePrice($entity, $product)->createPrice($entity, $product, $total);
             }
@@ -159,13 +181,17 @@ class PriceListService extends BaseService
             return true;
         }
 
-        if ($referencePriceListType) {
+        if ($entity->referencePriceListType) {
 
-            $prices = $referencePriceListType->currentPrices();
+            $prices = $entity->referencePriceListType->currentPrices();
             
             foreach($prices as $price) {
                 // obtener la aperación y pasar como parámetro
-                $total = $this->operationService->setOperation($entity->operation)->calculate($price->price);
+                $total = $entity->exchangeRate ?
+                    $this->exchangeService->exchangePrice($entity->exchangeRate, $price->price) :
+                    ($entity->operation ?
+                        $this->operationService->setOperation($entity->operation)->calculate($price->price) :
+                        $price->product->currentPrice($entity->referencePriceListType->id));
 
                 $this->deletePrice($entity, $price->product)->createPrice($entity, $price->product, $total);
             }
@@ -175,7 +201,7 @@ class PriceListService extends BaseService
 
         if ($entity->operation) {
 
-            $prices = $priceListType->prices;
+            $prices = $entity->priceListType->currentPrices();
 
             foreach($prices as $price) {
                 // obtener la aperación y pasar como parámetro
@@ -186,13 +212,22 @@ class PriceListService extends BaseService
 
             return true;
         }
+
+        $prices = $entity->priceListType->currentPrices();
+
+        foreach($prices as $price) {
+            $amount = $price->product->currentPrice($entity->priceListType->id);
+            $this->deletePrice($entity, $price->product)->createPrice($entity, $price->product, $amount);
+        }
+
+        return true;
     }
 
     public function createDetail($id, $data)
     {
         try {
 
-            DB::beginTransaction();
+            $this->begin();
 
             $entity = $this->getById($id);
 
@@ -205,7 +240,7 @@ class PriceListService extends BaseService
                     $this->deletePrice($entity, $product)->createPrice($entity, $product, $data['price'], true) :
                     $this->generatePrices($entity, [$product]);
 
-                DB::commit();
+                $this->commit();
                 return $result;
             }
 
@@ -214,7 +249,7 @@ class PriceListService extends BaseService
                 $products = $this->product->active()->get();
                 $result = $this->generatePrices($entity, $products);
 
-                DB::commit();
+                $this->commit();
                 return $result;
             }
 
@@ -234,33 +269,21 @@ class PriceListService extends BaseService
                 
             }
 
-            DB::commit();
+            $this->commit();
             return $result;
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
-
-/*
-        [
-          "product_id" => "4e9f756e-cf34-409b-bc53-374d25207dec"
-          "price" => "232.00"
-          "all" => false
-          "stock" => true
-          "warehouse_id" => "52f2f25d-dfb6-4282-8a30-8b17eb811df7"
-          "category_id" => "0"
-          "brand_id" => "b621649c-99b1-4ebb-8b1f-babe3e41d653"
-        ]
-*/
     }
 
     public function updateDetail($data, $detailId)
     {
         try {
 
-            DB::beginTransaction();
+            $this->begin();
 
             $entity = $this->entityDetail->findOrFail($detailId)->priceList;
 
@@ -273,7 +296,7 @@ class PriceListService extends BaseService
                     $this->deletePrice($entity, $product)->createPrice($entity, $product, $data['price'], true) :
                     $this->generatePrices($entity, [$product]);
 
-                DB::commit();
+                $this->commit();
                 return $result;
             }
 
@@ -282,16 +305,16 @@ class PriceListService extends BaseService
                 $products = $this->product->active()->get();
                 $result = $this->generatePrices($entity, $products);
 
-                DB::commit();
+                $this->commit();
                 return $result;
             }
 
-            DB::commit();
+            $this->commit();
             return $result;
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
     }
@@ -331,6 +354,7 @@ class PriceListService extends BaseService
             'operation_name' => $manually ? null : $operationName,
             'operation_calc' => $manually ? null : $operationCalc,
             'operation_value' => $manually ? null : $operationValue,
+            'exchange_rate_id' => $entity->exchange_rate_id,
         ];
 
         return $entity->detail()->create($priceData);

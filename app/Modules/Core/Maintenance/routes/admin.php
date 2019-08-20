@@ -10,9 +10,16 @@
 	Route::get('/config/edit', 'ConfigController@edit')->name('config.edit');
 	Route::put('/config/update', 'ConfigController@update')->name('config.update');
 
-	// Price list type
+	// Currencies
 	Route::put('/currencies/status','CurrencyController@switchStatus')->name('currencies_status');
 	Route::post('/currencies/removeBulk','CurrencyController@destroyBulk');
 	Route::put('/currencies/statusBulk','CurrencyController@switchStatusBulk');
 	Route::resource('/currencies','CurrencyController');
+
+	// Exchange rates
+	Route::put('/exchange_rates/status','ExchangeRateController@switchStatus')->name('exchange_rates_status');
+	Route::post('/exchange_rates/removeBulk','ExchangeRateController@destroyBulk');
+	Route::put('/exchange_rates/statusBulk','ExchangeRateController@switchStatusBulk');
+	Route::get('/exchange_rates/{currencyFrom}/{currencyTo}/edit', 'ExchangeRateController@loadExchange');
+	Route::resource('/exchange_rates','ExchangeRateController');
 

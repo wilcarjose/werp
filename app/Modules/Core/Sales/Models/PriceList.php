@@ -15,8 +15,7 @@ class PriceList extends Model
      */
     protected $fillable = [
         'code', 'starting_at', 'description', 'price_list_type_id', 'doctype_id',
-        'reference_price_list_type_id', 'amount_operation_id', 'reference', 'round'
-
+        'reference_price_list_type_id', 'amount_operation_id', 'reference', 'round', 'exchange_rate_id',
     ];
 
     public function toArray()
@@ -34,6 +33,7 @@ class PriceList extends Model
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'amount_operation_id' => $this->amount_operation_id,
+            'exchange_rate_id' => $this->exchange_rate_id,
             'reference' => $this->reference,
             'round' => $this->round,
         ];
@@ -65,6 +65,11 @@ class PriceList extends Model
     public function operation()
     {
         return $this->hasOne('Werp\Modules\Core\Maintenance\Models\AmountOperation', 'id', 'amount_operation_id');
+    }
+
+    public function exchangeRate()
+    {
+        return $this->hasOne('Werp\Modules\Core\Maintenance\Models\ExchangeRate', 'id', 'exchange_rate_id');
     }
 
     public function getState($state = null)

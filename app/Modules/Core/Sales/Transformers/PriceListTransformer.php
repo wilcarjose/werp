@@ -33,6 +33,7 @@ class PriceListTransformer extends Transformer
             'operation' => $item['operation'],
             'reference' => $item['reference'],
             'round' => $item['round'],
+            'exchange_rate_id' => $item['exchange_rate_id'],
         ];
     }
 

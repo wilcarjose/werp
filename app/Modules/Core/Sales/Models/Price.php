@@ -31,6 +31,7 @@ class Price extends Model
         'operation_name',
         'operation_calc',
         'operation_value',
+        'exchange_rate_id',
         'active',
     ];
 
@@ -59,6 +60,7 @@ class Price extends Model
             'operation_value' => $this->operation_value,
             'price_list_type_id' => $this->price_list_type_id,
             'amount_operation_id' => $this->amount_operation_id,
+            'exchange_rate_id' => $this->exchange_rate_id,
         ];
     }
 

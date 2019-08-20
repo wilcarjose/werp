@@ -60,6 +60,7 @@ return [
     'save_and_list' => 'Save and list',
     'currency' => 'Currency',
     'numeric_code' => 'Numeric code',
+    'exchange_rate' => 'Exchange rate',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -101,6 +102,7 @@ return [
         'sales_orders' => 'Sales orders',
         'purchases_orders' => 'Purchases orders',
         'currencies' => 'Currencies',
+        'exchange_rates' => 'Exchange rates',
     ],
     'profile' => [
         'profile' => 'Profile',

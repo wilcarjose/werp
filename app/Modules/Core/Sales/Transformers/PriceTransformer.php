@@ -35,6 +35,7 @@ class PriceTransformer extends Transformer
             'price_list_id'   => $item['price_list_id'],
             'price_list_type_id'   => $item['price_list_type_id'],
             'product_name' => $this->productName($item['product_id']),
+            'exchange_rate_id' => $item['exchange_rate_id'],
         ];
     }
 

@@ -12,6 +12,7 @@ return [
                 'admin.maintenance.config.edit',
                 'admin.maintenance.amount_operations.index',
                 'admin.maintenance.currencies.index',
+                'admin.maintenance.exchange_rates.index',
             ],
             'items' => [
             ],
@@ -24,6 +25,7 @@ return [
                         'admin.maintenance.config.edit',
                         'admin.maintenance.amount_operations.index',
                         'admin.maintenance.currencies.index',
+                        'admin.maintenance.exchange_rates.index',
                     ],
                     'items' => [
                         [
@@ -37,6 +39,10 @@ return [
                         [
                             'name' => 'view.menu.currencies',
                             'route' => 'admin.maintenance.currencies.index',
+                        ],
+                        [
+                            'name' => 'view.menu.exchange_rates',
+                            'route' => 'admin.maintenance.exchange_rates.index',
                         ],
                     ],
                 ],

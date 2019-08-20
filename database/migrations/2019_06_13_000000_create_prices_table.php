@@ -40,6 +40,10 @@ class CreatePricesTable extends Migration
             $table->foreign('price_list_type_id')
                 ->references('id')
                 ->on('price_list_types');
+            $table->uuid('exchange_rate_id')->nullable();
+            $table->foreign('exchange_rate_id')
+                ->references('id')
+                ->on('exchange_rates');
             $table->uuid('amount_operation_id')->nullable();
             $table->foreign('amount_operation_id')
                 ->references('id')

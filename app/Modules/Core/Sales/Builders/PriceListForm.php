@@ -10,6 +10,7 @@ namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\Checks\CheckBuilder;
 use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Inputs\InputBuilder;
 use Werp\Builders\Selects\SelectBuilder;
@@ -34,7 +35,7 @@ class PriceListForm extends SimplePage
     protected $newTitle = 'Nuevo';
     protected $editTitle = 'Editar';
 
-    protected function getInputs($new = false)
+    protected function getInputs($new = false, $useExchange = false)
     {
         if (!$new) {
             $inputs[] = new CodeInput;
@@ -43,7 +44,8 @@ class PriceListForm extends SimplePage
         $inputs[] = new DateInput('starting_at', trans('view.from'));
         $inputs[] = (new PriceListTypeSelectBuilder)->setText('Lista a generar');
         $inputs[] = new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista precio base', true);
-        $inputs[] = new OperationSelect;
+        $inputs[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
+        $inputs[] = (new OperationSelect)->advancedOption();
         $inputs[] = (new DescriptionInput)->advancedOption();
         $inputs[] = (new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption();
 
@@ -73,10 +75,12 @@ class PriceListForm extends SimplePage
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
+        $useExchange = isset($data['exchange_rate_id']) && !is_null($data['exchange_rate_id']);
+
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
             ->setAction($this->editTitle)
-            ->setInputs($this->getInputs())
+            ->setInputs($this->getInputs(false, $useExchange))
             ->setData($data)
             ->setAdvancedOptions()
             ->setMaxWidth()
