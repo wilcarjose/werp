@@ -58,6 +58,8 @@ return [
     'save_and_new' => 'Save and new',
     'save_and_edit' => 'Save and edit',
     'save_and_list' => 'Save and list',
+    'currency' => 'Currency',
+    'numeric_code' => 'Numeric code',
     'menu' => [
     	'security' => 'Security',
         'products' => 'Products',
@@ -98,6 +100,7 @@ return [
         'discounts' => 'Discounts',
         'sales_orders' => 'Sales orders',
         'purchases_orders' => 'Purchases orders',
+        'currencies' => 'Currencies',
     ],
     'profile' => [
         'profile' => 'Profile',

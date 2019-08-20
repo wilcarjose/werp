@@ -60,6 +60,8 @@ return [
     'save_and_new' => 'Guardar y nuevo',
     'save_and_edit' => 'Guardar y editar',
     'save_and_list' => 'Guardar y listar',
+    'currency' => 'Moneda',
+    'numeric_code' => 'Código numérico',
     'menu' => [
         'security' => 'Seguridad',
         'products' => 'Productos',
@@ -98,6 +100,7 @@ return [
         'discounts' => 'Descuentos',
         'sales_orders' => 'Órdenes de ventas',
         'purchases_orders' => 'Órdenes de compra',
+        'currencies' => 'Monedas',
     ],
     'profile' => [
         'profile' => 'Perfil',
