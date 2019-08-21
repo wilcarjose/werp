@@ -64,6 +64,7 @@ return [
     'numeric_code' => 'Código numérico',
     'exchange_rate' => 'Tasa de cambio',
     'menu' => [
+        'company' => 'Empresa',
         'security' => 'Seguridad',
         'products' => 'Productos',
         'categories' => 'Categorias',

@@ -18,8 +18,8 @@ class UomForm extends SimplePage
     {
         return [
             new NameInput,
-            new InputBuilder('abbr', 'input', trans('view.abbr')),
-            new InputBuilder('symbol', 'input', trans('view.symbol')),
+            new InputBuilder('abbr', trans('view.abbr')),
+            new InputBuilder('symbol', trans('view.symbol')),
             new DescriptionInput,
         ];
     }

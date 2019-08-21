@@ -25,7 +25,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'document', 
+        'name', 'description', 'document', 'document2', 'phone1', 'phone2', 'phone3', 'logo', 'email'
     ];
 
     public function toArray()

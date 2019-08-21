@@ -9,6 +9,7 @@ return [
             'icon' => 'settings',
             'route' => 'admin.maintenance',
             'routes' => [
+                'admin.maintenance.empresa.edit',
                 'admin.maintenance.config.edit',
                 'admin.maintenance.amount_operations.index',
                 'admin.maintenance.currencies.index',
@@ -22,12 +23,17 @@ return [
                     'icon' => '',
                     'route' => 'admin.maintenance.general',
                     'routes' => [
+                        'admin.maintenance.empresa.edit',
                         'admin.maintenance.config.edit',
                         'admin.maintenance.amount_operations.index',
                         'admin.maintenance.currencies.index',
                         'admin.maintenance.exchange_rates.index',
                     ],
                     'items' => [
+                        [
+                            'name' => 'view.menu.company',
+                            'route' => 'admin.maintenance.company.edit',
+                        ],
                         [
                             'name' => 'view.menu.config',
                             'route' => 'admin.maintenance.config.edit',

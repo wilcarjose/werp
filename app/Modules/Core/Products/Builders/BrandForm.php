@@ -19,7 +19,7 @@ class BrandForm extends SimplePage
         return [
             new NameInput,
             new DescriptionInput,
-            new InputBuilder('country', 'input', trans('view.country')),
+            new InputBuilder('country', trans('view.country')),
         ];
     }
 }

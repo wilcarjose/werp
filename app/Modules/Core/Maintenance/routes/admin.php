@@ -1,5 +1,9 @@
 <?php
 
+	// Company
+	Route::get('/company/edit', 'CompanyController@edit')->name('company.edit');
+	Route::put('/company/update', 'CompanyController@update')->name('company.update');
+
 	// Price list type
 	Route::put('/amount_operations/status','AmountOperationController@switchStatus')->name('amount_operations_status');
 	Route::post('/amount_operations/removeBulk','AmountOperationController@destroyBulk');
@@ -22,4 +26,3 @@
 	Route::put('/exchange_rates/statusBulk','ExchangeRateController@switchStatusBulk');
 	Route::get('/exchange_rates/{currencyFrom}/{currencyTo}/edit', 'ExchangeRateController@loadExchange');
 	Route::resource('/exchange_rates','ExchangeRateController');
-

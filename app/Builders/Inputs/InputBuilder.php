@@ -27,7 +27,7 @@ class InputBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($name = null, $type = null, $text = null, $icon = null, $value = null, $disable = false)
+    public function __construct($name = null, $text = null, $type = 'input', $icon = null, $value = null, $disable = false)
     {
         $this->name = $name;
         $this->type = $type;

@@ -12,7 +12,6 @@ use Werp\Builders\FormBuilder;
 use Werp\Builders\Inputs\DateInput;
 use Werp\Builders\Checks\CheckBuilder;
 use Werp\Builders\Actions\UpdateAction;
-use Werp\Builders\Inputs\InputBuilder;
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Actions\ActionBuilder;
 use Werp\Builders\Actions\ContinueAction;

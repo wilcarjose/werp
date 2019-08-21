@@ -19,9 +19,9 @@ class CurrencyForm extends SimplePage
         return [
             new NameInput,
             new DescriptionInput,
-            new InputBuilder('abbr', 'input', trans('view.abbr')),
-            new InputBuilder('symbol', 'input', trans('view.symbol')),
-            new InputBuilder('numeric_code', 'input', trans('view.numeric_code')),
+            new InputBuilder('abbr', trans('view.abbr')),
+            new InputBuilder('symbol', trans('view.symbol')),
+            new InputBuilder('numeric_code', trans('view.numeric_code')),
         ];
     }
 }

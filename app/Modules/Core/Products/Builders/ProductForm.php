@@ -22,16 +22,16 @@ class ProductForm extends SimplePage
     protected function getInputs()
     {
         return [
-            new InputBuilder('code', 'input',  trans('view.code')),
+            new InputBuilder('code', trans('view.code')),
             new NameInput,
             new DescriptionInput,
-            new InputBuilder('part_number', 'input',  trans('view.products.part_number')),
+            new InputBuilder('part_number', trans('view.products.part_number')),
             new UomSelect,
             new BrandSelect,
             new ProductCategorySelect,
             (new SupplierSelectBuilder)->advancedOption(),
-            (new InputBuilder('barcode', 'input',  trans('view.products.barcode')))->advancedOption(),
-            (new InputBuilder('link', 'input',  trans('view.products.link')))->advancedOption(),
+            (new InputBuilder('barcode', trans('view.products.barcode')))->advancedOption(),
+            (new InputBuilder('link', trans('view.products.link')))->advancedOption(),
         ];
     }
 }
