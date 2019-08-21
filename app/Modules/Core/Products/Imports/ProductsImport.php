@@ -5,10 +5,11 @@ namespace Werp\Modules\Core\Products\Imports;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Werp\Modules\Core\Products\Models\Uom;
 use Werp\Modules\Core\Products\Models\Brand;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Products\Models\Category;
 
-class ProductsImport implements ToModel
+class ProductsImport implements ToModel, WithHeadingRow
 {
     /**
      * @param array $row
@@ -18,15 +19,15 @@ class ProductsImport implements ToModel
     public function model(array $row)
     {
         return new Product([
-            'code'     => $row[0],
-            'name'    => $row[1], 
-            'description' => $row[2],
-            'part_number' => $row[3],
-            'barcode' => $row[7],
-            'link' => $row[8],
-            'brand_id' => $this->getBrandId($row[5]),
-            'category_id' => $this->getCategoryId($row[6]),
-            'uom_id' => $this->getUomId($row[4]),
+            'code'     => $row['code'],
+            'name'    => $row['name'], 
+            'description' => $row['description'],
+            'part_number' => $row['part_number'],
+            'barcode' => $row['barcode'],
+            'link' => $row['link'],
+            'brand_id' => $this->getBrandId($row['brand']),
+            'category_id' => $this->getCategoryId($row['category']),
+            'uom_id' => $this->getUomId($row['uom']),
         ]);
     }
 
