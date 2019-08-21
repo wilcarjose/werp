@@ -191,44 +191,58 @@ class BaseController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = validator()->make($request->all(), $this->getStoreRules());
-    
-        if ($validator->fails()) {
+        try {
+            $validator = validator()->make($request->all(), $this->getStoreRules());
+        
+            if ($validator->fails()) {
+
+                if (request()->ajax() || request()->wantsJson()) {
+                    return response([
+                        'status_code' => 400,
+                        'message'     => trans($this->getFailCreateKey()),
+                        'errors'      => $validator->errors()
+                    ], 400);
+                }
+
+                flash(trans($this->getFailValidationKey()), 'error', 'error');
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $data = array_only($request->all(), $this->getInputs());
+
+            $entity = $this->entityService->create($data);
 
             if (request()->ajax() || request()->wantsJson()) {
-                return response([
+                return $entity ?
+                response([
+                    'data'        => $entity->toArray(),
+                    'message' => trans($this->getAddedKey()),
+                    'status_code' => 200
+                ], 200) :
+                response([
                     'status_code' => 400,
                     'message'     => trans($this->getFailCreateKey()),
-                    'errors'      => $validator->errors()
                 ], 400);
             }
 
-            flash(trans($this->getFailValidationKey()), 'error', 'error');
-            return back()->withErrors($validator)->withInput();
+            $entity ?
+                flash(trans($this->getAddedKey()), 'success', 'success') :
+                flash(trans($this->getFailCreateKey()), 'error', 'error');
+
+            return $this->goBackTo($request, $entity->id);
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
         }
-
-        $data = array_only($request->all(), $this->getInputs());
-
-        $entity = $this->entityService->create($data);
-
-        if (request()->ajax() || request()->wantsJson()) {
-            return $entity ?
-            response([
-                'data'        => $entity->toArray(),
-                'message' => trans($this->getAddedKey()),
-                'status_code' => 200
-            ], 200) :
-            response([
-                'status_code' => 400,
-                'message'     => trans($this->getFailCreateKey()),
-            ], 400);
-        }
-
-        $entity ?
-            flash(trans($this->getAddedKey()), 'success', 'success') :
-            flash(trans($this->getFailCreateKey()), 'error', 'error');
-
-        return $this->goBackTo($request, $entity->id);
     }
 
     protected function goBackTo($request, $id)

@@ -61,6 +61,7 @@ return [
     'currency' => 'Currency',
     'numeric_code' => 'Numeric code',
     'exchange_rate' => 'Exchange rate',
+    'import' => 'Import',
     'menu' => [
         'company' => 'Company',
     	'security' => 'Security',
@@ -104,6 +105,8 @@ return [
         'purchases_orders' => 'Purchases orders',
         'currencies' => 'Currencies',
         'exchange_rates' => 'Exchange rates',
+        'imports_exports' => 'Import/Export',
+        'import_products' => 'Import products',
     ],
     'profile' => [
         'profile' => 'Profile',

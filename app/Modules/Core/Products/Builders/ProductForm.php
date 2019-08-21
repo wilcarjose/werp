@@ -2,15 +2,17 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
-use Werp\Builders\Inputs\InputBuilder;
+use Werp\Builders\FormBuilder;
+use Werp\Builders\Files\ExcelFile;
 use Werp\Builders\Inputs\NameInput;
-use Werp\Builders\Inputs\DescriptionInput;
 use Werp\Builders\Selects\UomSelect;
 use Werp\Builders\Selects\BrandSelect;
+use Werp\Builders\Inputs\InputBuilder;
+use Werp\Builders\Actions\ImportAction;
+use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Builders\Selects\ProductCategorySelect;
 use Werp\Builders\Selects\SupplierSelectBuilder;
-use Werp\Modules\Core\Base\Builders\SimplePage;
-
 
 class ProductForm extends SimplePage
 {
@@ -29,9 +31,30 @@ class ProductForm extends SimplePage
             new UomSelect,
             new BrandSelect,
             new ProductCategorySelect,
-            (new SupplierSelectBuilder)->advancedOption(),
-            (new InputBuilder('barcode', trans('view.products.barcode')))->advancedOption(),
-            (new InputBuilder('link', trans('view.products.link')))->advancedOption(),
+            new SupplierSelectBuilder,
+            new InputBuilder('barcode', trans('view.products.barcode')),
+            new InputBuilder('link', trans('view.products.link')),
         ];
+    }
+
+    public function importPage()
+    {
+        $inputs = [
+            new ExcelFile,
+        ];
+
+        $form = (new FormBuilder)
+            ->setRoute($this->moduleRoute)
+            ->setMainRoute('import')
+            ->setAction($this->newTitle)
+            ->setInputs($inputs)
+            ->addAction(new ImportAction)
+        ;
+
+        return $this
+            ->setShortAction('Importar')
+            ->newConfig()
+            ->addForm($form)->view()
+        ;
     }
 }

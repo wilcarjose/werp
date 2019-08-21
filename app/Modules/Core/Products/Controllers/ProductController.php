@@ -3,14 +3,16 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Werp\Modules\Core\Products\Models\Uom;
 use Werp\Modules\Core\Products\Models\Brand;
-use Werp\Modules\Core\Base\Controllers\BaseController;
-use Werp\Modules\Core\Products\Services\ProductService;
 use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Category;
 use Werp\Modules\Core\Products\Builders\ProductForm;
 use Werp\Modules\Core\Products\Builders\ProductList;
+use Werp\Modules\Core\Products\Imports\ProductsImport;
+use Werp\Modules\Core\Base\Controllers\BaseController;
+use Werp\Modules\Core\Products\Services\ProductService;
 use Werp\Modules\Core\Products\Transformers\ProductTransformer;
 
 class ProductController extends BaseController
@@ -81,5 +83,39 @@ class ProductController extends BaseController
             //'paginator'   => $paginator,
             'status_code' => 200
         ], 200);
+    }
+
+    public function showImport()
+    {
+        return $this->entityForm->importPage();
+    }
+
+    public function import(Request $request) 
+    {
+        try {
+
+            $rules = [
+                'file'  => 'required|file|mimes:csv,xls,xlsx,doc,docx,ppt,pptx,ods,odt,odp',
+            ];
+
+            $validator = validator()->make($request->all(), $rules);
+        
+            if ($validator->fails()) {
+
+                flash(trans($this->getFailValidationKey()), 'error', 'error');
+                return back()->withErrors($validator)->withInput();
+            }
+
+            Excel::import(new ProductsImport, $request->file('file'));
+            
+            flash(trans($this->getAddedKey()), 'success', 'success');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
     }
 }

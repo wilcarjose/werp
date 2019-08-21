@@ -63,6 +63,7 @@ return [
     'currency' => 'Moneda',
     'numeric_code' => 'Código numérico',
     'exchange_rate' => 'Tasa de cambio',
+    'import' => 'Importar',
     'menu' => [
         'company' => 'Empresa',
         'security' => 'Seguridad',
@@ -104,6 +105,8 @@ return [
         'purchases_orders' => 'Órdenes de compra',
         'currencies' => 'Monedas',
         'exchange_rates' => 'Tasas de cambio',
+        'imports_exports' => 'Importar/Exportar',
+        'import_products' => 'Importar productos',
     ],
     'profile' => [
         'profile' => 'Perfil',

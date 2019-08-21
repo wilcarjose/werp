@@ -30,6 +30,7 @@ class FormBuilder // extends ModuleBuilder
     protected $goBack = null;
     protected $printAction = null;
     protected $route = null;
+    protected $mainRoute = null;
 
     public function makeInputs()
     {
@@ -69,6 +70,17 @@ class FormBuilder // extends ModuleBuilder
         return $this->route;
     }
 
+    public function setMainRoute($mainRoute, $params = [])
+    {
+        $this->mainRoute = route($this->route.'.'.$mainRoute, $params);
+        return $this;
+    }
+
+    public function getMainRoute()
+    {
+        return $this->mainRoute;
+    }
+
     public function setPrintAction($printAction)
     {
         $this->printAction = $printAction;
@@ -84,8 +96,6 @@ class FormBuilder // extends ModuleBuilder
     {
         return $this->getPrintAction();
     }
-
-    
 
     public function setEdit($edit = true)
     {
@@ -129,6 +139,10 @@ class FormBuilder // extends ModuleBuilder
 
     public function getSaveRoute()
     {
+        if ($this->mainRoute) {
+            return $this->getMainRoute();
+        }
+
         return $this->edit ? $this->getUpdateRoute() : $this->getStoreRoute();
     }
 

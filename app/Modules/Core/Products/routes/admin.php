@@ -12,6 +12,8 @@
 	Route::put('/products/status','ProductController@switchStatus')->name('product_status');
 	Route::post('/products/removeBulk','ProductController@destroyBulk');
 	Route::put('/products/statusBulk','ProductController@switchStatusBulk');
+	Route::get('/products/import','ProductController@showImport')->name('products.showimport');
+	Route::post('/products/import','ProductController@import')->name('products.import');
 	//Route::get('/products/{id}/cellar','ProductController@showCellar');
 	Route::resource('/products','ProductController');
 

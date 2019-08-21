@@ -95,6 +95,20 @@ return [
                         ],
                     ],
                 ],
+                [
+                    'name' => 'view.menu.imports_exports',
+                    'icon' => '',
+                    'route' => 'admin.products.imports_exports',
+                    'routes' => [
+                        'admin.products.products.showimport',
+                    ],
+                    'items' => [
+                        [
+                            'name' => 'view.menu.import_products',
+                            'route' => 'admin.products.products.showimport',
+                        ],                        
+                    ],
+                ],
             ]
     ],
 

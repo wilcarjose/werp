@@ -6,10 +6,10 @@
  * Time: 01:59 PM
  */
 
-namespace Werp\Builders\Inputs;
+namespace Werp\Builders\Files;
 
 
-class InputBuilder
+class FileBuilder
 {
     protected $name;
     protected $type;
