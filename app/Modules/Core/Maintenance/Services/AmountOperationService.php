@@ -18,6 +18,11 @@ class AmountOperationService extends BaseService
         $this->config = $config;
     }
 
+    public function getByName($name)
+    {
+        return $this->entity->where('name', $name)->first();
+    }
+
     public function setOperation($operation)
     {
     	$this->operation = $operation;

@@ -24,5 +24,5 @@
 	Route::put('/exchange_rates/status','ExchangeRateController@switchStatus')->name('exchange_rates_status');
 	Route::post('/exchange_rates/removeBulk','ExchangeRateController@destroyBulk');
 	Route::put('/exchange_rates/statusBulk','ExchangeRateController@switchStatusBulk');
-	Route::get('/exchange_rates/{currencyFrom}/{currencyTo}/edit', 'ExchangeRateController@loadExchange');
+	Route::get('/exchange_rates/{currencyFrom}/{currencyTo}/edit', 'ExchangeRateController@loadExchange')->name('exchange_rates.get');
 	Route::resource('/exchange_rates','ExchangeRateController');

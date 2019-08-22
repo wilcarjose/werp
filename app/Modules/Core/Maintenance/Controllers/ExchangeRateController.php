@@ -121,7 +121,7 @@ class ExchangeRateController extends BaseController
             flash(trans($this->getAddedKey()), 'success', 'success') :
             flash(trans($this->getFailCreateKey()), 'error', 'error');
 
-        return redirect(route($this->routeBase.'.edit', $entity->id));
+        return redirect(route($this->routeBase.'.get', ['currencyFrom' => $entity->currencyFrom->abbr, 'currencyTo' => $entity->currencyTo->abbr]));
     }
 
     /**
@@ -144,11 +144,13 @@ class ExchangeRateController extends BaseController
 
             $data = array_only($request->all(), $this->getInputs());
 
-            $entity = $this->entityService->update($id, $data) ?
+            $entity = $this->entityService->update($id, $data);
+
+            $entity ?
                 flash(trans($this->getUpdatedKey()), 'success', 'success') :
                 flash(trans($this->getFailUpdateKey()), 'error', 'error');
 
-            return back();
+            return redirect(route($this->routeBase.'.get', ['currencyFrom' => $entity->currencyFrom->abbr, 'currencyTo' => $entity->currencyTo->abbr]));
 
         } catch (\Exception $e) {
             flash($e->getMessage(). ' - '.$e->getFile(). ' - '.$e->getLine(), 'error', 'error');

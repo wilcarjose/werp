@@ -41,7 +41,7 @@ class PriceListTypeService extends BaseService
         $currency = Currency::find($currencyId);
 
         return PriceListType::create([
-            'name' => 'Lista de precios en ' . $currency->name,
+            'name' => 'Lista de precios en ' . $currency->name . ' (' . $type . ')',
             'currency_abbr' => $currency->abbr,
             'currency_id' => $currencyId,
             'type' => $type

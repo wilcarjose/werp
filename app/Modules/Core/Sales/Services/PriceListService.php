@@ -170,19 +170,14 @@ class PriceListService extends BaseService
         if ($products->isNotEmpty()) {
 
             foreach($products as $product) {
-                // obtener la operación y pasar como parámetro
                 //$total = $this->operationService->setOperation($operation)->calculate($price->price);
                 $list = $entity->referencePriceListType ?: $entity->priceListType;
                 //\Log::info($list->name);
-                $price = $product->currentPrice($list->id);
+                $price = $product->currentPriceObject($list->id);
 
-                $total = $entity->exchangeRate ?
-                    $this->exchangeService->exchangePrice($entity->exchangeRate, $price) :
-                    ($entity->operation ?
-                        $this->operationService->setOperation($entity->operation)->calculate($price) :
-                        $price);
+                $amount = $this->getPrice($entity, $price);
 
-                $this->deletePrice($entity, $product)->createPrice($entity, $product, $total);
+                $this->deletePrice($entity, $product)->createPrice($entity, $product, $amount);
             }
 
             return true;
@@ -193,14 +188,10 @@ class PriceListService extends BaseService
             $prices = $entity->referencePriceListType->currentPrices();
             
             foreach($prices as $price) {
-                // obtener la aperación y pasar como parámetro
-                $total = $entity->exchangeRate ?
-                    $this->exchangeService->exchangePrice($entity->exchangeRate, $price->price) :
-                    ($entity->operation ?
-                        $this->operationService->setOperation($entity->operation)->calculate($price->price) :
-                        $price->product->currentPrice($entity->referencePriceListType->id));
 
-                $this->deletePrice($entity, $price->product)->createPrice($entity, $price->product, $total);
+                $amount = $this->getPrice($entity, $price, true);
+
+                $this->deletePrice($entity, $price->product)->createPrice($entity, $price->product, $amount);
             }
 
             return true;
@@ -212,9 +203,9 @@ class PriceListService extends BaseService
 
             foreach($prices as $price) {
                 // obtener la aperación y pasar como parámetro
-                $total = $this->operationService->setOperation($entity->operation)->calculate($price->price);
+                $amount = $this->operationService->setOperation($entity->operation)->calculate($price->price);
 
-                $this->deletePrice($entity, $price->product)->createPrice($entity, $price->product, $total);
+                $this->deletePrice($entity, $price->product)->createPrice($entity, $price->product, $amount);
             }
 
             return true;
@@ -228,6 +219,30 @@ class PriceListService extends BaseService
         }
 
         return true;
+    }
+
+    protected function getPrice($entity, $price, $useReferenceList = false)
+    {
+        if ($entity->exchangeRate) {
+
+            $operation = $this->operationService->getByName($entity->exchangeRate->name);
+
+            if ($operation) {
+                return $this->operationService->setOperation($operation)->calculate($price->price);
+            }
+
+            return $this->exchangeService->exchangePrice($entity->exchangeRate, $price->price);
+        }
+
+        if ($entity->operation) {
+            return $this->operationService->setOperation($entity->operation)->calculate($price->price);
+        }
+
+        if ($useReferenceList && $entity->referencePriceListType) {
+            return $price->product->currentPrice($entity->referencePriceListType->id);
+        }
+
+        return $price->price;
     }
 
     public function createDetail($id, $data)
@@ -346,6 +361,12 @@ class PriceListService extends BaseService
         $operationValue = $entity->operation ? 
             ($entity->operation->config_key ? $this->configService->getValue($entity->operation->config_key) : $entity->operation->value) :
             null;
+
+        if ($entity->exchangeRate) {
+            $operationName = $entity->exchangeRate->name;
+            $operationCalc = 'multiply';
+            $operationValue = $entity->exchangeRate->value;
+        }
 
         $priceData = [
             'price_list_type_id' => $entity->price_list_type_id,
