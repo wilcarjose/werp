@@ -21,6 +21,24 @@ class ProductService extends BaseService
         $this->configService = $configService;
     }
 
+    protected function makeUpdateData($id, $data)
+    {
+        if (isset($data['partner_id']) && $data['partner_id'] == 'new') {
+            $data['partner_id'] = null;
+        }
+
+        return $data;
+    }
+
+    protected function makeCreateData($data)
+    {
+        if (isset($data['partner_id']) && $data['partner_id'] == 'new') {
+            $data['partner_id'] = null;
+        }
+        
+        return $data;
+    }
+
     public function getProductsStock()
     {
         $entities = $this->entity
