@@ -19,7 +19,7 @@ use Werp\Builders\Selects\PaymentMethodSelect;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Selects\CustomerSelectBuilder;
 use Werp\Builders\Actions\ContinueAction;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 use Werp\Builders\Selects\WarehouseSelect;
 use Werp\Builders\Inputs\DescriptionInput;
 use Werp\Builders\Selects\SalePriceListSelect;

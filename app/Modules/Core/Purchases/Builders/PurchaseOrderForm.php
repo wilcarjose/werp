@@ -18,10 +18,9 @@ use Werp\Builders\Selects\PaymentMethodSelect;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Selects\SupplierSelectBuilder;
 use Werp\Builders\Actions\ContinueAction;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 use Werp\Builders\Selects\WarehouseSelect;
 use Werp\Builders\Inputs\DescriptionInput;
-use Werp\Builders\Selects\PurchasePriceListSelect;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -41,7 +40,7 @@ class PurchaseOrderForm extends SimplePage
 
         $inputs[] = new DateInput;
         $inputs[] = new SupplierSelectBuilder;
-        $inputs[] = new PurchasePriceListSelect;
+        $inputs[] = new CurrencySelect;
         $inputs[] = new WarehouseSelect;
         $inputs[] = new TaxSelect;
         $inputs[] = new DiscountSelect;

@@ -16,7 +16,7 @@ use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Selects\WarehouseSelect;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 
 class ConfigForm extends PageBuilder
 {
@@ -99,7 +99,7 @@ class ConfigForm extends PageBuilder
         }
 
         foreach ($currencies as $currency) {
-            $form->addSelect((new CurrencySelectBuilder())
+            $form->addSelect((new CurrencySelect())
                 ->setName($currency['key'])
                 ->setText(trans($currency['translate_key']))
                 ->setValue($currency['value'])

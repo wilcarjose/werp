@@ -29,4 +29,22 @@ class PriceListTypeService extends BaseService
 
         return $data;
     }
+
+    public function getOrCreatePriceList($currencyId, $type)
+    {
+        $priceList = PriceListType::where('currency_id', $currencyId)->where('type', $type)->active()->first();
+
+        if ($priceList) {
+            return $priceList;
+        }
+        
+        $currency = Currency::find($currencyId);
+
+        return PriceListType::create([
+            'name' => 'Lista de precios en ' . $currency->name,
+            'currency_abbr' => $currency->abbr,
+            'currency_id' => $currencyId,
+            'type' => $type
+        ]);
+    }
 }

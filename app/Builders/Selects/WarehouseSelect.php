@@ -27,7 +27,7 @@ class WarehouseSelect extends SelectBuilder
         $this->type  = 'select';
         $this->icon  = $icon;
         $this->text  = $text ?: trans('view.warehouse');
-        $this->value = $value ?: Config::where('key', 'inv_default_warehouse')->firstOrFail()->value;
+        $this->value = $value ?: Config::where('key', Config::INV_DEFAULT_WAREHOUSE)->firstOrFail()->value;
         $this->data  = Warehouse::active()->get();
         $this->disable  = $disable;
         $this->none = false;

@@ -8,9 +8,10 @@
 
 namespace Werp\Builders\Selects;
 
+use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Currency;
 
-class CurrencySelectBuilder extends SelectBuilder
+class CurrencySelect extends SelectBuilder
 {
     protected $name;
     protected $type;
@@ -37,7 +38,7 @@ class CurrencySelectBuilder extends SelectBuilder
         $this->type  = 'select';
         $this->icon  = $icon;
         $this->text  = trans('view.currency');
-        $this->value = $value;
+        $this->value = $value ?: Config::where('key', Config::MAI_DEFAULT_CURRENCY)->firstOrFail()->value;
         $this->data  = Currency::active()->get();
         $this->disable  = $disable;
         $this->none = $none;

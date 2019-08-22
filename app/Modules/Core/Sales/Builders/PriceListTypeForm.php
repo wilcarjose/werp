@@ -10,7 +10,7 @@ namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Inputs\NameInput;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 use Werp\Builders\Inputs\DescriptionInput;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 
@@ -45,7 +45,7 @@ class PriceListTypeForm extends SimplePage
             new NameInput(),
             new DescriptionInput(),
             new SelectBuilder('type', 'Tipo', $this->types, $this->defaultType),
-            new CurrencySelectBuilder(),
+            new CurrencySelect(),
         ];
     }
 }

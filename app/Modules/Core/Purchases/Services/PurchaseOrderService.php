@@ -2,7 +2,6 @@
 
 namespace Werp\Modules\Core\Purchases\Services;
 
-use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Products\Models\Order;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Config;
@@ -22,15 +21,21 @@ class PurchaseOrderService extends OrderService
         return $entity->purchases();
     }
 
-    public function create(array $data)
+    protected function makeUpdateData($id, $data)
     {
-        $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
-        $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
+        $data['price_list_type_id'] = $this->priceListTypeService->getOrCreatePriceList($data['currency_id'], 'purchases')->id;
+
+        return $data;
+    }
+
+    protected function makeCreateData($data)
+    {
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
-        $data['currency_id'] = PriceListType::find($data['price_list_type_id'])->currency_id;
+        $data['price_list_type_id'] = $this->priceListTypeService->getOrCreatePriceList($data['currency_id'], 'purchases')->id;
         $data['type'] = Order::PURCHASE_TYPE;
         $data['state'] = Basedoc::PE_STATE;
-        return $this->entity->create($data);
+
+        return $data;
     }
 
     protected function updateDetailAmounts($entityDetail, $entity = null)
@@ -61,7 +66,7 @@ class PurchaseOrderService extends OrderService
 
         try {
 
-            DB::beginTransaction();
+            $this->begin();
 
             if (config('werp.purchases_orders.generate_entry')) {
 
@@ -127,14 +132,34 @@ class PurchaseOrderService extends OrderService
                 $entity->is_delivery_pending = 'n';
             }
 
+            if (config('werp.purchases_orders.generate_price_list')) {
+
+                $priceList = $this->priceListService->createPriceList([
+                    'description' => 'Generada automáticamente desde orden de compra # '.$entity->code,
+                    'starting_at' => $entity->date,
+                    'price_list_type_id' => $this->priceListTypeService->getOrCreatePriceList($entity->currency_id, 'purchases')->id,
+                    'doctype_id' => $this->configService->getDefaultInventaryDoctype(),
+                ]);
+
+                foreach ($entity->detail as $detail) {
+                    // check if is full_price or price
+                    $price = $this->priceListService->createPrice($priceList, $detail->product, $detail->full_price, true);
+
+                    $detail->price_id = $price->id;
+                    $detail->save();
+                }
+
+                $this->priceListService->process($priceList->id);
+            }
+
             $entity->state = Basedoc::PR_STATE;
             $entity->save();
 
-            DB::commit();
+            $this->commit();
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
     }
@@ -149,7 +174,7 @@ class PurchaseOrderService extends OrderService
 
         try {
 
-            DB::beginTransaction();
+            $this->begin();
 
             $entity->state = Basedoc::CA_STATE;
             $entity->save();
@@ -160,11 +185,11 @@ class PurchaseOrderService extends OrderService
                 }
             }
 
-            DB::commit();
+            $this->commit();
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+            $this->rollback();
             throw new \Exception("Error Processing Request: " . $e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
     }

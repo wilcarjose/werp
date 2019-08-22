@@ -5,19 +5,22 @@ namespace Werp\Modules\Core\Maintenance\Services;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Currency;
-use Werp\Modules\Core\Sales\Models\PriceListType;
+use Werp\Modules\Core\Sales\Services\PriceListTypeService;
 
 class ConfigService
 {
     protected $config;
     protected $configObject;
     protected $docsConfig;
-    protected $transactionService;
+    protected $priceListTypeService;
 
     public function __construct(
-        Config $config
+        Config $config,
+        PriceListTypeService $priceListTypeService
+
     ) {
         $this->config = $config;
+        $this->priceListTypeService = $priceListTypeService;
 
         $this->docsConfig = [
             Basedoc::IN_DOC => Config::INV_DEFAULT_IN_DOC,
@@ -189,49 +192,17 @@ class ConfigService
 
                 if ($key == Config::MAI_DEFAULT_CURRENCY) {
                     
-                    if (!PriceListType::where('currency_id', $data[$key])->saleLists()->exists()) {
-                        $currency = Currency::find($data[$key]);
-                        PriceListType::create([
-                            'name' => 'Lista de ventas en ' . $currency->name,
-                            'currency_abbr' => $currency->abbr,
-                            'currency_id' => $data[$key],
-                            'type' => 'sales'
-                        ]);
-                    }
+                    $this->priceListTypeService->getOrCreatePriceList($data[$key], 'sales');
 
-                    if (!PriceListType::where('currency_id', $data[$key])->purchaseLists()->exists()) {
-                        $currency = Currency::find($data[$key]);
-                        PriceListType::create([
-                            'name' => 'Lista de compras en ' . $currency->name,
-                            'currency_abbr' => $currency->abbr,
-                            'currency_id' => $data[$key],
-                            'type' => 'purchases'
-                        ]);
-                    }
+                    $this->priceListTypeService->getOrCreatePriceList($data[$key], 'purchases');
 
                 }
 
                 if ($key == Config::MAI_BASE_CURRENCY) {
                     
-                    if (!PriceListType::where('currency_id', $data[$key])->saleLists()->exists()) {
-                        $currency = Currency::find($data[$key]);
-                        PriceListType::create([
-                            'name' => 'Lista de ventas en ' . $currency->name,
-                            'currency_abbr' => $currency->abbr,
-                            'currency_id' => $data[$key],
-                            'type' => 'sales'
-                        ]);
-                    }
+                    $this->priceListTypeService->getOrCreatePriceList($data[$key], 'sales');
 
-                    if (!PriceListType::where('currency_id', $data[$key])->purchaseLists()->exists()) {
-                        $currency = Currency::find($data[$key]);
-                        PriceListType::create([
-                            'name' => 'Lista de compras en ' . $currency->name,
-                            'currency_abbr' => $currency->abbr,
-                            'currency_id' => $data[$key],
-                            'type' => 'purchases'
-                        ]);
-                    }
+                    $this->priceListTypeService->getOrCreatePriceList($data[$key], 'purchases');
 
                 }
 
@@ -244,7 +215,7 @@ class ConfigService
 
     public function getDefaultInventaryDoctype()
     {
-        return $this->getValue('inv_default_inventory_doctype');
+        return $this->getValue(Config::PRI_DEFAULT_PL_DOC);
     }
 
     public function getDefaultPriceListDoctype()

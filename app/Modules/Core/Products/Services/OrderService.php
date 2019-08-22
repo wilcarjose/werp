@@ -4,45 +4,57 @@ namespace Werp\Modules\Core\Products\Services;
 
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Products\Models\Order;
+use Werp\Modules\Core\Sales\Models\Price;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Sales\Services\TaxService;
 use Werp\Modules\Core\Products\Models\OrderDetail;
 use Werp\Modules\Core\Sales\Services\DiscountService;
+use Werp\Modules\Core\Sales\Services\PriceListService;
+use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Products\Exceptions\NotDetailException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 use Werp\Modules\Core\Products\Services\InoutService;
+use Werp\Modules\Core\Sales\Services\PriceListTypeService;
 
 class OrderService extends BaseService
 {
     protected $entity;
-    protected $inventoryObject;
-    protected $transactionService;
     protected $taxService;
-    protected $discountService;
     protected $entityDetail;
     protected $inoutService;
-
+    protected $configService;
+    protected $inventoryObject;
+    protected $discountService;
+    protected $priceListService;
+    protected $transactionService;
+    protected $priceListTypeService;
 
     public function __construct(
         Order $entity,
         TaxService $taxService,
         OrderDetail $entityDetail,
         InoutService $inoutService,
+        ConfigService $configService,
         DoctypeService $doctypeService,
         DiscountService $discountService,
-        TransactionService $transactionService
+        PriceListService $priceListService,
+        TransactionService $transactionService,
+        PriceListTypeService $priceListTypeService
     ) {
         $this->entity               = $entity;
         $this->taxService           = $taxService;
-        $this->discountService      = $discountService;
-        $this->doctypeService       = $doctypeService;
         $this->entityDetail         = $entityDetail;
+        $this->inoutService         = $inoutService;
+        $this->configService        = $configService;
+        $this->doctypeService       = $doctypeService;
+        $this->discountService      = $discountService;
+        $this->priceListService     = $priceListService;
         $this->transactionService   = $transactionService;
-        $this->inoutService   = $inoutService;
+        $this->priceListTypeService = $priceListTypeService;
     }
 
     public function getDetail($detailId)
@@ -227,8 +239,13 @@ class OrderService extends BaseService
 
     protected function getAmounts($price, $qty, $taxId, $discountId)
     {
-        $priceAmount = $price ? $price->price : 0;
-        $amountData['price_id'] = $price ? $price->id : null;
+        if ($price instanceof Price) {
+            $priceAmount = $price->price;
+            $amountData['price_id'] = $price->id;
+        } else {
+            $priceAmount = $price ?: 0;
+        }
+
         $amountData['price'] = $priceAmount;
         $amountData['tax'] = $this->taxService->getTaxAmount($taxId, $priceAmount);
         $amountData['discount'] = $this->discountService->getDiscountAmount($discountId, $priceAmount);

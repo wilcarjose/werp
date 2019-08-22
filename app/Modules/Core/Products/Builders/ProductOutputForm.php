@@ -20,7 +20,7 @@ use Werp\Builders\Inputs\AmountInput;
 use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Actions\ContinueAction;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 use Werp\Builders\Selects\CustomerSelectBuilder;
 use Werp\Builders\Selects\WarehouseSelect;
 use Werp\Builders\Inputs\DescriptionInput;
@@ -44,7 +44,7 @@ class ProductOutputForm extends SimplePage
         $inputs[] = new DateInput;
         $inputs[] = new CustomerSelectBuilder;
         $inputs[] = new WarehouseSelect;
-        $inputs[] = new CurrencySelectBuilder;
+        $inputs[] = new CurrencySelect;
         $inputs[] = (new DescriptionInput)->advancedOption();
         $inputs[] = (new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled();
         $inputs[] = (new DoctypeSelect(Basedoc::IO_DOC, Config::INV_DEFAULT_IO_DOC))->advancedOption();

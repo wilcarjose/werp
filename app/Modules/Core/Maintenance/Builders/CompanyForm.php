@@ -12,7 +12,7 @@ use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Selects\WarehouseSelect;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 
 class CompanyForm extends PageBuilder
 {

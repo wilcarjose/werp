@@ -41,15 +41,7 @@ class PriceListService extends BaseService
 
             $this->begin();
 
-            $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
-        
-            $useExchange = isset($data['use_exchange_rate']) && $data['use_exchange_rate'] == 'on';
-
-            $data = $this->makeUpdateData($data);
-
-            $entity = $this->entity->create($data);
-
-            $entity = $this->setExchange($entity, $useExchange);
+            $entity = $this->createPriceList($data);
 
             $this->generatePrices($entity);
 
@@ -63,6 +55,21 @@ class PriceListService extends BaseService
 
             return null;
         }
+    }
+
+    public function createPriceList($data)
+    {
+        $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
+        
+        $useExchange = isset($data['use_exchange_rate']) && $data['use_exchange_rate'] == 'on';
+
+        $data = $this->makeUpdateData($data);
+
+        $entity = $this->entity->create($data);
+
+        $entity = $this->setExchange($entity, $useExchange);
+
+        return $entity;
     }
 
     public function update($id, $data)
@@ -326,7 +333,7 @@ class PriceListService extends BaseService
         return $this;
     }
 
-    protected function createPrice($entity, $product, $price, $manually = false)
+    public function createPrice($entity, $product, $price, $manually = false)
     {
         $basePrice = $entity->referencePriceListType ?
             $product->currentPrice($entity->referencePriceListType->id) :

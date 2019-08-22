@@ -4,7 +4,7 @@ namespace Werp\Modules\Core\Maintenance\Builders;
 
 use Werp\Builders\Inputs\NameInput;
 use Werp\Builders\Inputs\AmountInput;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 
 class ExchangeRateForm extends SimplePage
@@ -18,8 +18,8 @@ class ExchangeRateForm extends SimplePage
     {
         return [
             //new NameInput,
-            (new CurrencySelectBuilder)->setName('currency_from_id')->setText('Moneda'),
-            (new CurrencySelectBuilder)->setName('currency_to_id')->setText('Valor en'),
+            (new CurrencySelect)->setName('currency_from_id')->setText('Moneda'),
+            (new CurrencySelect)->setName('currency_to_id')->setText('Valor en'),
             new AmountInput('value', 'Valor'),
         ];
     }

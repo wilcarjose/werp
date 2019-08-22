@@ -35,7 +35,7 @@ class PurchaseOrderController extends BaseController
         'warehouse_id',
         'partner_id',
         'date',
-        'price_list_type_id',
+        'currency_id',
         'tax_id',
         'discount_id',
         'payment_method_id',
@@ -45,7 +45,7 @@ class PurchaseOrderController extends BaseController
         'doctype_id' => 'required',
         'warehouse_id'    => 'required',
         'partner_id'    => 'required|not_in:new',
-        'price_list_type_id'    => 'required',
+        'currency_id'    => 'required',
         'date'  => 'required|date',
     ];
 
@@ -54,7 +54,7 @@ class PurchaseOrderController extends BaseController
         'warehouse_id'    => 'required',
         'partner_id'    => 'required|not_in:new',
         'date'  => 'required|date',
-        'price_list_type_id'    => 'required',
+        'currency_id'    => 'required',
     ];
 
     protected $storeDetailRules = [

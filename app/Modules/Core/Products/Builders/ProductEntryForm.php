@@ -14,7 +14,7 @@ use Werp\Builders\Inputs\AmountInput;
 use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Actions\ContinueAction;
-use Werp\Builders\Selects\CurrencySelectBuilder;
+use Werp\Builders\Selects\CurrencySelect;
 use Werp\Builders\Selects\SupplierSelectBuilder;
 use Werp\Builders\Selects\WarehouseSelect;
 use Werp\Builders\Inputs\DescriptionInput;
@@ -77,7 +77,7 @@ class ProductEntryForm extends SimplePage
         $inputs[] = (new DateInput)->setDisable($disable);
         $inputs[] = (new SupplierSelectBuilder)->setDisable($disable);
         $inputs[] = (new WarehouseSelect)->setDisable($disable);
-        $inputs[] = (new CurrencySelectBuilder)->setDisable($disable);
+        $inputs[] = (new CurrencySelect)->setDisable($disable);
 
         $inputs[] = (new DescriptionInput)->advancedOption()->setDisable($disable);
         $inputs[] = (new TextInput('order_code', 'Código de orden'))->advancedOption()->disabled();

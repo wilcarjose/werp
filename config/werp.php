@@ -97,6 +97,7 @@ return [
 
 	'purchases_orders' => [
 		'generate_entry' => true,
+		'generate_price_list' => true
 	],	
 
 ];
