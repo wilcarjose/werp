@@ -17,9 +17,9 @@ class NewClientModal extends NewModal
         $this->endpoint = '/admin/sales/customers';
         $this->title = 'Nuevo cliente';
         $this->label = 'doc_and_name';
-        $this->addInput(new InputBuilder('document', 'input', 'Documento'))
-            ->addInput(new InputBuilder('name', 'input', 'Nombre'))
-            ->addInput(new InputBuilder('address', 'input', 'Dirección'))
-            ->addInput(new InputBuilder('mobile', 'input', 'Teléfono'));
+        $this->addInput(new InputBuilder('document', 'Documento'))
+            ->addInput(new InputBuilder('name', 'Nombre'))
+            ->addInput(new InputBuilder('address', 'Dirección'))
+            ->addInput(new InputBuilder('mobile', 'Teléfono'));
     }
 }
