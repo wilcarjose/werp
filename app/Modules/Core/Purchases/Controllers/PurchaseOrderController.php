@@ -44,7 +44,7 @@ class PurchaseOrderController extends BaseController
     protected $storeRules = [
         'doctype_id' => 'required',
         'warehouse_id'    => 'required',
-        'partner_id'    => 'required',
+        'partner_id'    => 'required|not_in:new',
         'price_list_type_id'    => 'required',
         'date'  => 'required|date',
     ];
@@ -52,7 +52,7 @@ class PurchaseOrderController extends BaseController
     protected $updateRules = [
         'doctype_id' => 'required',
         'warehouse_id'    => 'required',
-        'partner_id'    => 'required',
+        'partner_id'    => 'required|not_in:new',
         'date'  => 'required|date',
         'price_list_type_id'    => 'required',
     ];
