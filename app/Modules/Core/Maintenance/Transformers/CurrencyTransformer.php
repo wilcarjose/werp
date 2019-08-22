@@ -11,6 +11,7 @@ class CurrencyTransformer extends Transformer
         return [
             'id'            => $item['id'],
             'name'          => $item['name'],
+            'name_and_abbr' => $item['name'] . ' - '.$item['abbr'],
             'description'   => $item['description'],            
             'abbr'          => $item['abbr'],
             'symbol'        => $item['symbol'],

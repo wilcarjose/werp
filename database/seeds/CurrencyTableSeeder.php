@@ -12,19 +12,19 @@ class CurrencyTableSeeder extends Seeder
         return [
             [
                 'abbr' => 'USD',
-                'name' => 'Dolar',
+                'name' => 'Dólares',
                 'numeric_code' => 840,
                 'symbol' => '$'
             ],
             [
                 'abbr' => 'VEF',
-                'name' => 'Bolívar',
+                'name' => 'Bolívares',
                 'numeric_code' => 937,
                 'symbol' => 'Bs'
             ],
             [
                 'abbr' => 'COP',
-                'name' => 'Peso Colombiano',
+                'name' => 'Pesos Colombianos',
                 'numeric_code' => 170,
                 'symbol' => '$'
             ]

@@ -8,6 +8,8 @@ class Currency extends Model
 {
     protected $table = 'currencies';
 
+    protected $appends = ['name_and_abbr'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +24,7 @@ class Currency extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'name_and_abbr' => $this->name . ' - '.$this->abbr,
             'description' => $this->description,
             'abbr' => $this->abbr,
             'symbol' => $this->symbol,
@@ -31,5 +34,11 @@ class Currency extends Model
             'updated_at' => $this->updated_at,
         ];
     }
+
+    public function getNameAndAbbrAttribute()
+    {
+        return $this->name . ' - '.$this->abbr;
+    }
+
 
 }

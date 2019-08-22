@@ -42,6 +42,7 @@ class CurrencySelectBuilder extends SelectBuilder
         $this->disable  = $disable;
         $this->none = $none;
         $this->advancedOption = $advancedOption;
+        $this->labelKey = 'name_and_abbr';
         //$this->idKey = 'abbr';
         //$this->isArrayItem = true;
     }
