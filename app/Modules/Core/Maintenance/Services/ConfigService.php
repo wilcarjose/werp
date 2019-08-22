@@ -4,6 +4,8 @@ namespace Werp\Modules\Core\Maintenance\Services;
 
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Maintenance\Models\Currency;
+use Werp\Modules\Core\Sales\Models\PriceListType;
 
 class ConfigService
 {
@@ -32,7 +34,7 @@ class ConfigService
         ];
 
         $this->inputsConfig = [
-            Config::CURRENT_DOLAR_CONVERSION,
+            //Config::CURRENT_DOLAR_CONVERSION,
         ];
 
         $this->currenciesConfig = [
@@ -184,6 +186,55 @@ class ConfigService
 
         foreach ($this->currenciesConfig as $key) {
             if (isset($data[$key])) {
+
+                if ($key == Config::MAI_DEFAULT_CURRENCY) {
+                    
+                    if (!PriceListType::where('currency_id', $data[$key])->saleLists()->exists()) {
+                        $currency = Currency::find($data[$key]);
+                        PriceListType::create([
+                            'name' => 'Lista de ventas en ' . $currency->name,
+                            'currency_abbr' => $currency->abbr,
+                            'currency_id' => $data[$key],
+                            'type' => 'sales'
+                        ]);
+                    }
+
+                    if (!PriceListType::where('currency_id', $data[$key])->purchaseLists()->exists()) {
+                        $currency = Currency::find($data[$key]);
+                        PriceListType::create([
+                            'name' => 'Lista de compras en ' . $currency->name,
+                            'currency_abbr' => $currency->abbr,
+                            'currency_id' => $data[$key],
+                            'type' => 'purchases'
+                        ]);
+                    }
+
+                }
+
+                if ($key == Config::MAI_BASE_CURRENCY) {
+                    
+                    if (!PriceListType::where('currency_id', $data[$key])->saleLists()->exists()) {
+                        $currency = Currency::find($data[$key]);
+                        PriceListType::create([
+                            'name' => 'Lista de ventas en ' . $currency->name,
+                            'currency_abbr' => $currency->abbr,
+                            'currency_id' => $data[$key],
+                            'type' => 'sales'
+                        ]);
+                    }
+
+                    if (!PriceListType::where('currency_id', $data[$key])->purchaseLists()->exists()) {
+                        $currency = Currency::find($data[$key]);
+                        PriceListType::create([
+                            'name' => 'Lista de compras en ' . $currency->name,
+                            'currency_abbr' => $currency->abbr,
+                            'currency_id' => $data[$key],
+                            'type' => 'purchases'
+                        ]);
+                    }
+
+                }
+
                 $config = $this->config->where('key', $key)->first();
                 $config->value = $data[$key];
                 $config->save();
