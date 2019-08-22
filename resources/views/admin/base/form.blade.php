@@ -7,7 +7,7 @@
 @section('css')
     <link href="{{ asset('plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
     <link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet" />
-    <link href="{{ asset('plugins/easyui/easyui.css') }}" rel="stylesheet">
+  {{-- <link href="{{ asset('plugins/easyui/easyui.css') }}" rel="stylesheet"> --}}  
     <link href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet"/>
 
     <style type="text/css">

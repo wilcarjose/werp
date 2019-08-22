@@ -30,7 +30,7 @@
               </div>
 
               <div class="input-field col s12"><i class="material-icons prefix">vpn_key</i>
-                <input class="validate black-text" type="password" id="password" name="password">
+                <input class="validate black-text" type="password" id="password" name="password" autofocus>
                 <label for="password">Password</label>
                 @if ($errors->has('password'))
                     <span class="help-block error-text">
