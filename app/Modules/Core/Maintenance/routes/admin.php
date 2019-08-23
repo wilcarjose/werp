@@ -29,3 +29,8 @@
 
 	Route::get('/db_test/edit', 'DataTestController@edit')->name('db_test.edit');
 	Route::put('/db_test/update', 'DataTestController@update')->name('db_test.update');
+
+	Route::get('/db_backups', 'DataBackupController@index')->name('db_backups.index');
+	Route::get('/db_backups/create', 'DataBackupController@create')->name('db_backups.create');
+	Route::get('/db_backups/{date}/download', 'DataBackupController@download')->name('db_backups.download');
+	Route::get('/db_backups/{date}/destroy', 'DataBackupController@destroy')->name('db_backups.destroy');

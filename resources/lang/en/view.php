@@ -109,6 +109,7 @@ return [
         'import_products' => 'Import products',
         'database' => 'Database',
         'db_test' => 'Data tests',
+        'db_backups' => 'Data Backup',
     ],
     'profile' => [
         'profile' => 'Profile',

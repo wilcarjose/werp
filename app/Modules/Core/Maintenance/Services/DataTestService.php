@@ -18,10 +18,8 @@ class DataTestService extends BaseService
             'name' => 'db-test-dump'
         ]);
 
-        $loadResult = \Artisan::call('snapshot:load', [
+        return \Artisan::call('snapshot:load', [
             'name' => 'db-test-dump', '--connection' => 'user_tests'
         ]);
-
-        return true;
     }
 }

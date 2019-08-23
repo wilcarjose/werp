@@ -9,11 +9,13 @@ return [
             'icon' => 'settings',
             'route' => 'admin.maintenance',
             'routes' => [
-                'admin.maintenance.empresa.edit',
+                'admin.maintenance.company.edit',
                 'admin.maintenance.config.edit',
                 'admin.maintenance.amount_operations.index',
                 'admin.maintenance.currencies.index',
                 'admin.maintenance.exchange_rates.index',
+                'admin.maintenance.db_backups.index',
+                'admin.maintenance.db_test.edit',
             ],
             'items' => [
             ],
@@ -23,7 +25,7 @@ return [
                     'icon' => '',
                     'route' => 'admin.maintenance.general',
                     'routes' => [
-                        'admin.maintenance.empresa.edit',
+                        'admin.maintenance.company.edit',
                         'admin.maintenance.config.edit',
                         'admin.maintenance.amount_operations.index',
                         'admin.maintenance.currencies.index',
@@ -58,11 +60,16 @@ return [
                     'route' => 'admin.maintenance.processes',
                     'routes' => [
                         'admin.maintenance.db_test.edit',
+                        'admin.maintenance.db_backups.index',
                     ],
                     'items' => [                        
                         [
                             'name' => 'view.menu.db_test',
                             'route' => 'admin.maintenance.db_test.edit',
+                        ],
+                        [
+                            'name' => 'view.menu.db_backups',
+                            'route' => 'admin.maintenance.db_backups.index',
                         ],
                     ],
                 ],

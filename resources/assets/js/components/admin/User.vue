@@ -36,7 +36,7 @@
               </transition>
               <button type="button" class="btn error-bg btn-floating tooltipped"
                 @click="removeBulkConfirm()" data-position="righht" data-delay="50" data-tooltip="Borrar seleccionados"
-                :disabled="multiSelection.length == 0" v-if="delete_multiple">
+                :disabled="multiSelection.length == 0" v-if="show_delete && delete_multiple">
                 <i class="material-icons">delete</i>
               </button>
               <button v-if="show_status" type="button" class="btn info-bg btn-floating tooltipped"
@@ -176,13 +176,16 @@
                     </td>
                     <td v-if="show_actions && !disable">
                       <div class="btn-group" role="group" aria-label="...">
-                        <a type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/edit'" v-if="!use_modal">
+                        <a v-for="action in actions" type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/' + action.action">
+                          <i class="material-icons" :style="'color: ' + action.color + ' !important;'">{{ action.icon }}</i>
+                        </a>
+                        <a type="button" class="btn btn-floating btn-flat" :href="route + '/' + runningData.id + '/edit'" v-if="show_edit && !use_modal">
                           <i class="material-icons warning-text">mode_edit</i>
                         </a>
-                        <button type="button" class="btn btn-floating btn-flat" @click="show(runningData)" v-if="use_modal">
+                        <button type="button" class="btn btn-floating btn-flat" @click="show(runningData)" v-if="show_edit && use_modal">
                             <i class="material-icons warning-text">mode_edit</i>
                         </button>
-                        <button type="button" class="bt btn-floating btn-flat" @click="removeConfirm(runningData)" v-if="!show_state || runningData.state.key == 'pending'">
+                        <button type="button" class="bt btn-floating btn-flat" @click="removeConfirm(runningData)" v-if="show_delete && (!show_state || runningData.state.key == 'pending')">
                           <i class="material-icons error-text">delete</i>
                         </button>
                       </div>
@@ -327,9 +330,9 @@
           </form>
       </div>
       <div class="modal-footer">
-          <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-          <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Edit</a>
-          <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Add</a>
+          <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
+          <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Editar</a>
+          <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Agregar</a>
         </div>
       </div>
     </div>
@@ -361,8 +364,11 @@ export default {
             pupupMod: 'add',
             modalAction: '',
             showAdd: this.config.show_add,
+            show_edit: this.config.show_edit,
+            show_delete: this.config.show_delete,
             // Component
             columns: this.config.fields,
+            actions: this.config.actions,
             escapeSort: ['action'],
             sortOrder: { field: 'created_at', order: 'desc' },
             showpages: 10,

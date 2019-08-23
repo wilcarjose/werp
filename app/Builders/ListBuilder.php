@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 19/02/19
- * Time: 05:33 PM
- */
 
 namespace Werp\Builders;
-
 
 class ListBuilder extends ModuleBuilder
 {
@@ -18,6 +11,10 @@ class ListBuilder extends ModuleBuilder
     protected $showSearch = true;
 
     protected $showAdd = true;
+
+    protected $showEdit = true;
+
+    protected $showDelete = true;
 
     protected $fields;
 
@@ -51,7 +48,7 @@ class ListBuilder extends ModuleBuilder
 
     protected $moreOptions = 'Opciones avanzadas';
 
-
+    protected $actions = [];
 
     public function view()
     {
@@ -123,7 +120,7 @@ class ListBuilder extends ModuleBuilder
         return $this;
     }
 
-     /**
+    /**
      * @return mixed
      */
     public function getShowAdd()
@@ -144,6 +141,42 @@ class ListBuilder extends ModuleBuilder
     /**
      * @return mixed
      */
+    public function getShowEdit()
+    {
+        return $this->showEdit;
+    }
+
+    /**
+     * @param mixed $showEdit
+     * @return ListBuilder
+     */
+    public function setShowEdit($showEdit)
+    {
+        $this->showEdit = $showEdit;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShowDelete()
+    {
+        return $this->showDelete;
+    }
+
+    /**
+     * @param mixed $showDelete
+     * @return ListBuilder
+     */
+    public function setShowDelete($showDelete)
+    {
+        $this->showDelete = $showDelete;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getFields()
     {
         return $this->fields;
@@ -156,6 +189,24 @@ class ListBuilder extends ModuleBuilder
     public function setFields($fields)
     {
         $this->fields = $fields;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
+
+    /**
+     * @param mixed $actions
+     * @return ListBuilder
+     */
+    public function setActions($actions)
+    {
+        $this->actions = $actions;
         return $this;
     }
 
@@ -439,7 +490,10 @@ class ListBuilder extends ModuleBuilder
             'reload_on_save' => $this->getReloadOnSave(),
             'show_advanced' => $this->getShowAdvancedOptions(),
             'show_add' => $this->getShowAdd(),
+            'show_edit' => $this->getShowEdit(),
+            'show_delete' => $this->getShowDelete(),
             'more_options' => $this->getMoreOptions(),
+            'actions' => $this->getActions(),
         ];
 
         $this->setConfig(json_encode($config));

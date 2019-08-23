@@ -36911,6 +36911,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 $(document).ready(function () {
@@ -36937,8 +36940,11 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             pupupMod: 'add',
             modalAction: '',
             showAdd: this.config.show_add,
+            show_edit: this.config.show_edit,
+            show_delete: this.config.show_delete,
             // Component
             columns: this.config.fields,
+            actions: this.config.actions,
             escapeSort: ['action'],
             sortOrder: { field: 'created_at', order: 'desc' },
             showpages: 10,
@@ -37612,7 +37618,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm.delete_multiple
+                      _vm.show_delete && _vm.delete_multiple
                         ? _c(
                             "button",
                             {
@@ -38344,7 +38350,40 @@ var render = function() {
                                           }
                                         },
                                         [
-                                          !_vm.use_modal
+                                          _vm._l(_vm.actions, function(action) {
+                                            return _c(
+                                              "a",
+                                              {
+                                                staticClass:
+                                                  "btn btn-floating btn-flat",
+                                                attrs: {
+                                                  type: "button",
+                                                  href:
+                                                    _vm.route +
+                                                    "/" +
+                                                    runningData.id +
+                                                    "/" +
+                                                    action.action
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "i",
+                                                  {
+                                                    staticClass:
+                                                      "material-icons",
+                                                    style:
+                                                      "color: " +
+                                                      action.color +
+                                                      " !important;"
+                                                  },
+                                                  [_vm._v(_vm._s(action.icon))]
+                                                )
+                                              ]
+                                            )
+                                          }),
+                                          _vm._v(" "),
+                                          _vm.show_edit && !_vm.use_modal
                                             ? _c(
                                                 "a",
                                                 {
@@ -38372,7 +38411,7 @@ var render = function() {
                                               )
                                             : _vm._e(),
                                           _vm._v(" "),
-                                          _vm.use_modal
+                                          _vm.show_edit && _vm.use_modal
                                             ? _c(
                                                 "button",
                                                 {
@@ -38398,8 +38437,9 @@ var render = function() {
                                               )
                                             : _vm._e(),
                                           _vm._v(" "),
-                                          !_vm.show_state ||
-                                          runningData.state.key == "pending"
+                                          _vm.show_delete &&
+                                          (!_vm.show_state ||
+                                            runningData.state.key == "pending")
                                             ? _c(
                                                 "button",
                                                 {
@@ -38426,7 +38466,8 @@ var render = function() {
                                                 ]
                                               )
                                             : _vm._e()
-                                        ]
+                                        ],
+                                        2
                                       )
                                     ])
                                   : _vm._e()
@@ -39194,7 +39235,7 @@ var render = function() {
                     "modal-action modal-close waves-effect waves-green btn-flat",
                   attrs: { href: "javascript:void(0);" }
                 },
-                [_vm._v("Close")]
+                [_vm._v("Cerrar")]
               ),
               _vm._v(" "),
               _vm.pupupMod == "edit"
@@ -39212,7 +39253,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Edit")]
+                    [_vm._v("Editar")]
                   )
                 : _c(
                     "a",
@@ -39228,7 +39269,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("Add")]
+                    [_vm._v("Agregar")]
                   )
             ])
           ]
