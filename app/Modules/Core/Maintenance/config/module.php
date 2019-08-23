@@ -52,25 +52,21 @@ return [
                         ],
                     ],
                 ],
-        /*        [
-                    'name' => 'view.menu.processes',
+                [
+                    'name' => 'view.menu.database',
                     'icon' => '',
                     'route' => 'admin.maintenance.processes',
                     'routes' => [
-                        'admin.maintenance.price_lists.index',
-                        'admin.products.product_output.index',
+                        'admin.maintenance.db_test.edit',
                     ],
                     'items' => [                        
                         [
-                            'name' => 'view.menu.price_list',
-                            'route' => 'admin.maintenance.price_lists.index',
-                        ],
-                        [
-                            'name' => 'view.menu.product_output',
-                            'route' => 'admin.products.product_output.index',
+                            'name' => 'view.menu.db_test',
+                            'route' => 'admin.maintenance.db_test.edit',
                         ],
                     ],
                 ],
+        /*
                 [
                     'name' => 'view.menu.reports',
                     'icon' => '',

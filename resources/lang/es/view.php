@@ -107,6 +107,8 @@ return [
         'exchange_rates' => 'Tasas de cambio',
         'imports_exports' => 'Importar/Exportar',
         'import_products' => 'Importar productos',
+        'database' => 'Bases de datos',
+        'db_test' => 'Datos de pruebas',
     ],
     'profile' => [
         'profile' => 'Perfil',

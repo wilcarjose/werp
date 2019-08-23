@@ -48,7 +48,7 @@ class CompanyController extends Controller
     {
         $this->companyService->updateCompany($request->all());
 
-        flash(trans('messages.company-update'), 'success', 'success');
+        flash(trans('messages.success-update'), 'success', 'success');
         return redirect(route('admin.maintenance.company.edit'));
     }
 }

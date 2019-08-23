@@ -107,6 +107,8 @@ return [
         'exchange_rates' => 'Exchange rates',
         'imports_exports' => 'Import/Export',
         'import_products' => 'Import products',
+        'database' => 'Database',
+        'db_test' => 'Data tests',
     ],
     'profile' => [
         'profile' => 'Profile',

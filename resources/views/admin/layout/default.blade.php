@@ -66,6 +66,16 @@
         <script src="{{ asset('js/init.js') }}"></script>
         <script src="{{ asset('plugins/datatable/jquery.dataTables.min.js') }}" type="text/javascript"></script>
         @yield('jsPostApp')
+
+        
+        @if (session('test_bd', false)) 
+            <script>
+                $(document).ready(function(){
+                    $('.full-top-nav').attr('style', 'height: 93px !important; ');
+                });
+            </script>
+        @endif
+
         @yield('jsRightSideBar')
     </body>
 </html>

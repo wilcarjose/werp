@@ -32,6 +32,7 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             //\Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Werp\Http\Middleware\DatabaseConnection::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Werp\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

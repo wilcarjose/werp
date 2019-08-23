@@ -26,3 +26,6 @@
 	Route::put('/exchange_rates/statusBulk','ExchangeRateController@switchStatusBulk');
 	Route::get('/exchange_rates/{currencyFrom}/{currencyTo}/edit', 'ExchangeRateController@loadExchange')->name('exchange_rates.get');
 	Route::resource('/exchange_rates','ExchangeRateController');
+
+	Route::get('/db_test/edit', 'DataTestController@edit')->name('db_test.edit');
+	Route::put('/db_test/update', 'DataTestController@update')->name('db_test.update');

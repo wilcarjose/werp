@@ -39,6 +39,17 @@
                 @endif
               </div>
 
+              <div class="col s12">
+                <a type="link" href="#" onclick="showAdvancedOption(); return false;" style="margin-left: 45px;">
+                    {{ trans('view.advanced_options') }}
+                </a>
+              </div>
+
+              <div class="input-field col s12 advanced-option" style="margin-bottom: 20px; margin-top: 0px; margin-left: 0px;">
+                <input class="cb-secondary" type="checkbox" id="test_bd" name="test_bd">
+                <label for="test_bd">Usar base de datos de pruebas</label>
+              </div>
+
               {{--  REMEMBER ME  --}}
               @if (false)
               <div class="input-field col s6 no-mrpd">
@@ -70,5 +81,25 @@
         </div>
       </div>
     </div>
+
+@endsection
+
+
+@section('jsPostApp')
+
+  <script>
+
+    var showAdvanced = false;
+    function showAdvancedOption() {
+      if (showAdvanced) {
+        showAdvanced = false;
+        $('.advanced-option').hide(500);
+      } else {
+        showAdvanced = true;
+        $('.advanced-option').show(500);
+      }
+    }
+
+  </script>
 
 @endsection
