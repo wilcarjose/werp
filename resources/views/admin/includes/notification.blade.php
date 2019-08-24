@@ -227,7 +227,7 @@
 </div>
 
 <!-- Modal Structure -->
-<div id="products_modal" class="modal modal-fixed-footer">
+<div id="products_modal" class="modal modal-fixed-footer modal-lg" style="width: 90%; height: 85%; max-height: 85%;">
     <div class="modal-content">
 
         <div class="row">
