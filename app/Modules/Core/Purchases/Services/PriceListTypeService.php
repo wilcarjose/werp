@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Services;
+namespace Werp\Modules\Core\Purchases\Services;
 
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Sales\Models\PriceListType;
@@ -18,12 +18,12 @@ class PriceListTypeService extends BaseService
 
     protected function filters($entity)
     {
-        return $entity->sales();
+        return $entity->purchases();
     }
 
     protected function makeUpdateData($id, $data)
     {
-        $data['type'] = PriceListType::SALE_TYPE;
+        $data['type'] = PriceListType::PURCHASE_TYPE;
         $data['currency_abbr'] = Currency::find($data['currency_id'])->abbr;
 
         return $data;
@@ -31,7 +31,7 @@ class PriceListTypeService extends BaseService
 
     protected function makeCreateData($data)
     {
-        $data['type'] = PriceListType::SALE_TYPE;
+        $data['type'] = PriceListType::PURCHASE_TYPE;
         $data['currency_abbr'] = Currency::find($data['currency_id'])->abbr;
 
         return $data;

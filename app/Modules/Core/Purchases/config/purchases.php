@@ -14,6 +14,7 @@ return [
                 'admin.products.product_entry.index',
                 'admin.purchases.categories.index',
                 'admin.purchases.orders.index',
+                'admin.purchases.price_list_types.index',
             ],
          'items' => [
         /*      [
@@ -31,6 +32,7 @@ return [
                     'routes' => [
                         'admin.purchases.suppliers.index',
                         'admin.purchases.categories.index',
+                        'admin.purchases.price_list_types.index',
                     ],
                     'items' => [
                         [
@@ -40,6 +42,10 @@ return [
                         [
                             'name' => 'view.menu.suppliers',
                             'route' => 'admin.purchases.suppliers.index',
+                        ],
+                        [
+                            'name' => 'view.menu.price_list_types',
+                            'route' => 'admin.purchases.price_list_types.index',
                         ],
                     ],
                 ],

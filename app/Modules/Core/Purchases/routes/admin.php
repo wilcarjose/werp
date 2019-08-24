@@ -12,7 +12,6 @@
 	Route::put('/suppliers/statusBulk','SupplierController@switchStatusBulk');
 	Route::resource('/suppliers','SupplierController');
 
-
 	// Config
 	Route::get('/config/edit', 'ConfigController@edit')->name('config.edit');
 	Route::put('/config/update', 'ConfigController@update')->name('config.update');
@@ -28,6 +27,14 @@
 	Route::get('/orders/{id}/reverse', 'PurchaseOrderController@reverse')->name('orders.reverse');
 	Route::get('/orders/{id}/cancel', 'PurchaseOrderController@cancel')->name('orders.cancel');
 	Route::resource('/orders','PurchaseOrderController');
+
+	// Price list type
+	Route::put('/price_list_types/status','PriceListTypeController@switchStatus');
+	Route::post('/price_list_types/removeBulk','PriceListTypeController@destroyBulk');
+	Route::put('/price_list_types/statusBulk','PriceListTypeController@switchStatusBulk');
+	Route::resource('/price_list_types','PriceListTypeController');
+
+
 
 
 

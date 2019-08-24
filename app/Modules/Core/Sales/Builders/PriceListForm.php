@@ -22,7 +22,7 @@ use Werp\Builders\Inputs\AmountInput;
 use Werp\Builders\Selects\ProductCategorySelect;
 use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Inputs\DescriptionInput;
-use Werp\Builders\Selects\PriceListTypeSelectBuilder;
+use Werp\Builders\Selects\PriceListTypeSelect;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -41,8 +41,8 @@ class PriceListForm extends SimplePage
         }
 
         $inputs[] = new DateInput('starting_at', trans('view.from'));
-        $inputs[] = (new PriceListTypeSelectBuilder)->setText('Lista a generar');
-        $inputs[] = new PriceListTypeSelectBuilder(null, 'reference_price_list_type_id', 'Lista precio base', true);
+        $inputs[] = (new PriceListTypeSelect)->setText('Lista a generar');
+        $inputs[] = new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true);
         $inputs[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
         $inputs[] = (new OperationSelect)->advancedOption();
         $inputs[] = (new DescriptionInput)->advancedOption();

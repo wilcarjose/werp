@@ -6,7 +6,7 @@
  * Time: 05:40 PM
  */
 
-namespace Werp\Modules\Core\Sales\Builders;
+namespace Werp\Modules\Core\Purchases\Builders;
 
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Inputs\NameInput;
@@ -17,8 +17,8 @@ use Werp\Modules\Core\Base\Builders\SimplePage;
 
 class PriceListTypeForm extends SimplePage
 {
-    protected $moduleRoute = 'admin.sales.price_list_types';
-    protected $mainTitle = 'Lista de precios de ventas';
+    protected $moduleRoute = 'admin.purchases.price_list_types';
+    protected $mainTitle = 'Lista de precios de compras';
     protected $newTitle = 'Nueva';
     protected $editTitle = 'Editar';
 

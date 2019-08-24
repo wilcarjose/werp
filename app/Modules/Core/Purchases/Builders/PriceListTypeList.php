@@ -6,7 +6,7 @@
  * Time: 06:33 PM
  */
 
-namespace Werp\Modules\Core\Sales\Builders;
+namespace Werp\Modules\Core\Purchases\Builders;
 
 use Werp\Builders\Main\MainList;
 
@@ -14,8 +14,8 @@ class PriceListTypeList extends MainList
 {
     public function __construct()
     {
-        $this->setTitle('Listas de precios de ventas')
-            ->setRoute('admin.sales.price_list_types')
+        $this->setTitle('Listas de precios de compras')
+            ->setRoute('admin.purchases.price_list_types')
             ->setShowStatus(true)
             ->setFields([
               ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text'],

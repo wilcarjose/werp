@@ -1,13 +1,13 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Controllers;
+namespace Werp\Modules\Core\Purchases\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Modules\Core\Base\Controllers\BaseController;
-use Werp\Modules\Core\Sales\Builders\PriceListTypeForm;
-use Werp\Modules\Core\Sales\Builders\PriceListTypeList;
-use Werp\Modules\Core\Sales\Services\PriceListTypeService;
-use Werp\Modules\Core\Sales\Transformers\PriceListTypeTransformer;
+use Werp\Modules\Core\Purchases\Builders\PriceListTypeForm;
+use Werp\Modules\Core\Purchases\Builders\PriceListTypeList;
+use Werp\Modules\Core\Purchases\Services\PriceListTypeService;
+use Werp\Modules\Core\Purchases\Transformers\PriceListTypeTransformer;
 
 class PriceListTypeController extends BaseController
 {
@@ -27,7 +27,7 @@ class PriceListTypeController extends BaseController
         'currency_id' => 'required',
     ];
 
-    protected $routeBase = 'admin.sales.price_list_types';
+    protected $routeBase = 'admin.purchases.price_list_types';
 
     public function __construct(
         PriceListTypeForm $entityForm,
