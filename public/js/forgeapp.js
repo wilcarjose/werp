@@ -37462,6 +37462,14 @@ var render = function() {
               _c(
                 "h5",
                 {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.showAdd,
+                      expression: "showAdd"
+                    }
+                  ],
                   staticClass: "content-headline",
                   staticStyle: { "font-size": "2rem" }
                 },

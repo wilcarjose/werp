@@ -53,11 +53,11 @@ class PriceListService extends BaseService
 
             $this->rollback();
 
-            return null;
+            throw new \Exception($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine());
         }
     }
 
-    public function createPriceList($data)
+    public function createPriceList(array $data)
     {
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
         

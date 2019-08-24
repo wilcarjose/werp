@@ -185,6 +185,7 @@ class PriceListController extends BaseController
         $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
 
         $entity = $this->entityService->getById($id);
+
         $detail = $entity->detail->sortBy(function($price, $key) {
           return $price->product->code;
         })->values()->all();

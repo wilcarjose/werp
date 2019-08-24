@@ -65,6 +65,29 @@ class AmountOperationService extends BaseService
             $result = $amount - $percent;
         }
 
+        if (true) { // always rount up
+
+            if ($this->operation->round == '1') {
+                return ceil($result*10)/10;
+            }
+
+            if ($this->operation->round == '0') {
+                return ceil($result);
+            }
+
+            if ($this->operation->round == '-1') {
+                return ceil($result/10)*10;
+            }
+
+            if ($this->operation->round == '-2') {
+                return ceil($result/100)*100;
+            }
+
+            if ($this->operation->round == '-3') {
+                return ceil($result/1000)*1000;
+            }
+        }
+
         return round($result, $this->operation->round, PHP_ROUND_HALF_UP);
     }
 

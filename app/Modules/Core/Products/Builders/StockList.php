@@ -19,6 +19,8 @@ class StockList extends MainList
             ->setShowStatus(false)
             ->setShowActions(false)
             ->setPaginate(false)
+            ->setShowAdd(false)
+            ->setShowDelete(false)
             ->setFields([
               ['field' => 'code', 'name' => trans('view.code') , 'type' => 'text'],
               ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text'],
