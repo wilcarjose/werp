@@ -1,0 +1,1 @@
+<input type="hidden" id="{{ $input->getName() }}" name="{{ $input->getName() }}" value="{{ old($input->getName())  ?: $input->getValue() }}">

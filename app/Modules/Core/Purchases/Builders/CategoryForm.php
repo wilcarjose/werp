@@ -2,6 +2,7 @@
 
 namespace Werp\Modules\Core\Purchases\Builders;
 
+use Werp\Builders\TabBuilder;
 use Werp\Builders\FormBuilder;
 use Werp\Builders\Inputs\NameInput;
 use Werp\Builders\BreadcrumbBuilder;
@@ -37,10 +38,11 @@ class CategoryForm extends SimplePage
             ->setRoute($this->moduleRoute)
             ->setAction($this->editTitle)
             ->setInputs($inputs)
-            ->addAction(new UpdateAction)
+            ->addAction((new UpdateAction()))
             ->addAction(new SaveAndNewAction)
             ->setData($data)
-            ->setEdit();
+            ->setEdit()
+            ->setId('category');
         ;
 
         return $this

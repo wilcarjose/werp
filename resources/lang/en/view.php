@@ -62,6 +62,8 @@ return [
     'numeric_code' => 'Numeric code',
     'exchange_rate' => 'Exchange rate',
     'import' => 'Import',
+    'next' => 'Next',
+    'prev' => 'Previous',
     'menu' => [
         'company' => 'Company',
     	'security' => 'Security',

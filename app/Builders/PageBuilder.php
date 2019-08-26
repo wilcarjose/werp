@@ -12,6 +12,7 @@ namespace Werp\Builders;
 class PageBuilder extends ModuleBuilder
 {
     protected $forms;
+    protected $tabs;
     protected $short_action;
 
     public function init($title)
@@ -68,5 +69,26 @@ class PageBuilder extends ModuleBuilder
         ]);
     }
 
+    public function addTab(TabBuilder $tab)
+    {
+        $this->tabs = $this->to_collection($this->tabs);
+        $this->tabs->push($tab);
+        return $this;
+    }
 
+    public function setTags($tabs)
+    {
+        $this->tabs = $this->to_collection($tabs);
+        return $this;
+    }
+
+    public function getTabs()
+    {
+        return $this->tabs;
+    }
+
+    public function hasTabs()
+    {
+        return $this->tabs && $this->tabs->isNotEmpty();
+    }
 }

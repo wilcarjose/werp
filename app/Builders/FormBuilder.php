@@ -11,10 +11,10 @@ class FormBuilder // extends ModuleBuilder
 {
     use BaseBuilder;
 
+    protected $id;
     protected $objectId = null;
     protected $edit = false;
     protected $action;
-    
     protected $data = [];
     protected $inputs;
     protected $actions = [];
@@ -31,6 +31,17 @@ class FormBuilder // extends ModuleBuilder
     protected $printAction = null;
     protected $route = null;
     protected $mainRoute = null;
+
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function makeInputs()
     {

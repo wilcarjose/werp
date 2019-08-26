@@ -98,7 +98,7 @@ class ConfigService
         return $data;
     }
 
-    protected function getCurrencies()
+    public function getCurrencies()
     {
         $data = [];
 

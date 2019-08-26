@@ -59,17 +59,23 @@ class ModuleBuilder
 
     public function getListRoute()
     {
-        return route($this->route.'.index');
+        return \Route::has($this->route.'.index') ?
+            route($this->route.'.index') :
+            route('home');
     }
 
     public function getEditRoute()
     {
-        return route($this->route.'.edit', $this->getObjectId());
+        return \Route::has($this->route.'.edit', $this->getObjectId()) ?
+            route($this->route.'.edit', $this->getObjectId()) :
+            route('home');
     }
 
     public function getCreateRoute()
     {
-        return route($this->route.'.create');
+        return \Route::has($this->route.'.create') ?
+            route($this->route.'.create') :
+            route('home');
     }
 
     public function getActionRoute()

@@ -22,6 +22,8 @@ class ActionBuilder
     protected $icon;
     protected $route;
     protected $value = null;
+    protected $class = 'btn waves-effect waves-set';
+    protected $iconPosition = 'left';
 
     /**
      * ActionBuilder constructor.
@@ -39,6 +41,7 @@ class ActionBuilder
         $this->event = $event;
         $this->text = $text;
         $this->icon = $icon;
+        $this->iconPosition = $iconPosition;
         $this->route = $route;
         $this->value = $value;
     }
@@ -125,6 +128,24 @@ class ActionBuilder
     }
 
     /**
+     * @param mixed $iconPosition
+     * @return ActionBuilder
+     */
+    public function setIconPosition($iconPosition)
+    {
+        $this->iconPosition = $iconPosition;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIconPosition()
+    {
+        return $this->iconPosition;
+    }
+
+    /**
      * @param mixed $icon
      * @return ActionBuilder
      */
@@ -167,6 +188,24 @@ class ActionBuilder
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param mixed $class
+     * @return ActionBuilder
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
         return $this;
     }
 }

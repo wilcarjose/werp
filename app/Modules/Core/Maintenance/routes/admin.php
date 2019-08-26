@@ -34,3 +34,9 @@
 	Route::get('/db_backups/create', 'DataBackupController@create')->name('db_backups.create');
 	Route::get('/db_backups/{date}/download', 'DataBackupController@download')->name('db_backups.download');
 	Route::get('/db_backups/{date}/destroy', 'DataBackupController@destroy')->name('db_backups.destroy');
+
+	// Config
+	Route::get('/general_config/edit', 'GeneralConfigController@edit')->name('general_config.edit');
+	Route::put('/general_config/company', 'GeneralConfigController@updateCompany')->name('general_config.company');
+	Route::put('/general_config/currency', 'GeneralConfigController@updateCurrency')->name('general_config.currency');
+	Route::put('/general_config/warehouse', 'GeneralConfigController@updateWarehouse')->name('general_config.warehouse');

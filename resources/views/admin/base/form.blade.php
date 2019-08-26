@@ -12,6 +12,7 @@
 
     <style type="text/css">
 
+      /*
       .textbox {
           width: 669px;
           border: 0;
@@ -35,7 +36,6 @@
           line-height: 28px;
           border-bottom: 1px solid #757575;
           margin-left: 3rem;
-          /*width: 92%;*/
           width: calc(100% - 3rem);
       }
 
@@ -49,6 +49,8 @@
           -webkit-box-shadow: 0 0 0 0 #fff;
           -moz-box-shadow: 0 0 0 0 #fff;
       }
+
+      */
 
       .daterangepicker .calendar-table th, .daterangepicker .calendar-table td {
           white-space: nowrap;
@@ -128,13 +130,32 @@
     </div>
     <div class="main-container">
         <div class="row" style="margin-top:10px !important;">
-            {{--  Flash Message  --}}
-            <div class="col s12">
-                @include('flash')
-            </div>
+
+            @if ($page->hasTabs())
+                <div class="col m8 push-m2  " style="margin-bottom: 15px;">
+                    <ul class="tabs tab-demo z-depth-1">
+                        @foreach ($page->getTabs() as $tab) 
+                          <li class="tab col s3 @if ($tab->isDisable()) disabled @endif">
+                            <a @if ($tab->isActive()) class="active" @endif href="#{{ $tab->getId() }}" style="text-align: left; color: {{ $tab->getColor() }}">
+                              <i class="material-icons {{ $tab->getIconPosition() }}" style="line-height: 48px;">
+                                {{ $tab->getIcon() }}
+                              </i>
+                              {{ $tab->getName() }}
+                            </a>
+                          </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             @foreach ($page->getForms() as $form)
-                <form class="col @if ($form->maxWidth()) m12 @endif @if ($form->midWidth()) m8 push-m2 @endif @if ($form->middleWidth()) m6 @endif  s12 profile-info-form" role="form" method="POST" action="{{ $form->getSaveRoute() }}" enctype="multipart/form-data">
+
+                {{--  Flash Message  --}}
+                <div class="col @if ($form->maxWidth()) m12 @endif @if ($form->midWidth()) m8 push-m2 @endif @if ($form->middleWidth()) m6 @endif">
+                    @include('flash')
+                </div>
+
+                <form class="col @if ($form->maxWidth()) m12 @endif @if ($form->midWidth()) m8 push-m2 @endif @if ($form->middleWidth()) m6 @endif  s12 profile-info-form" role="form" method="POST" action="{{ $form->getSaveRoute() }}" enctype="multipart/form-data" id="{{ $form->getId() }}">
                     {{ csrf_field() }}
                     @if ($form->edit()) {{ method_field('PUT') }} @endif
                     <div class="card-panel profile-form-cardpanel">
@@ -277,7 +298,7 @@
           //alert("You are " + years + " years old!");
         });
 
-        
+        $('ul.tabs').tabs();
     });
 
     $(window).on("load", function(){
@@ -337,9 +358,8 @@
 
   @yield('js-datebox')
 
-  <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script>
+  {{-- <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script> --}}
   <script type="text/javascript" src={{ asset('plugins/momentjs/moment.min.js') }}></script>
   <script type="text/javascript" src={{ asset('plugins/daterangepicker/daterangepicker.min.js') }}></script>
-
 
 @endsection

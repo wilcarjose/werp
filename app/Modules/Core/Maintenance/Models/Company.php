@@ -42,7 +42,8 @@ class Company extends Model
             'phone3' => $this->phone3,
             'address_id' => $this->address_id,
             'active' => $this->active,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'address' => $this->addresses ? $this->addresses->first()->toArray() : [],
         ];
     }
 
@@ -74,5 +75,10 @@ class Company extends Model
     public function scopeInactive($query)
     {
         return $query->where('active', self::STATUS_INACTIVE);
+    }
+
+    public function addresses()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Maintenance\Models\Address');
     }
 }
