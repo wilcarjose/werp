@@ -43,7 +43,7 @@ class Company extends Model
             'address_id' => $this->address_id,
             'active' => $this->active,
             'created_at' => $this->created_at,
-            'address' => $this->addresses ? $this->addresses->first()->toArray() : [],
+            'address' => $this->addresses->isNotEmpty() ? $this->addresses->first()->toArray() : [],
         ];
     }
 

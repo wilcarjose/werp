@@ -333,6 +333,8 @@
                 ]
             });
 
+            $.fn.dataTable.ext.errMode = 'none';
+
             function numberFormatCell(data) {
                 var decimal_point = ',';
                         var thousands_sep = '.';

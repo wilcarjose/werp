@@ -148,12 +148,12 @@
                 </div>
             @endif
 
-            @foreach ($page->getForms() as $form)
+            {{--  Flash Message  --}}
+            <div class="col m12">
+                @include('flash')
+            </div>
 
-                {{--  Flash Message  --}}
-                <div class="col @if ($form->maxWidth()) m12 @endif @if ($form->midWidth()) m8 push-m2 @endif @if ($form->middleWidth()) m6 @endif">
-                    @include('flash')
-                </div>
+            @foreach ($page->getForms() as $form)
 
                 <form class="col @if ($form->maxWidth()) m12 @endif @if ($form->midWidth()) m8 push-m2 @endif @if ($form->middleWidth()) m6 @endif  s12 profile-info-form" role="form" method="POST" action="{{ $form->getSaveRoute() }}" enctype="multipart/form-data" id="{{ $form->getId() }}">
                     {{ csrf_field() }}
@@ -358,7 +358,7 @@
 
   @yield('js-datebox')
 
-  {{-- <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script> --}}
+  <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script>
   <script type="text/javascript" src={{ asset('plugins/momentjs/moment.min.js') }}></script>
   <script type="text/javascript" src={{ asset('plugins/daterangepicker/daterangepicker.min.js') }}></script>
 

@@ -41,7 +41,6 @@ class ActionBuilder
         $this->event = $event;
         $this->text = $text;
         $this->icon = $icon;
-        $this->iconPosition = $iconPosition;
         $this->route = $route;
         $this->value = $value;
     }
