@@ -28,9 +28,9 @@ class InitialConfigForm extends SimplePage
     public function editPage($data)
     {
         $this->addTab((new TabBuilder('company', trans('view.menu.company'), true, 'looks_one')));
-        $this->addTab((new TabBuilder('currency', trans('view.menu.currencies'), false, 'looks_two')));
-        $this->addTab((new TabBuilder('warehouse', trans('view.menu.warehouses'), false, 'looks_3'))->setColor('#cd0a0a'));
-        $this->addTab((new TabBuilder('end', 'Fin', false, 'looks_4', true)));
+        $this->addTab((new TabBuilder('currency', trans('view.menu.currencies'), false, 'looks_two'))->setColor($this->getCurrencyTabColor($data)));
+        $this->addTab((new TabBuilder('warehouse', trans('view.menu.warehouses'), false, 'looks_3'))->setColor($this->getWarehouseTabColor($data)));
+        $this->addTab((new TabBuilder('end', '', false, '', true)));
 
         $form = (new FormBuilder)
             ->setAction('Empresa')
@@ -43,7 +43,7 @@ class InitialConfigForm extends SimplePage
             ->addInput(new InputBuilder('phone1', 'Teléfono'))
             ->setData($data['company'])
             ->addAction(new UpdateAction())
-            ->addAction(new NextAction())
+            //->addAction(new NextAction())
             ->setId('company');
         ;
 
@@ -69,7 +69,7 @@ class InitialConfigForm extends SimplePage
             ->setRoute('admin.maintenance.general_config')
             ->setMainRoute('currency')
             ->addAction(new UpdateAction())
-            ->addAction(new NextAction())
+            //->addAction(new NextAction())
             ->setId('currency');
         ;
 
@@ -95,10 +95,28 @@ class InitialConfigForm extends SimplePage
             ->addInput(new NameInput)
             ->addInput(new HiddenInput('id', $warehouse['id']))
             ->addAction(new UpdateAction)
-            ->addAction(new NextAction)
+            //->addAction(new NextAction)
             ->setData($warehouse)
             ->setId('warehouse')
             ->setEdit();
         ;
+    }
+
+    protected function getCurrencyTabColor($data)
+    {
+        $color = '#2a56c6';
+
+        foreach ($data['currencies'] as $currency) {
+            if (!$currency['value']) {
+                return '#cd0a0a';
+            }
+        }
+        
+        return $color;
+    }
+
+    protected function getWarehouseTabColor($data)
+    {
+        return $data['warehouse'] ? '#2a56c6' : '#cd0a0a';
     }
 }

@@ -17,6 +17,17 @@ class WarehouseService extends BaseService
         $this->configService = $configService;
     }
 
+    public function postCreate($entity)
+    {
+        session('company')->setComplete('warehouse');
+        return $entity;
+    }
+
+    public function postUpdate($entity)
+    {
+        return $entity;
+    }
+
     public function getDefault()
     {
     	$id = $this->configService->getDefaultWarehouse();
@@ -25,7 +36,7 @@ class WarehouseService extends BaseService
     		return null;
     	}
 
-    	return $this->getById($id);
+    	return $this->getActiveById($id);
     }
 
 	public function getFirst()

@@ -31,6 +31,11 @@ class BaseService
         return $exception ? $this->entity->findOrFail($id) : $this->entity->find($id);
     }
 
+    public function getActiveById($id)
+    {
+        return $this->entity->active()->where('id', $id)->first();
+    }
+
     protected function filters($entity)
     {
         return $entity;
@@ -75,7 +80,11 @@ class BaseService
     {
         $data = $this->makeCreateData($data);
         
-        return $this->entity->create($data);
+        $entity = $this->entity->create($data);
+
+        $entity = $this->postCreate($entity);
+
+        return $entity;
     }
 
     public function update($id, $data)
@@ -88,7 +97,11 @@ class BaseService
 
         $data = $this->makeUpdateData($id, $data);
 
-        return $this->entity->where('id', $id)->update($data);
+        $entity = $this->entity->where('id', $id)->update($data);
+
+        $entity = $this->postUpdate($entity);
+
+        return $entity;
     }
 
     public function delete($id)
@@ -104,8 +117,14 @@ class BaseService
     		$entities = $this->entity->whereIn('id', $id)->get();
 
 	        if ($entities->count() > 0) {
+
 	            foreach ($entities as $entity) {
-	            	$this->setStatus($entity);
+
+	            	$result = $this->setStatus($entity);
+
+                    if ($result) {
+                        $this->postChangeStatus($entity);
+                    }
 	            }
 
 	            return true;
@@ -114,7 +133,15 @@ class BaseService
 	        return false;
     	}
 
-    	return $this->setStatus($this->entity->find($id));
+        $entity = $this->entity->find($id);
+
+    	$result = $this->setStatus($entity);
+
+        if ($result) {
+            $this->postChangeStatus($entity);
+        }
+
+        return $result;
     }
 
     protected function setStatus($entity)
@@ -172,5 +199,20 @@ class BaseService
     protected function makeCreateData($data)
     {
         return $data;
+    }
+
+    public function postCreate($entity)
+    {
+        return $entity;
+    }
+
+    public function postUpdate($entity)
+    {
+        return $entity;
+    }
+
+    public function postChangeStatus($entity)
+    {
+        return $entity;
     }
 }

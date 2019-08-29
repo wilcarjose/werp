@@ -56,3 +56,8 @@ function truncateDateToDay($time)
     date_default_timezone_set($reset);
     return $stamp;
 }
+
+function json_to_array($json)
+{   
+    return is_array($json) ? $json : json_decode($json, true);
+}

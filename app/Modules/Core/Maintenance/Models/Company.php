@@ -19,6 +19,10 @@ class Company extends Model
 
     protected $table = 'companies';
 
+    protected $casts = [
+        'general_config' => 'array'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -80,5 +84,33 @@ class Company extends Model
     public function addresses()
     {
         return $this->belongsToMany('Werp\Modules\Core\Maintenance\Models\Address');
+    }
+
+    public function isRight()
+    {
+        $config = json_to_array($this->general_config);
+
+        if (!isset($config['completed']['warehouse']) || !$config['completed']['warehouse']) {
+            return false;
+        }
+
+        if (!isset($config['completed']['currency']) || !$config['completed']['currency']) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function setComplete($warehouse)
+    {
+        $config = json_to_array($this->general_config);
+
+        $config['completed'][$warehouse] = true;
+
+        $config = json_encode($config, JSON_FORCE_OBJECT);
+
+        $this->general_config = $config;
+
+        $this->save();
     }
 }

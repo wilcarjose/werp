@@ -53,23 +53,65 @@ class GeneralConfigController extends Controller
      */
     public function updateCompany(Request $request)
     {
-        $this->companyService->updateCompany($request->all());
+        try {
 
-        return redirect(route('admin.maintenance.general_config.edit'));
+            $this->companyService->updateCompany($request->all());
+
+            return redirect(route('admin.maintenance.general_config.edit'));
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return redirect(route('admin.maintenance.general_config.edit'));
+        }
     }
 
     public function updateCurrency(Request $request)
     {
-        $this->configService->updateConfig($request->all());
+        try {
 
-        return redirect(route('admin.maintenance.general_config.edit'));
+            $this->configService->updateConfig($request->all());
+
+            return redirect(route('admin.maintenance.general_config.edit'));
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return redirect(route('admin.maintenance.general_config.edit'));
+        }
     }
 
     public function updateWarehouse(Request $request)
     {
-    	// si el id existe y diferente de null, busca y actualiza, sino lo crea
-        $this->configService->updateConfig($request->all());
+        try {
 
-        return redirect(route('admin.maintenance.general_config.edit'));
+            $validator = validator()->make($request->all(), ['name' => 'required']);
+        
+            if ($validator->fails()) {
+                flash(trans('messages.success-update'), 'error', 'error');
+                return back()->withErrors($validator)->withInput();
+            }
+
+            if ($request->input('id', null)) {
+            	// si el id existe y diferente de null, busca y actualiza, sino lo crea
+                $warehouse = $this->warehouseService->getActiveById($request->id);
+                $warehouse->name = $request->name;
+                $warehouse->save();
+
+                return redirect(route('admin.maintenance.general_config.edit'));
+            }
+
+            $this->warehouseService->create(['name' => $request->name]);
+
+            return redirect(route('admin.maintenance.general_config.edit'));
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
     }
 }

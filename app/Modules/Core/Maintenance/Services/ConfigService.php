@@ -188,6 +188,7 @@ class ConfigService
         }
 
         foreach ($this->currenciesConfig as $key) {
+
             if (isset($data[$key])) {
 
                 if ($key == Config::MAI_DEFAULT_CURRENCY) {
@@ -210,6 +211,10 @@ class ConfigService
                 $config->value = $data[$key];
                 $config->save();
             }
+
+             if ($this->getValue(Config::MAI_DEFAULT_CURRENCY) && $this->getValue(Config::MAI_DEFAULT_CURRENCY)) {
+                session('company')->setComplete('currency');
+             }
         }
     }
 
