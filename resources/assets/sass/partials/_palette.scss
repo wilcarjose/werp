@@ -129,21 +129,27 @@
     border-left: 5px solid #454f5a;
     &.error {
         border-color: $error-color;
+        background: $error-soft-color;
     }
     &.success {
         border-color: $success-color;
+        background: $success-soft-color;
     }
     &.warning {
         border-color: $warning-color;
+        background: $warning-soft-color;
     }
     &.info {
         border-color: $info-color;
+        background: $info-soft-color;
     }
     &.primary {
         border-color: $primary-color;
+        background: $primary-soft-color;
     }
     &.secondary {
         border-color: $secondary-color;
+        background: $secondary-soft-color;
     }
     .close-flash{
         position: absolute;

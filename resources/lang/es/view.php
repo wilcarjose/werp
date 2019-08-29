@@ -140,6 +140,13 @@ return [
         'default_price_list_doc' => 'Documento de listas de precios por defecto',
         'warehouse' => 'Almacén',
         'qty' => 'Cantidad',
+        'product_inout' => 'Salida/entrada de producto',
+        'inventory' => 'Inventario',
+        'movement' => 'Movimiento',
+        'order' => 'Órden',
+        'price_list' => 'Lista de precio',
+        'stock' => 'Stock',
+        'transaction' => 'Transaction',
     ],
     'doctypes' => [
         'inventory' => 'Inventario',
@@ -152,5 +159,8 @@ return [
         'dolar_value' => 'Valor del dolar $$',
         'default_currency' => 'Moneda por defecto',
         'base_currency' => 'Moneda base',
+    ],
+    'texts' => [
+        'associated_to_item' => 'Este ítem tiene asociado lo siguiente:',
     ]
 ];

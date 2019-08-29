@@ -32664,7 +32664,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 'alert': true,
                 'alert-flash': true,
                 'success': type == 'success',
-                'danger': type == 'error',
+                'error': type == 'error',
                 'info': type == 'info',
                 'warning': type == 'warning'
             };
@@ -37191,8 +37191,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         location.reload();
                     }
                 }).catch(function (error) {
-                    _this3.alertHandler('error', error.data, true);
-                    console.log(error.data);
+                    _this3.alertHandler('error', error.response.data.message, true);
+                    console.log(error);
                 });
             }
 
@@ -37265,8 +37265,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         location.reload();
                     }
                 }).catch(function (error) {
-                    _this4.alertHandler('error', error.data, true);
-                    console.log(error.data);
+                    _this4.alertHandler('error', error.response.data.message, true);
+                    console.log(error.response.data.message);
                 });
             }
 
@@ -37297,8 +37297,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         location.reload();
                     }
                 }).catch(function (error) {
-                    _this5.alertHandler('error', error.data, true);
-                    console.log(error.data);
+                    _this5.alertHandler('error', error.response.data.message, true);
+                    console.log(error.response.data.message);
                 });
             }
         },
@@ -37320,7 +37320,8 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                         _this6.alertHandler('error', res.message, true);
                     }
                 }).catch(function (error) {
-                    console.log(error);
+                    _this6.alertHandler('error', error.response.data.message, true);
+                    console.log(error.response.data.message);
                 });
             }
         },
@@ -37337,7 +37338,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     obj.active = newStat;
                     _this7.alertHandler('success', res.message, true);
                 }
-            }).catch(function (error) {});
+            }).catch(function (error) {
+                _this7.alertHandler('error', error.response.data.message, true);
+                console.log(error);
+            });
         },
         switchStatusSelected: function switchStatusSelected() {
             var _this8 = this;
@@ -37352,7 +37356,10 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     // Handling alert
                     _this8.alertHandler('success', res.message, true);
                 }
-            }).catch(function (error) {});
+            }).catch(function (error) {
+                _this8.alertHandler('error', error.response.data.message, true);
+                console.log(error);
+            });
         },
         searchInput: function searchInput() {
             var _this9 = this;
@@ -37366,6 +37373,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     _this9.pagination = res.paginator;
                 }
             }).catch(function (error) {
+                _this9.alertHandler('error', error.response.data.message, true);
                 console.log(error);
             });
         },

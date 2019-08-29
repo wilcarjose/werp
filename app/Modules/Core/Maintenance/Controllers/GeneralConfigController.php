@@ -96,15 +96,11 @@ class GeneralConfigController extends Controller
 
             if ($request->input('id', null)) {
             	// si el id existe y diferente de null, busca y actualiza, sino lo crea
-                $warehouse = $this->warehouseService->getActiveById($request->id);
-                $warehouse->name = $request->name;
-                $warehouse->save();
-
+                $warehouse = $this->warehouseService->update($request->id, ['name' => $request->name]);
                 return redirect(route('admin.maintenance.general_config.edit'));
             }
 
             $this->warehouseService->create(['name' => $request->name]);
-
             return redirect(route('admin.maintenance.general_config.edit'));
 
         } catch (\Exception $e) {

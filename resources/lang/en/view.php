@@ -112,6 +112,7 @@ return [
         'database' => 'Database',
         'db_test' => 'Data tests',
         'db_backups' => 'Data Backup',
+
     ],
     'profile' => [
         'profile' => 'Profile',
@@ -140,6 +141,13 @@ return [
         'default_price_list_doc' => 'Defaul price list doctype',
         'warehouse' => 'Warehouse',
         'qty' => 'Qty',
+        'product_inout' => 'Product input/output',
+        'inventory' => 'Inventory',
+        'movement' => 'Movement',
+        'order' => 'Order',
+        'price_list' => 'Price list',
+        'stock' => 'Stock',
+        'transaction' => 'Transaction',
     ],
     'doctypes' => [
         'inventory' => 'Inventory',
@@ -152,5 +160,8 @@ return [
         'dolar_value' => 'Dolar value $$',
         'default_currency' => 'Default currency',
         'base_currency' => 'Base currency',
-    ]
+    ],
+    'texts' => [
+        'associated_to_item' => 'This item has the following associated:',
+    ],
 ];

@@ -4,6 +4,7 @@ namespace Werp\Modules\Core\Base\Services;
 
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Base\Models\BaseModel;
+use Werp\Modules\Core\Base\Responses\DependencyResponse;
 use Werp\Modules\Core\Base\Exceptions\CanNotDeleteException;
 
 class BaseService
@@ -111,11 +112,11 @@ class BaseService
 
         $ids = is_array($id) ? $id : [$id];
 
-        $dependencies = $this->getDependencies($ids);
+        $response = $this->getDependencies($ids);
 
-        if (!empty($dependencies)) {
+        if ($response->success()) {
             $this->rollback();
-            throw (new CanNotDeleteException)->setDependencies($dependencies);
+            throw new CanNotDeleteException($response);
         }
 
         $this->entity->destroy($ids);
@@ -130,14 +131,14 @@ class BaseService
         foreach ($ids as $id) {
             $entity = $this->getById($id);
 
-            foreach ($entity->getCheckOnDrop() as $key => $value) {
-                if ($key::where($value, $id)->exists()) {
-                    $dependencies[] = $key; 
+            foreach ($entity->getCheckOnDrop() as $dep) {
+                if ($dep['class']::where($dep['field'], $id)->exists()) {
+                    $dependencies[] = $dep; 
                 }
             }
         }
 
-        return $dependencies;
+        return new DependencyResponse($dependencies);
     }
 
     public function changeStatus($id)

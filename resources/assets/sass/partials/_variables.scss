@@ -89,6 +89,12 @@ $info-color: #00bcd4;
 $info-color-light: #62efff;
 $info-color-dark: #008ba3;
 $info-on-text: #000000;
+$success-soft-color: rgba(79, 175, 79, 0.16862745098039217);
+$error-soft-color: rgba(255, 0, 0, 0.10980392156862745);
+$warning-soft-color: rgba(240, 151, 20, 0.2);
+$info-soft-color: rgba(86, 188, 212, 0.1803921568627451);
+$primary-soft-color: rgba(43, 86, 198, 0.12156862745098039);
+$secondary-soft-color: rgba(43, 86, 198, 0.12156862745098039);
 // SIDEBAR - HORIZONTAL NAV:THEME
 // ==========================================================================
 @import "sb-dark";

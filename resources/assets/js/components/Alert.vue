@@ -20,7 +20,7 @@
                     'alert':true,
                     'alert-flash':true,
                     'success': type=='success',
-                    'danger': type=='error',
+                    'error': type=='error',
                     'info': type=='info',
                     'warning': type=='warning',
                 }

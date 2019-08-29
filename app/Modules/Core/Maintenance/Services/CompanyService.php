@@ -25,17 +25,18 @@ class CompanyService extends BaseService
 
     public function updateCompany($data)
     {
+        $entity = session('company'); //$this->entity->find($id);
+
         if (isset($data['address_1'])) {
+            
             $address = $this->address->create([
                 'name'      => 'default',
                 'address_1' => $data['address_1'],
                 'address_2' => $data['address_2'] ?? '',
             ]);
+
+            $entity->addresses()->attach($address->id);
         }
-
-        $entity = session('company'); //$this->entity->find($id);
-
-        $entity->addresses()->attach($address->id);
 
         return $entity->update($data);
     }

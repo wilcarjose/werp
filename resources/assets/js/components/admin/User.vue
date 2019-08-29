@@ -610,8 +610,8 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    this.alertHandler('error', error.data, true);
-                    console.log(error.data) 
+                    this.alertHandler('error', error.response.data.message, true);
+                    console.log(error) 
                 });
             }
 
@@ -686,8 +686,8 @@ export default {
                       }
                   })
                   .catch((error) => { 
-                    this.alertHandler('error', error.data, true);
-                    console.log(error.data) 
+                    this.alertHandler('error', error.response.data.message, true);
+                    console.log(error.response.data.message) 
                   });
               
             }
@@ -719,8 +719,8 @@ export default {
                       }
                   })
                   .catch((error) => { 
-                      this.alertHandler('error', error.data, true);
-                      console.log(error.data) 
+                      this.alertHandler('error', error.response.data.message, true);
+                      console.log(error.response.data.message) 
                    });
             }
         },
@@ -740,7 +740,10 @@ export default {
                             this.alertHandler('error', res.message, true);
                         }
                     })
-                    .catch((error) => { console.log(error) });
+                    .catch((error) => { 
+                        this.alertHandler('error', error.response.data.message, true);
+                        console.log(error.response.data.message)
+                    });
             }
         },
         switchStatus(obj) {
@@ -755,7 +758,10 @@ export default {
                         this.alertHandler('success', res.message, true);
                     }
                 })
-                .catch((error) => {});
+                .catch((error) => {
+                    this.alertHandler('error', error.response.data.message, true);
+                    console.log(error)
+                });
         },
         switchStatusSelected() {
             this.resetAlert();
@@ -769,7 +775,10 @@ export default {
                         this.alertHandler('success', res.message, true);
                     }
                 })
-                .catch((error) => {});
+                .catch((error) => {
+                    this.alertHandler('error', error.response.data.message, true);
+                    console.log(error)
+                });
         },
         searchInput() {
             let searchQuery = this.searchQuery;
@@ -781,7 +790,10 @@ export default {
                         this.pagination = res.paginator;
                     }
                 })
-                .catch((error) => { console.log(error) });
+                .catch((error) => { 
+                    this.alertHandler('error', error.response.data.message, true);
+                    console.log(error)
+                });
         },
         loadDependencies() {
 

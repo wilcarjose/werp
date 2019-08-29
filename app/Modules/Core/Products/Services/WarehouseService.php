@@ -25,6 +25,7 @@ class WarehouseService extends BaseService
 
     public function postUpdate($entity)
     {
+        session('company')->setComplete('warehouse');
         return $entity;
     }
 

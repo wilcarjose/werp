@@ -30,13 +30,41 @@ class Product extends Model
     ];
 
     protected $checkOnDrop = [
-        'Werp\Modules\Core\Products\Models\MovementDetail' => 'product_id',
-        'Werp\Modules\Core\Products\Models\InoutDetail' => 'product_id',
-        'Werp\Modules\Core\Products\Models\OrderDetail' => 'product_id',
-        'Werp\Modules\Core\Sales\Models\Price' => 'product_id',
-        'Werp\Modules\Core\Products\Models\InventoryDetail' => 'product_id',
-        'Werp\Modules\Core\Products\Models\Stock' => 'product_id',
-        'Werp\Modules\Core\Products\Models\Transaction' => 'product_id',
+        [
+            'class' => 'Werp\Modules\Core\Products\Models\MovementDetail',
+            'field' => 'product_id',
+            'name' => 'view.products.movement',
+        ],
+        [
+            'class' => 'Werp\Modules\Core\Products\Models\InoutDetail',
+            'field' => 'product_id',
+            'name' => 'view.products.product_inout',
+        ],
+        [
+            'class' => 'Werp\Modules\Core\Products\Models\OrderDetail',
+            'field' => 'product_id',
+            'name' => 'view.products.order',
+        ],
+        [
+            'class' => 'Werp\Modules\Core\Sales\Models\Price',
+            'field' => 'product_id',
+            'name' => 'view.products.price_list',
+        ],
+        [
+            'class' => 'Werp\Modules\Core\Products\Models\InventoryDetail',
+            'field' => 'product_id',
+            'name' => 'view.products.inventory',
+        ],
+        [
+            'class' => 'Werp\Modules\Core\Products\Models\Stock',
+            'field' => 'product_id',
+            'name' => 'view.products.stock',
+        ],
+        [
+            'class' => 'Werp\Modules\Core\Products\Models\Transaction',
+            'field' => 'product_id',
+            'name' => 'view.products.transaction',
+        ],
     ];
 
     public function toArray()
