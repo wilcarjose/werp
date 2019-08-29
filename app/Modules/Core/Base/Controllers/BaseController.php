@@ -405,7 +405,7 @@ class BaseController extends Controller
         } catch (CanNotDeleteException $e) {
             return response([
                 'status_code' => 400,
-                'message'     => $e,
+                'message'     => $e->getMessage(),
             ], 400);
 
         } catch (\Exception $e) {
