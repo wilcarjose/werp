@@ -19,6 +19,13 @@ class BaseModel extends Model
  
     protected $keyType = 'string';
 
+    protected $checkOnDrop = [];
+
+    public function getCheckOnDrop()
+    {
+        return $this->checkOnDrop;
+    }
+
     /**
 	 *  Setup model event hooks
 	 */

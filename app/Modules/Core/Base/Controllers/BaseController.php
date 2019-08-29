@@ -5,6 +5,7 @@ namespace Werp\Modules\Core\Base\Controllers;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
+use Werp\Modules\Core\Base\Exceptions\CanNotDeleteException;
 
 class BaseController extends Controller
 {
@@ -358,13 +359,29 @@ class BaseController extends Controller
      */
     public function destroy($id)
     {
-        $this->entityService->delete($id);
-        
-        return response([
-            'data'        => [],
-            'message'     => trans($this->getDeleteKey()),
-            'status_code' => 200
-        ], 200);
+        try {
+            
+            $this->entityService->delete($id);
+            
+            return response([
+                'data'        => [],
+                'message'     => trans($this->getDeleteKey()),
+                'status_code' => 200
+            ], 200);
+
+        } catch (CanNotDeleteException $e) {
+            return response([
+                'status_code' => 400,
+                'message'     => $e->getMessage(),
+            ], 400);
+
+        } catch (\Exception $e) {
+            $message = $e->getMessage(). ' - '.$e->getFile(). ' - '.$e->getLine();
+            return response([
+                'status_code' => 400,
+                'message'     => $message,
+            ], 400);
+        }
     }
 
     /**
@@ -375,13 +392,29 @@ class BaseController extends Controller
      */
     public function destroyBulk(Request $request)
     {
-        $this->entityService->delete($request->all());
+        try {
 
-        return response([
-            'data'        => [],
-            'message'     => trans($this->getDeleteKey()),
-            'status_code' => 200
-        ], 200);
+            $this->entityService->delete($request->all());
+
+            return response([
+                'data'        => [],
+                'message'     => trans($this->getDeleteKey()),
+                'status_code' => 200
+            ], 200);
+
+        } catch (CanNotDeleteException $e) {
+            return response([
+                'status_code' => 400,
+                'message'     => $e,
+            ], 400);
+
+        } catch (\Exception $e) {
+            $message = $e->getMessage(). ' - '.$e->getFile(). ' - '.$e->getLine();
+            return response([
+                'status_code' => 400,
+                'message'     => $message,
+            ], 400);
+        }
     }
 
     /**

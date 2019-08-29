@@ -29,6 +29,16 @@ class Product extends Model
         'uom_id',
     ];
 
+    protected $checkOnDrop = [
+        'Werp\Modules\Core\Products\Models\MovementDetail' => 'product_id',
+        'Werp\Modules\Core\Products\Models\InoutDetail' => 'product_id',
+        'Werp\Modules\Core\Products\Models\OrderDetail' => 'product_id',
+        'Werp\Modules\Core\Sales\Models\Price' => 'product_id',
+        'Werp\Modules\Core\Products\Models\InventoryDetail' => 'product_id',
+        'Werp\Modules\Core\Products\Models\Stock' => 'product_id',
+        'Werp\Modules\Core\Products\Models\Transaction' => 'product_id',
+    ];
+
     public function toArray()
     {
         return [
