@@ -3,9 +3,12 @@
 namespace Werp\Modules\Core\Products\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
+use Werp\Modules\Core\Base\Traits\RestrictSoftDeletes;
 
 class Product extends Model
 {
+    use RestrictSoftDeletes;
+
 	protected $table = 'products';
 
     /**
@@ -29,42 +32,11 @@ class Product extends Model
         'uom_id',
     ];
 
-    protected $checkOnDrop = [
-        [
-            'class' => 'Werp\Modules\Core\Products\Models\MovementDetail',
-            'field' => 'product_id',
-            'name' => 'view.products.movement',
-        ],
-        [
-            'class' => 'Werp\Modules\Core\Products\Models\InoutDetail',
-            'field' => 'product_id',
-            'name' => 'view.products.product_inout',
-        ],
-        [
-            'class' => 'Werp\Modules\Core\Products\Models\OrderDetail',
-            'field' => 'product_id',
-            'name' => 'view.products.order',
-        ],
-        [
-            'class' => 'Werp\Modules\Core\Sales\Models\Price',
-            'field' => 'product_id',
-            'name' => 'view.products.price_list',
-        ],
-        [
-            'class' => 'Werp\Modules\Core\Products\Models\InventoryDetail',
-            'field' => 'product_id',
-            'name' => 'view.products.inventory',
-        ],
-        [
-            'class' => 'Werp\Modules\Core\Products\Models\Stock',
-            'field' => 'product_id',
-            'name' => 'view.products.stock',
-        ],
-        [
-            'class' => 'Werp\Modules\Core\Products\Models\Transaction',
-            'field' => 'product_id',
-            'name' => 'view.products.transaction',
-        ],
+    /**
+     * The relations restricting model deletion
+     */
+    protected $restrictDeletes = ['prices', 'transactions', 'stock', 'inventories', 'categories',
+        'uoms', 'brands', 'partners', 'stockLimits', 'orders', 'inouts', 'movements'
     ];
 
     public function toArray()
@@ -127,6 +99,61 @@ class Product extends Model
 
     public function prices()
     {
-        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'product_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Transaction');
+    }
+
+    public function stock()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Stock');
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryDetail');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Category', 'product_category');
+    }
+
+    public function uoms()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Uom');
+    }
+
+    public function brands()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Brand', 'product_brand');
+    }
+
+    public function partners()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Purchases\Models\Partner', 'product_partner');
+    }
+
+    public function stockLimits()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\StockLimit');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\OrderDetail');
+    }
+
+    public function inouts()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InoutDetail');
+    }
+
+    public function movements()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementDetail');
     }
 }

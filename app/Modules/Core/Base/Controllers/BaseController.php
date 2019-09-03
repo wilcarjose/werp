@@ -5,7 +5,7 @@ namespace Werp\Modules\Core\Base\Controllers;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
-use Werp\Modules\Core\Base\Exceptions\CanNotDeleteException;
+use Werp\Modules\Core\Base\Exceptions\DeleteRestrictionException;
 
 class BaseController extends Controller
 {
@@ -369,10 +369,10 @@ class BaseController extends Controller
                 'status_code' => 200
             ], 200);
 
-        } catch (CanNotDeleteException $e) {
+        } catch (DeleteRestrictionException $e) {
             return response([
                 'status_code' => 400,
-                'message'     => $e->getMessage(),
+                'message'     => trans('view.texts.associated_to_item'),
             ], 400);
 
         } catch (\Exception $e) {
@@ -402,10 +402,10 @@ class BaseController extends Controller
                 'status_code' => 200
             ], 200);
 
-        } catch (CanNotDeleteException $e) {
+        } catch (DeleteRestrictionException $e) {
             return response([
                 'status_code' => 400,
-                'message'     => $e->getMessage(),
+                'message'     => trans('view.texts.associated_to_item'),
             ], 400);
 
         } catch (\Exception $e) {

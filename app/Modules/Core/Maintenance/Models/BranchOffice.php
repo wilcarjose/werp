@@ -24,8 +24,14 @@ class BranchOffice extends Model
             'name' => $this->name,
             'description' => $this->description,
             'company_id' => $this->company_id,
+            'address_id' => $this->address_id,
             'active' => $this->active,
             'created_at' => $this->created_at,
         ];
+    }
+
+    public function address()
+    {
+        return $this->hasOne('Werp\Modules\Core\Maintenance\Models\Address', 'id', 'address_id');
     }
 }

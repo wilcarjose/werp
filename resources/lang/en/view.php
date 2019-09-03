@@ -162,6 +162,6 @@ return [
         'base_currency' => 'Base currency',
     ],
     'texts' => [
-        'associated_to_item' => 'This item has the following associated:',
+        'associated_to_item' => 'This item can not be deleted, because it has another existing item connected to it. Please delete the connecting items first!',
     ],
 ];

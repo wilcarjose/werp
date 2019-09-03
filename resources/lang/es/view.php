@@ -162,5 +162,6 @@ return [
     ],
     'texts' => [
         'associated_to_item' => 'Este ítem tiene asociado lo siguiente:',
+        'associated_to_item' => 'Este ítem no puede ser eliminado, porque tiene otro registro asociado. Por favor, elimine primero los registros asociados',
     ]
 ];

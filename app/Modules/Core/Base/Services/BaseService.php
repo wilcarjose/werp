@@ -5,7 +5,7 @@ namespace Werp\Modules\Core\Base\Services;
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Werp\Modules\Core\Base\Responses\DependencyResponse;
-use Werp\Modules\Core\Base\Exceptions\CanNotDeleteException;
+use Werp\Modules\Core\Base\Exceptions\DeleteRestrictionException;
 
 class BaseService
 {
@@ -108,37 +108,26 @@ class BaseService
 
     public function delete($id)
     {
-        $this->begin();
+        try {
+            
+            $this->begin();
 
-        $ids = is_array($id) ? $id : [$id];
+            $ids = is_array($id) ? $id : [$id];
 
-        $response = $this->getDependencies($ids);
+            $this->entity->destroy($ids);
 
-        if ($response->success()) {
+            $this->commit();
+
+        } catch (DeleteRestrictionException $e) {
+
             $this->rollback();
-            throw new CanNotDeleteException($response);
+            throw new DeleteRestrictionException;
+
+        } catch (\Exception $e) {
+
+            $this->rollback();
+            throw new \Exception($e->getMessage());            
         }
-
-        $this->entity->destroy($ids);
-
-        $this->commit();
-    }
-
-    public function getDependencies($ids)
-    {
-        $dependencies = [];
-
-        foreach ($ids as $id) {
-            $entity = $this->getById($id);
-
-            foreach ($entity->getCheckOnDrop() as $dep) {
-                if ($dep['class']::where($dep['field'], $id)->exists()) {
-                    $dependencies[] = $dep; 
-                }
-            }
-        }
-
-        return new DependencyResponse($dependencies);
     }
 
     public function changeStatus($id)

@@ -3,9 +3,12 @@
 namespace Werp\Modules\Core\Maintenance\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
+use Werp\Modules\Core\Base\Traits\RestrictSoftDeletes;
 
 class Address extends Model
 {
+    use RestrictSoftDeletes;
+
     protected $table = 'addresses';
 
     /**
@@ -27,6 +30,11 @@ class Address extends Model
         'longitude',
     ];
 
+    /**
+     * The relations restricting model deletion
+     */
+    protected $restrictDeletes = ['branchOffices', 'companies', 'partner', 'partners', 'warehouses'];
+
     public function toArray()
     {
         return [
@@ -46,5 +54,30 @@ class Address extends Model
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    public function branchOffices()
+    {
+        return $this->hasMany('Werp\Modules\Core\Maintenance\Models\BranchOffice', 'address_id');
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Maintenance\Models\Company');
+    }
+
+    public function partner()
+    {
+        return $this->hasMany('Werp\Modules\Core\Purchases\Models\Partner', 'address_id');   
+    }
+
+    public function partners()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Purchases\Models\Partner');
+    }
+
+    public function warehouses()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Warehouse');
     }
 }

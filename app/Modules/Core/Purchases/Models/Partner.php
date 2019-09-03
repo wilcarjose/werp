@@ -3,9 +3,12 @@
 namespace Werp\Modules\Core\Purchases\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
+use Werp\Modules\Core\Base\Traits\RestrictSoftDeletes;
 
 class Partner extends Model
 {
+    use RestrictSoftDeletes;
+
     const SUPPLIER_TYPE = 'supplier';
     const CUSTOMER_TYPE = 'customer';
 
@@ -38,6 +41,11 @@ class Partner extends Model
         'category_id',
         'address_id',
     ];
+
+    /**
+     * The relations restricting model deletion
+     */
+    protected $restrictDeletes = ['products', 'addresses', 'categories', 'orders', 'inouts'];
 
     public function toArray()
     {
@@ -96,5 +104,30 @@ class Partner extends Model
     public function isNotCustomer()
     {
         return !$this->isCustomer();
+    }
+
+    public function products()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Product');
+    }
+
+    public function addresses()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Maintenance\Models\Address');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany('Werp\Modules\Core\Products\Models\Category', 'partner_category');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Order');
+    }
+
+    public function inouts()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Inout');
     }
 }
