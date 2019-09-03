@@ -77,8 +77,11 @@ return [
 
         'users' => [
             'driver' => 'eloquent',
-            'model' => Werp\User::class,
+        //    'model' => Werp\User::class,
+            'model' => Werp\Admin::class,
         ],
+
+
 
         // 'users' => [
         //     'driver' => 'database',

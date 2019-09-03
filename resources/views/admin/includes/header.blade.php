@@ -285,6 +285,12 @@
                                     </li>
                                     @endif
                                     <li class="profile-li">
+                                        @if (auth()->user()->isImpersonated())
+                                        <a class="btn waves-light collection-item" href="{{ url('/admin/leave-impersonate') }}">
+                                            <i class="material-icons left">transfer_within_a_station</i>
+                                            <span class="text-items">Volver</span>
+                                        </a>
+                                        @endif
                                         <a class="btn waves-light collection-item" href="{{ url('/admin/logout') }}"
                                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                             <i class="material-icons left">power_settings_new</i><span class="text-items">@lang('view.signout')</span>

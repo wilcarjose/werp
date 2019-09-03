@@ -66,12 +66,15 @@
                                     <td v-text="runningData.inrole"></td>
                                     <!-- <td v-text="runningData.designation"></td> -->
                                     <td>
-                                        <button :class="runningData.status=='active'?'btn success-bg':'btn error-bg'" @click="switchStatus(runningData)">
-                                            {{runningData.status | capitalize}}
+                                        <button :class="runningData.active=='on'?'btn success-bg':'btn error-bg'" @click="switchStatus(runningData)">
+                                            {{runningData.active | capitalize}}
                                         </button>
                                     </td>
                                     <td>
                                         <div class="btn-group" role="group" aria-label="...">
+                                            <a class="bt btn-floating btn-flat" :href="'/admin/impersonate/' + runningData.id">
+                                                <i class="material-icons success-text">supervisor_account</i>
+                                            </a>
                                             <button type="button" class="btn btn-floating btn-flat" @click="show(runningData)">
                                                 <i class="material-icons warning-text">mode_edit</i>
                                             </button>
@@ -166,12 +169,12 @@ export default {
     mixins: [tableData],
     data() {
         return {
-            //singleObj: { id: Number, name: String, email: String, status: String, inrole: '', designation: String },
-            singleObj: { id: Number, name: String, email: String, status: String, inrole: '', password: String },
+            //singleObj: { id: Number, name: String, email: String, active: String, inrole: '', designation: String },
+            singleObj: { id: Number, name: String, email: String, active: String, inrole: '', password: String },
             pupupMod: 'add',
             showAdd: false,
-            //gridColumns: ['name', 'email', 'role', 'designation', 'status', 'action'],
-            gridColumns: {name:'Nombre', email:'Email', role:'Rol', status:'Estatus', action:'Acciones'},
+            //gridColumns: ['name', 'email', 'role', 'designation', 'active', 'action'],
+            gridColumns: {name:'Nombre', email:'Email', role:'Rol', active:'Activo', action:'Acciones'},
             escapeSort: ['role', 'action'],
             sortOrder: { field: 'name', order: 'asc' },
             // Module Specific
@@ -201,7 +204,7 @@ export default {
     },
     methods: {
         resetSingleObj() {
-            this.singleObj = { id: "", name: "", email: "", designation:"" ,status: "", inrole: "" };
+            this.singleObj = { id: "", name: "", email: "", designation:"" ,active: "", inrole: "" };
             this.showLoader = false;
         },
         all(page = 1) {
@@ -309,13 +312,13 @@ export default {
         },
         switchStatus(obj) {
             this.resetAlert();
-            let newStat = (obj.status == 'active') ? 'inactive' : 'active';
+            let newStat = (obj.active == 'on') ? 'off' : 'on';
             let uri = `/admin/administrator/status`;
             axios.put(uri, obj).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
-                        obj.status = newStat;
+                        obj.active = newStat;
                         this.alertHandler('success', res.message, true);
                     }
                     $('#componentDataModal').modal('close');

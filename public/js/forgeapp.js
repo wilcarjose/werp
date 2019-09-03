@@ -35436,6 +35436,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -35446,12 +35449,12 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__["a" /* tableData */]],
     data: function data() {
         return {
-            //singleObj: { id: Number, name: String, email: String, status: String, inrole: '', designation: String },
-            singleObj: { id: Number, name: String, email: String, status: String, inrole: '', password: String },
+            //singleObj: { id: Number, name: String, email: String, active: String, inrole: '', designation: String },
+            singleObj: { id: Number, name: String, email: String, active: String, inrole: '', password: String },
             pupupMod: 'add',
             showAdd: false,
-            //gridColumns: ['name', 'email', 'role', 'designation', 'status', 'action'],
-            gridColumns: { name: 'Nombre', email: 'Email', role: 'Rol', status: 'Estatus', action: 'Acciones' },
+            //gridColumns: ['name', 'email', 'role', 'designation', 'active', 'action'],
+            gridColumns: { name: 'Nombre', email: 'Email', role: 'Rol', active: 'Activo', action: 'Acciones' },
             escapeSort: ['role', 'action'],
             sortOrder: { field: 'name', order: 'asc' },
             // Module Specific
@@ -35484,7 +35487,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
     methods: {
         resetSingleObj: function resetSingleObj() {
-            this.singleObj = { id: "", name: "", email: "", designation: "", status: "", inrole: "" };
+            this.singleObj = { id: "", name: "", email: "", designation: "", active: "", inrole: "" };
             this.showLoader = false;
         },
         all: function all() {
@@ -35610,13 +35613,13 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this6 = this;
 
             this.resetAlert();
-            var newStat = obj.status == 'active' ? 'inactive' : 'active';
+            var newStat = obj.active == 'on' ? 'off' : 'on';
             var uri = '/admin/administrator/status';
             axios.put(uri, obj).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
                     // Handling alert
-                    obj.status = newStat;
+                    obj.active = newStat;
                     _this6.alertHandler('success', res.message, true);
                 }
                 $('#componentDataModal').modal('close');
@@ -36019,7 +36022,7 @@ var render = function() {
                             "button",
                             {
                               class:
-                                runningData.status == "active"
+                                runningData.active == "on"
                                   ? "btn success-bg"
                                   : "btn error-bg",
                               on: {
@@ -36032,7 +36035,7 @@ var render = function() {
                               _vm._v(
                                 "\n                                        " +
                                   _vm._s(
-                                    _vm._f("capitalize")(runningData.status)
+                                    _vm._f("capitalize")(runningData.active)
                                   ) +
                                   "\n                                    "
                               )
@@ -36048,6 +36051,25 @@ var render = function() {
                               attrs: { role: "group", "aria-label": "..." }
                             },
                             [
+                              _c(
+                                "a",
+                                {
+                                  staticClass: "bt btn-floating btn-flat",
+                                  attrs: {
+                                    href: "/admin/impersonate/" + runningData.id
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "i",
+                                    {
+                                      staticClass: "material-icons success-text"
+                                    },
+                                    [_vm._v("supervisor_account")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
                               _c(
                                 "button",
                                 {

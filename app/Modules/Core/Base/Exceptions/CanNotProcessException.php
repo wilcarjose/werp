@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Exceptions;
+namespace Werp\Modules\Core\Base\Exceptions;
 
 class CanNotProcessException extends \Exception
 {

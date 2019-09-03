@@ -11,7 +11,7 @@ class AdminTransformer extends Transformer
             'id'          => $item->id,
             'name'        => $item->name,
             'email'       => $item->email,
-            'active' => $this->active,
+            'active'      => $item->active,
             'designation' => $item->designation,
             'inrole'      => count($inrole) >0 ?$inrole[0]:'',
         ];

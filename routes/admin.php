@@ -2,6 +2,9 @@
 
 Route::get('/home', 'Admin\HomeController@index')->name('home');
 
+Route::get('/impersonate/{id}', 'AdminAuth\ImpersonateController@impersonate')->name('impersonate');
+Route::get('/leave-impersonate', 'AdminAuth\ImpersonateController@leaveImpersonation')->name('leave-impersonate');
+
 /**
  * ROLES
  */
