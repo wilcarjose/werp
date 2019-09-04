@@ -24,6 +24,11 @@ class ImpersonateController extends Controller
      */
     public function impersonate($id)
     {
+        if (!\Auth::user()->canImpersonate()) {
+            flash('No tiene permisos para realizar está acción', 'error', 'error');
+            return back();
+        }
+
         $user = Admin::find($id);
         \Auth::user()->impersonate($user);
 
