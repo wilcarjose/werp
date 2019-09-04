@@ -2,36 +2,36 @@
 
 Route::get('/home', 'Admin\HomeController@index')->name('home');
 
-Route::get('/impersonate/{id}', 'AdminAuth\ImpersonateController@impersonate')->name('impersonate');
+Route::get('/impersonate/{id}', 'AdminAuth\ImpersonateController@impersonate')->name('impersonate')->middleware('impersonate.protect');
 Route::get('/leave-impersonate', 'AdminAuth\ImpersonateController@leaveImpersonation')->name('leave-impersonate');
 
 /**
  * ROLES
  */
- Route::get('/role/{role}/permissions','Admin\RoleController@permissions');
- Route::get('/rolePermissions','Admin\RoleController@rolePermissions')->name('myrolepermission');
- Route::get('/roles/all','Admin\RoleController@all');
- Route::post('/assignPermission','Admin\RoleController@attachPermission');
- Route::post('/detachPermission','Admin\RoleController@detachPermission');
- Route::resource('/roles','Admin\RoleController');
+ Route::get('/role/{role}/permissions','Admin\RoleController@permissions')->middleware('impersonate.protect');
+ Route::get('/rolePermissions','Admin\RoleController@rolePermissions')->name('myrolepermission')->middleware('impersonate.protect');
+ Route::get('/roles/all','Admin\RoleController@all')->middleware('impersonate.protect');
+ Route::post('/assignPermission','Admin\RoleController@attachPermission')->middleware('impersonate.protect');
+ Route::post('/detachPermission','Admin\RoleController@detachPermission')->middleware('impersonate.protect');
+ Route::resource('/roles','Admin\RoleController')->middleware('impersonate.protect');
 
  /**
   * PERMISSIONs
   */
- Route::get('/permissions/all','Admin\PermissionController@all');
- Route::resource('/permissions','Admin\PermissionController');
+ Route::get('/permissions/all','Admin\PermissionController@all')->middleware('impersonate.protect');
+ Route::resource('/permissions','Admin\PermissionController')->middleware('impersonate.protect');
 
 
  /**
  * ADMINs
  */
-Route::get('/profile','Admin\AdminController@profileEdit');
-Route::put('/profile/{admin}','Admin\AdminController@profileUpdate');
-Route::put('/changepassword/{admin}','Admin\AdminController@changePassword');
-Route::put('/administrator/status','Admin\AdminController@switchStatus');
-Route::post('/administrator/removeBulk','Admin\AdminController@destroyBulk');
-Route::put('/administrator/statusBulk','Admin\AdminController@switchStatusBulk');
-Route::resource('/administrator','Admin\AdminController');
+Route::get('/profile','Admin\AdminController@profileEdit')->middleware('impersonate.protect');
+Route::put('/profile/{admin}','Admin\AdminController@profileUpdate')->middleware('impersonate.protect');
+Route::put('/changepassword/{admin}','Admin\AdminController@changePassword')->middleware('impersonate.protect');
+Route::put('/administrator/status','Admin\AdminController@switchStatus')->middleware('impersonate.protect');
+Route::post('/administrator/removeBulk','Admin\AdminController@destroyBulk')->middleware('impersonate.protect');
+Route::put('/administrator/statusBulk','Admin\AdminController@switchStatusBulk')->middleware('impersonate.protect');
+Route::resource('/administrator','Admin\AdminController')->middleware('impersonate.protect');
 
 /**
  * USERS

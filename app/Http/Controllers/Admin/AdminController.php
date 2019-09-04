@@ -115,6 +115,8 @@ class AdminController extends Controller
         $newAdmin          = $admin->toArray();
         $newAdmin['roles'] = $admin->roles;
 
+        $admin->companies()->attach(session('company')->id);
+
         if ($request->wantsJson()) {
             return response([
                 'data'        => $this->adminTransformer->single($newAdmin),

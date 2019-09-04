@@ -266,7 +266,7 @@
                                 <img class="circle user-profile-img"
                                     src="{{ Auth::user()->pic?Storage::url(Auth::user()->pic):url('/images/square/male_6.jpg') }}" alt="">
                                 <p class="user-name primary-text">{{ ucwords(Auth::user()->name) }}</p>
-                                <p class="user-designation secondary-text">{{ ucwords(Auth::user()->designation) }}</p>
+                                <p class="user-designation secondary-text">{{ ucwords(Auth::user()->roles()->first()->name) }}</p>
                                 <div class="divider"></div>
                                 <ul class="profile-ul">
                                     <li class="profile-li">
@@ -285,12 +285,12 @@
                                     </li>
                                     @endif
                                     <li class="profile-li">
-                                        @if (auth()->user()->isImpersonated())
+                                        @impersonating
                                         <a class="btn waves-light collection-item" href="{{ url('/admin/leave-impersonate') }}">
                                             <i class="material-icons left">transfer_within_a_station</i>
                                             <span class="text-items">Volver</span>
                                         </a>
-                                        @endif
+                                        @endImpersonating
                                         <a class="btn waves-light collection-item" href="{{ url('/admin/logout') }}"
                                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                             <i class="material-icons left">power_settings_new</i><span class="text-items">@lang('view.signout')</span>

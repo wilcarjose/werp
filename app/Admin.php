@@ -54,4 +54,12 @@ class Admin extends BaseAuthenticatable
     {
         return $this->belongsToMany('Werp\Modules\Core\Maintenance\Models\Company');
     }
+
+    /**
+     * @return bool
+     */
+    public function canImpersonate()
+    {
+        return $this->hasRole('developer');
+    }
 }
