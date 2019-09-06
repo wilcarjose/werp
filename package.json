@@ -23,5 +23,8 @@
         "popper.js": "^1.12",
         "sweetalert": "^1.1.3",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "autonumeric": "^4.5.4"
     }
 }

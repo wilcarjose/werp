@@ -521,7 +521,11 @@ class BaseController extends Controller
         $validator = validator()->make($request->all(), $this->getStoreDetailRules());
         
         if ($validator->fails()) {
-            return response(['error' => trans($this->getFailValidationKey())], 422);
+            return response([
+                'error' => trans($this->getFailValidationKey()),
+                'errors' => $validator->errors(),
+                'status_code' => 422
+            ], 422);
         }
 
         try {
@@ -590,7 +594,11 @@ class BaseController extends Controller
         $validator = validator()->make($request->all(), $this->getUpdateDetailRules());
             
         if ($validator->fails()) {
-            return response(['error' => trans($this->getFailValidationKey())], 422);
+            return response([
+                'message' => trans($this->getFailValidationKey()),
+                'errors' => $validator->errors(),
+                'status_code' => 422
+            ], 422);
         }
 
         try {

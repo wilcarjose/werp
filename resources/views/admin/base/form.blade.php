@@ -12,46 +12,6 @@
 
     <style type="text/css">
 
-      /*
-      .textbox {
-          width: 669px;
-          border: 0;
-          border-radius: 0;
-          margin-left: 3rem,
-      }
-
-      .textbox .textbox-text {
-          font-size: 16px;
-          border: 0;
-          margin: 0;
-          padding: 0 4px;
-          white-space: normal;
-          vertical-align: top;
-          outline-style: none;
-          resize: none;
-          -moz-border-radius: 0 !important;
-          -webkit-border-radius: 0 !important;
-          border-radius: 0 !important;
-          height: 28px;
-          line-height: 28px;
-          border-bottom: 1px solid #757575;
-          margin-left: 3rem;
-          width: calc(100% - 3rem);
-      }
-
-      .textbox:focus {
-          outline: -webkit-focus-ring-color auto 1px;
-      }
-
-      .textbox-focused {
-          border-color: #fff;
-          box-shadow: 0 0 0 0 #fff;
-          -webkit-box-shadow: 0 0 0 0 #fff;
-          -moz-box-shadow: 0 0 0 0 #fff;
-      }
-
-      */
-
       .daterangepicker .calendar-table th, .daterangepicker .calendar-table td {
           white-space: nowrap;
           text-align: center;
@@ -299,56 +259,22 @@
         });
 
         $('ul.tabs').tabs();
+
+        
+
     });
 
     $(window).on("load", function(){
 
+    if ($(".number-input").length > 0) {
+      new AutoNumeric('.number-input', {
+        digitGroupSeparator        : '.',
+        decimalCharacter           : ',',
+        unformatOnSubmit           : true
+      });
+    }    
+
       $('.tooltipped').tooltip({delay: 50});
-
-      $(".textbox .textbox-text").focus(function() {
-          $(this).parent().next().addClass('active');
-          $(this).parent().next().css("color", "#e91e63");          
-      });
-
-      $(".textbox .textbox-text").blur(function() {
-
-          if ( $(this).val() == '' ) {
-            $(this).parent().next().removeClass('active');            
-          }
-
-          $(this).parent().next().css("color", "#757575");
-      });
-
-      $('input[type="text"].textbox-text').each(function () {
-
-          if ($(this).val() != '') {
-            $(this).parent().next().addClass('active');
-          }
-
-          if ($(this).parent().prev().hasClass('custom-numberbox')) {
-            var id = $(this).attr("id");
-            $('#'+id).css({
-              "background-color": "#fafafa",
-              "margin-left": "0px",
-              "width": "100%"
-            });
-          }
-
-          if ($(this).parent().prev().hasClass('easyui-numberbox')) {
-            var id = $(this).attr("id");
-            $('#'+id).css({
-              "margin-left": "3rem",
-              "width": "calc(100% - 3rem)"
-            });
-            /*
-            $(this).parent().css({
-              "width": "calc(100% - 3rem)",
-              "margin-left": "3rem"
-            })
-            */
-          }
-
-      });
 
     })
 
@@ -358,7 +284,7 @@
 
   @yield('js-datebox')
 
-  <script type="text/javascript" src={{ asset('plugins/easyui/jquery.easyui.min.js') }}></script>
+  <script type="text/javascript" src={{ asset('plugins/autonumeric/autonumeric.min.js') }}></script>
   <script type="text/javascript" src={{ asset('plugins/momentjs/moment.min.js') }}></script>
   <script type="text/javascript" src={{ asset('plugins/daterangepicker/daterangepicker.min.js') }}></script>
 

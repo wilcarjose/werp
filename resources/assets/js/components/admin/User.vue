@@ -257,7 +257,7 @@
             <h5>{{modalAction | capitalize}} Producto</h5>
           </div>
           <form @submit.prevent="isNotValidateForm" name="callback" class="col s12" style="margin-top: 10px;">
-              <div class="input-field col s12" v-for="field in modal.fields" :style="field.type == 'select' || 'amount' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
+              <div class="input-field col s12" v-for="field in modal.fields" :style="field.type == 'select' ? 'margin-bottom: 10px;' : 'margin-bottom: 0px;'">
 
                 <!-- selects -->
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
@@ -274,9 +274,8 @@
                   <!-- texts inputs -->
 
                    <!-- amounts inputs -->
-                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;" :required="field.required">
-                  <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
-                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
+                  <input v-if="field.type == 'amount'" type="text" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required" class="number-input">
+                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id">{{ field.label }}</label>
                   <!-- texts inputs -->
 
                   <!-- checks -->
@@ -284,15 +283,19 @@
                   <label v-if="field.type == 'check'" :for="'modal-'+field.id">{{ field.label }}</label>
                   <!-- checks -->
 
+                  <span v-if="hasError(field.name)"class="help-block" :style="field.type == 'select' ? 'margin-left: 0px; color: red; font-size: small; margin-top: 2px;' : 'margin-left: 0px; color: red; font-size: small; margin-top: -18px;'">
+                      <strong>{{ getError(field.name) }}</strong>
+                  </span>
+
               </div>
 
-              <div class="input-field col s12" v-show="show_advanced">
+              <div class="input-field col s12" v-show="show_advanced" style="margin-bottom: 20px;">
                 <a href="javascript:void(0);" @click="switchAdvancedOptions()">
                     {{ more_options }}
                 </a>
               </div>
 
-              <div v-show="show_advanced_options" class="input-field col s12 advanced-modal-options" v-for="field in modal.advanced_fields" :style="field.type == 'select' || 'amount' || 'ckeck' ? 'margin-bottom: 30px;' : 'margin-bottom: 0px;'">
+              <div v-show="show_advanced_options" class="input-field col s12 advanced-modal-options" v-for="field in modal.advanced_fields" :style="field.type == 'select' || 'ckeck' ? 'margin-bottom: 30px;' : 'margin-bottom: 0px;'">
 
                   <!-- selects -->
                   <label v-if="field.type == 'select'" :for="'modal-'+field.id" style="top: -22px; font-size: 0.8rem;">{{ field.label }}</label>
@@ -309,9 +312,8 @@
                   <!-- texts inputs -->
 
                   <!-- amounts inputs -->
-                  <input v-if="field.type == 'amount'" class="custom-numberbox" :id="'modal-'+field.id" :name="field.name" :value="modal.object[field.name]" style="width:509px;" :required="field.required">
-                  <!-- <NumberBox v-if="field.type == 'amount'" :inputId="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :precision="2" :spinners="false" :groupSeparator="amount.groupSeparator" :decimalSeparator="amount.decimalSeparator" style="width:100%;"></NumberBox> -->
-                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id" style="margin-left: 0; margin-top: -13px;">{{ field.label }}</label>
+                  <input v-if="field.type == 'amount'" type="text" :id="'modal-'+field.id" :name="field.name" v-model="modal.object[field.name]" :required="field.required" class="number-input">
+                  <label v-if="field.type == 'amount'" :for="'modal-'+field.id">{{ field.label }}</label>
                   <!-- amounts inputs -->
 
                   <!-- checks -->
@@ -319,14 +321,12 @@
                   <label v-if="field.type == 'check'" :for="'modal-'+field.id">{{ field.label }}</label>
                   <!-- checks -->
 
+                  <span v-if="hasError(field.name)" class="help-block" :style="field.type == 'select' ? 'margin-left: 0px; color: red; font-size: small; margin-top: 2px;' : 'margin-left: 0px; color: red; font-size: small; margin-top: -18px;'">
+                      <strong>{{ getError(field.name) }}</strong>
+                  </span>
+
               </div>
               
-              <!--
-              <div class="input-field col s12" style="margin-bottom: 15px; margin-top: 25px;">
-                <input class="custom-numberbox" id="numero" name="numero" value="98123.26" style="width:100%;">
-                <label for="numero" style="margin-left: 0; margin-top: -13px;">Numero</label>
-              </div>
-              -->
           </form>
       </div>
       <div class="modal-footer">
@@ -341,17 +341,12 @@
 
 $(document).ready(function() {
 
-    $('.custom-numberbox').numberbox({
-        min:0,
-        precision:2,
-        decimalSeparator:',',
-        groupSeparator:'.'
-    });
 
 })
   
 import { tableData } from '../../mixins/tableMixin';
 import FunctionHelper from '../../helpers/FunctionHelper.js';
+//import AutoNumeric from '../../../../../node_modules/autonumeric/src/main';
 //import moment from 'moment';
 
 let funcHelp = new FunctionHelper;
@@ -400,7 +395,9 @@ export default {
               groupSeparator: ".",
               prefix: "",
               suffix: ""
-            }
+            },
+            numericInputs: {},
+            errors: null
         };
     },
     computed: {
@@ -489,31 +486,21 @@ export default {
                 });
             };
 
-          //this.loadDependencies();
+          this.loadNumericInputs();
         }
     },
+
     updated() {
-          
-          let vm = this;
-
-          var next = $('.custom-numberbox').next();
-          var blur = $(next).children('.textbox-text');
-
-          $(blur).blur(function() {
-              let elem = $(this).next();
-              var nameAttr = elem.attr('name');
-              //console.log(nameAttr);
-              vm.modal.object[nameAttr] = elem.val();
-              //console.log(elem.val());
-          });
-
     },
+
     methods: {
+
         resetSingleObj() {
             this.modal.object = {};
             this.showLoader = false;
 
         },
+
         all(page = 1) {
             this.resetAlert();
             if (!this.empty_list) {
@@ -533,6 +520,7 @@ export default {
                   });
             }
         },
+
         show(obj) {
             
             if (this.disable) {
@@ -544,6 +532,7 @@ export default {
             this.modalAction = 'Editar';
             this.resetAlert(this.modal.object);
             //console.log(this.modal.object);
+            //this.formatNumerics();
             this.modal.fields.forEach((item, index) => {
 
                 if (item.type == 'select') {
@@ -554,14 +543,9 @@ export default {
                     }
                 }
 
-                if (item.type == 'amount') {
+                if (item.type == 'text') {
                     var input = $('#modal-' + item.id);
-                    if ( typeof this.modal.object[item.name] !== 'undefined' &&
-                      this.modal.object[item.name] !== null &&
-                      this.modal.object[item.name] != '') {
-                      $(input).numberbox('setValue', this.modal.object[item.name]);
-                      $(input).next().next().addClass('active');
-                    }                     
+                    $(input).next().addClass('active');
                 }
 
             });
@@ -576,25 +560,24 @@ export default {
                     }
                 }
 
-                if (item.type == 'amount') {
+                if (item.type == 'text') {
                     var input = $('#modal-' + item.id);
-                    if ( typeof this.modal.object[item.name] !== 'undefined' &&
-                      this.modal.object[item.name] !== null &&
-                      this.modal.object[item.name] != '') {
-                      $(input).numberbox('setValue', this.modal.object[item.name]);
-                      $(input).next().next().addClass('active');
-                    }                     
+                    $(input).next().addClass('active');
                 }
 
             });
 
+            //this.formatNumerics();
+
             //$('#componentDataModal').modal('open');
             setTimeout(() => {$('#componentDataModal').modal('open')}, 250);
         },
+
         update() {
             if (this.filter) {
               let suffix = `${this.filter}/detail/`;
               let uri = `${this.route}/${suffix}${this.modal.object.id}`;
+              //this.unformatNumerics();
               axios.put(uri, this.modal.object).then((response) => {
                     let res = response.data;
                     if (res.status_code == 200) {
@@ -611,7 +594,11 @@ export default {
                 })
                 .catch((error) => {
                     this.alertHandler('error', error.response.data.message, true);
-                    console.log(error) 
+                    if (typeof error.response.data.errors !== 'undefined') {
+                        this.errors = error.response.data.errors;
+                    }
+
+                    console.log(error.response.data) 
                 });
             }
 
@@ -619,6 +606,7 @@ export default {
               $('#componentDataModal').modal('close');
             }
         },
+
         create(event) {
             
             this.resetSingleObj();
@@ -629,14 +617,15 @@ export default {
             this.modal.fields.forEach((item, index) => {
 
                 if (item.type == 'select') {
-                    $('#modal-'+ item.id).val(0);
+                    $('#modal-'+ item.id).val(null);
                     $('#modal-'+ item.id).select2().trigger('change');
                 }
 
                 if (item.type == 'amount') {
-                    var input = $('#modal-' + item.id);
-                    $(input).numberbox('setValue', '');
-                    $(input).next().next().removeClass('active');
+                    //var input = $('#modal-' + item.id);
+                    
+                    // clear the amount input on new
+                    //$(input).next().next().removeClass('active');
                 }
 
             });
@@ -644,27 +633,28 @@ export default {
             this.modal.advanced_fields.forEach((item, index) => {
 
                 if (item.type == 'select') {
-                    $('#modal-'+ item.id).val(0);
+                    $('#modal-'+ item.id).val(null);
                     $('#modal-'+ item.id).select2().trigger('change');
                 }
 
                 if (item.type == 'amount') {
-                    var input = $('#modal-' + item.id);
-                    $(input).numberbox('setValue', '');
-                    $(input).next().next().removeClass('active');
+                    //var input = $('#modal-' + item.id);
+                    // clear the amount input on new
+                    //$(input).next().next().removeClass('active');
                 }
 
             });
 
             $('#componentDataModal').modal('open');
         },
+
         store() {
             this.showLoader = true;
             
             if (this.filter) {
               let suffix = `${this.filter}/detail`;
               let uri = `${this.route}/${suffix}`;
-              //console.log(this.modal.object)
+              //this.unformatNumerics();
               axios.post(uri, this.modal.object).then((response) => {
                       let res = response.data;
                       if (res.status_code == 201) {
@@ -687,7 +677,11 @@ export default {
                   })
                   .catch((error) => { 
                     this.alertHandler('error', error.response.data.message, true);
-                    console.log(error.response.data.message) 
+                    if (typeof error.response.data.errors !== 'undefined') {
+                        this.errors = error.response.data.errors;
+                    }
+
+                    console.log(error.response.data) 
                   });
               
             }
@@ -697,6 +691,7 @@ export default {
             }
             
         },
+
         remove(obj) {
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
@@ -724,6 +719,7 @@ export default {
                    });
             }
         },
+
         removeMultiple() {
             this.resetAlert();
             let suffix = this.filter ? `${this.filter}/detail/` : '';
@@ -746,6 +742,7 @@ export default {
                     });
             }
         },
+
         switchStatus(obj) {
             this.resetAlert();
             let newStat = (obj.active == 'on') ? 'off' : 'on';
@@ -763,6 +760,7 @@ export default {
                     console.log(error)
                 });
         },
+
         switchStatusSelected() {
             this.resetAlert();
             let uri = `${this.route}/statusBulk`;
@@ -780,6 +778,7 @@ export default {
                     console.log(error)
                 });
         },
+
         searchInput() {
             let searchQuery = this.searchQuery;
             let uri = `${this.route}?searchQuery=${searchQuery}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}`;
@@ -795,9 +794,7 @@ export default {
                     console.log(error)
                 });
         },
-        loadDependencies() {
-
-        },
+        
         numberFormat(num, decimal_point = ',', thousands_sep = '.') {
 
             if ( typeof num === 'undefined' || num === null ) {
@@ -818,6 +815,7 @@ export default {
 
             return unit + decimal_point + strArray[1];
         },
+
         dateFormat(date) {
             var dateToChange = new Date(date);
             var month = dateToChange .getMonth() + 1;
@@ -831,6 +829,7 @@ export default {
             var year = dateToChange .getFullYear();
             return day + "/" + month + "/" + year;
         },
+
         switchAdvancedOptions() {
             if (this.show_advanced_options) {
               this.show_advanced_options = false;
@@ -839,6 +838,77 @@ export default {
               this.show_advanced_options = true;
               $('.advanced-modal-options').show(500);
             }
+        },
+
+        loadNumericInputs() {
+            /*
+            this.numericInputs = new AutoNumeric('.numeric-input', {
+              digitGroupSeparator        : '.',
+              decimalCharacter           : ','
+            });
+            */
+        },
+
+        unformatNumerics() {
+
+          this.modal.fields.forEach((item, index) => {
+
+                if (item.type == 'amount') {
+                    if ( typeof this.modal.object[item.name] !== 'undefined') {
+                        this.modal.object[item.name] = this.numericInputs.unformatOther(this.modal.object[item.name]);
+                    }                     
+                }
+
+          });
+
+          this.modal.advanced_fields.forEach((item, index) => {
+
+                if (item.type == 'amount') {
+                    if ( typeof this.modal.object[item.name] !== 'undefined') {
+                        this.modal.object[item.name] = this.numericInputs.unformatOther(this.modal.object[item.name]);
+                    }                     
+                }
+
+          });
+
+        },
+
+        formatNumerics() {
+
+          this.modal.fields.forEach((item, index) => {
+
+                if (item.type == 'amount') {
+                    if ( typeof this.modal.object[item.name] !== 'undefined') {
+                        this.modal.object[item.name] = this.numericInputs.formatOther(this.modal.object[item.name], 'commaDecimalCharDotSeparator');
+                    }                     
+                }
+
+          });
+
+          this.modal.advanced_fields.forEach((item, index) => {
+
+                if (item.type == 'amount') {
+                    if ( typeof this.modal.object[item.name] !== 'undefined') {
+                        this.modal.object[item.name] = this.numericInputs.formatOther(this.modal.object[item.name], 'commaDecimalCharDotSeparator');
+                    }                     
+                }
+
+          });
+
+        },
+
+        hasError(name) {
+            if (this.errors &&
+                typeof this.errors[name] !== 'undefined' &&
+                typeof this.errors[name][0] !== 'undefined') {
+              return true;
+            }
+
+            return false;
+        },
+
+        getError(name) {
+            return this.errors[name][0];
         }
 
     }

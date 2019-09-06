@@ -36938,18 +36938,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-$(document).ready(function () {
-
-    $('.custom-numberbox').numberbox({
-        min: 0,
-        precision: 2,
-        decimalSeparator: ',',
-        groupSeparator: '.'
-    });
-});
+$(document).ready(function () {});
 
 
 
+//import AutoNumeric from '../../../../../node_modules/autonumeric/src/main';
 //import moment from 'moment';
 
 var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" /* default */]();
@@ -36998,7 +36991,9 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 groupSeparator: ".",
                 prefix: "",
                 suffix: ""
-            }
+            },
+            numericInputs: {},
+            errors: null
         };
     },
 
@@ -37092,24 +37087,11 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 });
             };
 
-            //this.loadDependencies();
+            this.loadNumericInputs();
         }
     },
-    updated: function updated() {
+    updated: function updated() {},
 
-        var vm = this;
-
-        var next = $('.custom-numberbox').next();
-        var blur = $(next).children('.textbox-text');
-
-        $(blur).blur(function () {
-            var elem = $(this).next();
-            var nameAttr = elem.attr('name');
-            //console.log(nameAttr);
-            vm.modal.object[nameAttr] = elem.val();
-            //console.log(elem.val());
-        });
-    },
 
     methods: {
         resetSingleObj: function resetSingleObj() {
@@ -37139,7 +37121,6 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
         },
         show: function show(obj) {
-            var _this2 = this;
 
             if (this.disable) {
                 return false;
@@ -37150,6 +37131,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.modalAction = 'Editar';
             this.resetAlert(this.modal.object);
             //console.log(this.modal.object);
+            //this.formatNumerics();
             this.modal.fields.forEach(function (item, index) {
 
                 if (item.type == 'select') {
@@ -37160,12 +37142,9 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     }
                 }
 
-                if (item.type == 'amount') {
+                if (item.type == 'text') {
                     var input = $('#modal-' + item.id);
-                    if (typeof _this2.modal.object[item.name] !== 'undefined' && _this2.modal.object[item.name] !== null && _this2.modal.object[item.name] != '') {
-                        $(input).numberbox('setValue', _this2.modal.object[item.name]);
-                        $(input).next().next().addClass('active');
-                    }
+                    $(input).next().addClass('active');
                 }
             });
 
@@ -37179,14 +37158,13 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     }
                 }
 
-                if (item.type == 'amount') {
+                if (item.type == 'text') {
                     var input = $('#modal-' + item.id);
-                    if (typeof _this2.modal.object[item.name] !== 'undefined' && _this2.modal.object[item.name] !== null && _this2.modal.object[item.name] != '') {
-                        $(input).numberbox('setValue', _this2.modal.object[item.name]);
-                        $(input).next().next().addClass('active');
-                    }
+                    $(input).next().addClass('active');
                 }
             });
+
+            //this.formatNumerics();
 
             //$('#componentDataModal').modal('open');
             setTimeout(function () {
@@ -37194,27 +37172,32 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }, 250);
         },
         update: function update() {
-            var _this3 = this;
+            var _this2 = this;
 
             if (this.filter) {
                 var suffix = this.filter + '/detail/';
                 var uri = this.route + '/' + suffix + this.modal.object.id;
+                //this.unformatNumerics();
                 axios.put(uri, this.modal.object).then(function (response) {
                     var res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
-                        _this3.alertHandler('success', res.message, true);
+                        _this2.alertHandler('success', res.message, true);
                     } else {
-                        _this3.alertHandler('error', res.message, true);
+                        _this2.alertHandler('error', res.message, true);
                     }
                     $('#componentDataModal').modal('close');
 
-                    if (_this3.reloadOnSave) {
+                    if (_this2.reloadOnSave) {
                         location.reload();
                     }
                 }).catch(function (error) {
-                    _this3.alertHandler('error', error.response.data.message, true);
-                    console.log(error);
+                    _this2.alertHandler('error', error.response.data.message, true);
+                    if (typeof error.response.data.errors !== 'undefined') {
+                        _this2.errors = error.response.data.errors;
+                    }
+
+                    console.log(error.response.data);
                 });
             }
 
@@ -37232,63 +37215,68 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.modal.fields.forEach(function (item, index) {
 
                 if (item.type == 'select') {
-                    $('#modal-' + item.id).val(0);
+                    $('#modal-' + item.id).val(null);
                     $('#modal-' + item.id).select2().trigger('change');
                 }
 
                 if (item.type == 'amount') {
-                    var input = $('#modal-' + item.id);
-                    $(input).numberbox('setValue', '');
-                    $(input).next().next().removeClass('active');
+                    //var input = $('#modal-' + item.id);
+
+                    // clear the amount input on new
+                    //$(input).next().next().removeClass('active');
                 }
             });
 
             this.modal.advanced_fields.forEach(function (item, index) {
 
                 if (item.type == 'select') {
-                    $('#modal-' + item.id).val(0);
+                    $('#modal-' + item.id).val(null);
                     $('#modal-' + item.id).select2().trigger('change');
                 }
 
                 if (item.type == 'amount') {
-                    var input = $('#modal-' + item.id);
-                    $(input).numberbox('setValue', '');
-                    $(input).next().next().removeClass('active');
+                    //var input = $('#modal-' + item.id);
+                    // clear the amount input on new
+                    //$(input).next().next().removeClass('active');
                 }
             });
 
             $('#componentDataModal').modal('open');
         },
         store: function store() {
-            var _this4 = this;
+            var _this3 = this;
 
             this.showLoader = true;
 
             if (this.filter) {
                 var suffix = this.filter + '/detail';
                 var uri = this.route + '/' + suffix;
-                //console.log(this.modal.object)
+                //this.unformatNumerics();
                 axios.post(uri, this.modal.object).then(function (response) {
                     var res = response.data;
                     if (res.status_code == 201) {
-                        _this4.resetSingleObj(); // reset store input form
-                        _this4.all(); // fetch updated list
+                        _this3.resetSingleObj(); // reset store input form
+                        _this3.all(); // fetch updated list
                         $('#componentDataModal').modal('close'); // Hide modal
                         // Handling alert
-                        _this4.alertHandler('success', res.message, true);
+                        _this3.alertHandler('success', res.message, true);
                     } else {
-                        _this4.alertHandler('error', res.message, true);
+                        _this3.alertHandler('error', res.message, true);
                     }
-                    _this4.showLoader = false;
+                    _this3.showLoader = false;
 
-                    _this4.componentData.push(_this4.modal.object);
+                    _this3.componentData.push(_this3.modal.object);
 
-                    if (_this4.reloadOnSave) {
+                    if (_this3.reloadOnSave) {
                         location.reload();
                     }
                 }).catch(function (error) {
-                    _this4.alertHandler('error', error.response.data.message, true);
-                    console.log(error.response.data.message);
+                    _this3.alertHandler('error', error.response.data.message, true);
+                    if (typeof error.response.data.errors !== 'undefined') {
+                        _this3.errors = error.response.data.errors;
+                    }
+
+                    console.log(error.response.data);
                 });
             }
 
@@ -37297,7 +37285,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             }
         },
         remove: function remove(obj) {
-            var _this5 = this;
+            var _this4 = this;
 
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
@@ -37308,24 +37296,24 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     var res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
-                        _this5.alertHandler('success', res.message, true);
+                        _this4.alertHandler('success', res.message, true);
                     } else {
-                        _this5.alertHandler('error', res.message, true);
+                        _this4.alertHandler('error', res.message, true);
                     }
 
-                    _this5.componentData.splice(index, 1);
+                    _this4.componentData.splice(index, 1);
 
-                    if (_this5.reloadOnSave) {
+                    if (_this4.reloadOnSave) {
                         location.reload();
                     }
                 }).catch(function (error) {
-                    _this5.alertHandler('error', error.response.data.message, true);
+                    _this4.alertHandler('error', error.response.data.message, true);
                     console.log(error.response.data.message);
                 });
             }
         },
         removeMultiple: function removeMultiple() {
-            var _this6 = this;
+            var _this5 = this;
 
             this.resetAlert();
             var suffix = this.filter ? this.filter + '/detail/' : '';
@@ -37335,20 +37323,20 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                     var res = response.data;
                     if (res.status_code == 200) {
                         // Handling alert
-                        _this6.resetMultiSelection();
-                        _this6.all();
-                        _this6.alertHandler('success', res.message, true);
+                        _this5.resetMultiSelection();
+                        _this5.all();
+                        _this5.alertHandler('success', res.message, true);
                     } else {
-                        _this6.alertHandler('error', res.message, true);
+                        _this5.alertHandler('error', res.message, true);
                     }
                 }).catch(function (error) {
-                    _this6.alertHandler('error', error.response.data.message, true);
+                    _this5.alertHandler('error', error.response.data.message, true);
                     console.log(error.response.data.message);
                 });
             }
         },
         switchStatus: function switchStatus(obj) {
-            var _this7 = this;
+            var _this6 = this;
 
             this.resetAlert();
             var newStat = obj.active == 'on' ? 'off' : 'on';
@@ -37358,6 +37346,24 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 if (res.status_code == 200) {
                     // Handling alert
                     obj.active = newStat;
+                    _this6.alertHandler('success', res.message, true);
+                }
+            }).catch(function (error) {
+                _this6.alertHandler('error', error.response.data.message, true);
+                console.log(error);
+            });
+        },
+        switchStatusSelected: function switchStatusSelected() {
+            var _this7 = this;
+
+            this.resetAlert();
+            var uri = this.route + '/statusBulk';
+            axios.put(uri, this.multiSelection).then(function (response) {
+                var res = response.data;
+                if (res.status_code == 200) {
+                    _this7.all();
+                    _this7.resetMultiSelection();
+                    // Handling alert
                     _this7.alertHandler('success', res.message, true);
                 }
             }).catch(function (error) {
@@ -37365,41 +37371,22 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 console.log(error);
             });
         },
-        switchStatusSelected: function switchStatusSelected() {
-            var _this8 = this;
-
-            this.resetAlert();
-            var uri = this.route + '/statusBulk';
-            axios.put(uri, this.multiSelection).then(function (response) {
-                var res = response.data;
-                if (res.status_code == 200) {
-                    _this8.all();
-                    _this8.resetMultiSelection();
-                    // Handling alert
-                    _this8.alertHandler('success', res.message, true);
-                }
-            }).catch(function (error) {
-                _this8.alertHandler('error', error.response.data.message, true);
-                console.log(error);
-            });
-        },
         searchInput: function searchInput() {
-            var _this9 = this;
+            var _this8 = this;
 
             var searchQuery = this.searchQuery;
             var uri = this.route + '?searchQuery=' + searchQuery + '&sort=' + this.sortOrder.field + '&order=' + this.sortOrder.order;
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.status_code == 200) {
-                    _this9.componentData = res.data;
-                    _this9.pagination = res.paginator;
+                    _this8.componentData = res.data;
+                    _this8.pagination = res.paginator;
                 }
             }).catch(function (error) {
-                _this9.alertHandler('error', error.response.data.message, true);
+                _this8.alertHandler('error', error.response.data.message, true);
                 console.log(error);
             });
         },
-        loadDependencies: function loadDependencies() {},
         numberFormat: function numberFormat(num) {
             var decimal_point = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ',';
             var thousands_sep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '.';
@@ -37444,6 +37431,66 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
                 this.show_advanced_options = true;
                 $('.advanced-modal-options').show(500);
             }
+        },
+        loadNumericInputs: function loadNumericInputs() {
+            /*
+            this.numericInputs = new AutoNumeric('.numeric-input', {
+              digitGroupSeparator        : '.',
+              decimalCharacter           : ','
+            });
+            */
+        },
+        unformatNumerics: function unformatNumerics() {
+            var _this9 = this;
+
+            this.modal.fields.forEach(function (item, index) {
+
+                if (item.type == 'amount') {
+                    if (typeof _this9.modal.object[item.name] !== 'undefined') {
+                        _this9.modal.object[item.name] = _this9.numericInputs.unformatOther(_this9.modal.object[item.name]);
+                    }
+                }
+            });
+
+            this.modal.advanced_fields.forEach(function (item, index) {
+
+                if (item.type == 'amount') {
+                    if (typeof _this9.modal.object[item.name] !== 'undefined') {
+                        _this9.modal.object[item.name] = _this9.numericInputs.unformatOther(_this9.modal.object[item.name]);
+                    }
+                }
+            });
+        },
+        formatNumerics: function formatNumerics() {
+            var _this10 = this;
+
+            this.modal.fields.forEach(function (item, index) {
+
+                if (item.type == 'amount') {
+                    if (typeof _this10.modal.object[item.name] !== 'undefined') {
+                        _this10.modal.object[item.name] = _this10.numericInputs.formatOther(_this10.modal.object[item.name], 'commaDecimalCharDotSeparator');
+                    }
+                }
+            });
+
+            this.modal.advanced_fields.forEach(function (item, index) {
+
+                if (item.type == 'amount') {
+                    if (typeof _this10.modal.object[item.name] !== 'undefined') {
+                        _this10.modal.object[item.name] = _this10.numericInputs.formatOther(_this10.modal.object[item.name], 'commaDecimalCharDotSeparator');
+                    }
+                }
+            });
+        },
+        hasError: function hasError(name) {
+            if (this.errors && typeof this.errors[name] !== 'undefined' && typeof this.errors[name][0] !== 'undefined') {
+                return true;
+            }
+
+            return false;
+        },
+        getError: function getError(name) {
+            return this.errors[name][0];
         }
     }
 });
@@ -38785,7 +38832,7 @@ var render = function() {
                       {
                         staticClass: "input-field col s12",
                         style:
-                          field.type == "select" || "amount"
+                          field.type == "select"
                             ? "margin-bottom: 10px;"
                             : "margin-bottom: 0px;"
                       },
@@ -38908,27 +38955,41 @@ var render = function() {
                         _vm._v(" "),
                         field.type == "amount"
                           ? _c("input", {
-                              staticClass: "custom-numberbox",
-                              staticStyle: { width: "509px" },
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.modal.object[field.name],
+                                  expression: "modal.object[field.name]"
+                                }
+                              ],
+                              staticClass: "number-input",
                               attrs: {
+                                type: "text",
                                 id: "modal-" + field.id,
                                 name: field.name,
                                 required: field.required
                               },
-                              domProps: { value: _vm.modal.object[field.name] }
+                              domProps: { value: _vm.modal.object[field.name] },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.modal.object,
+                                    field.name,
+                                    $event.target.value
+                                  )
+                                }
+                              }
                             })
                           : _vm._e(),
                         _vm._v(" "),
                         field.type == "amount"
                           ? _c(
                               "label",
-                              {
-                                staticStyle: {
-                                  "margin-left": "0",
-                                  "margin-top": "-13px"
-                                },
-                                attrs: { for: "modal-" + field.id }
-                              },
+                              { attrs: { for: "modal-" + field.id } },
                               [_vm._v(_vm._s(field.label))]
                             )
                           : _vm._e(),
@@ -38993,6 +39054,24 @@ var render = function() {
                               { attrs: { for: "modal-" + field.id } },
                               [_vm._v(_vm._s(field.label))]
                             )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.hasError(field.name)
+                          ? _c(
+                              "span",
+                              {
+                                staticClass: "help-block",
+                                style:
+                                  field.type == "select"
+                                    ? "margin-left: 0px; color: red; font-size: small; margin-top: 2px;"
+                                    : "margin-left: 0px; color: red; font-size: small; margin-top: -18px;"
+                              },
+                              [
+                                _c("strong", [
+                                  _vm._v(_vm._s(_vm.getError(field.name)))
+                                ])
+                              ]
+                            )
                           : _vm._e()
                       ]
                     )
@@ -39009,7 +39088,8 @@ var render = function() {
                           expression: "show_advanced"
                         }
                       ],
-                      staticClass: "input-field col s12"
+                      staticClass: "input-field col s12",
+                      staticStyle: { "margin-bottom": "20px" }
                     },
                     [
                       _c(
@@ -39048,7 +39128,7 @@ var render = function() {
                         staticClass:
                           "input-field col s12 advanced-modal-options",
                         style:
-                          field.type == "select" || "amount" || "ckeck"
+                          field.type == "select" || "ckeck"
                             ? "margin-bottom: 30px;"
                             : "margin-bottom: 0px;"
                       },
@@ -39171,27 +39251,41 @@ var render = function() {
                         _vm._v(" "),
                         field.type == "amount"
                           ? _c("input", {
-                              staticClass: "custom-numberbox",
-                              staticStyle: { width: "509px" },
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.modal.object[field.name],
+                                  expression: "modal.object[field.name]"
+                                }
+                              ],
+                              staticClass: "number-input",
                               attrs: {
+                                type: "text",
                                 id: "modal-" + field.id,
                                 name: field.name,
                                 required: field.required
                               },
-                              domProps: { value: _vm.modal.object[field.name] }
+                              domProps: { value: _vm.modal.object[field.name] },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.modal.object,
+                                    field.name,
+                                    $event.target.value
+                                  )
+                                }
+                              }
                             })
                           : _vm._e(),
                         _vm._v(" "),
                         field.type == "amount"
                           ? _c(
                               "label",
-                              {
-                                staticStyle: {
-                                  "margin-left": "0",
-                                  "margin-top": "-13px"
-                                },
-                                attrs: { for: "modal-" + field.id }
-                              },
+                              { attrs: { for: "modal-" + field.id } },
                               [_vm._v(_vm._s(field.label))]
                             )
                           : _vm._e(),
@@ -39255,6 +39349,24 @@ var render = function() {
                               "label",
                               { attrs: { for: "modal-" + field.id } },
                               [_vm._v(_vm._s(field.label))]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.hasError(field.name)
+                          ? _c(
+                              "span",
+                              {
+                                staticClass: "help-block",
+                                style:
+                                  field.type == "select"
+                                    ? "margin-left: 0px; color: red; font-size: small; margin-top: 2px;"
+                                    : "margin-left: 0px; color: red; font-size: small; margin-top: -18px;"
+                              },
+                              [
+                                _c("strong", [
+                                  _vm._v(_vm._s(_vm.getError(field.name)))
+                                ])
+                              ]
                             )
                           : _vm._e()
                       ]

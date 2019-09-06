@@ -16,11 +16,6 @@ class InventoryDetailList extends MainList
     {
         $modal = [
               'object' => [
-                'id' => 'Number',
-                'product_id' => 'Number',
-                'warehouse_id' => 'Number',
-                'description' => 'String',
-                'qty' => 'Number'
               ],
               'fields' => [
                 [
@@ -37,7 +32,7 @@ class InventoryDetailList extends MainList
                 ],
                 [
                   'key' => 'qty',
-                  'type' => 'amount',
+                  'type' => 'text',
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',
