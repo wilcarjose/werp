@@ -530,6 +530,7 @@ export default {
             this.modal.object = obj;
             this.pupupMod = 'edit';
             this.modalAction = 'Editar';
+            this.errors = null;
             this.resetAlert(this.modal.object);
             //console.log(this.modal.object);
             //this.formatNumerics();
@@ -613,6 +614,7 @@ export default {
             this.resetAlert();
             this.pupupMod = 'add';
             this.modalAction = 'Agregar';
+            this.errors = null;
             
             this.modal.fields.forEach((item, index) => {
 

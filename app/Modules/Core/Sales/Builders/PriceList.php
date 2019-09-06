@@ -15,7 +15,9 @@ class PriceList extends MainList
     public function __construct($empty = false, $filter = null, $disable = false)
     {
         $modal = [
-              'object' => ['id' => 'Number', 'product_id' => 'Number', 'price' => 'Number'],
+              'object' => [
+                //'id' => 'Number', 'product_id' => 'Number', 'price' => 'Number'
+              ],
               'fields' => [
                 [
                   'key' => 'products',
@@ -31,7 +33,7 @@ class PriceList extends MainList
                 ],
                 [
                   'key' => 'price',
-                  'type' => 'amount',
+                  'type' => 'text',
                   'name' => 'price',
                   'id' => 'price',
                   'label' => 'Precio',

@@ -37129,6 +37129,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.modal.object = obj;
             this.pupupMod = 'edit';
             this.modalAction = 'Editar';
+            this.errors = null;
             this.resetAlert(this.modal.object);
             //console.log(this.modal.object);
             //this.formatNumerics();
@@ -37211,6 +37212,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.resetAlert();
             this.pupupMod = 'add';
             this.modalAction = 'Agregar';
+            this.errors = null;
 
             this.modal.fields.forEach(function (item, index) {
 

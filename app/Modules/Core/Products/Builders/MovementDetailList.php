@@ -16,11 +16,13 @@ class MovementDetailList extends MainList
     {
         $modal = [
               'object' => [
+                /*
                 'id' => 'Number',
                 'product_id' => 'Number',
                 'warehouse_from_id' => 'Number',
                 'warehouse_to_id' => 'Number',
                 'qty' => 'Number',
+                */
               ],
               'fields' => [
                 [
@@ -37,7 +39,7 @@ class MovementDetailList extends MainList
                 ],
                 [
                   'key' => 'qty',
-                  'type' => 'amount',
+                  'type' => 'text',
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',

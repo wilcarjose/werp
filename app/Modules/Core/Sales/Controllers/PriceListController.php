@@ -40,12 +40,12 @@ class PriceListController extends BaseController
     ];
 
     protected $storeDetailRules = [
-        //'price'  => 'numeric',
+        'price'  => 'numeric',
         //'product_id' => 'required',
     ];
 
     protected $updateDetailRules = [
-        //'price'  => 'numeric',
+        'price'  => 'numeric',
         //'product_id' => 'required',
     ];
 

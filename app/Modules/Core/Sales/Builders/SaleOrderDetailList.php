@@ -11,12 +11,14 @@ class SaleOrderDetailList extends MainList
         $modal = [
               
               'object' => [
+                /*
                   'id' => 'Number',
                   'product_id' => 'Number',
                   'warehouse_id' => 'Number',
                   'price' => 'Number',
                   'qty' => 'Number',
                   'total_price' => 'Number',
+                  */
               ],
 
               'fields' => [
@@ -35,7 +37,7 @@ class SaleOrderDetailList extends MainList
                 ],                
                 [
                   'key' => 'qty',
-                  'type' => 'amount',
+                  'type' => 'text',
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',

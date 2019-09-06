@@ -11,12 +11,14 @@ class PurchaseOrderDetailList extends MainList
         $modal = [
               
               'object' => [
+                /*
                   'id' => 'Number',
                   'product_id' => 'Number',
                   'warehouse_id' => 'Number',
                   'price' => 'Number',
                   'qty' => 'Number',
                   'total_price' => 'Number',
+                  */
               ],
 
               'fields' => [
@@ -35,7 +37,7 @@ class PurchaseOrderDetailList extends MainList
                 ],                
                 [
                   'key' => 'qty',
-                  'type' => 'amount',
+                  'type' => 'text',
                   'name' => 'qty',
                   'id' => 'qty',
                   'label' => 'Cantidad',
@@ -43,7 +45,7 @@ class PurchaseOrderDetailList extends MainList
                 ],
                 [
                   'key' => 'price',
-                  'type' => 'amount',
+                  'type' => 'text',
                   'name' => 'price',
                   'id' => 'price',
                   'label' => 'Precio',

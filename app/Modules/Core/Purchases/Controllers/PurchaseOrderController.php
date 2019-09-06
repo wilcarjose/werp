@@ -60,13 +60,13 @@ class PurchaseOrderController extends BaseController
     protected $storeDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'price' => 'required',
+        'price' => 'required|numeric',
     ];
 
     protected $updateDetailRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
-        'price' => 'required',
+        'price' => 'required|numeric',
     ];
 
     protected $detailInputs = [
