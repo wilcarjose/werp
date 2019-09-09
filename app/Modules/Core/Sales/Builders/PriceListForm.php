@@ -37,16 +37,18 @@ class PriceListForm extends SimplePage
     protected function getInputs($new = false, $useExchange = false)
     {
         if (!$new) {
-            $inputs[] = new CodeInput;
+            //$inputs[] = new CodeInput;
         }
 
         $inputs[] = new DateInput('starting_at', trans('view.from'));
         $inputs[] = (new PriceListTypeSelect)->setText('Lista a generar');
         $inputs[] = new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true);
         $inputs[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
-        $inputs[] = (new OperationSelect)->advancedOption();
         $inputs[] = (new DescriptionInput)->advancedOption();
+        $inputs[] = (new OperationSelect)->advancedOption();
         $inputs[] = (new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption();
+        
+        
 
         return $inputs;
     }
@@ -78,11 +80,11 @@ class PriceListForm extends SimplePage
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
-            ->setAction($this->editTitle)
+            ->setAction('Lista # ' . $data['code'])
             ->setInputs($this->getInputs(false, $useExchange))
             ->setData($data)
             ->setAdvancedOptions()
-            ->setMaxWidth()
+            ->setWidth('s10 push-m1')
             ->setEdit();
         ;
 

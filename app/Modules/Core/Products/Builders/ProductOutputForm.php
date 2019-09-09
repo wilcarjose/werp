@@ -38,7 +38,7 @@ class ProductOutputForm extends SimplePage
     protected function getInputs($new = false)
     {
         if (!$new) {
-            $inputs[] = new CodeInput;
+            //$inputs[] = new CodeInput;
         }
 
         $inputs[] = new DateInput;
@@ -79,11 +79,11 @@ class ProductOutputForm extends SimplePage
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
-            ->setAction($this->editTitle)
+            ->setAction('Entrega # ' . $data['code'])
             ->setInputs($this->getInputs())
             ->setData($data)
             ->setAdvancedOptions()
-            ->setMaxWidth()
+            ->setWidth('s10 push-m1')
             ->setEdit();
         ;
 

@@ -59,7 +59,7 @@ class MovementForm extends SimplePage
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $inputs = [
-            new CodeInput,
+            //new CodeInput,
             (new DateInput)->setDisable($disable),   
             (new WarehouseSelect('warehouse_from_id', trans('view.from')))->setDisable($disable),
             (new WarehouseSelect('warehouse_to_id', trans('view.to')))->setDisable($disable),
@@ -73,7 +73,7 @@ class MovementForm extends SimplePage
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
-            ->setAction($this->editTitle)
+            ->setAction('Movimiento # ' . $data['code'])
             ->setInputs($inputs)
             ->setData($data)
             ->setAdvancedOptions()

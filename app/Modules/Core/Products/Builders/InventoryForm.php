@@ -58,7 +58,7 @@ class InventoryForm extends SimplePage
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $inputs = [
-            new CodeInput,
+            //new CodeInput,
             (new DateInput)->setDisable($disable),   
             (new WarehouseSelect)->setDisable($disable),
             (new DescriptionInput)->advancedOption()->setDisable($disable),
@@ -67,7 +67,7 @@ class InventoryForm extends SimplePage
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
-            ->setAction($this->editTitle)
+            ->setAction('Inventario # ' . $data['code'])
             ->setInputs($inputs)
             ->setData($data)
             ->setAdvancedOptions()

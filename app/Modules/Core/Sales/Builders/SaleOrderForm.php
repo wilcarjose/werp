@@ -63,6 +63,7 @@ class SaleOrderForm extends SimplePage
             ->addAction(new ContinueAction)
             ->setAdvancedOptions()
             ->goBackEdit()
+            ->setWidth('s10 push-m1')
         ;
 
         return $this
