@@ -6,17 +6,6 @@ use Werp\Modules\Core\Sales\Models\TaxDiscount;
 
 class TaxSelect extends SelectBuilder
 {
-    protected $name;
-    protected $type;
-    protected $icon;
-    protected $text;
-    protected $value;
-    protected $data;
-    protected $disable;
-    protected $none;
-    protected $advancedOption;
-
-
     /**
      * InputBuilder constructor.
      * @param $name

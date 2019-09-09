@@ -18,6 +18,8 @@ class WarehouseController extends BaseController
 
     protected $inputs = [
         'name',
+        'abbr',
+        'color',
     ];
 
     protected $storeRules = [

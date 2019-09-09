@@ -6,17 +6,6 @@ use Werp\Modules\Core\Sales\Models\SaleChannel;
 
 class SaleChannelSelect extends SelectBuilder
 {
-    protected $name;
-    protected $type;
-    protected $icon;
-    protected $text;
-    protected $value;
-    protected $data;
-    protected $disable;
-    protected $none;
-    protected $advancedOption;
-
-
     /**
      * InputBuilder constructor.
      * @param $name

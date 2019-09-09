@@ -12,6 +12,7 @@ class CheckBuilder
     protected $disable = false;
     protected $checked = false;
     protected $advancedOption = false;
+    protected $width;
 
     /**
      * InputBuilder constructor.
@@ -30,6 +31,7 @@ class CheckBuilder
         $this->value = $value;
         $this->disable = $disable;
         $this->checked = $checked;
+        $this->width = 's12 m4 l4';
     }
 
     /**
@@ -194,5 +196,16 @@ class CheckBuilder
     public function isChecked()
     {
         return $this->checked;
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function width()
+    {
+        return $this->width;
     }
 }

@@ -34,5 +34,6 @@ class TextAreaInput extends InputBuilder
         $this->text = $label;
         $this->value = $value;
         $this->disabled = $disabled;
+        $this->width = 'l12';
     }
 }

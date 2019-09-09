@@ -11,13 +11,6 @@ namespace Werp\Builders\Inputs;
 
 class DescriptionInput extends TextAreaInput
 {
-    protected $name;
-    protected $type;
-    protected $icon;
-    protected $text;
-    protected $value;
-    protected $disabled = false;
-
     /**
      * InputBuilder constructor.
      * @param $name
@@ -34,6 +27,7 @@ class DescriptionInput extends TextAreaInput
         $this->text = trans('view.description');
         $this->value = $value;
         $this->disabled = $disabled;
+        $this->width = 'l12';
     }
 
 }

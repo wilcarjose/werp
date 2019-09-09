@@ -3,7 +3,6 @@
 namespace Werp\Modules\Core\Products\Transformers;
 
 use Werp\Transformers\Transformer;
-use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class TransactionTransformer extends Transformer
 {
@@ -14,33 +13,7 @@ class TransactionTransformer extends Transformer
             'url'  => ''
         ];
 
-        if ($item['type'] == Basedoc::IN_DOC) {
-            $reference = [
-                'text' => $item['reference'],
-                'url' => route('admin.products.inventories.edit', $item['reference']),
-            ];
-        }
-
-        if ($item['type'] == Basedoc::IE_DOC) {
-            $reference = [
-                'text' => $item['reference'],
-                'url' => route('admin.products.product_entry.edit', $item['reference']),
-            ];
-        }
-
-        if ($item['type'] == Basedoc::IO_DOC) {
-            $reference = [
-                'text' => $item['reference'],
-                'url' => route('admin.products.product_output.edit', $item['reference']),
-            ];
-        }
-
-        if ($item['type'] == Basedoc::IM_DOC) {
-            $reference = [
-                'text' => $item['reference'],
-                'url' => route('admin.products.movements.edit', $item['reference']),
-            ];
-        }
+        $reference = get_process_url($item['type'], $item['process_id'], $item['reference']);
 
         return [
             'code'        => $item['product']->code,

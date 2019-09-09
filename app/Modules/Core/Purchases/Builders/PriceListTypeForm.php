@@ -26,8 +26,8 @@ class PriceListTypeForm extends SimplePage
     {
         return [
             new NameInput(),
-            new DescriptionInput(),
             new CurrencySelect(),
+            new DescriptionInput(),
         ];
     }
 }

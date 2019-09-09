@@ -37,7 +37,7 @@ class SaleOrderForm extends SimplePage
     protected function getInputs($new = false)
     {
         if (!$new) {
-            $inputs[] = new CodeInput;
+            //$inputs[] = new CodeInput;
         }
 
         $inputs[] = new DateInput;
@@ -79,11 +79,11 @@ class SaleOrderForm extends SimplePage
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
-            ->setAction($this->editTitle)
+            ->setAction('Orden # '.$data['code'])
             ->setInputs($this->getInputs())
             ->setData($data)
             ->setAdvancedOptions()
-            ->setMaxWidth()
+            ->setWidth('s12')
             ->setEdit();
         ;
 

@@ -11,9 +11,15 @@ namespace Werp\Builders;
 
 class PageBuilder extends ModuleBuilder
 {
-    protected $forms;
-    protected $tabs;
-    protected $short_action;
+    protected $forms = [];
+    protected $tabs = [];
+    protected $rows = [];
+    protected $shortAction;
+    protected $width = 'm12';
+    protected $tabsWidth = 'm12';
+    protected $rowsWidth = 'm12';
+    protected $messagesWidth = 'm12';
+    protected $formsWidth = 'm12';
 
     public function init($title)
     {
@@ -25,7 +31,7 @@ class PageBuilder extends ModuleBuilder
 
     public function setShortAction($action)
     {
-        $this->short_action = $action;
+        $this->shortAction = $action;
         return $this;
     }
 
@@ -47,24 +53,29 @@ class PageBuilder extends ModuleBuilder
         return $this->forms;
     }
 
+    public function hasForms()
+    {
+        return $this->forms && $this->forms->isNotEmpty();
+    }
+
     public function newConfig()
     {
         return $this
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action));
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->shortAction));
     }
 
     public function editConfig()
     {
         return $this
             ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->short_action))
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->shortAction))
             ;
     }
 
     public function view()
     {
-        return view('admin.base.form', [
+        return view('admin.base.page', [
             'page' => $this
         ]);
     }
@@ -76,7 +87,7 @@ class PageBuilder extends ModuleBuilder
         return $this;
     }
 
-    public function setTags($tabs)
+    public function setTabs($tabs)
     {
         $this->tabs = $this->to_collection($tabs);
         return $this;
@@ -90,5 +101,83 @@ class PageBuilder extends ModuleBuilder
     public function hasTabs()
     {
         return $this->tabs && $this->tabs->isNotEmpty();
+    }
+
+    public function addRow(RowBuilder $row)
+    {
+        $this->rows = $this->to_collection($this->rows);
+        $this->rows->push($row);
+        return $this;
+    }
+
+    public function setRows($rows)
+    {
+        $this->rows = $this->to_collection($rows);
+        return $this;
+    }
+
+    public function rows()
+    {
+        return $this->rows;
+    }
+
+    public function hasRows()
+    {
+        return $this->rows && $this->rows->isNotEmpty();
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function width()
+    {
+        return $this->width;
+    }
+
+    public function setTabsWidth($tabsWidth)
+    {
+        $this->tabsWidth = $tabsWidth;
+        return $this;
+    }
+
+    public function tabsWidth()
+    {
+        return $this->tabsWidth;
+    }
+
+    public function setRowsWidth($rowsWidth)
+    {
+        $this->rowsWidth = $rowsWidth;
+        return $this;
+    }
+
+    public function rowsWidth()
+    {
+        return $this->rowsWidth;
+    }
+
+    public function setMessagesWidth($messagesWidth)
+    {
+        $this->messagesWidth = $messagesWidth;
+        return $this;
+    }
+
+    public function messagesWidth()
+    {
+        return $this->messagesWidth;
+    }
+
+    public function setFormsWidth($formsWidth)
+    {
+        $this->formsWidth = $formsWidth;
+        return $this;
+    }
+
+    public function formsWidth()
+    {
+        return $this->formsWidth;
     }
 }

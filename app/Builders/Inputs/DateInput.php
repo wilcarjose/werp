@@ -31,7 +31,7 @@ class DateInput extends InputBuilder
     {
         $this->name = $name ?: 'date';
         $this->type = 'date';
-        $this->icon = $icon ?: 'calendar';
+        $this->icon = $icon;
         $this->text = trans('view.date');
         $this->value = $value ?: date('Y-m-d H:i:s');
         $this->disable = $disable;

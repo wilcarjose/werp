@@ -17,7 +17,9 @@ class Warehouse extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name',
+        'abbr',
+        'color'
     ];
 
     /**
@@ -30,6 +32,8 @@ class Warehouse extends Model
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'abbr' => $this->abbr,
+            'color' => $this->color,
             'active' => $this->active,
             'created_at' => $this->created_at
         ];

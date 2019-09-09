@@ -7,6 +7,7 @@ use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Sales\Models\PriceListType;
+use Werp\Modules\Core\Products\Models\Transaction;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 
 class ProductService extends BaseService
@@ -68,5 +69,22 @@ class ProductService extends BaseService
         	return $data;
 
         })->toArray();
+    }
+
+    public function getProductStock($id)
+    {
+        return Stock::where('product_id', $id)
+            ->get()
+            ->reject(function ($stock) {
+                return $stock->warehouse->active == 'off';
+            });
+    }
+
+    public function getProductTransactions($id)
+    {
+        return Transaction::where('product_id', $id)
+            ->orderBy('date', 'DESC')
+            ->take(10)
+            ->get();
     }
 }

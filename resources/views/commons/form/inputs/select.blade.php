@@ -1,5 +1,5 @@
 
-<div class="select2-input col s12 @if($input->isAdvancedOption()) advanced-option @endif" style="margin-left: 43px; width: 97%;margin-bottom: 14px;">
+<div class="select2-input col {{ $input->width() }} @if($input->isAdvancedOption()) advanced-option @endif" style="margin-bottom: 14px;">
  {{--   <i class="material-icons prefix">{{ $input->getIcon() }}</i> --}}
   <label for="{{ $input->getName() }}">{{ $input->getText() }}</label>
 	<select name="{{ $input->getName() }}" id="{{ $input->getName() }}" class="select2_select" @if($input->isDisable()) disabled="disabled" style="font-weight: 600; background-color: #f5f4f4 !important;" @endif>
@@ -25,7 +25,7 @@
     @endif
 </div>
 
-@if ($input->allowNew())
+@if (false && $input->allowNew())
     <div id="new-{{ $input->getName() }}-modal" class="modal modal-fixed-footer" style="width: 40%">
         <div class="modal-content">
             <div class="row">

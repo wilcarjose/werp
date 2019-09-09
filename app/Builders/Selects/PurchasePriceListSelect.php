@@ -12,17 +12,6 @@ use Werp\Modules\Core\Sales\Models\PriceListType;
 
 class PurchasePriceListSelect extends SelectBuilder
 {
-    protected $name;
-    protected $type;
-    protected $icon;
-    protected $text;
-    protected $value;
-    protected $data;
-    protected $disable;
-    protected $none;
-    protected $advancedOption;
-
-
     /**
      * InputBuilder constructor.
      * @param $name

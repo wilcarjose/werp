@@ -50,6 +50,8 @@ class ListBuilder extends ModuleBuilder
 
     protected $actions = [];
 
+    protected $width = 's12';
+
     public function view()
     {
         $name = $this->name ?: 'list';
@@ -460,6 +462,17 @@ class ListBuilder extends ModuleBuilder
     {
         $this->moreOptions = $moreOptions;
         return $this;
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function width()
+    {
+        return $this->width;
     }
 
     public function makeConfig()

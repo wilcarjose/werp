@@ -37,10 +37,8 @@
     </div>
 
     <div class="main-container">
-        {{--  Flash Message  --}}
-        <div class="col s12">
-            @include('flash')
-        </div>
+
+        @include('admin.base.partials.messages')
 
         <users headline='User' v-bind:config="{{$page->getConfig()}}"></users>
         

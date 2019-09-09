@@ -31,6 +31,8 @@ class FormBuilder // extends ModuleBuilder
     protected $printAction = null;
     protected $route = null;
     protected $mainRoute = null;
+    protected $width = 'm8 push-m2 s12';
+    protected $ignoreWidth = false;
 
     public function setId($id)
     {
@@ -377,5 +379,27 @@ class FormBuilder // extends ModuleBuilder
     {
         $this->goBack = 'home';
         return $this;
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function width()
+    {
+        return $this->width;
+    }
+
+    public function setIgnoreWidth(bool $ignoreWidth)
+    {
+        $this->ignoreWidth = $ignoreWidth;
+        return $this;
+    }
+
+    public function ignoreWidth()
+    {
+        return $this->ignoreWidth;
     }
 }

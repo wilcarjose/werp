@@ -1,6 +1,6 @@
 
-<div class="input-field col s12 @if($input->isAdvancedOption()) advanced-option @endif">
-    <i class="material-icons prefix">{{ $input->getIcon() }}</i>
+<div class="input-field col {{ $input->width() }} @if($input->isAdvancedOption()) advanced-option @endif">
+    @if ($input->hasIcon()) <i class="material-icons prefix">{{ $input->getIcon() }}</i> @endif
     <input type="text" id="{{ $input->getAddressName1() }}" name="{{ $input->getAddressName1() }}" value="{{ old($input->getAddressName1())  ?: $input->getAddressValue1() }}" @if($input->isDisabled()) disabled="disabled" style="font-weight: 600; background-color: rgb(251, 251, 251) !important;"  @endif>
     <input type="text" id="{{ $input->getAddressName2() }}" name="{{ $input->getAddressName2() }}" value="{{ old($input->getAddressName2())  ?: $input->getAddressValue2() }}" @if($input->isDisabled()) disabled="disabled" style="font-weight: 600; background-color: rgb(251, 251, 251) !important;"  @endif>
     <label for="{{ $input->getAddressName2() }}">{{ $input->getText() }}</label>

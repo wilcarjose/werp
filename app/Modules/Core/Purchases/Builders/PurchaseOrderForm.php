@@ -35,7 +35,7 @@ class PurchaseOrderForm extends SimplePage
     protected function getInputs($new = false)
     {
         if (!$new) {
-            $inputs[] = new CodeInput;
+            //$inputs[] = new CodeInput;
         }
 
         $inputs[] = new DateInput;
@@ -76,11 +76,10 @@ class PurchaseOrderForm extends SimplePage
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
-            ->setAction($this->editTitle)
+            ->setAction('Orden # '. $data['code'])
             ->setInputs($this->getInputs())
             ->setData($data)
             ->setAdvancedOptions()
-            ->setMaxWidth()
             ->setEdit();
         ;
 
@@ -90,7 +89,7 @@ class PurchaseOrderForm extends SimplePage
 
         $form
             ->setList(new PurchaseOrderDetailList(false, $data['id'], $disable))
-            ->setMaxWidth()
+            ->setWidth('s10 push-m1')
             ->setState(trans(config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$data['state'].'.color'));
             ;

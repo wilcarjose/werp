@@ -25,6 +25,7 @@ class SelectBuilder
     protected $isArrayItem = false;
     protected $allowNew = false;
     protected $modal = null;
+    protected $width = 'm6 s12';
 
     /**
      * InputBuilder constructor.
@@ -315,5 +316,16 @@ class SelectBuilder
     {
         $this->modal = $modal;
         return $this;
+    }
+
+     public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function width()
+    {
+        return $this->width;
     }
 }

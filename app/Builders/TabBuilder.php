@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: wilcar
- * Date: 17/02/19
- * Time: 02:05 PM
- */
 
 namespace Werp\Builders;
 

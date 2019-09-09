@@ -64,6 +64,8 @@ return [
     'import' => 'Import',
     'next' => 'Next',
     'prev' => 'Previous',
+    'general' => 'General',
+    'color' => 'Color',
     'menu' => [
         'company' => 'Company',
     	'security' => 'Security',

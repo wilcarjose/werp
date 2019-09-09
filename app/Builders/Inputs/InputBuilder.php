@@ -19,6 +19,7 @@ class InputBuilder
     protected $disable = false;
     protected $advancedOption = false;
     protected $placeholder = '';
+    protected $width = 'm6 s12';
 
     /**
      * InputBuilder constructor.
@@ -194,4 +195,19 @@ class InputBuilder
         return $this;
     }
 
+    public function hasIcon()
+    {
+        return !is_null($this->icon);
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function width()
+    {
+        return $this->width;
+    }
 }

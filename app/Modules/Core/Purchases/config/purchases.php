@@ -99,7 +99,7 @@ return [
                     'after_name' => 'view.processed',
                     'new_actions' => [Basedoc::CA_STATE],
                     'actions_from' => [Basedoc::PE_STATE],
-                    'color' => 'limegreen',
+                    'color' => '#4caf50',
                 ],
                 Basedoc::CA_STATE => [
                     'key' => 'cancel',

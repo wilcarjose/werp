@@ -1,5 +1,5 @@
-<div class="input-field col s12 @if($input->isAdvancedOption()) advanced-option @endif">
-    <i class="material-icons prefix">{{ $input->getIcon() }}</i>
+<div class="input-field col {{ $input->width() }} @if($input->isAdvancedOption()) advanced-option @endif">
+    @if ($input->hasIcon()) <i class="material-icons prefix">{{ $input->getIcon() }}</i> @endif
     <input type="text" id="{{ $input->getName() }}" name="{{ $input->getName() }}" value="{{ old($input->getName())  ?: $input->getValue() }}" @if($input->isDisabled()) disabled="disabled" style="font-weight: 600; background-color: rgb(251, 251, 251) !important;"  @endif>
     <label for="{{ $input->getName() }}">{{ $input->getText() }}</label>
     @if (isset($errors) && $errors->has($input->getName()))

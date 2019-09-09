@@ -67,7 +67,7 @@ class ProductEntryForm extends SimplePage
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
 
         $inputs = [
-            new CodeInput,            
+            //new CodeInput,            
         ];
 
         if ($data['reference']) {
@@ -85,10 +85,11 @@ class ProductEntryForm extends SimplePage
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
-            ->setAction($this->editTitle)
+            ->setAction('Entrada # '. $data['code'])
             ->setInputs($inputs)
             ->setData($data)
             ->setAdvancedOptions()
+            ->setWidth('s10 push-m1')
             ->setEdit();
         ;
 

@@ -1,4 +1,4 @@
-<div class="file-field input-field col s12 @if($input->isAdvancedOption()) advanced-option @endif">
+<div class="file-field input-field col {{ $input->width() }} @if($input->isAdvancedOption()) advanced-option @endif">
 	<div class="btn">
 		<span>{{ $input->getText() }}</span>
 		<input type="file" id="{{ $input->getName() }}" name="{{ $input->getName() }}" value="{{ old($input->getName())  ?: $input->getValue() }}" @if($input->isDisabled()) disabled="disabled" style="font-weight: 600; background-color: rgb(251, 251, 251) !important;"  @endif>

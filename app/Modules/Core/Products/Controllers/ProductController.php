@@ -65,6 +65,45 @@ class ProductController extends BaseController
         $this->entityList        = $entityList;
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        try {
+
+            $entity = $this->entityService->getById($id);
+
+            if (!$entity) {
+                flash(trans($this->getNotFoundKey()), 'info');
+                return back();
+            }
+
+            $data = [
+                'product' => $entity->toArray(),
+                'stock'   => $this->entityService->getProductStock($entity->id),
+                'transactions'   => $this->entityService->getProductTransactions($entity->id)
+            ];
+
+            return $this->entityForm->editPage($data);
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
+    }
+
     public function getProductsStock(Request $request)
     {
         $data = $this->entityService->getProductsStock();
