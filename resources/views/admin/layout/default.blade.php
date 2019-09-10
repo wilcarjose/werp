@@ -36,6 +36,13 @@
         <link href="{{ asset('css/admin/app.css') }}" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{{ asset('plugins/datatable/jquery.dataTables.min.css') }}">
         @yield('css')
+
+        <style>
+            .vertical-navigations .side-nav li a.active span, .vertical-navigations .side-nav li a.current span {
+                color: #FFF;
+                font-weight: 500 !important;
+            }
+        </style>
     </head>
     <body>
         @yield('appPre')

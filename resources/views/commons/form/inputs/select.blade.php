@@ -25,8 +25,8 @@
     @endif
 </div>
 
-@if (false && $input->allowNew())
-    <div id="new-{{ $input->getName() }}-modal" class="modal modal-fixed-footer" style="width: 40%">
+@if ($input->allowNew())
+    <div id="new-{{ $input->getName() }}-modal" class="modal modal-fixed-footer" style="width: 50%">
         <div class="modal-content">
             <div class="row">
               <div class="col s12">
@@ -123,6 +123,7 @@
           $('#{{ $input->getName() }}').on('select2:select', function (e) {
 
             if (e.params.data.id == 'new') {
+                $('#{{ $input->getName() }}').val('').trigger('change');
                 $('#new-{{ $input->getName() }}-modal').modal('open');
             }
 

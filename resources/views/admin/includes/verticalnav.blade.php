@@ -40,13 +40,17 @@
         <li>
             <a class="collapsible-header no-col-body waves-effect waves-set" href="{{ url('/admin') }}">
                 <i class="material-icons">dashboard</i>
-                <span>@lang('view.dashboard')</span>
+                <span style="font-weight: 300;
+                            font-size: 13px;
+                            text-transform: uppercase;">@lang('view.dashboard')</span>
             </a>
         </li>
 
         @if (false)
         <li class="navigation-header">
-            <span class="no-col-body">@lang('view.modules')</span>
+            <span class="no-col-body" style="font-weight: 300;
+                                            font-size: 13px;
+                                            text-transform: uppercase;">@lang('view.modules')</span>
             <i class="material-icons tooltipped" data-position="right" data-delay="50" data-tooltip="ADMINISTRATING">more_horiz</i>
         </li>
         @endif
@@ -55,7 +59,9 @@
             {{--  @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route'])) --}}
                 <li>
                     <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name, $module['routes']) ? 'active current' : '' }}" href="#">
-                        <i class="material-icons">{{ $module['icon'] }}</i><span>@lang($module['name'])</span>
+                        <i class="material-icons">{{ $module['icon'] }}</i><span style="font-weight: 300;
+                                            font-size: 13px;
+                                            text-transform: uppercase;">@lang($module['name'])</span>
                         <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
                     </a>
                     <div class="collapsible-body">
@@ -63,7 +69,14 @@
                         @foreach ($module['items'] as $item)
                             @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route']) || auth()->user()->can($item['route']))
                                 <li class="menu-item">
-                                    <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><span>@lang($item['name'])</span></a>
+                                    <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}">
+                                        <span style="font-weight: 300;
+                                            font-size: 13px;
+                                            text-transform: uppercase;"
+                                        >
+                                            @lang($item['name'])
+                                        </span>
+                                    </a>
                                 </li>
                             @endif
                         @endforeach
@@ -72,15 +85,25 @@
                                 <ul class="collapsible">
                                     <li>
                                         <div class="collapsible-header {{ in_array($current_route_name, $submodule['routes']) ? 'active current' : '' }}">
-                                             <span>@lang($submodule['name'])</span>
+                                             <span style="font-weight: 300;
+                                            font-size: 13px;
+                                            text-transform: uppercase;">
+                                                @lang($submodule['name'])
+                                            </span>
                                              <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
                                         </div>
                                         <div class="collapsible-body">
                                             <ul>
                                                 @foreach ($submodule['items'] as $item)
                                                     @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route']) || auth()->user()->can($item['route']))
-                                                        <li class="menu-item">
-                                                            <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="material-icons">arrow_right</i><span>@lang($item['name'])</span></a>
+                                                        <li class="menu-item" style="background-color: #212121;">
+                                                            <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="material-icons">arrow_right</i>
+                                                                <span style="font-weight: 300;
+                                                                font-size: 13px;
+                                                                text-transform: uppercase;">
+                                                                    @lang($item['name'])
+                                                                </span>
+                                                            </a>
                                                         </li>
                                                     @endif
                                                 @endforeach
@@ -98,30 +121,40 @@
 
         <li>
             <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.administrator.index','admin.roles.index','admin.permissions.index','admin.myrolepermission'])?'active current':'' }}" href="#">
-                <i class="material-icons">security</i><span>@lang('view.menu.security')</span>
+                <i class="material-icons">security</i><span style="font-weight: 300;
+                                                                font-size: 13px;
+                                                                text-transform: uppercase;">@lang('view.menu.security')</span>
                 <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
             </a>
             <div class="collapsible-body">
               <ul>
                 @if (auth()->user()->can('developerOnly') || auth()->user()->can('security') || auth()->user()->can('admin.list'))
                     <li class="menu-item">
-                        <a class="waves-effect waves-set {{ $current_route_name=='admin.administrator.index' ? 'active' : '' }}" href="{{ url('/admin/administrator') }}"><span>@lang('view.menu.users')</span></a>
+                        <a class="waves-effect waves-set {{ $current_route_name=='admin.administrator.index' ? 'active' : '' }}" href="{{ url('/admin/administrator') }}"><span style="font-weight: 300;
+                                                                font-size: 13px;
+                                                                text-transform: uppercase;">@lang('view.menu.users')</span></a>
                     </li>
                 @endif
                 @if (auth()->user()->can('developerOnly') || auth()->user()->can('security') || auth()->user()->can('roles.list'))
                     <li class="menu-item">
-                        <a class="waves-effect waves-set {{ $current_route_name=='admin.roles.index' ? 'active' : '' }}" href="{{ url('/admin/roles') }}"><span>@lang('view.menu.roles')</span></a>
+                        <a class="waves-effect waves-set {{ $current_route_name=='admin.roles.index' ? 'active' : '' }}" href="{{ url('/admin/roles') }}"><span style="font-weight: 300;
+                                                                font-size: 13px;
+                                                                text-transform: uppercase;">@lang('view.menu.roles')</span></a>
                     </li>
                 @endif
                 @can('developerOnly')
                     <li class="menu-item">
-                        <a class="waves-effect waves-set {{ $current_route_name=='admin.permissions.index' ? 'active' : '' }}" href="{{ url('/admin/permissions') }}"><span>@lang('view.menu.permissions')</span></a>
+                        <a class="waves-effect waves-set {{ $current_route_name=='admin.permissions.index' ? 'active' : '' }}" href="{{ url('/admin/permissions') }}"><span style="font-weight: 300;
+                                                                font-size: 13px;
+                                                                text-transform: uppercase;">@lang('view.menu.permissions')</span></a>
                     </li>
                 @endcan
                 @if (auth()->user()->can('developerOnly') || auth()->user()->can('security') || auth()->user()->can('permissions.assign'))
                     <li class="menu-item">
                         <a class="waves-effect waves-set {{ $current_route_name == 'admin.myrolepermission' ? 'active' : '' }}" href="{{ url('/admin/rolePermissions') }}">
-                            <span>@lang('view.menu.assign_permissions')</span>
+                            <span style="font-weight: 300;
+                                                                font-size: 13px;
+                                                                text-transform: uppercase;">@lang('view.menu.assign_permissions')</span>
                         </a>
                     </li>
                 @endif
