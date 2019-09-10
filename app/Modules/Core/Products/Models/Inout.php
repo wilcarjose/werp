@@ -60,7 +60,6 @@ class Inout extends Model
         'type',
         'currency_id',
         'order_code',
-        'currency',
         'partner_id',
         'alternate_code'
     ];
