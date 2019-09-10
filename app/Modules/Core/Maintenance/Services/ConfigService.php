@@ -220,12 +220,12 @@ class ConfigService
 
     public function getDefaultInventaryDoctype()
     {
-        return $this->getValue(Config::PRI_DEFAULT_PL_DOC);
+        return $this->getValue(Config::INV_DEFAULT_IN_DOC);
     }
 
     public function getDefaultPriceListDoctype()
     {
-        return $this->getValue('pri_default_price_list_doctype');
+        return $this->getValue(Config::PRI_DEFAULT_PL_DOC);
     }
 
     public function getDefaultWarehouse()

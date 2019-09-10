@@ -37,11 +37,9 @@ class PriceListTypeService extends BaseService
         return $data;
     }
 
-    public function getOrCreatePriceList($currencyId, $type)
+    public function getOrCreatePriceList($currencyId, $type = 'sales')
     {
-        $priceList = PriceListType::where('currency_id', $currencyId)->where('type', $type)->active()->first();
-
-        if ($priceList) {
+        if ($priceList = $this->getPriceListByCurrency($currencyId, $type = 'sales')) {
             return $priceList;
         }
         
@@ -53,5 +51,10 @@ class PriceListTypeService extends BaseService
             'currency_id' => $currencyId,
             'type' => $type
         ]);
+    }
+
+    public function getPriceListByCurrency($currencyId, $type = 'sales')
+    {
+        return PriceListType::where('currency_id', $currencyId)->where('type', $type)->active()->first();        
     }
 }

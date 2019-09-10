@@ -8,8 +8,10 @@ use Werp\Modules\Core\Sales\Models\PriceList;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Maintenance\Models\ExchangeRate;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
+use Werp\Modules\Core\Sales\Services\PriceListTypeService;
 use Werp\Modules\Core\Maintenance\Services\ExchangeRateService;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;
 
@@ -18,21 +20,23 @@ class PriceListService extends BaseService
 	protected $entity;
 
     public function __construct(
+        Product $product,
     	PriceList $entity,
         Price $entityDetail,
-        Product $product,
         ConfigService $configService,
     	DoctypeService $doctypeService,
-        ExchangeRateService $exchangeService,
-        AmountOperationService $operationService
+        //ExchangeRateService $exchangeService,
+        AmountOperationService $operationService,
+        PriceListTypeService $priceListTypeService
     ) {
         $this->entity           = $entity;
         $this->product          = $product;
         $this->entityDetail     = $entityDetail;
         $this->doctypeService   = $doctypeService;
         $this->configService    = $configService;
-        $this->exchangeService  = $exchangeService;
+        //$this->exchangeService  = $exchangeService;
         $this->operationService = $operationService;
+        $this->priceListTypeService = $priceListTypeService;
     }
 
     public function create(array $data)
@@ -128,7 +132,8 @@ class PriceListService extends BaseService
         if ($useExchange && $entity->referencePriceListType) {
 
             $exchangeName = $entity->referencePriceListType->currency->abbr .'/'.$entity->priceListType->currency->abbr;
-            $exchange = $this->exchangeService->getByName($exchangeName);
+            //$exchange = $this->exchangeService->getByName($exchangeName);
+            $exchange = ExchangeRate::where('name', $exchangeName)->orderBy('starting_at', 'desc')->first();
 
             if ($exchange) {
                 $entity->exchange_rate_id = $exchange->id;
@@ -231,7 +236,8 @@ class PriceListService extends BaseService
                 return $this->operationService->setOperation($operation)->calculate($price->price);
             }
 
-            return $this->exchangeService->exchangePrice($entity->exchangeRate, $price->price);
+            return $entity->exchangeRate->value * $price->price;
+            //return $this->exchangeService->exchangePrice($entity->exchangeRate, $price->price);
         }
 
         if ($entity->operation) {
@@ -386,5 +392,38 @@ class PriceListService extends BaseService
         ];
 
         return $entity->detail()->create($priceData);
+    }
+
+    public function generateFromExchange($exchange)
+    {
+        try {
+
+            $this->begin();
+
+            $data = [
+                'starting_at' => date('Y-m-d H:i:s'),
+                'description' => 'Created from exchange rate: '. $exchange->name,
+                'price_list_type_id' => $this->priceListTypeService->getPriceListByCurrency($exchange->currency_to_id)->id,
+                'doctype_id' => $this->configService->getDefaultPriceListDoctype(),
+                'reference_price_list_type_id' => $this->priceListTypeService->getPriceListByCurrency($exchange->currency_from_id)->id,
+                'use_exchange_rate' => 'on'
+            ];
+
+            $entity = $this->createPriceList($data);
+
+            $this->generatePrices($entity);
+
+            $this->process($entity->id);
+
+            $this->commit();
+
+            return $entity;
+
+        } catch (\Exception $e) {
+
+            $this->rollback();
+
+            throw new \Exception($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine());
+        }
     }
 }

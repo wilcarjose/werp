@@ -6,20 +6,26 @@ use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Currency;
 use Werp\Modules\Core\Maintenance\Models\ExchangeRate;
+use Werp\Modules\Core\Sales\Services\PriceListService;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;
-
 
 class ExchangeRateService extends BaseService
 {
 	protected $entity;
 	protected $currency;
     protected $operationService;
+    protected $priceListService;
 
-    public function __construct(ExchangeRate $entity, Currency $currency, AmountOperationService $operationService)
-    {
+    public function __construct(
+        Currency $currency,
+        ExchangeRate $entity,
+        PriceListService $priceListService,
+        AmountOperationService $operationService
+    ) {
         $this->entity = $entity;
         $this->currency = $currency;
         $this->operationService = $operationService;
+        $this->priceListService = $priceListService;
     }
 
     public function getResults($sort, $order, $search, $paginate)
@@ -68,6 +74,10 @@ class ExchangeRateService extends BaseService
             $this->updateOperation($exchange);
 
             $this->commit();
+
+            if (isset($data['generate_price_list']) && $data['generate_price_list'] == 'on') {
+                $this->priceListService->generateFromExchange($exchange);
+            }
 
             return $exchange;
 

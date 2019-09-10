@@ -15,6 +15,7 @@ class ExchangeRateController extends BaseController
         'currency_from_id',
         'currency_to_id',
         'value',
+        'generate_price_list'
     ];
 
     protected $storeRules = [
