@@ -28,9 +28,7 @@
     <div class="main-container">
         <div class="row" style="margin-top:10px !important;">
             {{--  Flash Message  --}}
-            <div class="col s12">
-                @include('flash')
-            </div>
+            @include('admin.base.partials.messages')
             {{--  PROFILE UPDATE  --}}
             <form class="col m6 s12 profile-info-form" role="form" method="POST" action="{{ url('/admin/profile/'.auth()->user()->id) }}" enctype="multipart/form-data">
                 {{method_field('PUT')}}

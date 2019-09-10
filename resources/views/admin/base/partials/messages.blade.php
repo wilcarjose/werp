@@ -3,7 +3,7 @@
 
 	<div class="row" style="padding: 0 0.75rem !important;">
 
-		<div class="col {{ $page->messagesWidth() }}">
+		<div class="col {{ $page ? $page->messagesWidth() : 's12' }}">
 	
 			<div class="animated alert-flash {{ session('flash_class') }} valign-wrapper pos-relative">
 		        @if(session('flash_message_level')!='')

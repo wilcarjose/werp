@@ -165,19 +165,25 @@
             </div>
         </li>
 
-        @if (auth()->user()->can('developerOnly'))
+        @if (false && auth()->user()->can('developerOnly'))
             <li>
                 <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name,['admin.user.index', 'admin.user.create', 'admin.user.store', 'admin.user.update', 'admin.user.edit'])?'active current':'' }}" href="#">
-                    <i class="material-icons">group</i><span>@lang('view.menu.users')</span>
+                    <i class="material-icons">group</i><span style="font-weight: 300;
+                                            font-size: 13px;
+                                            text-transform: uppercase;">@lang('view.menu.users')</span>
                     <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
                 </a>
                 <div class="collapsible-body">
                   <ul>
                     <li class="menu-item">
-                        <a class="waves-effect waves-set {{ $current_route_name=='admin.user.index'?'active':'' }}" href="{{ url('/admin/user') }}"><span>@lang('view.menu.list')</span></a>
+                        <a class="waves-effect waves-set {{ $current_route_name=='admin.user.index'?'active':'' }}" href="{{ url('/admin/user') }}"><span style="font-weight: 300;
+                                            font-size: 13px;
+                                            text-transform: uppercase;">@lang('view.menu.list')</span></a>
                     </li>
                     <li class="menu-item">
-                        <a class="waves-effect waves-set {{ $current_route_name=='admin.user.create'?'active':'' }}" href="{{ url('/admin/user/create') }}"><span>@lang('view.menu.add')</span></a>
+                        <a class="waves-effect waves-set {{ $current_route_name=='admin.user.create'?'active':'' }}" href="{{ url('/admin/user/create') }}"><span style="font-weight: 300;
+                                            font-size: 13px;
+                                            text-transform: uppercase;">@lang('view.menu.add')</span></a>
                     </li>
                   </ul>
                 </div>
