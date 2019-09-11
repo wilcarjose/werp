@@ -32,9 +32,11 @@ abstract class SimplePage extends PageBuilder
         ;
 
         return $this
+            ->setMessagesWidth('s8 push-m2')
             ->setShortAction('Nueva')
             ->newConfig()
-            ->addForm($form)->view()
+            ->addForm($form)
+            ->view()
         ;
     }
 
@@ -51,9 +53,11 @@ abstract class SimplePage extends PageBuilder
         ;
 
         return $this
+            ->setMessagesWidth('s8 push-m2')
             ->setShortAction('Editar')
             ->editConfig()
-            ->addForm($form)->view()
+            ->addForm($form)
+            ->view()
         ;
     }
 }
