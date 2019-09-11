@@ -14,12 +14,14 @@ class PageBuilder extends ModuleBuilder
     protected $forms = [];
     protected $tabs = [];
     protected $rows = [];
+    protected $lists = [];
     protected $shortAction;
     protected $width = 'm12';
     protected $tabsWidth = 'm12';
     protected $rowsWidth = 'm12';
     protected $messagesWidth = 'm12';
     protected $formsWidth = 'm12';
+    protected $listsWidth = 'm12';
 
     public function init($title)
     {
@@ -56,6 +58,29 @@ class PageBuilder extends ModuleBuilder
     public function hasForms()
     {
         return $this->forms && $this->forms->isNotEmpty();
+    }
+
+    public function addList(ListBuilder $list)
+    {
+        $this->lists = $this->to_collection($this->lists);
+        $this->lists->push($list);
+        return $this;
+    }
+
+    public function setLists($lists)
+    {
+        $this->lists = $this->to_collection($lists);
+        return $this;
+    }
+
+    public function getLists()
+    {
+        return $this->lists;
+    }
+
+    public function hasLists()
+    {
+        return $this->lists && $this->lists->isNotEmpty();
     }
 
     public function newConfig()
@@ -179,5 +204,16 @@ class PageBuilder extends ModuleBuilder
     public function formsWidth()
     {
         return $this->formsWidth;
+    }
+
+    public function setListsWidth($listsWidth)
+    {
+        $this->listsWidth = $listsWidth;
+        return $this;
+    }
+
+    public function listsWidth()
+    {
+        return $this->listsWidth;
     }
 }

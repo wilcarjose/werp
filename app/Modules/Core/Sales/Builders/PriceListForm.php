@@ -61,10 +61,12 @@ class PriceListForm extends SimplePage
             ->setInputs($this->getInputs(true))
             ->addAction(new ContinueAction)
             ->setAdvancedOptions()
+            ->setWidth('s12')
             ->goBackEdit()
         ;
 
         return $this
+            ->setWidth('s10 push-m1')
             ->setShortAction($this->newTitle)
             ->newConfig()
             ->addForm($form)->view()
@@ -84,7 +86,7 @@ class PriceListForm extends SimplePage
             ->setInputs($this->getInputs(false, $useExchange))
             ->setData($data)
             ->setAdvancedOptions()
-            ->setWidth('s10 push-m1')
+            ->setWidth('s12')
             ->setEdit();
         ;
 
@@ -93,7 +95,7 @@ class PriceListForm extends SimplePage
         }
 
         $form
-            ->setList(new PriceList(false, $data['id'], $disable))
+            
             ->setState(trans(config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$data['state'].'.color'))
             //->setMaxWidth()
@@ -107,6 +109,7 @@ class PriceListForm extends SimplePage
         }
 
         return $this
+            ->addList(new PriceList(false, $data['id'], $disable))
             ->setShortAction($this->editTitle)
             ->editConfig()
             ->addForm($form)->view()

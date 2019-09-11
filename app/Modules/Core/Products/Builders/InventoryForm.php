@@ -78,8 +78,7 @@ class InventoryForm extends SimplePage
             $form->addAction(new UpdateAction);
         }
 
-        $form
-            ->setList(new InventoryDetailList(false, $data['id'], $disable))
+        $form            
             //->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.color'));
@@ -93,9 +92,13 @@ class InventoryForm extends SimplePage
         }        
 
         return $this
+            ->addList(new InventoryDetailList(false, $data['id'], $disable))
+            ->setListsWidth('s8 push-m2')
+            ->setMessagesWidth('s8 push-m2')
             ->setShortAction('Editar')
             ->editConfig()
-            ->addForm($form)->view()
+            ->addForm($form)
+            ->view()
         ;
     }
 }

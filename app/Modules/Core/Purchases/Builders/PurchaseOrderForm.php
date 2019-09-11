@@ -60,6 +60,7 @@ class PurchaseOrderForm extends SimplePage
             ->addAction(new ContinueAction)
             ->setAdvancedOptions()
             ->goBackEdit()
+            ->setWidth('s10 push-m1')
         ;
 
         return $this
@@ -88,7 +89,6 @@ class PurchaseOrderForm extends SimplePage
         }
 
         $form
-            ->setList(new PurchaseOrderDetailList(false, $data['id'], $disable))
             ->setWidth('s10 push-m1')
             ->setState(trans(config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('purchases.document.actions.'.Basedoc::PO_DOC.'.'.$data['state'].'.color'));
@@ -102,8 +102,12 @@ class PurchaseOrderForm extends SimplePage
         }
 
         return $this
+            ->addList(new PurchaseOrderDetailList(false, $data['id'], $disable))
+            ->setListsWidth('s10 push-m1')
+            ->setMessagesWidth('s10 push-m1')
             ->setShortAction($this->editTitle)
             ->editConfig()
+            //->setWidth('s10 push-m1')
             ->addForm($form)->view()
         ;
     }

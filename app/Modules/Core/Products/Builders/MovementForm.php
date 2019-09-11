@@ -84,9 +84,7 @@ class MovementForm extends SimplePage
             $form->addAction(new UpdateAction);
         }
 
-        $form
-            ->setList(new MovementDetailList(false, $data['id'], $disable))
-            //->setMaxWidth()
+        $form            
             ->setState(trans(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.color'));
             ;
@@ -99,6 +97,9 @@ class MovementForm extends SimplePage
         }        
 
         return $this
+            ->addList(new MovementDetailList(false, $data['id'], $disable))
+            ->setListsWidth('s8 push-m2')
+            ->setMessagesWidth('s8 push-m2')
             ->setShortAction($this->editTitle)
             ->editConfig()
             ->addForm($form)->view()

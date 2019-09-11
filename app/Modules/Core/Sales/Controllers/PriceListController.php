@@ -64,6 +64,8 @@ class PriceListController extends BaseController
     protected $relatedField = 'price_list_id';
 
     protected $routeBase = 'admin.sales.price_lists';
+    
+    protected $showSuccess = false;
 
     public function __construct(
         PriceList $entity,

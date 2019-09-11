@@ -24,6 +24,7 @@ class PurchaseOrderController extends BaseController
     protected $configService;
     protected $doctypeService;
     protected $entityService;
+    protected $showSuccess = false;
 
     protected $inputs = [
         'description',

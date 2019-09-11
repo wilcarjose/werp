@@ -82,13 +82,13 @@ return [
                             'route' => 'admin.sales.price_lists.index',
                         ],
                         [
-                            'name' => 'view.menu.product_output',
-                            'route' => 'admin.products.product_output.index',
-                        ],
-                        [
                             'name' => 'view.menu.sales_orders',
                             'route' => 'admin.sales.orders.index',
                         ],
+                        [
+                            'name' => 'view.menu.product_output',
+                            'route' => 'admin.products.product_output.index',
+                        ],                        
                     ],
                 ],
         /*      [

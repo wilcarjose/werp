@@ -72,7 +72,7 @@ class InventoryDetailList extends MainList
             ->setShowMessages(false)
             ->setFields([
               ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'], 
-              ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'text']
+              ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'qty']
             ])
             ->setFilter($filter)
             ->setEmptyList($empty)

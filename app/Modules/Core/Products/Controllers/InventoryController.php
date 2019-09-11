@@ -32,6 +32,7 @@ class InventoryController extends BaseController
     protected $configService;
     protected $doctypeService;
     protected $entityService;
+    protected $showSuccess = false;
 
     protected $inputs = [
         'date',

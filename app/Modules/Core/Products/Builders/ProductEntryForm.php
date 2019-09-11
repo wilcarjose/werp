@@ -112,6 +112,8 @@ class ProductEntryForm extends SimplePage
         }        
 
         return $this
+            ->addList(new ProductEntryDetailList(false, $data['id'], $disable))
+            ->setListsWidth('s10 push-m1')
             ->setShortAction('Editar')
             ->editConfig()
             ->addForm($form)->view()

@@ -32,6 +32,7 @@ class BaseController extends Controller
     protected $relatedField;
     protected $defaultDependencies = [];
     protected $entityService;
+    protected $showSuccess = true;
 
     protected function getStoreRules()
     {
@@ -227,7 +228,7 @@ class BaseController extends Controller
             }
 
             $entity ?
-                flash(trans($this->getAddedKey()), 'success', 'success') :
+                ($this->showSuccess ? flash(trans($this->getAddedKey()), 'success', 'success') : null) :
                 flash(trans($this->getFailCreateKey()), 'error', 'error');
 
             return $this->goBackTo($request, $entity->id);

@@ -85,7 +85,7 @@
                     </th>
                     <!-- <th v-for="(col,index) in columns" @click="sortBy(col.name)"> -->
                     <th v-for="(col,index) in columns">
-                      <span v-if="col.type == 'amount'" style="float: right; margin-right: 50px;">
+                      <span v-if="col.type == 'amount' || col.type == 'qty'" style="float: right;">
                         {{ col.name | capitalize }}
                       </span>
                       <span v-if="col.type == 'text' || col.type == 'date' || col.type == 'link'">
@@ -122,9 +122,21 @@
                         <label :for="runningData.id" v-else></label>
                       </p>
                     </th>
-                    <td v-for="(cols,index) in columns"> 
+                    <td v-for="(cols,index) in columns">
+
+                        <span v-if="cols.type == 'qty'" style="float: right;">
+                            <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
+                                {{ runningData[cols.field] }}
+                            </a>
+                            <a href="javascript:void(0);" @click="show(runningData)" v-if="cols.link && use_modal" style="font-weight: 600;">
+                                {{ runningData[cols.field] }}
+                            </a>
+                            <span v-if="!cols.link">
+                                {{ runningData[cols.field] }}
+                            </span>
+                        </span>
                         
-                        <span v-if="cols.type == 'amount'" style="float: right; margin-right: 50px;">
+                        <span v-if="cols.type == 'amount'" style="float: right;">
                             <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
                                 {{ numberFormat(runningData[cols.field]) }}
                             </a>
@@ -197,8 +209,8 @@
                     <th v-if="show_multi_actions && delete_multiple">
                     </th>
                     <td v-for="(cols,index) in columns"> 
-                        <span v-if="cols.total" style="float: right; margin-right: 50px;">
-                          <strong style="font-size: 18px;"> {{ numberFormat(totals[cols.field]) }} </strong>
+                        <span v-if="cols.total" style="float: right;">
+                          <strong style="font-size: 15px;"> {{ numberFormat(totals[cols.field]) }} </strong>
                         </span>
                     </td>
                     <td v-if="show_state">
@@ -328,8 +340,8 @@
               </div>
               
           </form>
-      </div>
-      <div class="modal-footer">
+        </div>
+        <div class="modal-footer">
           <a href="javascript:void(0);" class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
           <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Editar</a>
           <a href="javascript:void(0);" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Agregar</a>

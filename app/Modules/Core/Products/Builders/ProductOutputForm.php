@@ -92,7 +92,6 @@ class ProductOutputForm extends SimplePage
         }
 
         $form
-            ->setList(new ProductOutputDetailList(false, $data['id'], $disable))
             ->setState(trans(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IO_DOC.'.'.$data['state'].'.color'))
             ->setPrintAction((new PrintAction)->setRoute(route($this->getRoute().'.print', $data['id'])))
@@ -106,6 +105,8 @@ class ProductOutputForm extends SimplePage
         }
 
         return $this
+            ->addList(new ProductOutputDetailList(false, $data['id'], $disable))
+            ->setListsWidth('s10 push-m1')
             ->setShortAction($this->editTitle)
             ->editConfig()
             ->addForm($form)->view()

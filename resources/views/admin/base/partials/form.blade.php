@@ -94,10 +94,6 @@
               @endforeach
             @endif
 
-            @if ($form->hasList())
-                @include('commons.form.inputs.list', ['input' => $form->getList()])
-            @endif
-
         </div>
         
         <div class="row">

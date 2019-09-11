@@ -26,6 +26,7 @@ class MovementController extends BaseController
     protected $doctypeService;
     protected $entityTransformer;
     protected $entityDetailTransformer;
+    protected $showSuccess = false;
 
     protected $inputs = [
         'description',

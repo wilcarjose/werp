@@ -93,7 +93,6 @@ class SaleOrderForm extends SimplePage
         }
 
         $form
-            ->setList(new SaleOrderDetailList(false, $data['id'], $disable))
             ->setMaxWidth()
             ->setState(trans(config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('sales.document.actions.'.Basedoc::SO_DOC.'.'.$data['state'].'.color'));
@@ -107,6 +106,7 @@ class SaleOrderForm extends SimplePage
         }
 
         return $this
+            ->addList(new SaleOrderDetailList(false, $data['id'], $disable))
             ->setShortAction($this->editTitle)
             ->editConfig()
             ->addForm($form)->view()

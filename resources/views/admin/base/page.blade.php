@@ -111,6 +111,8 @@
 
                 @include('admin.base.partials.forms')
 
+                @include('admin.base.partials.lists')
+
                 @include('admin.base.partials.rows')
 
             </div>

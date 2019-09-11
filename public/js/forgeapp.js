@@ -36936,6 +36936,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 $(document).ready(function () {});
@@ -37909,15 +37921,10 @@ var render = function() {
                         _vm._v(" "),
                         _vm._l(_vm.columns, function(col, index) {
                           return _c("th", [
-                            col.type == "amount"
+                            col.type == "amount" || col.type == "qty"
                               ? _c(
                                   "span",
-                                  {
-                                    staticStyle: {
-                                      float: "right",
-                                      "margin-right": "50px"
-                                    }
-                                  },
+                                  { staticStyle: { float: "right" } },
                                   [
                                     _vm._v(
                                       "\n                    " +
@@ -38103,15 +38110,90 @@ var render = function() {
                                 _vm._v(" "),
                                 _vm._l(_vm.columns, function(cols, index) {
                                   return _c("td", [
+                                    cols.type == "qty"
+                                      ? _c(
+                                          "span",
+                                          { staticStyle: { float: "right" } },
+                                          [
+                                            cols.link && !_vm.use_modal
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticStyle: {
+                                                      "font-weight": "600"
+                                                    },
+                                                    attrs: {
+                                                      href:
+                                                        _vm.route +
+                                                        "/" +
+                                                        runningData.id +
+                                                        "/edit"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                            " +
+                                                        _vm._s(
+                                                          runningData[
+                                                            cols.field
+                                                          ]
+                                                        ) +
+                                                        "\n                        "
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            cols.link && _vm.use_modal
+                                              ? _c(
+                                                  "a",
+                                                  {
+                                                    staticStyle: {
+                                                      "font-weight": "600"
+                                                    },
+                                                    attrs: {
+                                                      href:
+                                                        "javascript:void(0);"
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        _vm.show(runningData)
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                            " +
+                                                        _vm._s(
+                                                          runningData[
+                                                            cols.field
+                                                          ]
+                                                        ) +
+                                                        "\n                        "
+                                                    )
+                                                  ]
+                                                )
+                                              : _vm._e(),
+                                            _vm._v(" "),
+                                            !cols.link
+                                              ? _c("span", [
+                                                  _vm._v(
+                                                    "\n                            " +
+                                                      _vm._s(
+                                                        runningData[cols.field]
+                                                      ) +
+                                                      "\n                        "
+                                                  )
+                                                ])
+                                              : _vm._e()
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
                                     cols.type == "amount"
                                       ? _c(
                                           "span",
-                                          {
-                                            staticStyle: {
-                                              float: "right",
-                                              "margin-right": "50px"
-                                            }
-                                          },
+                                          { staticStyle: { float: "right" } },
                                           [
                                             cols.link && !_vm.use_modal
                                               ? _c(
@@ -38575,18 +38657,13 @@ var render = function() {
                                   cols.total
                                     ? _c(
                                         "span",
-                                        {
-                                          staticStyle: {
-                                            float: "right",
-                                            "margin-right": "50px"
-                                          }
-                                        },
+                                        { staticStyle: { float: "right" } },
                                         [
                                           _c(
                                             "strong",
                                             {
                                               staticStyle: {
-                                                "font-size": "18px"
+                                                "font-size": "15px"
                                               }
                                             },
                                             [
