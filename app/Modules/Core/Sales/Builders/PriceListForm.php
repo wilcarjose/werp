@@ -10,6 +10,7 @@ namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\InputGroupBuilder;
 use Werp\Builders\Checks\CheckBuilder;
 use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\SelectBuilder;
@@ -40,13 +41,12 @@ class PriceListForm extends SimplePage
             //$inputs[] = new CodeInput;
         }
 
-        $inputs[] = new DateInput('starting_at', trans('view.from'));
+        $inputs[] = new DateInput('starting_at', 'Válida a partir de');
         $inputs[] = (new PriceListTypeSelect)->setText('Lista a generar');
-        $inputs[] = new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true);
-        $inputs[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
-        $inputs[] = (new DescriptionInput)->advancedOption();
-        $inputs[] = (new OperationSelect)->advancedOption();
-        $inputs[] = (new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption();
+        //$inputs[] = new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true);
+        //$inputs[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
+        //$inputs[] = (new DescriptionInput)->advancedOption();
+        //$inputs[] = (new OperationSelect)->advancedOption();
         
         
 
@@ -55,10 +55,19 @@ class PriceListForm extends SimplePage
 
     public function createPage()
     {
+        $group = new InputGroupBuilder;
+        $group
+            ->setTitle('Lista de precios a generar')
+            ->setIcon('looks_one')
+            ->setInputs($this->getInputs())
+            ->setActive(true)
+        ;
+
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
             ->setAction($this->newTitle)
-            ->setInputs($this->getInputs(true))
+            ->addGroup($group)
+            ->addSelect((new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption()->setWidth('s5 push-s1'))
             ->addAction(new ContinueAction)
             ->setAdvancedOptions()
             ->setWidth('s12')
@@ -66,24 +75,54 @@ class PriceListForm extends SimplePage
         ;
 
         return $this
-            ->setWidth('s10 push-m1')
+            //->setWidth('s10 push-m1')
             ->setShortAction($this->newTitle)
             ->newConfig()
             ->addForm($form)->view()
         ;
     }
 
-    public function editPage($data)
+    public function editListPage($data, $hasDetail)
     {
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
+        $active = $noProcessed && !$hasDetail;
 
         $useExchange = isset($data['exchange_rate_id']) && !is_null($data['exchange_rate_id']);
+        $hideList = !$useExchange;
+
+        $inputs1[] = (new DateInput('starting_at', 'Válida a partir de'));
+        $inputs1[] = (new PriceListTypeSelect)->setText('Lista a generar');
+        $inputs2[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
+        $inputs2[] = (new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true))
+            ->setHide($hideList)
+            ->setShowInput('use_exchange_rate')
+        ;
+        $inputs3[] = (new DescriptionInput)->advancedOption()->setWidth('s11 push-s1');
+        //$inputs3[] = (new OperationSelect)->advancedOption()->setWidth('s5 push-s1');
+        $inputs3[] = (new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption()->setWidth('s5 push-s1');
+
+        $group1 = new InputGroupBuilder;
+        $group1
+            ->setTitle('Lista de precios a generar')
+            ->setIcon('looks_one')
+            ->setInputs($inputs1)
+        ;
+
+        $group2 = new InputGroupBuilder;
+        $group2
+            ->setTitle('Generar a partir de:')
+            ->setIcon('looks_two')
+            ->setInputs($inputs2)
+            ->setActive($active)
+        ;
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
             ->setAction('Lista # ' . $data['code'])
-            ->setInputs($this->getInputs(false, $useExchange))
+            ->addGroup($group1)
+            ->addGroup($group2)
+            ->setInputs($inputs3)
             ->setData($data)
             ->setAdvancedOptions()
             ->setWidth('s12')
@@ -91,11 +130,10 @@ class PriceListForm extends SimplePage
         ;
 
         if ($noProcessed) {
-            $form->addAction(new UpdateAction);
+            $form->addAction(new ActionBuilder('generate', ActionBuilder::TYPE_BUTTON, trans('view.generate')));
         }
 
         $form
-            
             ->setState(trans(config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$data['state'].'.color'))
             //->setMaxWidth()
@@ -108,11 +146,15 @@ class PriceListForm extends SimplePage
             $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.sales.price_lists.'.$action['key'], $data['id'])));
         }
 
+        if ($hasDetail) {
+            $this->addList(new PriceList(false, $data['id'], $disable));
+        }
+
         return $this
-            ->addList(new PriceList(false, $data['id'], $disable))
             ->setShortAction($this->editTitle)
             ->editConfig()
-            ->addForm($form)->view()
+            ->addForm($form)
+            ->view()
         ;
     }
 }

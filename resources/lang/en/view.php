@@ -10,6 +10,8 @@ return [
     'type' => 'Type',
     'description' => 'Description',
     'update' => 'Update',
+    'generate' => 'Generate',
+    'finish' => 'Finish',
     'save' => 'Save',
     'process' => 'Process',
     'processed' => 'Procesado',

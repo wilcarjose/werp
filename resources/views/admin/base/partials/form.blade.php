@@ -72,12 +72,30 @@
 
         <div class="row">
 
+            @if ($form->hasGroups())
+                @foreach($form->groups() as $group)
+                    <div class="col s1 {{ $group->active() ? 'z-depth-3' : ''}}" style="{{ $group->active() ? 'margin-top: 20px;' : 'margin-top: 15px;' }}">
+                        <i class="material-icons left" style="line-height: 48px; font-size: 48px; color: #287e8b;">{{ $group->icon() }}</i>
+                    </div>
+                    <div class="col s11 {{ $group->active() ? 'z-depth-3' : ''}}" style="{{ $group->active() ? 'margin-top: 20px;margin-bottom: 30px;padding-bottom: 25px;' : 'margin-top: 15px;' }}">
+                        <div class="row box-title">
+                            <div class="col s12">
+                              <h5 class="content-headline" style="font-size: 20px; color: #287e8b;">{{ $group->title() }}</h5>
+                            </div>
+                        </div>
+                        @foreach($group->inputs() as $input)
+                            @include('commons.form.inputs.'.$input->getType(), compact('input'))
+                        @endforeach
+                    </div>
+                @endforeach
+            @endif
+
             @foreach($form->getInputs() as $input)
                 @include('commons.form.inputs.'.$input->getType(), compact('input'))
             @endforeach
 
             @if ($form->advancedOption())
-              <div class="col s12">
+              <div class="col {{$form->hasGroups() ? 's11 push-s1' : 's12'}}">
                 <a type="link" href="#" onclick="showAdvancedOption(); return false;">
                     {{ trans('view.advanced_options') }}
                 </a>

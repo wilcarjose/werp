@@ -10,6 +10,8 @@ return [
     'type' => 'Tipo',
     'description' => 'Descripción',
     'update' => 'Actualizar',
+    'generate' => 'Generar',
+    'finish' => 'Finalizar',
     'save' => 'Guardar',
     'process' => 'Procesar',
     'processed' => 'Procesado',

@@ -85,6 +85,65 @@ class PriceListController extends BaseController
         $this->entityDetailTransformer      = $entityDetailTransformer;
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        try {
+
+            return $this->entityForm->createPage($this->getDependencies(), $this->getDefaultsDependencies());
+        
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        try {
+
+            $entity = $this->entityService->getById($id);
+
+            if (!$entity) {
+                flash(trans($this->getNotFoundKey()), 'info');
+                return back();
+            }
+
+            $hasProducts = $entity->detail->isNotEmpty();
+            return $this->entityForm->editListPage($entity->toArray(), $hasProducts);
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
+    }
+
     public function process($id)
     {
         try {

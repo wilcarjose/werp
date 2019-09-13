@@ -47,7 +47,7 @@ class PriceListService extends BaseService
 
             $entity = $this->createPriceList($data);
 
-            $this->generatePrices($entity);
+            //$this->generatePrices($entity);
 
             $this->commit();
 
@@ -141,7 +141,7 @@ class PriceListService extends BaseService
                 $entity->save();
 
                 return $entity;
-            }            
+            }
         }
 
         $entity->exchange_rate_id = null;

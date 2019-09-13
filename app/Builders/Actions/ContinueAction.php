@@ -27,8 +27,9 @@ class ContinueAction extends ActionBuilder
         $this->type = ActionBuilder::TYPE_BUTTON;
         $this->event = 'submit';
         $this->text = trans('view.continue');
-        $this->icon = 'add';
+        $this->icon = 'arrow_downward';
         $this->route = null;
+        $this->iconPosition = 'right';
     }
 
 }

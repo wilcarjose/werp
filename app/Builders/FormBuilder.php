@@ -16,7 +16,7 @@ class FormBuilder // extends ModuleBuilder
     protected $edit = false;
     protected $action;
     protected $data = [];
-    protected $inputs;
+    protected $inputs = [];
     protected $actions = [];
     protected $maxWidth = false;
     protected $midWidth = true;
@@ -33,6 +33,7 @@ class FormBuilder // extends ModuleBuilder
     protected $mainRoute = null;
     protected $width = 'm8 push-m2 s12';
     protected $ignoreWidth = false;
+    protected $groups = [];
 
     public function setId($id)
     {
@@ -333,7 +334,20 @@ class FormBuilder // extends ModuleBuilder
 
     public function setData($data)
     {
-        foreach ($this->getInputs() as $input) {
+        $this->setInputsValues($this->getInputs(), $data);
+
+        if ($this->hasGroups()) {
+            foreach ($this->groups() as $group) {
+                $this->setInputsValues($group->inputs(), $data);
+            }
+        }
+
+        return $this->setObjectId($data['id']);
+    }
+
+    protected function setInputsValues($inputs, $data)
+    {
+        foreach ($inputs as $input) {
             if (isset($data[$input->getName()])) {
                 $input->setValue($data[$input->getName()]);
             }
@@ -342,8 +356,6 @@ class FormBuilder // extends ModuleBuilder
                 $input->disabled();
             }
         }
-
-        return $this->setObjectId($data['id']);
     }
 
     public function getGoBack()
@@ -401,5 +413,28 @@ class FormBuilder // extends ModuleBuilder
     public function ignoreWidth()
     {
         return $this->ignoreWidth;
+    }
+
+    public function addGroup(InputGroupBuilder $group)
+    {
+        $this->groups = $this->to_collection($this->groups);
+        $this->groups->push($group);
+        return $this;
+    }
+
+    public function setGroups($groups)
+    {
+        $this->groups = $this->to_collection($groups);
+        return $this;
+    }
+
+    public function groups()
+    {
+        return $this->groups;
+    }
+
+    public function hasGroups()
+    {
+        return $this->groups && $this->groups->isNotEmpty();
     }
 }

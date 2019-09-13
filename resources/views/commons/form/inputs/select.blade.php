@@ -1,5 +1,5 @@
 
-<div class="select2-input col {{ $input->width() }} @if($input->isAdvancedOption()) advanced-option @endif" style="margin-bottom: 14px;">
+<div class="select2-input col {{ $input->width() }} @if($input->isAdvancedOption()) advanced-option @endif" id="{{ $input->getName() }}-box" style="margin-bottom: 14px; {{ $input->hide() ? 'display: none;' : '' }}">
  {{--   <i class="material-icons prefix">{{ $input->getIcon() }}</i> --}}
   <label for="{{ $input->getName() }}">{{ $input->getText() }}</label>
 	<select name="{{ $input->getName() }}" id="{{ $input->getName() }}" class="select2_select" @if($input->isDisable()) disabled="disabled" style="font-weight: 600; background-color: #f5f4f4 !important;" @endif>
@@ -165,3 +165,30 @@
     </script>
 
 @endpush
+
+
+@if (!is_null($input->hide()))
+
+  @push('show-hide')
+
+    <script>
+      
+      $(document).ready(function() {
+
+        $('#{{ $input->showInput() }}').click(function() {
+              if($(this).prop("checked") == false){
+                $('#{{ $input->getName() }}-box').hide(200);
+                $('#{{ $input->getName() }}-box').hide(200);
+              }
+              else if($(this).prop("checked") == true){
+                $('#{{ $input->getName() }}-box').show(200);
+                $('#{{ $input->getName() }}-box').show(200);
+              }
+        });
+      })
+
+    </script>
+
+  @endpush
+
+@endif

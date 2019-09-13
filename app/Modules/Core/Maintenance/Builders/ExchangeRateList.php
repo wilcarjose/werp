@@ -12,6 +12,7 @@ class ExchangeRateList extends SimpleBaseList
 
     protected $fields = [
         ['field' => 'name', 'name' => 'Nombre' , 'type' => 'text'],
+        ['field' => 'value', 'name' => 'Valor' , 'type' => 'amount'],
     ];
 
 }

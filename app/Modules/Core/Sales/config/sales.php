@@ -119,7 +119,7 @@ return [
                 ],
                 Basedoc::PR_STATE => [
                     'key' => 'process',
-                    'name' => 'view.process',
+                    'name' => 'view.finish',
                     'after_name' => 'view.processed',
                     'new_actions' => [Basedoc::RE_STATE],
                     'actions_from' => [Basedoc::PE_STATE],

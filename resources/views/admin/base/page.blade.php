@@ -65,6 +65,18 @@
         margin: 0 !important;
       }
 
+      .timeline .timeline-event::before {
+          left: 19px !important;
+      }
+
+      .timeline .timeline-event::after {
+          left: 19px !important;
+      }
+
+      .timeline .timeline-badge {
+          left: 0 !important;
+      }
+
     </style>
 @endsection
 
@@ -194,18 +206,30 @@
           ]
         });
 
+        var showAdvanced = false;
+        function showAdvancedOption() {
+          if (showAdvanced) {
+            showAdvanced = false;
+            $('.advanced-option').hide(500);
+          } else {
+            showAdvanced = true;
+            $('.advanced-option').show(500);
+          }
+        }
+
+
 
     });
 
     $(window).on("load", function(){
 
-    if ($(".number-input").length > 0) {
-      new AutoNumeric('.number-input', {
-        digitGroupSeparator        : '.',
-        decimalCharacter           : ',',
-        unformatOnSubmit           : true
-      });
-    }    
+      if ($(".number-input").length > 0) {
+        new AutoNumeric('.number-input', {
+          digitGroupSeparator        : '.',
+          decimalCharacter           : ',',
+          unformatOnSubmit           : true
+        });
+      }    
 
       $('.tooltipped').tooltip({delay: 50});
 
@@ -214,6 +238,10 @@
   </script>
 
   @stack('selects')
+
+  @stack('show-hide')
+
+        
 
   @yield('js-datebox')
 

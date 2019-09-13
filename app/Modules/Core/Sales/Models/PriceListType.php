@@ -34,6 +34,7 @@ class PriceListType extends Model
         //return $this->prices->groupBy('product_id');
         return Price::where('price_list_type_id', $this->id)
             ->orderBy('starting_at', 'desc')
+            ->active()
             ->get()
             ->unique('product_id');
     }

@@ -31,7 +31,7 @@ class CheckBuilder
         $this->value = $value;
         $this->disable = $disable;
         $this->checked = $checked;
-        $this->width = 's12 m4 l4';
+        $this->width = 's12 m6';
     }
 
     /**
