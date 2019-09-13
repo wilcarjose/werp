@@ -58,7 +58,7 @@
         @foreach (config('menu') as $module) 
             {{--  @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route'])) --}}
                 <li>
-                    <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_name, $module['routes']) ? 'active current' : '' }}" href="#">
+                    <a class="collapsible-header waves-effect waves-set {{ in_array($current_route_group, $module['routes']) ? 'active current' : '' }}" href="#">
                         <i class="material-icons">{{ $module['icon'] }}</i><span style="font-weight: 300;
                                             font-size: 13px;
                                             text-transform: uppercase;">@lang($module['name'])</span>
@@ -69,7 +69,7 @@
                         @foreach ($module['items'] as $item)
                             @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route']) || auth()->user()->can($item['route']))
                                 <li class="menu-item">
-                                    <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}">
+                                    <a class="waves-effect waves-set {{ $current_route_group == get_route_group($item['route']) ? 'active' : '' }}" href="{{ route($item['route']) }}">
                                         <span style="font-weight: 300;
                                             font-size: 13px;
                                             text-transform: uppercase;"
@@ -84,7 +84,7 @@
                             <li class="menu-item">
                                 <ul class="collapsible">
                                     <li>
-                                        <div class="collapsible-header {{ in_array($current_route_name, $submodule['routes']) ? 'active current' : '' }}">
+                                        <div class="collapsible-header {{ in_array($current_route_group, $submodule['routes']) ? 'active current' : '' }}">
                                              <span style="font-weight: 300;
                                             font-size: 13px;
                                             text-transform: uppercase;">
@@ -97,7 +97,7 @@
                                                 @foreach ($submodule['items'] as $item)
                                                     @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route']) || auth()->user()->can($item['route']))
                                                         <li class="menu-item" style="background-color: #212121;">
-                                                            <a class="waves-effect waves-set {{ $current_route_name == $item['route'] ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="material-icons">arrow_right</i>
+                                                            <a class="waves-effect waves-set {{ $current_route_group == get_route_group($item['route']) ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="material-icons">arrow_right</i>
                                                                 <span style="font-weight: 300;
                                                                 font-size: 13px;
                                                                 text-transform: uppercase;">

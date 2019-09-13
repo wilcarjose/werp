@@ -10,11 +10,11 @@ return [
             'icon' => 'local_grocery_store',
             'route' => 'admin.purchases',
             'routes' => [
-                'admin.purchases.suppliers.index',
-                'admin.products.product_entry.index',
-                'admin.purchases.categories.index',
-                'admin.purchases.orders.index',
-                'admin.purchases.price_list_types.index',
+                'admin.purchases.suppliers',
+                'admin.products.product_entry',
+                'admin.purchases.categories',
+                'admin.purchases.orders',
+                'admin.purchases.price_list_types',
             ],
          'items' => [
         /*      [
@@ -30,9 +30,9 @@ return [
                     'icon' => '',
                     'route' => 'admin.purchases.general',
                     'routes' => [
-                        'admin.purchases.suppliers.index',
-                        'admin.purchases.categories.index',
-                        'admin.purchases.price_list_types.index',
+                        'admin.purchases.suppliers',
+                        'admin.purchases.categories',
+                        'admin.purchases.price_list_types',
                     ],
                     'items' => [
                         [
@@ -54,8 +54,8 @@ return [
                     'icon' => '',
                     'route' => 'admin.purchases.processes',
                     'routes' => [
-                        'admin.purchases.orders.index',
-                        'admin.products.product_entry.index',
+                        'admin.purchases.orders',
+                        'admin.products.product_entry',
                     ],
                     'items' => [
                         [

@@ -9,13 +9,13 @@ return [
             'icon' => 'settings',
             'route' => 'admin.maintenance',
             'routes' => [
-                'admin.maintenance.company.edit',
-                'admin.maintenance.config.edit',
-                'admin.maintenance.amount_operations.index',
-                'admin.maintenance.currencies.index',
-                'admin.maintenance.exchange_rates.index',
-                'admin.maintenance.db_backups.index',
-                'admin.maintenance.db_test.edit',
+                'admin.maintenance.company',
+                'admin.maintenance.config',
+                'admin.maintenance.amount_operations',
+                'admin.maintenance.currencies',
+                'admin.maintenance.exchange_rates',
+                'admin.maintenance.db_backups',
+                'admin.maintenance.db_test',
             ],
             'items' => [
             ],
@@ -25,11 +25,11 @@ return [
                     'icon' => '',
                     'route' => 'admin.maintenance.general',
                     'routes' => [
-                        'admin.maintenance.company.edit',
-                        'admin.maintenance.config.edit',
-                        'admin.maintenance.amount_operations.index',
-                        'admin.maintenance.currencies.index',
-                        'admin.maintenance.exchange_rates.index',
+                        'admin.maintenance.company',
+                        'admin.maintenance.config',
+                        'admin.maintenance.amount_operations',
+                        'admin.maintenance.currencies',
+                        'admin.maintenance.exchange_rates',
                     ],
                     'items' => [
                         [
@@ -59,8 +59,8 @@ return [
                     'icon' => '',
                     'route' => 'admin.maintenance.processes',
                     'routes' => [
-                        'admin.maintenance.db_test.edit',
-                        'admin.maintenance.db_backups.index',
+                        'admin.maintenance.db_test',
+                        'admin.maintenance.db_backups',
                     ],
                     'items' => [                        
                         [

@@ -9,15 +9,15 @@ return [
             'icon' => 'domain',
             'route' => 'admin.products',
             'routes' => [
-                'admin.products.categories.index',
-                'admin.products.products.index',
-                'admin.products.warehouses.index',
-                'admin.products.inventories.index',
-                'admin.products.brands.index',
-                'admin.products.stock.index',
-                'admin.products.transactions.index',
-                'admin.products.uom.index',
-                'admin.products.movements.index',
+                'admin.products.categories',
+                'admin.products.products',
+                'admin.products.warehouses',
+                'admin.products.inventories',
+                'admin.products.brands',
+                'admin.products.stock',
+                'admin.products.transactions',
+                'admin.products.uom',
+                'admin.products.movements',
             ],
             'items' => [
                 
@@ -28,11 +28,11 @@ return [
                     'icon' => '',
                     'route' => 'admin.products.general',
                     'routes' => [
-                        'admin.products.categories.index',
-                        'admin.products.products.index',
-                        'admin.products.warehouses.index',
-                        'admin.products.brands.index',
-                        'admin.products.uom.index',
+                        'admin.products.categories',
+                        'admin.products.products',
+                        'admin.products.warehouses',
+                        'admin.products.brands',
+                        'admin.products.uom',
                     ],
                     'items' => [
                         [
@@ -62,8 +62,8 @@ return [
                     'icon' => '',
                     'route' => 'admin.products.processes',
                     'routes' => [
-                        'admin.products.inventories.index',
-                        'admin.products.movements.index',
+                        'admin.products.inventories',
+                        'admin.products.movements',
                     ],
                     'items' => [
                         [
@@ -81,8 +81,8 @@ return [
                     'icon' => '',
                     'route' => 'admin.products.reports',
                     'routes' => [
-                        'admin.products.stock.index',
-                        'admin.products.transactions.index',
+                        'admin.products.stock',
+                        'admin.products.transactions',
                     ],
                     'items' => [
                         [
@@ -100,7 +100,7 @@ return [
                     'icon' => '',
                     'route' => 'admin.products.imports_exports',
                     'routes' => [
-                        'admin.products.products.showimport',
+                        'admin.products.products',
                     ],
                     'items' => [
                         [

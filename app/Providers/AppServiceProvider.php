@@ -20,8 +20,9 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view) {
             $current_route_name = \Request::route()->getName();
-
-            $view->with('current_route_name', $current_route_name);
+            $group = get_route_group($current_route_name);
+            $view->with('current_route_group', $group)
+                ->with('current_route_name', $current_route_name);
         });
     }
 

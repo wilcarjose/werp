@@ -108,3 +108,9 @@ function get_transaction_initials($type)
 {
     return config('werp.transaction_initials')[$type];
 }
+
+function get_route_group($name)
+{
+    $routeArray = explode('.', $name, -1);
+    return implode('.', $routeArray);
+}
