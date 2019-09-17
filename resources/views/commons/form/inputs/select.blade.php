@@ -175,16 +175,31 @@
       
       $(document).ready(function() {
 
-        $('#{{ $input->showInput() }}').click(function() {
-              if($(this).prop("checked") == false){
-                $('#{{ $input->getName() }}-box').hide(200);
-                $('#{{ $input->getName() }}-box').hide(200);
-              }
-              else if($(this).prop("checked") == true){
-                $('#{{ $input->getName() }}-box').show(200);
-                $('#{{ $input->getName() }}-box').show(200);
-              }
-        });
+          @foreach ($input->showInputs() as $showInput)
+              $('#{{ $showInput }}').click(function() {
+                  if($(this).prop("checked") == false){
+                    $('#{{ $input->getName() }}-box').hide(200);
+                    $('#{{ $input->getName() }}-box').hide(200);
+                  }
+                  else if($(this).prop("checked") == true){
+                    $('#{{ $input->getName() }}-box').show(200);
+                    $('#{{ $input->getName() }}-box').show(200);
+                  }
+              });
+          @endforeach
+
+          @foreach ($input->hideInputs() as $hideInput)
+              $('#{{ $hideInput }}').click(function() {
+                  if($(this).prop("checked") == false){
+                    $('#{{ $input->getName() }}-box').show(200);
+                    $('#{{ $input->getName() }}-box').show(200);
+                  }
+                  else if($(this).prop("checked") == true){
+                    $('#{{ $input->getName() }}-box').hide(200);
+                    $('#{{ $input->getName() }}-box').hide(200);
+                  }
+              });
+          @endforeach
       })
 
     </script>

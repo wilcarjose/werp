@@ -349,11 +349,15 @@ class FormBuilder // extends ModuleBuilder
     {
         foreach ($inputs as $input) {
             if (isset($data[$input->getName()])) {
-                $input->setValue($data[$input->getName()]);
+                if (method_exists($input,'setValue')) {
+                    $input->setValue($data[$input->getName()]);
+                }
             }
 
             if (isset($data['state']) && $data['state'] != Basedoc::PE_STATE) {
-                $input->disabled();
+                if (method_exists($input,'disabled')) {
+                    $input->disabled();
+                }
             }
         }
     }

@@ -8,13 +8,17 @@ class PriceList extends Model
 {
     protected $table = 'price_lists';
 
+    const EXCHANGE = 'exchange';
+    const MANUALLY = 'manually';
+    const FORMULA = 'formula';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'code', 'starting_at', 'description', 'price_list_type_id', 'doctype_id',
+        'code', 'starting_at', 'description', 'price_list_type_id', 'doctype_id', 'type',
         'reference_price_list_type_id', 'amount_operation_id', 'reference', 'round', 'exchange_rate_id',
     ];
 
@@ -36,6 +40,7 @@ class PriceList extends Model
             'exchange_rate_id' => $this->exchange_rate_id,
             'reference' => $this->reference,
             'round' => $this->round,
+            'type' => $this->type,
         ];
     }
 

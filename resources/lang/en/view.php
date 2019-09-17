@@ -68,6 +68,7 @@ return [
     'prev' => 'Previous',
     'general' => 'General',
     'color' => 'Color',
+    'formula' => 'Formula',
     'menu' => [
         'company' => 'Company',
     	'security' => 'Security',

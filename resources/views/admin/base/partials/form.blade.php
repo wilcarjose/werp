@@ -4,8 +4,6 @@
 
     @if ($form->edit()) {{ method_field('PUT') }} @endif
 
-    
-    
     <div class="card-panel profile-form-cardpanel">
 
         @if ($form->getState())

@@ -22,20 +22,22 @@ class PriceListController extends BaseController
         'doctype_id',
         'reference_price_list_type_id',
         'amount_operation_id',
-        'use_exchange_rate'
+        'type'
     ];
 
     protected $storeRules = [
         'starting_at'        => 'required|date',
         'price_list_type_id' => 'required',
-        'reference_price_list_type_id' => 'required_if:use_exchange_rate,on',
+        //'reference_price_list_type_id' => 'required_if:type,exchange',
+        //'amount_operation_id' => 'required_if:type,formula',
         'doctype_id' => 'required',
     ];
 
     protected $updateRules = [
         'starting_at'        => 'required|date',
         'price_list_type_id' => 'required',
-        'reference_price_list_type_id' => 'required_if:use_exchange_rate,on',
+        'reference_price_list_type_id' => 'required_if:type,exchange|required_if:type,formula',
+        'amount_operation_id' => 'required_if:type,formula',
         'doctype_id' => 'required',
     ];
 

@@ -27,7 +27,8 @@ class SelectBuilder
     protected $modal = null;
     protected $width = 'm6 s12';
     protected $hide = null;
-    protected $showInput = '';
+    protected $showInputs = [];
+    protected $hideInputs = [];
 
     /**
      * InputBuilder constructor.
@@ -352,18 +353,36 @@ class SelectBuilder
     /**
      * @return mixed
      */
-    public function showInput()
+    public function showInputs()
     {
-        return $this->showInput;
+        return $this->showInputs;
     }
 
     /**
      * @param mixed $showInput
      * @return InputBuilder
      */
-    public function setShowInput($showInput)
+    public function setShowInputs($showInputs)
     {
-        $this->showInput = $showInput;
+        $this->showInputs = is_array($showInputs) ? $showInputs : explode(',', $showInputs);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function hideInputs()
+    {
+        return $this->hideInputs;
+    }
+
+    /**
+     * @param mixed $hideInput
+     * @return InputBuilder
+     */
+    public function setHideInputs($hideInputs)
+    {
+        $this->hideInputs = is_array($hideInputs) ? $hideInputs : explode(',', $hideInputs);
         return $this;
     }
 }

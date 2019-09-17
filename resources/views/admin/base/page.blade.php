@@ -216,9 +216,6 @@
             $('.advanced-option').show(500);
           }
         }
-
-
-
     });
 
     $(window).on("load", function(){

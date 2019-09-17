@@ -65,7 +65,7 @@ class PriceListService extends BaseService
     {
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
         
-        $useExchange = isset($data['use_exchange_rate']) && $data['use_exchange_rate'] == 'on';
+        $useExchange = isset($data['type']) && $data['type'] == PriceList::EXCHANGE;
 
         $data = $this->makeUpdateData($data);
 
@@ -90,7 +90,7 @@ class PriceListService extends BaseService
 
             $data = $this->makeUpdateData($data, $id);
 
-            $useExchange = isset($data['use_exchange_rate']) && $data['use_exchange_rate'] == 'on';
+            $useExchange = isset($data['type']) && $data['type'] == PriceList::EXCHANGE;
 
             $entity->update($data);
 
@@ -406,7 +406,7 @@ class PriceListService extends BaseService
                 'price_list_type_id' => $this->priceListTypeService->getPriceListByCurrency($exchange->currency_to_id)->id,
                 'doctype_id' => $this->configService->getDefaultPriceListDoctype(),
                 'reference_price_list_type_id' => $this->priceListTypeService->getPriceListByCurrency($exchange->currency_from_id)->id,
-                'use_exchange_rate' => 'on'
+                'type' => PriceList::EXCHANGE,
             ];
 
             $entity = $this->createPriceList($data);

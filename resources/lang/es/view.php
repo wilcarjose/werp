@@ -70,6 +70,7 @@ return [
     'prev' => 'Anterior',
     'general' => 'General',
     'color' => 'Color',
+    'formula' => 'Formula',
     'menu' => [
         'company' => 'Empresa',
         'security' => 'Seguridad',

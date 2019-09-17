@@ -10,23 +10,25 @@ namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\Inputs\DateInput;
+use Werp\Builders\Inputs\CodeInput;
 use Werp\Builders\InputGroupBuilder;
-use Werp\Builders\Checks\CheckBuilder;
+use Werp\Builders\Inputs\AmountInput;
+use Werp\Builders\Checks\RadioBuilder;
 use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Actions\ActionBuilder;
+use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Actions\ContinueAction;
 use Werp\Builders\Selects\OperationSelect;
 use Werp\Builders\Selects\WarehouseSelect;
-use Werp\Builders\Inputs\CodeInput;
-use Werp\Builders\Inputs\AmountInput;
-use Werp\Builders\Selects\ProductCategorySelect;
-use Werp\Builders\Selects\DoctypeSelect;
 use Werp\Builders\Inputs\DescriptionInput;
+use Werp\Builders\Checks\RadioOptionBuilder;
 use Werp\Builders\Selects\PriceListTypeSelect;
 use Werp\Modules\Core\Base\Builders\SimplePage;
+use Werp\Builders\Selects\ProductCategorySelect;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Sales\Models\PriceList as PriceListModel;
 
 class PriceListForm extends SimplePage
 {
@@ -84,20 +86,36 @@ class PriceListForm extends SimplePage
 
     public function editListPage($data, $hasDetail)
     {
+        
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
-        $active = $noProcessed && !$hasDetail;
-
-        $useExchange = isset($data['exchange_rate_id']) && !is_null($data['exchange_rate_id']);
-        $hideList = !$useExchange;
+        $isManually = $data['type'] == PriceListModel::MANUALLY;
+        $isFormula = $data['type'] == PriceListModel::FORMULA;
+        $isExchange = $data['type'] == PriceListModel::EXCHANGE;
+        $showDetail = $hasDetail ?: $isManually;
+        $active = $noProcessed && !$showDetail;
 
         $inputs1[] = (new DateInput('starting_at', 'Válida a partir de'));
         $inputs1[] = (new PriceListTypeSelect)->setText('Lista a generar');
-        $inputs2[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
+        //$inputs2[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked(true);
+
+        $inputs2[] = (new RadioBuilder('type'))
+            ->addOption(new RadioOptionBuilder('¿Usar tasa de cambio?', PriceListModel::EXCHANGE, $isExchange))
+            ->addOption(new RadioOptionBuilder('¿Calcular con fórmula?', PriceListModel::FORMULA, $isFormula))
+            ->addOption(new RadioOptionBuilder('¿Colocar precios manual?', PriceListModel::MANUALLY, $isManually))
+            ;
+
         $inputs2[] = (new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true))
-            ->setHide($hideList)
-            ->setShowInput('use_exchange_rate')
-        ;
+            ->setHide(!$isFormula && !$isExchange)
+            ->setShowInputs([PriceListModel::FORMULA, PriceListModel::EXCHANGE])
+            ->setHideInputs(PriceListModel::MANUALLY);
+
+        $inputs2[] = (new OperationSelect)
+            ->setHide(!$isFormula)
+            ->setShowInputs(PriceListModel::FORMULA)
+            ->setHideInputs([PriceListModel::MANUALLY, PriceListModel::EXCHANGE]);
+
+
         $inputs3[] = (new DescriptionInput)->advancedOption()->setWidth('s11 push-s1');
         //$inputs3[] = (new OperationSelect)->advancedOption()->setWidth('s5 push-s1');
         $inputs3[] = (new DoctypeSelect(Basedoc::PL_DOC, Config::PRI_DEFAULT_PL_DOC))->advancedOption()->setWidth('s5 push-s1');
@@ -130,7 +148,7 @@ class PriceListForm extends SimplePage
         ;
 
         if ($noProcessed) {
-            $form->addAction(new ActionBuilder('generate', ActionBuilder::TYPE_BUTTON, trans('view.generate')));
+            $form->addAction(new ContinueAction);
         }
 
         $form
@@ -146,7 +164,7 @@ class PriceListForm extends SimplePage
             $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.sales.price_lists.'.$action['key'], $data['id'])));
         }
 
-        if ($hasDetail) {
+        if ($showDetail) {
             $this->addList(new PriceList(false, $data['id'], $disable));
         }
 

@@ -19,7 +19,7 @@ class OperationSelect extends SelectBuilder
         $this->name  = $name ?: 'amount_operation_id';
         $this->type  = 'select';
         $this->icon  = $icon;
-        $this->text  = $text ?: trans('view.amount_operation');
+        $this->text  = $text ?: trans('view.formula');
         $this->value = $value;
         $this->data  = AmountOperation::active()->get();
         $this->disable  = $disable;
