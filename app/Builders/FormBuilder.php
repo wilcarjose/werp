@@ -350,7 +350,8 @@ class FormBuilder // extends ModuleBuilder
         foreach ($inputs as $input) {
             if (isset($data[$input->getName()])) {
                 if (method_exists($input,'setValue')) {
-                    $input->setValue($data[$input->getName()]);
+                    $value = old($input->getName()) ?: $data[$input->getName()];
+                    $input->setValue($value);
                 }
             }
 

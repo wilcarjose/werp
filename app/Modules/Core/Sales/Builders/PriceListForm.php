@@ -86,12 +86,11 @@ class PriceListForm extends SimplePage
 
     public function editListPage($data, $hasDetail)
     {
-        
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
-        $isManually = $data['type'] == PriceListModel::MANUALLY;
-        $isFormula = $data['type'] == PriceListModel::FORMULA;
-        $isExchange = $data['type'] == PriceListModel::EXCHANGE;
+        $isManually = old('type') == PriceListModel::MANUALLY || $data['type'] == PriceListModel::MANUALLY;
+        $isFormula = old('type') == PriceListModel::FORMULA || $data['type'] == PriceListModel::FORMULA;
+        $isExchange = old('type') == PriceListModel::EXCHANGE || $data['type'] == PriceListModel::EXCHANGE;
         $showDetail = $hasDetail ?: $isManually;
         $active = $noProcessed && !$showDetail;
 
