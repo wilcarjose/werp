@@ -147,7 +147,9 @@ class PriceListForm extends SimplePage
         ;
 
         if ($noProcessed) {
-            $form->addAction(new ContinueAction);
+            $hasDetail ? 
+                $form->addAction(new ActionBuilder('generate', ActionBuilder::TYPE_BUTTON, trans('view.generate'))) :
+                $form->addAction(new ContinueAction);
         }
 
         $form
@@ -158,9 +160,11 @@ class PriceListForm extends SimplePage
 
         $actionKeys = config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$data['state'].'.new_actions');
 
-        foreach ($actionKeys as $key) {
-            $action = config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$key);
-            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.sales.price_lists.'.$action['key'], $data['id'])));
+        if ($hasDetail) {
+            foreach ($actionKeys as $key) {
+                $action = config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$key);
+                $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.sales.price_lists.'.$action['key'], $data['id'])));
+            }
         }
 
         if ($showDetail) {
