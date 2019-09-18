@@ -16,10 +16,12 @@ class ProductService extends BaseService
 
     public function __construct(
     	Product $entity,
-    	ConfigService $configService
+    	ConfigService $configService,
+        WarehouseService $warehouseService
     ) {
         $this->entity = $entity;
         $this->configService = $configService;
+        $this->warehouseService = $warehouseService;
     }
 
     protected function makeUpdateData($id, $data)
@@ -86,5 +88,10 @@ class ProductService extends BaseService
             ->orderBy('date', 'DESC')
             ->take(10)
             ->get();
+    }
+
+    public function getStockLimit($id)
+    {
+        return $this->warehouseService->getStockLimitByProduct($id);
     }
 }

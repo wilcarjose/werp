@@ -6,7 +6,7 @@ use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class StockLimit extends Model
 {
-    protected $table = 'transactions';
+    protected $table = 'stock_limit';
 
     /**
      * The attributes that are mass assignable.
@@ -14,30 +14,22 @@ class StockLimit extends Model
      * @var array
      */
     protected $fillable = [
-        'reference',
-        'type',
-        'date',
-        'description',
-        'qty',
-        'sign',
+        'name',
+        'max_qty',
+        'min_qty',
         'product_id',
         'warehouse_id',
-        'process_id',
     ];
 
     public function toArray()
     {
         return [
             'id' => $this->id,
-            'reference' => $this->reference,
-            'type' => $this->type,
-            'date' => $this->date,
-            'description' => $this->description,
-            'qty' => $this->qty,
-            'sign' => $this->sign,
+            'name' => $this->name,
+            'max_qty' => $this->max_qty,
+            'min_qty' => $this->min_qty,
             'product_id' => $this->product_id,
             'warehouse_id' => $this->warehouse_id,
-            'process_id' => $this->process_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

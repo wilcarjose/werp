@@ -70,7 +70,7 @@ class ProductForm extends SimplePage
     public function editPage($data)
     {
         $this->addTab((new TabBuilder('basic', trans('view.general'))));
-        //$this->addTab((new TabBuilder('stock', trans('view.menu.stock'))));
+        $this->addTab((new TabBuilder('stock', 'Stock')));
         //$this->addTab((new TabBuilder('warehouse', trans('view.menu.warehouses'))));
 
         $form = (new FormBuilder)
@@ -88,7 +88,9 @@ class ProductForm extends SimplePage
         $colForm->addForm($form);
 
         $col1 = new ColBuilder('s12 m12 l8');
-        $col1->addCard(new CardBuilder(view('admin.core.products.products.min-max-stock')));
+        $limits = $data['limits'];
+        $allWarehouse = $limits->shift();
+        $col1->addCard((new CardBuilder(view('admin.core.products.products.min-max-stock')))->setData(['limits' => $limits, 'all_warehouse' => $allWarehouse]));
         $col2 = new ColBuilder('s12 m12 l4');
         $col2->addCard((new CardBuilder(view('admin.core.products.products.current-stock')))->setData(['stock' => $data['stock']]));
         $col3 = new ColBuilder('s12 m12 l4');
@@ -105,11 +107,12 @@ class ProductForm extends SimplePage
         $row2->addCol($col3);
 
         return $this
-            ->setShortAction('Editar')
+            ->setTitle('Producto: ' . $data['product']['name'])
+            ->setShortAction($data['product']['name'])
             ->editConfig()
             //->addForm($form)
             ->addRow($row1)
-            //->addRow($row2)
+            ->addRow($row2)
             //->setFormsWidth('m8 s12')
             ->view()
         ;

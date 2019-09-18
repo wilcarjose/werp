@@ -22,6 +22,7 @@ class PageBuilder extends ModuleBuilder
     protected $messagesWidth = 'm12';
     protected $formsWidth = 'm12';
     protected $listsWidth = 'm12';
+    protected $mainTitle;
 
     public function init($title)
     {
@@ -93,7 +94,7 @@ class PageBuilder extends ModuleBuilder
     public function editConfig()
     {
         return $this
-            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->title))
+            ->addBreadcrumb(new BreadcrumbBuilder($this->getListRoute(), $this->mainTitle))
             ->addBreadcrumb(new BreadcrumbBuilder($this->getActionRoute(), $this->shortAction))
             ;
     }

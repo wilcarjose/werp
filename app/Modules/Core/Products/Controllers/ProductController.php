@@ -85,7 +85,8 @@ class ProductController extends BaseController
             $data = [
                 'product' => $entity->toArray(),
                 'stock'   => $this->entityService->getProductStock($entity->id),
-                'transactions'   => $this->entityService->getProductTransactions($entity->id)
+                'transactions' => $this->entityService->getProductTransactions($entity->id),
+                'limits' => $this->entityService->getStockLimit($id),
             ];
 
             return $this->entityForm->editPage($data);
