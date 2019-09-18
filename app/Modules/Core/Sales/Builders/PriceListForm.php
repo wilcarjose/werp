@@ -100,9 +100,9 @@ class PriceListForm extends SimplePage
         //$inputs2[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked(true);
 
         $inputs2[] = (new RadioBuilder('type'))
-            ->addOption(new RadioOptionBuilder('¿Usar tasa de cambio?', PriceListModel::EXCHANGE, $isExchange))
-            ->addOption(new RadioOptionBuilder('¿Calcular con fórmula?', PriceListModel::FORMULA, $isFormula))
-            ->addOption(new RadioOptionBuilder('¿Colocar precios manual?', PriceListModel::MANUALLY, $isManually))
+            ->addOption(new RadioOptionBuilder('¿Usando tasa de cambio?', PriceListModel::EXCHANGE, $isExchange, $disable))
+            ->addOption(new RadioOptionBuilder('¿Usando fórmula?', PriceListModel::FORMULA, $isFormula, $disable))
+            ->addOption(new RadioOptionBuilder('¿Colocar precios manualmente?', PriceListModel::MANUALLY, $isManually, $disable))
             ;
 
         $inputs2[] = (new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true))
@@ -129,7 +129,7 @@ class PriceListForm extends SimplePage
 
         $group2 = new InputGroupBuilder;
         $group2
-            ->setTitle('Generar a partir de:')
+            ->setTitle('Calcular precios')
             ->setIcon('looks_two')
             ->setInputs($inputs2)
             ->setActive($active)

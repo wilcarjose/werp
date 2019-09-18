@@ -23,6 +23,7 @@ class RadioOptionBuilder
         $this->label = $label;
         $this->id = $id;
         $this->checked = $checked;
+        $this->disable = $disable;
         $this->width = 's12';
     }
 
