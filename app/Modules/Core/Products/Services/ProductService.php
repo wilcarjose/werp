@@ -94,4 +94,9 @@ class ProductService extends BaseService
     {
         return $this->warehouseService->getStockLimitByProduct($id);
     }
+
+    public function updateLimitStock($data)
+    {
+        return $this->warehouseService->updateLimitStock($data);
+    }
 }

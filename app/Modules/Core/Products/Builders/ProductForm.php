@@ -90,7 +90,11 @@ class ProductForm extends SimplePage
         $col1 = new ColBuilder('s12 m12 l8');
         $limits = $data['limits'];
         $allWarehouse = $limits->shift();
-        $col1->addCard((new CardBuilder(view('admin.core.products.products.min-max-stock')))->setData(['limits' => $limits, 'all_warehouse' => $allWarehouse]));
+        $col1->addCard((new CardBuilder(view('admin.core.products.products.min-max-stock')))->setData([
+            'limits' => $limits,
+            'all_warehouse' => $allWarehouse,
+            'product_id' => $data['product']['id']
+        ]));
         $col2 = new ColBuilder('s12 m12 l4');
         $col2->addCard((new CardBuilder(view('admin.core.products.products.current-stock')))->setData(['stock' => $data['stock']]));
         $col3 = new ColBuilder('s12 m12 l4');

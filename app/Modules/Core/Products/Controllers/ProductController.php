@@ -158,4 +158,55 @@ class ProductController extends BaseController
             return back();
         }
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function limits(Request $request, $id)
+    {
+        try {
+
+            $data = [];
+
+            if ($request->input('type', 'min') == 'min') {
+                $data['min_qty'] = $request->input('qty');
+            } else {
+                $data['max_qty'] = $request->input('qty');
+            }
+
+            $data['product_id'] = $id;
+            $data['warehouse_id'] = $request->input('warehouse_id');
+
+            $result = $this->entityService->updateLimitStock($data);
+
+            return $result ?
+                response([
+                    'data'        => $data,
+                    'status_code' => 200
+                ], 200) :
+                response([
+                    'status_code' => 400,
+                    'message'     => 'Ocurrió un error al actualizar',
+                ], 400);
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            return response([
+                'status_code' => 400,
+                'message'     => $message,
+            ], 400);
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            return response([
+                'status_code' => 400,
+                'message'     => $message,
+            ], 400);
+        }
+    }
 }

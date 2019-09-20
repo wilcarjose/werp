@@ -77,8 +77,29 @@
           left: 0 !important;
       }
 
+      .qty-box {
+          padding-bottom: 0;
+      }
+
+      .qty-hover {
+          opacity: 0.1 !important;
+      }
+
+      .hide-edit-qty {
+          display: none;
+          margin-top: -68px;
+      }
+
+      .show-edit-qty {
+          display: inline-block  !important;
+          margin-top: -68px;
+      }
+
     </style>
+
 @endsection
+
+@stack('extra-css')
 
 @section('content')
     <div class="main-header">
@@ -103,7 +124,7 @@
             <div class="nav-wrapper">
               <div class="col s12">
                   @foreach($page->getBreadcrumbs() as $breadcrumb)
-                      @include('commons.elements.breadcrumb', compact('breadcrumb'))
+                      @include('admin.commons.elements.breadcrumb', compact('breadcrumb'))
                   @endforeach
               </div>
             </div>
@@ -238,7 +259,7 @@
 
   @stack('show-hide')
 
-        
+  @stack('extra-js')
 
   @yield('js-datebox')
 

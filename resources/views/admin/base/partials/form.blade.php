@@ -47,7 +47,7 @@
             </div>
             <div class="col s2">
                 @if (false && $form->hasPrintAction())
-                    @include('commons.form.actions.'.$form->getPrintAction()->getType(), ['action' => $form->getPrintAction()])
+                    @include('admin.commons.form.actions.'.$form->getPrintAction()->getType(), ['action' => $form->getPrintAction()])
 
                     <div class="fixed-action-btn horizontal click-to-toggle" style="bottom: 45px; right: 24px;">
                       <a class="btn-floating btn-large red">
@@ -82,14 +82,14 @@
                             </div>
                         </div>
                         @foreach($group->inputs() as $input)
-                            @include('commons.form.inputs.'.$input->getType(), compact('input'))
+                            @include('admin.commons.form.inputs.'.$input->getType(), compact('input'))
                         @endforeach
                     </div>
                 @endforeach
             @endif
 
             @foreach($form->getInputs() as $input)
-                @include('commons.form.inputs.'.$input->getType(), compact('input'))
+                @include('admin.commons.form.inputs.'.$input->getType(), compact('input'))
             @endforeach
 
             @if ($form->advancedOption())
@@ -106,7 +106,7 @@
               @endif
 
               @foreach($form->getFilters() as $input)
-                  @include('commons.form.inputs.'.$input->getType(), compact('input'))
+                  @include('admin.commons.form.inputs.'.$input->getType(), compact('input'))
               @endforeach
             @endif
 
@@ -115,11 +115,11 @@
         <div class="row">
             <div class="input-field col s12 right-align">
                 @if (true && $form->hasPrintAction())
-                    @include('commons.form.actions.'.$form->getPrintAction()->getType(), ['action' => $form->getPrintAction()])
+                    @include('admin.commons.form.actions.'.$form->getPrintAction()->getType(), ['action' => $form->getPrintAction()])
                 @endif
 
                 @foreach($form->getActions() as $action)
-                    @include('commons.form.actions.'.$action->getType(), compact('action'))
+                    @include('admin.commons.form.actions.'.$action->getType(), compact('action'))
                 @endforeach
             </div>
         </div>

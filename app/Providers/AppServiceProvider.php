@@ -19,10 +19,12 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
 
         view()->composer('*', function ($view) {
-            $current_route_name = \Request::route()->getName();
-            $group = get_route_group($current_route_name);
-            $view->with('current_route_group', $group)
-                ->with('current_route_name', $current_route_name);
+            if ($route = \Request::route()) {
+                $current_route_name = $route->getName();
+                $group = get_route_group($current_route_name);
+                $view->with('current_route_group', $group)
+                    ->with('current_route_name', $current_route_name);
+            }
         });
     }
 

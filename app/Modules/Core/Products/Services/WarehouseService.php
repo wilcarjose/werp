@@ -73,4 +73,23 @@ class WarehouseService extends BaseService
 
         return $limits;
     }
+
+    public function updateLimitStock($data)
+    {
+        $limit = $this->stockLimit->where('product_id', $data['product_id'])->where('warehouse_id', $data['warehouse_id'])->first();
+
+        if (!$limit) {
+            $limit = new StockLimit;
+            $limit->product_id = $data['product_id'];
+            $limit->warehouse_id = $data['warehouse_id'];
+        }
+
+        if (isset($data['max_qty'])) {
+            $limit->max_qty = $data['max_qty'];
+        } else {
+            $limit->min_qty = $data['min_qty'];
+        }
+
+        return $limit->save();
+    }
 }

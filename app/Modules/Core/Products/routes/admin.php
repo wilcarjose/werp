@@ -14,6 +14,7 @@
 	Route::put('/products/statusBulk','ProductController@switchStatusBulk');
 	Route::get('/products/import','ProductController@showImport')->name('products.showimport');
 	Route::post('/products/import','ProductController@import')->name('products.import');
+	Route::post('/products/{id}/limits','ProductController@limits')->name('products.limits');
 	//Route::get('/products/{id}/cellar','ProductController@showCellar');
 	Route::resource('/products','ProductController');
 

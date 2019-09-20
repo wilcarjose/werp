@@ -28,7 +28,7 @@
             <div class="nav-wrapper">
               <div class="col s12">
                   @foreach($page->getBreadcrumbs() as $breadcrumb)
-                      @include('commons.elements.breadcrumb', compact('breadcrumb'))
+                      @include('admin.commons.elements.breadcrumb', compact('breadcrumb'))
                   @endforeach
               </div>
             </div>

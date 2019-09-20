@@ -8,16 +8,14 @@
       <thead>
         <tr>
           <th class="user-th">Almacén</th>
-          <th class="center-align">Máximo</th>
-          <th class="center-align">Mínimo</th>
-          <th class="left-align">Actualizado</th>
+          <th class="center-align qty-box">Máximo</th>
+          <th class="center-align qty-box">Mínimo</th>
         </tr>
       </thead>
       <tbody>
 
         <tr>
           <td class="green-text"> <strong>Todos los almacenes</strong></td>
-          <td></td>
           <td></td>
           <td></td>
         </tr>
@@ -29,21 +27,47 @@
               <p class="blue-text"><small>Activo</small></p>
             </div>
           </td>
-          <td class="center-align">
+          <td class="center-align qty-box">
             <p class="caption">{{ $all_warehouse->max_qty ?: '0' }}</p>
             <p class="grey-text">Unidades</p>
+            <a class="btn-floating waves-effect waves-light btn-flat edit-qty" href="javascript:void(0)" style="display: none;">
+              <i class="material-icons primary-text">edit</i>
+            </a>
+            <div style="display: none;">
+              <input type="number" name="qty" value="{{ $all_warehouse->max_qty ?: '0' }}" style="width: 40px;">
+              <input type="hidden" name="type" value="max">
+              <input type="hidden" name="warehouse_id" value="{{ null }}">
+              <input type="hidden" name="product_id" value="{{ $product_id }}">
+              <a class="btn-floating waves-effect waves-light btn-flat save-qty" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                <i class="material-icons primary-text" style="line-height: 25px;">save</i>
+              </a>
+              <a class="btn-floating waves-effect waves-light btn-flat cancel-edit" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                <i class="material-icons red-text" style="line-height: 25px;">cancel</i>
+              </a>
+            </div>
           </td>
-          <td class="center-align">
-            <p class="caption">{{ $all_warehouse->max_qty ?: '0' }}</p>
+          <td class="center-align qty-box">
+            <p class="caption">{{ $all_warehouse->min_qty ?: '0' }}</p>
             <p class="grey-text">Unidades</p>
-          </td>
-          <td>
-            <p class="grey-text text-darken-1" style="font-size: 11px;">{{ $all_warehouse->updated_at ?: '' }}</p>
+            <a class="btn-floating waves-effect waves-light btn-flat edit-qty" href="javascript:void(0)" style="display: none;">
+              <i class="material-icons primary-text">edit</i>
+            </a>
+            <div style="display: none;">
+              <input type="number" name="qty" value="{{ $all_warehouse->min_qty ?: '0' }}" style="width: 40px;">
+              <input type="hidden" name="type" value="min">
+              <input type="hidden" name="warehouse_id" value="{{ null }}">
+              <input type="hidden" name="product_id" value="{{ $product_id }}">
+              <a class="btn-floating waves-effect waves-light btn-flat save-qty" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                <i class="material-icons primary-text" style="line-height: 25px;">save</i>
+              </a>
+              <a class="btn-floating waves-effect waves-light btn-flat cancel-edit" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                <i class="material-icons red-text" style="line-height: 25px;">cancel</i>
+              </a>
+            </div>
           </td>
         </tr>
         <tr>
           <td class="grey-text"> <strong>Por almacén</strong></td>
-          <td></td>
           <td></td>
           <td></td>
         </tr>
@@ -56,16 +80,43 @@
                 <p class="blue-text"><small>Activo</small></p>
               </div>
             </td>
-            <td class="center-align">
-              <p class="caption">{{ $limit->max_qty ?: '0' }}</p>
-              <p class="grey-text">Unidades</p>
+            <td class="center-align qty-box">
+              <p class="caption qty">{{ $limit->max_qty ?: '0' }}</p>
+              <p class="grey-text qty-uom">Unidades</p>
+              <a class="btn-floating waves-effect waves-light btn-flat edit-qty" href="javascript:void(0)" style="display: none;">
+                <i class="material-icons primary-text">edit</i>
+              </a>
+              <div style="display: none;">
+                <input type="number" name="qty" value="{{ $limit->max_qty ?: '0' }}" style="width: 40px;">
+                <input type="hidden" name="type" value="max">
+                <input type="hidden" name="warehouse_id" value="{{ $limit->warehouse_id }}">
+                <input type="hidden" name="product_id" value="{{ $product_id }}">
+                <a class="btn-floating waves-effect waves-light btn-flat save-qty" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                  <i class="material-icons primary-text" style="line-height: 25px;">save</i>
+                </a>
+                <a class="btn-floating waves-effect waves-light btn-flat cancel-edit" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                  <i class="material-icons red-text" style="line-height: 25px;">cancel</i>
+                </a>
+              </div>
             </td>
-            <td class="center-align">
-              <p class="caption">{{ $limit->min_qty ?: '0' }}</p>
-              <p class="grey-text">Unidades</p>
-            </td>
-            <td>
-              <p class="grey-text text-darken-1" style="font-size: 11px;">{{ $limit->updated_at ?: '' }}</p>
+            <td class="center-align qty-box">
+              <p class="caption qty">{{ $limit->min_qty ?: '0' }}</p>
+              <p class="grey-text qty-uom">Unidades</p>
+              <a class="btn-floating waves-effect waves-light btn-flat edit-qty" href="javascript:void(0)" style="display: none;">
+                <i class="material-icons primary-text">edit</i>
+              </a>
+              <div style="display: none;">
+                <input type="number" name="qty" value="{{ $limit->min_qty ?: '0' }}" style="width: 40px;">
+                <input type="hidden" name="type" value="min">
+                <input type="hidden" name="warehouse_id" value="{{ $limit->warehouse_id }}">
+                <input type="hidden" name="product_id" value="{{ $product_id }}">
+                <a class="btn-floating waves-effect waves-light btn-flat save-qty" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                  <i class="material-icons primary-text" style="line-height: 25px;">save</i>
+                </a>
+                <a class="btn-floating waves-effect waves-light btn-flat cancel-edit" href="javascript:void(0)" style="width: 25px; height: 25px;">
+                  <i class="material-icons red-text" style="line-height: 25px;">cancel</i>
+                </a>
+              </div>
             </td>
           </tr>
         @endforeach
@@ -73,3 +124,88 @@
     </table>
   </div>
 </div>
+
+
+
+@push('extra-js')
+
+  <script>
+
+      var editing = false;
+
+      $.ajaxSetup({
+
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+
+      });
+    
+      $( ".qty-box" ).hover(
+        function() {
+          if (!editing) {
+            $(this).children().first().addClass( "qty-hover" );
+            $(this).children().first().next().addClass( "qty-hover" );
+            $(this).children().first().next().next().addClass( "show-edit-qty" );
+          }
+        }, function() {
+          if (!editing) {
+            $(this).children().first().removeClass( "qty-hover" );
+            $(this).children().first().next().removeClass( "qty-hover" );
+            $(this).children().first().next().next().removeClass( "show-edit-qty" );
+          }
+        }
+      );
+
+      $( ".edit-qty" ).click(function() {
+          editing = true;
+          $(this).removeClass( "show-edit-qty" );
+          $(this).prev().hide();
+          $(this).prev().prev().hide();
+          $(this).next().show();
+      });
+
+      $( ".cancel-edit" ).click(function() {
+          editing = false;
+          $(this).parent().prev().addClass( "show-edit-qty" );
+          $(this).parent().prev().prev().show();
+          $(this).parent().prev().prev().prev().show();
+          $(this).parent().hide();
+      });
+
+      $( ".save-qty" ).click(function(e) {
+
+        e.preventDefault();
+
+        var qty = $(this).prev().prev().prev().prev().val();
+        var type = $(this).prev().prev().prev().val();
+        var warehouse_id = $(this).prev().prev().val();
+        var product_id = $(this).prev().val();
+
+        $.ajax({
+           type:'POST',
+           url:'/admin/products/products/' + product_id + '/limits',
+           data:{qty:qty, type:type, warehouse_id:warehouse_id},
+           success:function(data){
+              console.log(data);
+              
+           },
+           error: function(error) {
+              console.log(error);
+           }
+
+        });
+
+        $(this).parent().prev().prev().prev().html(qty);
+        $(this).parent().prev().addClass( "show-edit-qty" );
+        $(this).parent().prev().prev().show();
+        $(this).parent().prev().prev().prev().show();
+        $(this).parent().hide();
+        editing = false;
+
+      });
+
+
+  </script>
+
+@endpush
