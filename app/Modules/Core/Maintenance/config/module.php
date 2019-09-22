@@ -21,7 +21,7 @@ return [
             ],
             'submodules' => [
                 [
-                    'name' => 'view.menu.general',
+                    'name' => 'view.menu.config',
                     'icon' => '',
                     'route' => 'admin.maintenance.general',
                     'routes' => [

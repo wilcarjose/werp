@@ -17,6 +17,14 @@ return [
                 'admin.purchases.price_list_types',
             ],
          'items' => [
+                [
+                    'name' => 'view.menu.purchases_orders',
+                    'route' => 'admin.purchases.orders.index',
+                ],
+                [
+                    'name' => 'view.menu.product_entry',
+                    'route' => 'admin.products.product_entry.index',
+                ],
         /*      [
                     'name' => 'view.menu.config',
                     'route' => 'admin.home',
@@ -26,7 +34,7 @@ return [
         
             'submodules' => [
                 [
-                    'name' => 'view.menu.general',
+                    'name' => 'view.menu.config',
                     'icon' => '',
                     'route' => 'admin.purchases.general',
                     'routes' => [
@@ -49,6 +57,7 @@ return [
                         ],
                     ],
                 ],
+            /*
                 [
                     'name' => 'view.menu.processes',
                     'icon' => '',
@@ -68,6 +77,7 @@ return [
                         ],
                     ],
                 ],
+            */
         /*        [
                     'name' => 'view.menu.reports',
                     'icon' => '',

@@ -117,7 +117,7 @@ return [
         'database' => 'Database',
         'db_test' => 'Data tests',
         'db_backups' => 'Data Backup',
-
+        'warehouse' => 'Warehouse',
     ],
     'profile' => [
         'profile' => 'Profile',

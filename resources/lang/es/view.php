@@ -117,6 +117,7 @@ return [
         'database' => 'Bases de datos',
         'db_test' => 'Datos de pruebas',
         'db_backups' => 'Respaldo de datos',
+        'warehouse' => 'Almacén',
     ],
     'profile' => [
         'profile' => 'Perfil',

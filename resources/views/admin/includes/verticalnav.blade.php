@@ -69,10 +69,19 @@
                         @foreach ($module['items'] as $item)
                             @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route']) || auth()->user()->can($item['route']))
                                 <li class="menu-item">
-                                    <a class="waves-effect waves-set {{ $current_route_group == get_route_group($item['route']) ? 'active' : '' }}" href="{{ route($item['route']) }}">
-                                        <span style="font-weight: 300;
-                                            font-size: 13px;
-                                            text-transform: uppercase;"
+                                    <a class="waves-effect waves-set {{ $current_route_group == get_route_group($item['route']) ? 'active' : '' }}" href="{{ route($item['route']) }}" style="
+                                    line-height: 30px;
+                                    height: 30px;
+                                    ">
+                                        <span style="
+                                            font-weight: 300;
+                                            font-size: 11px;
+                                            text-transform: uppercase;
+                                            font-weight: 500 !important;
+                                            padding: 0px 12px;
+                                            border-radius: 4px;
+                                            {{ $current_route_group == get_route_group($item['route']) ? 'background-color: #fff; color: #000; line-height: 20px;' : 'line-height: 31px;' }}
+                                            "
                                         >
                                             @lang($item['name'])
                                         </span>
@@ -84,23 +93,38 @@
                             <li class="menu-item">
                                 <ul class="collapsible">
                                     <li>
-                                        <div class="collapsible-header {{ in_array($current_route_group, $submodule['routes']) ? 'active current' : '' }}">
-                                             <span style="font-weight: 300;
-                                            font-size: 13px;
-                                            text-transform: uppercase;">
+                                        <div class="collapsible-header {{ in_array($current_route_group, $submodule['routes']) ? 'active current' : '' }}" style="line-height: 20px;
+                                            height: 30px;
+                                            padding-left: 66px !important;
+                                            min-height: 1rem;">
+                                             <span style="font-weight: 500;
+                                                        font-size: 11px;
+                                                        text-transform: uppercase;
+                                                        line-height: 30px;">
                                                 @lang($submodule['name'])
                                             </span>
-                                             <i class="material-icons mdi-navigation-chevron-left">keyboard_arrow_left</i>
+                                             <i class="material-icons mdi-navigation-chevron-left" style="line-height: 30px;">keyboard_arrow_left</i>
                                         </div>
                                         <div class="collapsible-body">
                                             <ul>
                                                 @foreach ($submodule['items'] as $item)
                                                     @if (auth()->user()->can('developerOnly') || auth()->user()->can($module['route']) || auth()->user()->can($item['route']))
                                                         <li class="menu-item" style="background-color: #212121;">
-                                                            <a class="waves-effect waves-set {{ $current_route_group == get_route_group($item['route']) ? 'active' : '' }}" href="{{ route($item['route']) }}"><i class="material-icons">arrow_right</i>
-                                                                <span style="font-weight: 300;
-                                                                font-size: 13px;
-                                                                text-transform: uppercase;">
+                                                            <a class="waves-effect waves-set {{ $current_route_group == get_route_group($item['route']) ? 'active' : '' }}" href="{{ route($item['route']) }}" style="
+                                                            line-height: 30px;
+                                                            height: 30px;
+                                                            padding-left: 66px !important;
+                                                            ">
+                                                                <span style="
+                                                                        font-weight: 300;
+                                                                        font-size: 11px;
+                                                                        text-transform: uppercase;
+                                                                        font-weight: 500 !important;
+                                                                        padding: 0px 10px;
+                                                                        border-radius: 4px;
+                                                                        {{ $current_route_group == get_route_group($item['route']) ? 'background-color: #fff; color: #000; line-height: 20px;' : 'line-height: 31px;' }}
+                                                                        "
+                                                                >
                                                                     @lang($item['name'])
                                                                 </span>
                                                             </a>

@@ -5,7 +5,7 @@ use Werp\Modules\Core\Maintenance\Models\Basedoc;
 return [
 
     'menu' => [
-            'name' => 'view.menu.products',
+            'name' => 'view.menu.warehouse',
             'icon' => 'domain',
             'route' => 'admin.products',
             'routes' => [
@@ -20,17 +20,33 @@ return [
                 'admin.products.movements',
             ],
             'items' => [
-                
+                [
+                    'name' => 'view.menu.products',
+                    'route' => 'admin.products.products.index',
+                ],
+                [
+                    'name' => 'view.menu.warehouses',
+                    'route' => 'admin.products.warehouses.index',
+                ],
+                [
+                    'name' => 'view.menu.inventories',
+                    'route' => 'admin.products.inventories.index',
+                ],
+                [
+                    'name' => 'view.menu.movements',
+                    'route' => 'admin.products.movements.index',
+                ],
+
             ],
             'submodules' => [
                 [
-                    'name' => 'view.menu.general',
+                    'name' => 'view.menu.config',
                     'icon' => '',
                     'route' => 'admin.products.general',
                     'routes' => [
                         'admin.products.categories',
-                        'admin.products.products',
-                        'admin.products.warehouses',
+                    //    'admin.products.products',
+                    //    'admin.products.warehouses',
                         'admin.products.brands',
                         'admin.products.uom',
                     ],
@@ -47,6 +63,7 @@ return [
                             'name' => 'view.menu.uom',
                             'route' => 'admin.products.uom.index',
                         ],
+                        /*
                         [
                             'name' => 'view.menu.products',
                             'route' => 'admin.products.products.index',
@@ -55,8 +72,10 @@ return [
                             'name' => 'view.menu.warehouses',
                             'route' => 'admin.products.warehouses.index',
                         ],
+                        */
                     ],
                 ],
+            /*
                 [
                     'name' => 'view.menu.processes',
                     'icon' => '',
@@ -76,6 +95,7 @@ return [
                         ],
                     ],
                 ],
+            */
                 [
                     'name' => 'view.menu.reports',
                     'icon' => '',

@@ -21,10 +21,22 @@ return [
                 'admin.sales.orders',
             ],
             'items' => [
+                [
+                    'name' => 'view.menu.price_list',
+                    'route' => 'admin.sales.price_lists.index',
+                ],
+                [
+                    'name' => 'view.menu.sales_orders',
+                    'route' => 'admin.sales.orders.index',
+                ],
+                [
+                    'name' => 'view.menu.product_output',
+                    'route' => 'admin.products.product_output.index',
+                ],
             ],
             'submodules' => [
                 [
-                    'name' => 'view.menu.general',
+                    'name' => 'view.menu.config',
                     'icon' => '',
                     'route' => 'admin.sales.general',
                     'routes' => [
@@ -67,6 +79,7 @@ return [
                         ],
                     ],
                 ],
+        /*
                 [
                     'name' => 'view.menu.processes',
                     'icon' => '',
@@ -91,6 +104,7 @@ return [
                         ],                        
                     ],
                 ],
+        */
         /*      [
                     'name' => 'view.menu.reports',
                     'icon' => '',
