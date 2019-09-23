@@ -125,7 +125,7 @@ class ProductForm extends SimplePage
     public function importPage()
     {
         $inputs = [
-            new ExcelFile,
+            (new ExcelFile)->setWidth('l12'),
         ];
 
         $form = (new FormBuilder)

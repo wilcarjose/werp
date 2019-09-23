@@ -18,7 +18,7 @@ class DataBackupService extends BaseService
 
             $fileName = str_replace('.sql', '', $file);
 
-            if ($fileName == 'db-test-dump') {
+            if ($fileName == 'db-test-dump' || $fileName == 'sql_loaded') {
                 continue;
             }
 

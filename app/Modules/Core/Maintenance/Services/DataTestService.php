@@ -12,14 +12,33 @@ class DataTestService extends BaseService
 
     }
 
-    public function updateData()
+    public function updateData($createDump = true, $name = null)
     {
-        $createResult = \Artisan::call('snapshot:create', [
-            'name' => 'db-test-dump'
-        ]);
+        $dumpName = $name ?: 'db-test-dump';
+
+        if ($createDump) {
+            \Artisan::call('snapshot:create', [
+                'name' => $dumpName
+            ]);
+        }
 
         return \Artisan::call('snapshot:load', [
-            'name' => 'db-test-dump', '--connection' => 'user_tests'
+            'name' => $dumpName, '--connection' => 'user_tests'
+        ]);
+    }
+
+    public function updateProductionFromTest()
+    {
+        \Artisan::call('snapshot:create');
+
+        $dumpName = 'db-test-dump';
+
+        \Artisan::call('snapshot:create', [
+            'name' => $dumpName, '--connection' => 'user_tests'
+        ]);
+        
+        return \Artisan::call('snapshot:load', [
+            'name' => $dumpName
         ]);
     }
 }

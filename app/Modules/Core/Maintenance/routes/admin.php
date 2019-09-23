@@ -29,6 +29,8 @@
 
 	Route::get('/db_test/edit', 'DataTestController@edit')->name('db_test.edit');
 	Route::put('/db_test/update', 'DataTestController@update')->name('db_test.update');
+	Route::post('/db_test/update-from-sql', 'DataTestController@updateFromSql')->name('db_test.update-from-sql');
+	Route::post('/db_test/update-production-from-test', 'DataTestController@updateProductionFromTest')->name('db_test.update-production-from-test');
 
 	Route::get('/db_backups', 'DataBackupController@index')->name('db_backups.index');
 	Route::get('/db_backups/create', 'DataBackupController@create')->name('db_backups.create');

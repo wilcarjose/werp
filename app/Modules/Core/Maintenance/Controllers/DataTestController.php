@@ -63,4 +63,61 @@ class DataTestController extends Controller
             return redirect(route('admin.maintenance.db_test.edit'));
         }
     }
+
+    public function updateFromSql(Request $request) 
+    {
+        try {
+
+            $rules = [
+                'file'  => 'required|file|mimetypes:text/plain',
+            ];
+
+            $validator = validator()->make($request->all(), $rules);
+        
+            if ($validator->fails()) {
+
+                flash(trans('Falló al pasar validaciones'), 'error', 'error');
+                return back()->withErrors($validator)->withInput();
+            }
+
+            $name = 'sql_loaded';
+            $path = \Storage::disk('snapshots')->putFileAs('', $request->file('file'), $name . '.sql');
+
+            $this->dataTestService->updateData(false, $name) ?
+                flash(trans('messages.success-update'), 'success', 'success') :
+                flash(trans('messages.fail-update'), 'error', 'error');
+
+            return redirect(route('admin.maintenance.db_test.edit'));
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProductionFromTest(Request $request)
+    {
+        try {
+
+            $this->dataTestService->updateProductionFromTest() ?
+                flash(trans('messages.success-update'), 'success', 'success') :
+                flash(trans('messages.fail-update'), 'error', 'error');
+
+            return redirect(route('admin.maintenance.db_test.edit'));
+
+        } catch (\Exception $e) {
+            flash($e->getMessage(). ' - '.$e->getFile(). ' - '.$e->getLine(), 'error', 'error');
+            return redirect(route('admin.maintenance.db_test.edit'));
+        }
+    }
+
 }
