@@ -32,7 +32,7 @@ class UpdateStockLimitSetMaxQtyNullable extends Migration
     public function down()
     {
         Schema::table('stock_limit', function (Blueprint $table) {
-            $table->double('max_qty',)->change();
+            $table->double('max_qty')->change();
         });
     }
 }
