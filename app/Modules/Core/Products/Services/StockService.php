@@ -6,6 +6,7 @@ use Werp\Modules\Core\Products\Models\Stock;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Products\Models\StockLimit;
+use Werp\Modules\Core\Products\Mails\LimitStockEmail;
 
 class StockService
 {
@@ -147,34 +148,49 @@ class StockService
 
     protected function limitsStockNotifications($entity)
     {
-        $limit = $this->stockLimit->where('product_id', $entity->product_id)->where('warehouse_id', $entity->warehouse_id)->first();
+        try {
 
-        if ($limit) {
+            $limit = $this->stockLimit->where('product_id', $entity->product_id)->where('warehouse_id', $entity->warehouse_id)->first();
 
-            if ($entity->qty >= $limit->max_qty) {
-                \Log::info('Product ' . $entity->product_id . ' Warehouse ' . $entity->warehouse_id . ' current ' . $entity->qty . ' max ' . $limit->max_qty);
-                // notify max
+            if ($limit) {
+
+                if ($entity->qty >= $limit->max_qty) {
+                    \Log::info('Product ' . $entity->product_id . ' Warehouse ' . $entity->warehouse_id . ' current ' . $entity->qty . ' max ' . $limit->max_qty);
+
+                    if (config('mail.enabled')) {
+                        \Mail::to(config('mail.to.address'))->send(new LimitStockEmail($entity->product->name, $entity->qty, $limit->max_qty, false, $entity->warehouse->name));
+                    }
+                }
+
+                if ($entity->qty <= $limit->min_qty) {
+                    \Log::info('Product ' . $entity->product_id . ' Warehouse ' . $entity->warehouse_id . ' current ' . $entity->qty . ' min ' . $limit->min_qty);
+                    if (config('mail.enabled')) {
+                        \Mail::to(config('mail.to.address'))->send(new LimitStockEmail($entity->product->name, $entity->qty, $limit->min_qty, true, $entity->warehouse->name));
+                    }
+                }
             }
 
-            if ($entity->qty <= $limit->min_qty) {
-                \Log::info('Product ' . $entity->product_id . ' Warehouse ' . $entity->warehouse_id . ' current ' . $entity->qty . ' min ' . $limit->min_qty);
-                // notify min
+            $limit = $this->stockLimit->where('product_id', $entity->product_id)->whereNull('warehouse_id')->first();
+
+            if ($limit) {
+
+                if ($entity->qty >= $limit->max_qty) {
+                    \Log::info('Product ' . $entity->product_id . ' current ' . $entity->qty . ' max ' . $limit->max_qty);
+                    if (config('mail.enabled')) {
+                        \Mail::to(config('mail.to.address'))->send(new LimitStockEmail($entity->product->name, $entity->qty, $limit->max_qty, false));
+                    }
+                }
+
+                if ($entity->qty <= $limit->min_qty) {
+                    \Log::info('Product ' . $entity->product_id . ' current ' . $entity->qty . ' min ' . $limit->min_qty);
+                    if (config('mail.enabled')) {
+                        \Mail::to(config('mail.to.address'))->send(new LimitStockEmail($entity->product->name, $entity->qty, $limit->min_qty));
+                    }
+                }
             }
-        }
 
-        $limit = $this->stockLimit->where('product_id', $entity->product_id)->whereNull('warehouse_id')->first();
-
-        if ($limit) {
-
-            if ($entity->qty >= $limit->max_qty) {
-                \Log::info('Product ' . $entity->product_id . ' current ' . $entity->qty . ' max ' . $limit->max_qty);
-                // notify max
-            }
-
-            if ($entity->qty <= $limit->min_qty) {
-                \Log::info('Product ' . $entity->product_id . ' current ' . $entity->qty . ' min ' . $limit->min_qty);
-                // notify min
-            }
+        } catch (\Exception $e) {
+            return;
         }
     }
 }

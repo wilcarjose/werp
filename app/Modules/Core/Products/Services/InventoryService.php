@@ -51,13 +51,19 @@ class InventoryService extends BaseService
 
         try {   
 
+            $this->begin();
+
             $this->transactionService->setDocument($this->inventoryObject)->process();
 
             $this->inventoryObject->state = Basedoc::PR_STATE;
             $this->inventoryObject->save();
 
+            $this->commit();
+
         } catch (\Exception $e) {
-            throw new \Exception("Error Processing Request: ".$e->getMessage());
+
+            $this->rollBack();
+            throw new \Exception(get_class($e)." Error Processing Request: ".$e->getMessage() . ' File: ' . $e->getFile() . ' Line: ' . $e->getLine());
         }
         
     }
