@@ -46,6 +46,7 @@
 	Route::delete('/inventories/{id}/detail/{detail}', 'InventoryController@destroyDetail')->name('inventories.detail.update');
 	Route::get('/inventories/{id}/process', 'InventoryController@process')->name('inventories.process');
 	Route::get('/inventories/{id}/cancel', 'InventoryController@cancel')->name('inventories.cancel');
+	Route::get('/inventories/{id}/copy', 'InventoryController@copy')->name('inventories.copy');
 	Route::resource('/inventories','InventoryController');
 
 	

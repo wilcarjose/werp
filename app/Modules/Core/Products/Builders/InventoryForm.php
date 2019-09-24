@@ -2,7 +2,9 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
+use Werp\Builders\Menus\Item;
 use Werp\Builders\FormBuilder;
+use Werp\Builders\Menus\FormMenu;
 use Werp\Builders\Inputs\DateInput;
 use Werp\Builders\Inputs\CodeInput;
 use Werp\Builders\Actions\UpdateAction;
@@ -84,11 +86,16 @@ class InventoryForm extends SimplePage
             ->setStateColor(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.color'));
             ;
 
+        $menu = new FormMenu;
+        $menu->addItem(new Item(route($this->moduleRoute.'.copy', $data['id']), 'file_copy', 'blue'));
+
+        $form->setMenu($menu);
+
         $actionKeys = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
             $action = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$key);
-            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.products.inventories.'.$action['key'], $data['id'])));
+            $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->moduleRoute.'.'.$action['key'], $data['id'])));
         }        
 
         return $this

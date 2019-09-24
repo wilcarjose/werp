@@ -21,9 +21,16 @@ class BaseModel extends Model
 
     protected $checkOnDrop = [];
 
+    protected $copyable = [];
+
     public function getCheckOnDrop()
     {
         return $this->checkOnDrop;
+    }
+
+    public function getCopyable()
+    {
+        return $this->copyable;
     }
 
     /**

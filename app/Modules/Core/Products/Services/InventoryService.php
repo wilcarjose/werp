@@ -40,6 +40,7 @@ class InventoryService extends BaseService
     public function create(array $data)
     {
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
+        $data['state'] = Basedoc::PE_STATE;
         return $this->entity->create($data);
     }
 
@@ -131,5 +132,19 @@ class InventoryService extends BaseService
         $stateArray = $entity->getState(Basedoc::CA_STATE);
 
         return !in_array($entity->state, $stateArray['actions_from']);
+    }
+
+    public function copy($object)
+    {
+        $data = array_only($object->toArray(), $object->getCopyable());
+
+        $entity = $this->create($data);
+
+        foreach ($object->detail as $detail) {
+            $detailData = array_only($detail->toArray(), $detail->getCopyable());
+            $this->createDetail($entity->id, $detailData);
+        }
+
+        return $entity;
     }
 }

@@ -30,7 +30,28 @@
                 </span>
             </div>
             <div class="col s3 right-align">
-                <a class="dropdown-button page-opt-dropBtn btn-floating btn-flat waves-effect waves-set setWave" href="javascript:void(0)" data-activates="supportTicket" data-beloworigin="true" data-alignment="right" data-position="bottom" data-constrainwidth="false" data-delay="50" data-gutter="25"><i class="material-icons grey-text text-darken-2">menu</i></a>
+
+                @if ($form->hasMenu())
+                    <div class="fixed-action-btn horizontal" style="position: relative !important; top: 0px; right: 24px;">
+                        <a class="btn-floating btn-flat">
+                            <i class="material-icons grey-text text-darken-2">menu</i>
+                        </a>
+                        <ul style="top: 6px !important;">
+                            @foreach ($form->menu()->items() as $item)
+                                <li style="margin: 15px 5px 0 0 !important;">
+                                    <a class="btn-floating {{ $item->color() }}" href="{{ $item->url() }}">
+                                        <i class="material-icons">{{ $item->icon() }}</i>
+                                    </a>
+                                </li>
+                            @endforeach
+                            {{--
+                            <li style="margin: 15px 5px 0 0 !important;"><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
+                            <li style="margin: 15px 5px 0 0 !important;"><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+                            <li style="margin: 15px 5px 0 0 !important;"><a class="btn-floating red"><i class="material-icons">attach_file</i></a></li>
+                            --}}
+                        </ul>
+                    </div>
+                @endif
             </div>
             
         </div>

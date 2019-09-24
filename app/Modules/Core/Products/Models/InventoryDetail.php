@@ -23,6 +23,14 @@ class InventoryDetail extends Model
         'warehouse_id'
     ];
 
+    protected $copyable = [
+        'date',
+        'description',
+        'qty',
+        'product_id',
+        'warehouse_id'
+    ];
+
     public function toArray()
     {
         return [

@@ -130,6 +130,13 @@ class BaseService
         }
     }
 
+    public function copy($object)
+    {
+        $data = array_only($object->toArray(), $object->getCopyable());
+
+        return $this->create($data);
+    }
+
     public function changeStatus($id)
     {
     	if (is_array($id)) {

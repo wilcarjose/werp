@@ -34,6 +34,7 @@ class FormBuilder // extends ModuleBuilder
     protected $width = 'm8 push-m2 s12';
     protected $ignoreWidth = false;
     protected $groups = [];
+    protected $menu = null;
 
     public function setId($id)
     {
@@ -441,5 +442,21 @@ class FormBuilder // extends ModuleBuilder
     public function hasGroups()
     {
         return $this->groups && $this->groups->isNotEmpty();
+    }
+
+    public function setMenu($menu)
+    {
+        $this->menu = $menu;
+        return $this;
+    }
+
+    public function menu()
+    {
+        return $this->menu;
+    }
+
+    public function hasMenu()
+    {
+        return $this->menu();
     }
 }

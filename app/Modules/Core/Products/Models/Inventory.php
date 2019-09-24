@@ -28,6 +28,13 @@ class Inventory extends Model
         'reference'
     ];
 
+    protected $copyable = [
+        'description',
+        'doctype_id',
+        'warehouse_id',
+        'date',
+    ];
+
     /**
      * Get the detail for the inventory.
      */

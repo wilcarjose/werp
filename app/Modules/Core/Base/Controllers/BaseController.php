@@ -385,6 +385,35 @@ class BaseController extends Controller
         }
     }
 
+    public function copy($id)
+    {
+        try {
+
+            $entity = $this->entityService->getById($id);
+
+            if (!$entity) {
+                flash(trans($this->getNotFoundKey()), 'info');
+                return back();
+            }
+
+            $newEntity = $this->entityService->copy($entity);
+
+            return redirect(route($this->routeBase.'.edit', $newEntity->id));
+
+        } catch (ModelNotFoundException $e) {
+
+            $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
+            flash($message, 'error', 'error');
+            return back();
+
+        } catch (\Exception $e) {
+
+            $message = $e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine();
+            flash($message, 'error', 'error');
+            return back();
+        }
+    }
+
     /**
      * Remove the bulk resource from storage.
      *
