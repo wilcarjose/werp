@@ -39,7 +39,7 @@ class PriceListTypeService extends BaseService
 
     public function getOrCreatePriceList($currencyId, $type = 'sales')
     {
-        if ($priceList = $this->getPriceListByCurrency($currencyId, $type = 'sales')) {
+        if ($priceList = $this->getPriceListByCurrency($currencyId, $type)) {
             return $priceList;
         }
         

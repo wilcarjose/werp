@@ -104,7 +104,7 @@ class PriceListForm extends SimplePage
             ->addOption(new RadioOptionBuilder('¿Colocar precios manualmente?', PriceListModel::MANUALLY, $isManually, $disable))
             ;
 
-        $inputs2[] = (new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true))
+        $inputs2[] = (new PriceListTypeSelect('all', null, 'reference_price_list_type_id', 'Lista precio base', true))
             ->setHide(!$isFormula && !$isExchange)
             ->setShowInputs([PriceListModel::FORMULA, PriceListModel::EXCHANGE])
             ->setHideInputs(PriceListModel::MANUALLY);

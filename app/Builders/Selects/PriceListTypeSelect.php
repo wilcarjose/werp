@@ -29,7 +29,9 @@ class PriceListTypeSelect extends SelectBuilder
         $this->icon  = $icon;
         $this->text  = $text ?: trans('view.products.price_list_type');
         $this->value = $value;
-        $this->data  = PriceListType::select('id', 'name')->where('type', $listType)->active()->get();
+        $this->data  = $listType == 'all' ? 
+            PriceListType::select('id', 'name')->active()->get() :
+            PriceListType::select('id', 'name')->where('type', $listType)->active()->get();
         $this->disable  = $disable;
         $this->none = $none;
         $this->advancedOption = $advancedOption;
