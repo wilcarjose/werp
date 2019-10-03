@@ -20,7 +20,7 @@
             <div class="row">
 
               <div class="input-field col s12"><i class="material-icons prefix">person</i>
-                <input class="validate black-text lowercase-text" type="email" id="email" name="email" value="{{ old('email') }}" autofocus>
+                <input class="validate black-text lowercase-text" type="email" id="email" name="email" value="{{ env('DEMO_USER', old('email')) }}" autofocus>
                 <label for="email">Email</label>
                 @if ($errors->has('email'))
                     <span class="help-block error-text">
@@ -30,7 +30,7 @@
               </div>
 
               <div class="input-field col s12"><i class="material-icons prefix">vpn_key</i>
-                <input class="validate black-text" type="password" id="password" name="password" autofocus>
+                <input class="validate black-text" type="password" id="password" name="password" autofocus value="{{ env('DEMO_PASSWORD', '') }}">
                 <label for="password">Password</label>
                 @if ($errors->has('password'))
                     <span class="help-block error-text">
