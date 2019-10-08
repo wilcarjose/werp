@@ -3,6 +3,7 @@
 namespace Werp\Builders;
 
 use Werp\Builders\Inputs\InputBuilder;
+use Werp\Builders\Tables\TableBuilder;
 use Werp\Builders\Actions\ActionBuilder;
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
@@ -34,6 +35,7 @@ class FormBuilder // extends ModuleBuilder
     protected $width = 'm8 push-m2 s12';
     protected $ignoreWidth = false;
     protected $groups = [];
+    protected $tables = [];
     protected $menu = null;
 
     public function setId($id)
@@ -442,6 +444,29 @@ class FormBuilder // extends ModuleBuilder
     public function hasGroups()
     {
         return $this->groups && $this->groups->isNotEmpty();
+    }
+
+    public function addTable(TableBuilder $table)
+    {
+        $this->tables = $this->to_collection($this->tables);
+        $this->tables->push($table);
+        return $this;
+    }
+
+    public function setTables($tables)
+    {
+        $this->tables = $this->to_collection($tables);
+        return $this;
+    }
+
+    public function tables()
+    {
+        return $this->tables;
+    }
+
+    public function hasTables()
+    {
+        return $this->tables && $this->tables->isNotEmpty();
     }
 
     public function setMenu($menu)

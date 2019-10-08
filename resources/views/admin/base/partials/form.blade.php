@@ -105,12 +105,17 @@
                         @foreach($group->inputs() as $input)
                             @include('admin.commons.form.inputs.'.$input->getType(), compact('input'))
                         @endforeach
+
                     </div>
                 @endforeach
             @endif
 
             @foreach($form->getInputs() as $input)
                 @include('admin.commons.form.inputs.'.$input->getType(), compact('input'))
+            @endforeach
+
+            @foreach($form->tables() as $table)
+                @include('admin.commons.form.inputs.'.$table->getType(), compact('table'))
             @endforeach
 
             @if ($form->advancedOption())

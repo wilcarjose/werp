@@ -189,7 +189,12 @@ return [
         /**
          * Core Maintenance module
          */
-        Werp\Modules\Core\Maintenance\Providers\ModuleServiceProvider::class,        
+        Werp\Modules\Core\Maintenance\Providers\ModuleServiceProvider::class,
+
+        /**
+         * Core Maintenance module
+         */
+        Werp\Modules\JMJ\ML\Providers\ModuleServiceProvider::class,
 
     ],
 

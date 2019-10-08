@@ -118,6 +118,8 @@ return [
         'db_test' => 'Datos de pruebas',
         'db_backups' => 'Respaldo de datos',
         'warehouse' => 'Almacén',
+        'mercado_libre' => 'Mercado libre',
+        'update_prices' => 'Actualizar precios',
     ],
     'profile' => [
         'profile' => 'Perfil',
