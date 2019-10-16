@@ -65,7 +65,7 @@ class ConfigService
         foreach ($this->inputsConfig as $value) {
 
             $config = $this->config->where('key', $value)->first();
-    
+
             $data[] = [
                 'key' => $config->key,
                 'value' => $config->value,
@@ -192,7 +192,7 @@ class ConfigService
             if (isset($data[$key])) {
 
                 if ($key == Config::MAI_DEFAULT_CURRENCY) {
-                    
+
                     $this->priceListTypeService->getOrCreatePriceList($data[$key], 'sales');
 
                     $this->priceListTypeService->getOrCreatePriceList($data[$key], 'purchases');
@@ -200,7 +200,7 @@ class ConfigService
                 }
 
                 if ($key == Config::MAI_BASE_CURRENCY) {
-                    
+
                     $this->priceListTypeService->getOrCreatePriceList($data[$key], 'sales');
 
                     $this->priceListTypeService->getOrCreatePriceList($data[$key], 'purchases');
@@ -233,14 +233,34 @@ class ConfigService
         return $this->getValue(Config::INV_DEFAULT_WAREHOUSE);
     }
 
-    public function getValue($key)
+    public function getValue($key, $default = null)
     {
         $config = $this->config->where('key', $key)->first();
 
-        if ($config) {
+        if ($config && !is_null($config->value) && !empty($config->value)) {
             return $config->value;
         }
 
-        return null;
+        return $default;
+    }
+
+    public function updateOrCreate($key, $value, $transKey = null, $name = '', $type = 'text', $module = null)
+    {
+        $config = $this->config->where('key', $key)->first();
+
+        if (is_null($config)) {
+            $data = [
+                'key' => $key,
+                'value' => $value,
+                'translate_key' => $transKey,
+                'type' => $type,
+                'module' => $module,
+                'name' => $name
+            ];
+            return $this->config->create($data);
+        }
+
+        $config->value = $value;
+        return $config->save();
     }
 }

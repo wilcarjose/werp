@@ -120,6 +120,7 @@ return [
         'warehouse' => 'Warehouse',
         'mercado_libre' => 'Mercado libre',
         'update_prices' => 'Update prices',
+        'login' => 'Login',
     ],
     'profile' => [
         'profile' => 'Profile',

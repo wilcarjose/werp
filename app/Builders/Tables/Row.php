@@ -20,7 +20,9 @@ class Row
     public function setArrayCells(array $cells)
     {
         foreach ($cells as $cell) {
-            $this->addCell(new Cell($cell));
+            $cell instanceof Cell ?
+                $this->addCell($cell) :
+                $this->addCell(new Cell($cell));
         }
 
         return $this;

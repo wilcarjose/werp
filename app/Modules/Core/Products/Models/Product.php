@@ -30,6 +30,8 @@ class Product extends Model
         'description',
         'category_id',
         'uom_id',
+        'ml_enabled',  // ML
+        'ml_item_id',  // ML
     ];
 
     /**
@@ -57,7 +59,9 @@ class Product extends Model
             'category_id' => $this->category_id,
             'uom_id' => $this->uom_id,
             'active' => $this->active,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'ml_enabled' => $this->ml_enabled,  // ML
+            'ml_item_id' => $this->ml_item_id,  // ML
         ];
     }
 

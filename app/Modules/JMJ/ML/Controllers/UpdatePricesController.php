@@ -2,39 +2,52 @@
 
 namespace Werp\Modules\JMJ\ML\Controllers;
 
+use Excel;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Werp\Http\Controllers\Controller;
 use Werp\Modules\JMJ\ML\Builders\UpdatePricesForm;
+use Werp\Modules\JMJ\ML\Exceptions\UpdatePriceException;
+use Werp\Modules\JMJ\ML\Exports\PricesExport;
+use Werp\Modules\JMJ\ML\Services\AccessService;
 use Werp\Modules\JMJ\ML\Services\UpdatePricesService;
-//use Werp\Modules\JMJ\ML\Transformers\UpdatePricesTransformer;
 
 class UpdatePricesController extends Controller
 {
     protected $updatePricesForm;
     protected $updatePricesService;
-    protected $updatePricesTransformer;
+    protected $accessService;
 
     public function __construct(
         UpdatePricesForm $updatePricesForm,
-        UpdatePricesService $updatePricesService
-        //UpdatePricesTransformer $updatePricesTransformer
+        UpdatePricesService $updatePricesService,
+        AccessService $accessService
     ) {
         $this->updatePricesForm        = $updatePricesForm;
         $this->updatePricesService     = $updatePricesService;
-        //$this->updatePricesTransformer = $updatePricesTransformer;
+        $this->accessService = $accessService;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param null $priceListId
+     * @return Response
      */
-    public function edit()
+    public function edit($priceListId = null)
     {
-        $updatePrices = []; //$this->updatePricesService->getCompany();
+        if ($this->accessService->isNotLoggedIn()) {
+            return redirect(route('admin.ml.login.view'));
+        }
 
-        return $this->updatePricesForm->editPage($updatePrices);
+        $prices = $priceListId ? $this->updatePricesService->getPricesByList($priceListId) : [];
+
+        $data = [
+            'price_list_type_id' => $priceListId,
+            'products' => $prices,
+        ];
+
+        return $this->updatePricesForm->editPage($data);
     }
 
     /**
@@ -42,13 +55,59 @@ class UpdatePricesController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request)
     {
-        $this->updatePricesService->updateCompany($request->all());
+        $priceListId = $request->input('price_list_type_id', null);
 
-        flash(trans('messages.success-update'), 'success', 'success');
-        return redirect(route('admin.ml.update-prices.edit'));
+        return redirect(route('admin.ml.update-prices.edit', $priceListId));
+    }
+
+    public function sendPrices(Request $request)
+    {
+        $priceListId = $request->input('price_list_type_id', null);
+        $prices = $request->input('prices', []);
+
+        if (empty($prices)) {
+            flash('No hay productos por actualizar', 'error', 'error');
+            return redirect(route('admin.ml.update-prices.edit', $priceListId));
+        }
+
+        if (session('ml_access_token', false)) {
+            $errors = [];
+            foreach ($prices as $code => $price) {
+                try {
+                    $this->updatePricesService->sendMLPrice($code, $price);
+                } catch (UpdatePriceException $e) {
+                    $errors[] = $code . ' : ' . $e->getMessage();
+                }
+            }
+
+            $errorMessage = '';
+            if (!empty($errors)) {
+                foreach ($errors as $error) {
+                    $errorMessage .= $error . ', ';
+                }
+            }
+
+            empty($errorMessage) ?
+                flash('Se actualizaron los precios con exito', 'success', 'success') :
+                flash('Ocurrió un error al actualizar algunos precios: ' . $errorMessage, 'error', 'error');
+
+            return redirect(route('admin.ml.update-prices.edit', $priceListId));
+        }
+
+        $url = $this->accessService->getCallbackUrl();
+        return redirect($url);
+    }
+
+    public function export($priceListId)
+    {
+        $prices =  $this->updatePricesService->getPricesByList($priceListId);
+
+        $export = new PricesExport($prices);
+
+        return Excel::download($export, 'prices-'.date('YmdHis').'.xlsx');
     }
 }

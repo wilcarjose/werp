@@ -105,7 +105,7 @@ class SelectBuilder
 
     /**
      * @param mixed $text
-     * @return InputBuilder
+     * @return SelectBuilder
      */
     public function setText($text)
     {
@@ -123,7 +123,7 @@ class SelectBuilder
 
     /**
      * @param mixed $value
-     * @return InputBuilder
+     * @return SelectBuilder
      */
     public function setValue($value)
     {

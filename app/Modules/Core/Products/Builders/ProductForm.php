@@ -2,6 +2,8 @@
 
 namespace Werp\Modules\Core\Products\Builders;
 
+use Werp\Builders\Checks\CheckBuilder;
+use Werp\Builders\InputGroupBuilder;
 use Werp\Builders\TabBuilder;
 use Werp\Builders\ColBuilder;
 use Werp\Builders\RowBuilder;
@@ -21,6 +23,7 @@ use Werp\Builders\Actions\SaveAndEditAction;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Builders\Selects\ProductCategorySelect;
 use Werp\Builders\Selects\SupplierSelectBuilder;
+use Werp\Modules\Core\Sales\Models\PriceList as PriceListModel;
 
 class ProductForm extends SimplePage
 {
@@ -50,7 +53,7 @@ class ProductForm extends SimplePage
         $this->addTab((new TabBuilder('basic', trans('view.general'))));
         //$this->addTab((new TabBuilder('stock', trans('view.menu.stock'))));
         //$this->addTab((new TabBuilder('warehouse', trans('view.menu.warehouses'))));
-        
+
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
             ->setAction($this->newTitle)
@@ -67,14 +70,15 @@ class ProductForm extends SimplePage
         ;
     }
 
-    public function editPage($data)
+    public function editPage($data, $defaulTab = null)
     {
-        $this->addTab((new TabBuilder('basic', trans('view.general'))));
-        $this->addTab((new TabBuilder('stock', 'Stock')));
-        //$this->addTab((new TabBuilder('warehouse', trans('view.menu.warehouses'))));
+        $this->addTab((new TabBuilder('basic', trans('view.general'), $defaulTab == 'basic')));
+        $this->addTab((new TabBuilder('stock', 'Stock', $defaulTab == 'stock')));
+        $this->addTab((new TabBuilder('ml', trans('view.menu.mercado_libre'), $defaulTab == 'ml')));
 
         $form = (new FormBuilder)
             ->setRoute($this->moduleRoute)
+            ->setDefaultTab('basic')
             ->setAction('Información básica')
             ->setInputs($this->getInputs())
             ->addAction(new UpdateAction)
@@ -110,6 +114,10 @@ class ProductForm extends SimplePage
         $row2->addCol($col2);
         $row2->addCol($col3);
 
+        $row3 = $this->getMLRow($data['product']);
+        $row3->addCol($col2);
+        $row3->addCol($col3);
+
         return $this
             ->setTitle('Producto: ' . $data['product']['name'])
             ->setShortAction($data['product']['name'])
@@ -117,6 +125,7 @@ class ProductForm extends SimplePage
             //->addForm($form)
             ->addRow($row1)
             ->addRow($row2)
+            ->addRow($row3)
             //->setFormsWidth('m8 s12')
             ->view()
         ;
@@ -141,5 +150,35 @@ class ProductForm extends SimplePage
             ->newConfig()
             ->addForm($form)->view()
         ;
+    }
+
+    public function getMLRow($data)
+    {
+        $isEnable = $data['ml_enabled'] == 'on';
+
+        $inputs = [
+            (new CheckBuilder('ml_enabled', '¿Activar ítem para Mercado Libre?'))->setChecked($isEnable),
+            new InputBuilder('ml_item_id', trans('view.code'), $data['ml_item_id'], 'input')
+        ];
+
+        $form = (new FormBuilder)
+            ->setRoute('admin.ml.item')
+            ->setMainRoute('update', ['id' => $data['id']])
+            ->setAction('Información para mercado libre')
+            ->setInputs($inputs)
+            ->addAction(new UpdateAction)
+            ->setData($data)
+            ->setEdit()
+            ->setIgnoreWidth(true)
+            ->setDefaultTab('ml')
+        ;
+
+        $colForm = new ColBuilder('s12 m12 l8');
+        $colForm->addForm($form);
+
+        $row = new RowBuilder('ml');
+        $row->addCol($colForm);
+
+        return $row;
     }
 }

@@ -8,3 +8,44 @@
         </span>
     @endif
 </div>
+
+@if (!is_null($input->hide()))
+
+    @push('show-hide')
+
+        <script>
+
+            $(document).ready(function() {
+
+                @foreach ($input->showInputs() as $showInput)
+                $('#{{ $showInput }}').click(function() {
+                    if($(this).prop("checked") == false){
+                        $('#{{ $input->getName() }}').hide(200);
+                        $('#{{ $input->getName() }}').hide(200);
+                    }
+                    else if($(this).prop("checked") == true){
+                        $('#{{ $input->getName() }}').show(200);
+                        $('#{{ $input->getName() }}').show(200);
+                    }
+                });
+                @endforeach
+
+                @foreach ($input->hideInputs() as $hideInput)
+                $('#{{ $hideInput }}').click(function() {
+                    if($(this).prop("checked") == false){
+                        $('#{{ $input->getName() }}').show(200);
+                        $('#{{ $input->getName() }}').show(200);
+                    }
+                    else if($(this).prop("checked") == true){
+                        $('#{{ $input->getName() }}').hide(200);
+                        $('#{{ $input->getName() }}').hide(200);
+                    }
+                });
+                @endforeach
+            })
+
+        </script>
+
+    @endpush
+
+@endif

@@ -71,7 +71,7 @@ class ProductController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
 
@@ -89,7 +89,7 @@ class ProductController extends BaseController
                 'limits' => $this->entityService->getStockLimit($id),
             ];
 
-            return $this->entityForm->editPage($data);
+            return $this->entityForm->editPage($data, $request->get('default_tab', null));
 
         } catch (ModelNotFoundException $e) {
 
@@ -130,7 +130,7 @@ class ProductController extends BaseController
         return $this->entityForm->importPage();
     }
 
-    public function import(Request $request) 
+    public function import(Request $request)
     {
         try {
 
@@ -139,7 +139,7 @@ class ProductController extends BaseController
             ];
 
             $validator = validator()->make($request->all(), $rules);
-        
+
             if ($validator->fails()) {
 
                 flash(trans($this->getFailValidationKey()), 'error', 'error');
@@ -147,7 +147,7 @@ class ProductController extends BaseController
             }
 
             Excel::import(new ProductsImport, $request->file('file'));
-            
+
             flash(trans($this->getAddedKey()), 'success', 'success');
             return back();
 

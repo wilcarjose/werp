@@ -22,6 +22,8 @@ class ProductTransformer extends Transformer
             'active'      => $item['active'],
             'code_name'   => $item['code'].' - '.$item['name'],
             'created_at'  => $item['created_at'],
+            'ml_enabled'  => $item['ml_enabled'],  // ML
+            'ml_item_id'  => $item['ml_item_id'],  // ML
         ];
 
         $data['VEF'] = isset($item['VEF']) ? $item['VEF'] : 0;

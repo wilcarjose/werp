@@ -37,6 +37,7 @@ class FormBuilder // extends ModuleBuilder
     protected $groups = [];
     protected $tables = [];
     protected $menu = null;
+    protected $tab = null;
 
     public function setId($id)
     {
@@ -85,6 +86,22 @@ class FormBuilder // extends ModuleBuilder
     public function getRoute()
     {
         return $this->route;
+    }
+
+    public function setDefaultTab($tab)
+    {
+        $this->tab = $tab;
+        return $this;
+    }
+
+    public function defaultTab()
+    {
+        return $this->tab;
+    }
+
+    public function hasDefaultTab()
+    {
+        return !is_null($this->tab);
     }
 
     public function setMainRoute($mainRoute, $params = [])
@@ -294,7 +311,7 @@ class FormBuilder // extends ModuleBuilder
         $this->maxWidth = true;
         $this->midWidth = false;
         $this->middleWidth = false;
-        return $this;    
+        return $this;
     }
 
     public function setMidWidth()
@@ -310,7 +327,7 @@ class FormBuilder // extends ModuleBuilder
         $this->maxWidth = false;
         $this->midWidth = false;
         $this->middleWidth = true;
-        return $this;    
+        return $this;
     }
 
     public function setState($state)

@@ -20,6 +20,9 @@ class InputBuilder
     protected $advancedOption = false;
     protected $placeholder = '';
     protected $width = 'm6 s12';
+    protected $hide = null;
+    protected $hideInputs = [];
+    protected $showInputs = [];
 
     /**
      * InputBuilder constructor.
@@ -29,7 +32,7 @@ class InputBuilder
      * @param $text
      * @param $value
      */
-    public function __construct($name = null, $text = null, $type = 'input', $icon = null, $value = null, $disable = false)
+    public function __construct($name = null, $text = null, $value = null, $type = 'input', $icon = null, $disable = false)
     {
         $this->name = $name;
         $this->type = $type;
@@ -209,5 +212,59 @@ class InputBuilder
     public function width()
     {
         return $this->width;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function hide()
+    {
+        return $this->hide;
+    }
+
+    /**
+     * @param mixed $hide
+     * @return InputBuilder
+     */
+    public function setHide($hide)
+    {
+        $this->hide = $hide;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function showInputs()
+    {
+        return $this->showInputs;
+    }
+
+    /**
+     * @param mixed $showInput
+     * @return InputBuilder
+     */
+    public function setShowInputs($showInputs)
+    {
+        $this->showInputs = is_array($showInputs) ? $showInputs : explode(',', $showInputs);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function hideInputs()
+    {
+        return $this->hideInputs;
+    }
+
+    /**
+     * @param mixed $hideInput
+     * @return InputBuilder
+     */
+    public function setHideInputs($hideInputs)
+    {
+        $this->hideInputs = is_array($hideInputs) ? $hideInputs : explode(',', $hideInputs);
+        return $this;
     }
 }

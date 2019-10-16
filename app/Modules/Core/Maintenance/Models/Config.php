@@ -26,7 +26,7 @@ class Config extends Model
      * @var array
      */
     protected $fillable = [
-        'key', 'value', 'type', 'translate_key', 'description'
+        'key', 'value', 'type', 'translate_key', 'description', 'name', 'module'
     ];
 
     public function toArray()

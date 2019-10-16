@@ -53,7 +53,7 @@
                     </div>
                 @endif
             </div>
-            
+
         </div>
 
         <div class="row">
@@ -64,7 +64,7 @@
 
         <div class="row">
             <div class="col s10">
-              
+
             </div>
             <div class="col s2">
                 @if (false && $form->hasPrintAction())
@@ -118,6 +118,10 @@
                 @include('admin.commons.form.inputs.'.$table->getType(), compact('table'))
             @endforeach
 
+            @if ($form->hasDefaultTab())
+                <input type="hidden" name="default_tab" value="{{ $form->defaultTab() }}">
+            @endif
+
             @if ($form->advancedOption())
               <div class="col {{$form->hasGroups() ? 's11 push-s1' : 's12'}}">
                 <a type="link" href="#" onclick="showAdvancedOption(); return false;">
@@ -137,7 +141,7 @@
             @endif
 
         </div>
-        
+
         <div class="row">
             <div class="input-field col s12 right-align">
                 @if (true && $form->hasPrintAction())
@@ -149,7 +153,7 @@
                 @endforeach
             </div>
         </div>
-        
+
     </div>
 
 </form>

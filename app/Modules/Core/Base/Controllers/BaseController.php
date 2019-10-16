@@ -170,7 +170,7 @@ class BaseController extends Controller
         try {
 
             return $this->entityForm->createPage($this->getDependencies(), $this->getDefaultsDependencies());
-        
+
         } catch (ModelNotFoundException $e) {
 
             $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
@@ -195,7 +195,7 @@ class BaseController extends Controller
     {
         try {
             $validator = validator()->make($request->all(), $this->getStoreRules());
-        
+
             if ($validator->fails()) {
 
                 if (request()->ajax() || request()->wantsJson()) {
@@ -293,7 +293,7 @@ class BaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
 
@@ -332,7 +332,7 @@ class BaseController extends Controller
         try {
 
             $validator = validator()->make($request->all(), $this->getUpdateRules());
-            
+
             if ($validator->fails()) {
                 flash(trans($this->getFailValidationKey()), 'error', 'error');
                 return back()->withErrors($validator)->withInput();
@@ -361,9 +361,9 @@ class BaseController extends Controller
     public function destroy($id)
     {
         try {
-            
+
             $this->entityService->delete($id);
-            
+
             return response([
                 'data'        => [],
                 'message'     => trans($this->getDeleteKey()),
@@ -512,7 +512,7 @@ class BaseController extends Controller
 
 
     ///// detail
-    
+
 
     /**
      * Display a listing of the resource.
@@ -532,7 +532,7 @@ class BaseController extends Controller
 
         $data = $this->entityDetailTransformer
             ->transformCollection($detail->all());
-       
+
         return response([
             'data'        => $data,
             'totals'   => $totals,
@@ -547,9 +547,9 @@ class BaseController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function storeDetail(Request $request, $id)
-    {   
+    {
         $validator = validator()->make($request->all(), $this->getStoreDetailRules());
-        
+
         if ($validator->fails()) {
             return response([
                 'error' => trans($this->getFailValidationKey()),
@@ -575,7 +575,7 @@ class BaseController extends Controller
                     'status_code' => 201
                 ], 201);
             }
-            
+
             flash(trans($this->getUpdatedKey()), 'success', 'success');
             return back();
 
@@ -609,7 +609,7 @@ class BaseController extends Controller
             flash($message, 'error', 'error');
             return back();
         }
-        
+
     }
 
     /**
@@ -622,7 +622,7 @@ class BaseController extends Controller
     public function updateDetail(Request $request, $id, $detail)
     {
         $validator = validator()->make($request->all(), $this->getUpdateDetailRules());
-            
+
         if ($validator->fails()) {
             return response([
                 'message' => trans($this->getFailValidationKey()),
@@ -648,7 +648,7 @@ class BaseController extends Controller
                     'status_code' => 200
                 ], 200);
             }
-            
+
             flash(trans($this->getUpdatedKey()), 'success', 'success');
             return back();
 

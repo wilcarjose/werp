@@ -120,6 +120,7 @@ return [
         'warehouse' => 'Almacén',
         'mercado_libre' => 'Mercado libre',
         'update_prices' => 'Actualizar precios',
+        'login' => 'Login',
     ],
     'profile' => [
         'profile' => 'Perfil',

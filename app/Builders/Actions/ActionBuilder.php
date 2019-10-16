@@ -24,6 +24,7 @@ class ActionBuilder
     protected $value = null;
     protected $class = 'btn waves-effect waves-set';
     protected $iconPosition = 'left';
+    protected $confirm = true;
 
     /**
      * ActionBuilder constructor.
@@ -205,6 +206,24 @@ class ActionBuilder
     public function setClass($class)
     {
         $this->class = $class;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function confirm()
+    {
+        return $this->confirm;
+    }
+
+    /**
+     * @param mixed $confirm
+     * @return ActionBuilder
+     */
+    public function setConfirm($confirm)
+    {
+        $this->confirm = $confirm;
         return $this;
     }
 }
