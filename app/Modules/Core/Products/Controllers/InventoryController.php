@@ -8,25 +8,25 @@ use Werp\Modules\Core\Products\Models\Inventory;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Base\Controllers\BaseController;
-use Werp\Modules\Core\Products\Models\InventoryDetail;
+use Werp\Modules\Core\Products\Models\InventoryLine;
 use Werp\Modules\Core\Products\Builders\InventoryForm;
 use Werp\Modules\Core\Products\Builders\InventoryList;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Products\Services\InventoryService;
 use Werp\Modules\Core\Products\Services\TransactionService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Transformers\InventoryTransformer;
-use Werp\Modules\Core\Products\Transformers\InventoryDetailTransformer;
+use Werp\Modules\Core\Products\Transformers\InventoryLineTransformer;
 
 class InventoryController extends BaseController
 {
     protected $entity;
     protected $doctype;
     protected $warehouse;
-    protected $entityDetail;
+    protected $entityLine;
     protected $entityTransformer;
-    protected $entityDetailTransformer;
+    protected $entityLineTransformer;
     protected $entityForm;
     protected $entityList;
     protected $configService;
@@ -53,17 +53,17 @@ class InventoryController extends BaseController
         'warehouse_id'    => 'required',
     ];
 
-    protected $storeDetailRules = [
+    protected $storeLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $updateDetailRules = [
+    protected $updateLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $detailInputs = [
+    protected $lineInputs = [
         'qty',
         'description',
         'product_id',
@@ -77,9 +77,9 @@ class InventoryController extends BaseController
     public function __construct(
         Product $product,
         Inventory $entity,
-        InventoryDetail $entityDetail,
+        InventoryLine $entityLine,
         InventoryTransformer $entityTransformer,
-        InventoryDetailTransformer $entityDetailTransformer,
+        InventoryLineTransformer $entityLineTransformer,
         InventoryForm $entityForm,
         InventoryList $entityList,
         Doctype $doctype,
@@ -89,12 +89,12 @@ class InventoryController extends BaseController
         InventoryService $entityService
     ) {
         $this->entity            = $entity;
-        $this->entityDetail      = $entityDetail;
+        $this->entityLine      = $entityLine;
         $this->doctype              = $doctype;
         $this->product              = $product;
         $this->warehouse            = $warehouse;
         $this->entityTransformer = $entityTransformer;
-        $this->entityDetailTransformer = $entityDetailTransformer;
+        $this->entityLineTransformer = $entityLineTransformer;
         $this->entityForm        = $entityForm;
         $this->entityList        = $entityList;
         $this->configService        = $configService;
@@ -122,7 +122,7 @@ class InventoryController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $entity = $this->entityService->getById($id, false);
 
@@ -149,7 +149,7 @@ class InventoryController extends BaseController
             flash('Inventario procesado exitosamente', 'success', 'success');
             return redirect(route($this->routeBase.'.edit', $id));
 
-        } catch (NotDetailException $e) {
+        } catch (NotLinesException $e) {
             flash($e->getMessage(), 'error', 'error');
             return redirect(route($this->routeBase.'.edit', $id));
         } catch (CanNotProcessException $e) {

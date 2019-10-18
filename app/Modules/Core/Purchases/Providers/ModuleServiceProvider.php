@@ -34,7 +34,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \Config::set('purchases', require app_path('Modules/Core/Purchases/config/purchases.php'));
+        \Config::set('purchases', require app_path('Modules/Core/Purchases/config/module.php'));
         $menu = config('menu');
         $purchases = config('purchases.menu');
         $menu[] = $purchases;
@@ -66,7 +66,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes()
     {
-        
+
         Route::group([
             'middleware' => ['web', 'admin', 'auth:admin'],
             'prefix' => 'admin/purchases',
@@ -75,7 +75,7 @@ class ModuleServiceProvider extends ServiceProvider
         ], function () {
             require(base_path('app/Modules/Core/Purchases/routes/admin.php'));
         });
-        
+
         /*
         Route::middleware('web')
              ->namespace($this->namespace)

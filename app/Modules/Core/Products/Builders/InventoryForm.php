@@ -61,7 +61,7 @@ class InventoryForm extends SimplePage
 
         $inputs = [
             //new CodeInput,
-            (new DateInput)->setDisable($disable),   
+            (new DateInput)->setDisable($disable),
             (new WarehouseSelect)->setDisable($disable),
             (new DescriptionInput)->advancedOption()->setDisable($disable),
             (new DoctypeSelect(Basedoc::IN_DOC, Config::INV_DEFAULT_IN_DOC))->advancedOption()->setDisable($disable),
@@ -80,7 +80,7 @@ class InventoryForm extends SimplePage
             $form->addAction(new UpdateAction);
         }
 
-        $form            
+        $form
             //->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IN_DOC.'.'.$data['state'].'.color'));
@@ -96,10 +96,10 @@ class InventoryForm extends SimplePage
         foreach ($actionKeys as $key) {
             $action = config('products.document.actions.'.Basedoc::IN_DOC.'.'.$key);
             $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->moduleRoute.'.'.$action['key'], $data['id'])));
-        }        
+        }
 
         return $this
-            ->addList(new InventoryDetailList(false, $data['id'], $disable))
+            ->addList(new InventoryLinesList(false, $data['id'], $disable))
             ->setListsWidth('s8 push-m2')
             ->setMessagesWidth('s8 push-m2')
             ->setShortAction('Editar')

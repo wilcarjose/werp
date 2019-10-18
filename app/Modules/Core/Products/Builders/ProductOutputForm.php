@@ -105,7 +105,7 @@ class ProductOutputForm extends SimplePage
         }
 
         return $this
-            ->addList(new ProductOutputDetailList(false, $data['id'], $disable))
+            ->addList(new ProductOutputLinesList(false, $data['id'], $disable))
             ->setListsWidth('s10 push-m1')
             ->setShortAction($this->editTitle)
             ->editConfig()

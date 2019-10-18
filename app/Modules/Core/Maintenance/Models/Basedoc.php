@@ -13,6 +13,8 @@ class Basedoc extends Model
     const IE_DOC = 'IE'; // product entry
     const IO_DOC = 'IO'; // product output
     const IM_DOC = 'IM'; // inventory movement
+    const PI_DOC = 'PI'; // purchase invoice
+    const SI_DOC = 'SI'; // sale invoice
 
     const PE_STATE = 'PE';
     const PR_STATE = 'PR';
@@ -41,7 +43,7 @@ class Basedoc extends Model
     }
 
     /**
-     * Get the detail for the inventory.
+     * Get the lines for the inventory.
      */
     public function doctypes()
     {

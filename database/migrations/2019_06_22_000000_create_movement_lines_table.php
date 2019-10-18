@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInventoryDetailTable extends Migration
+class CreateMovementLinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,24 +13,27 @@ class CreateInventoryDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventory_detail', function (Blueprint $table) {
+        Schema::create('movement_lines', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('reference');
             $table->timestamp('date');
-            $table->text('description')->nullable();
+            $table->string('reference');
             $table->double('qty');
-            $table->uuid('inventory_id');
-            $table->foreign('inventory_id')
+            $table->uuid('movement_id');
+            $table->foreign('movement_id')
                 ->references('id')
-                ->on('inventories');
+                ->on('movements');
+            $table->uuid('warehouse_from_id');
+            $table->foreign('warehouse_from_id')
+                ->references('id')
+                ->on('warehouses');
+            $table->uuid('warehouse_to_id');
+            $table->foreign('warehouse_to_id')
+                ->references('id')
+                ->on('warehouses');
             $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
-            $table->uuid('warehouse_id');
-            $table->foreign('warehouse_id')
-                ->references('id')
-                ->on('warehouses');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
@@ -47,6 +50,6 @@ class CreateInventoryDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventory_detail');
+        Schema::dropIfExists('movement_lines');
     }
 }

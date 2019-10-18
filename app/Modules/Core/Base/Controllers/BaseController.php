@@ -9,9 +9,9 @@ use Werp\Modules\Core\Base\Exceptions\DeleteRestrictionException;
 
 class BaseController extends Controller
 {
-    protected $entityDetail;
+    protected $entityLine;
     protected $entityTransformer;
-    protected $entityDetailTransformer;
+    protected $entityLineTransformer;
     protected $entityForm;
     protected $entityList;
     protected $addedKey = 'messages.success-create';
@@ -26,9 +26,9 @@ class BaseController extends Controller
     protected $storeRules = [];
     protected $updateRules = [];
     protected $dependencies = [];
-    protected $detailInputs = [];
-    protected $storeDetailRules = [];
-    protected $updateDetailRules = [];
+    protected $lineInputs = [];
+    protected $storeLineRules = [];
+    protected $updateLineRules = [];
     protected $relatedField;
     protected $defaultDependencies = [];
     protected $entityService;
@@ -44,14 +44,14 @@ class BaseController extends Controller
         return $this->updateRules;
     }
 
-    protected function getStoreDetailRules()
+    protected function getStoreLineRules()
     {
-        return $this->storeDetailRules;
+        return $this->storeLineRules;
     }
 
-    protected function getUpdateDetailRules()
+    protected function getUpdateLineRules()
     {
-        return $this->updateDetailRules;
+        return $this->updateLineRules;
     }
 
     protected function getInputs()
@@ -59,9 +59,9 @@ class BaseController extends Controller
         return $this->inputs;
     }
 
-    protected function getDetailInputs()
+    protected function getLineInputs()
     {
-        return $this->detailInputs;
+        return $this->lineInputs;
     }
 
     protected function getAddedKey()
@@ -511,7 +511,7 @@ class BaseController extends Controller
     }
 
 
-    ///// detail
+    ///// lines
 
 
     /**
@@ -519,19 +519,19 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexDetail($id)
+    public function indexLine($id)
     {
         $sort   = request()->has('sort')?request()->get('sort'):'id';
         $order  = request()->has('order')?request()->get('order'):'asc';
         $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
 
         $entity = $this->entityService->getById($id);
-        $detail = $entity->detail;
+        $lines = $entity->lines;
 
         $totals = $entity->getTotals();
 
-        $data = $this->entityDetailTransformer
-            ->transformCollection($detail->all());
+        $data = $this->entityLineTransformer
+            ->transformCollection($lines->all());
 
         return response([
             'data'        => $data,
@@ -546,9 +546,9 @@ class BaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeDetail(Request $request, $id)
+    public function storeLine(Request $request, $id)
     {
-        $validator = validator()->make($request->all(), $this->getStoreDetailRules());
+        $validator = validator()->make($request->all(), $this->getStoreLineRules());
 
         if ($validator->fails()) {
             return response([
@@ -560,12 +560,12 @@ class BaseController extends Controller
 
         try {
 
-            $data = array_only($request->all(), $this->getDetailInputs());
+            $data = array_only($request->all(), $this->getLineInputs());
 
-            $entityDetail = $this->entityService->createDetail($id, $data);
+            $entityLine = $this->entityService->createLine($id, $data);
 
-            $result = $entityDetail instanceof Model ?
-                $this->entityDetailTransformer->transform($entityDetail->toArray()) :
+            $result = $entityLine instanceof Model ?
+                $this->entityLineTransformer->transform($entityLine->toArray()) :
                 [];
 
             if ($request->wantsJson()) {
@@ -619,9 +619,9 @@ class BaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateDetail(Request $request, $id, $detail)
+    public function updateLine(Request $request, $id, $line)
     {
-        $validator = validator()->make($request->all(), $this->getUpdateDetailRules());
+        $validator = validator()->make($request->all(), $this->getUpdateLineRules());
 
         if ($validator->fails()) {
             return response([
@@ -633,12 +633,12 @@ class BaseController extends Controller
 
         try {
 
-            $data = array_only($request->all(), $this->getDetailInputs());
+            $data = array_only($request->all(), $this->getLineInputs());
 
-            $entityDetail = $this->entityService->updateDetail($data, $detail);
+            $entityLine = $this->entityService->updateLine($data, $line);
 
-            $result = $entityDetail instanceof Model ?
-                $this->entityDetailTransformer->transform($entityDetail->toArray()) :
+            $result = $entityLine instanceof Model ?
+                $this->entityLineTransformer->transform($entityLine->toArray()) :
                 [];
 
             if ($request->wantsJson()) {
@@ -690,11 +690,11 @@ class BaseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroyDetail(Request $request, $id, $detail)
+    public function destroyLine(Request $request, $id, $line)
     {
         try {
 
-            $this->entityService->deleteDetail($id, $detail);
+            $this->entityService->deleteLine($id, $line);
 
             if ($request->wantsJson()) {
                 return response([
@@ -745,11 +745,11 @@ class BaseController extends Controller
      * @param  Request $request [description]
      * @return \Illuminate\Http\Response
      */
-    public function destroyDetailBulk(Request $request, $id)
+    public function destroyLinesBulk(Request $request, $id)
     {
         try {
 
-            $this->entityService->deleteDetail($id, $request->all());
+            $this->entityService->deleteLine($id, $request->all());
 
             if ($request->wantsJson()) {
                 return response([

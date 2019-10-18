@@ -6,26 +6,26 @@ use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Inventory;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
-use Werp\Modules\Core\Products\Models\InventoryDetail;
+use Werp\Modules\Core\Products\Models\InventoryLine;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 
 class InventoryService extends BaseService
 {
     protected $entity;
-    protected $entityDetail;
+    protected $entityLine;
     protected $inventoryObject;
     protected $transactionService;
 
     public function __construct(
         Inventory $entity,
-        InventoryDetail $entityDetail,
+        InventoryLine $entityLine,
         DoctypeService $doctypeService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
-        $this->entityDetail         = $entityDetail;
+        $this->entityLine         = $entityLine;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
     }
@@ -50,7 +50,7 @@ class InventoryService extends BaseService
             throw new CanNotProcessException("Acción inválida para Inventario procesado");
         }
 
-        try {   
+        try {
 
             $this->begin();
 
@@ -66,13 +66,13 @@ class InventoryService extends BaseService
             $this->rollBack();
             throw new \Exception(get_class($e)." Error Processing Request: ".$e->getMessage() . ' File: ' . $e->getFile() . ' Line: ' . $e->getLine());
         }
-        
+
     }
 
     public function check()
     {
-        if ($this->inventoryObject->getDetail()->isEmpty()) {
-            throw new NotDetailException("Debe añadir productos al inventario");
+        if ($this->inventoryObject->getlines()->isEmpty()) {
+            throw new NotLinesException("Debe añadir productos al inventario");
         }
 
         return $this;
@@ -92,7 +92,7 @@ class InventoryService extends BaseService
             $data['warehouse_id'] :
             $entity->warehouse_id;
         $data['date'] = $entity->date;
-        
+
         return $data;
     }
 
@@ -140,9 +140,9 @@ class InventoryService extends BaseService
 
         $entity = $this->create($data);
 
-        foreach ($object->detail as $detail) {
-            $detailData = array_only($detail->toArray(), $detail->getCopyable());
-            $this->createDetail($entity->id, $detailData);
+        foreach ($object->lines as $line) {
+            $lineData = array_only($line->toArray(), $line->getCopyable());
+            $this->createLine($entity->id, $lineData);
         }
 
         return $entity;

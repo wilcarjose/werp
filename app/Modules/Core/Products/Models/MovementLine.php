@@ -4,9 +4,9 @@ namespace Werp\Modules\Core\Products\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
-class MovementDetail extends Model
+class MovementLine extends Model
 {
-    protected $table = 'movement_detail';
+    protected $table = 'movement_lines';
 
     /**
      * The attributes that are mass assignable.

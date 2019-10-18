@@ -37117,11 +37117,11 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
 
             this.resetAlert();
             if (!this.empty_list) {
-                var suffix = this.filter ? '/' + this.filter + '/detail' : '';
+                var suffix = this.filter ? '/' + this.filter + '/lines' : '';
                 var uri = '' + this.route + suffix + '?page=' + page + '&sort=' + this.sortOrder.field + '&order=' + this.sortOrder.order + '&fields=' + this.fieldList;
                 axios.get(uri).then(function (response) {
                     var res = response.data;
-                    if (res.status_code == 200) {
+                    if (res.status_code === 200) {
                         _this.componentData = res.data;
                         _this.pagination = res.paginator;
                         _this.totals = res.totals;
@@ -37188,7 +37188,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this2 = this;
 
             if (this.filter) {
-                var suffix = this.filter + '/detail/';
+                var suffix = this.filter + '/lines/';
                 var uri = this.route + '/' + suffix + this.modal.object.id;
                 //this.unformatNumerics();
                 axios.put(uri, this.modal.object).then(function (response) {
@@ -37263,7 +37263,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.showLoader = true;
 
             if (this.filter) {
-                var suffix = this.filter + '/detail';
+                var suffix = this.filter + '/lines';
                 var uri = this.route + '/' + suffix;
                 //this.unformatNumerics();
                 axios.post(uri, this.modal.object).then(function (response) {
@@ -37304,7 +37304,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
             if (!this.empty_list) {
-                var suffix = this.filter ? this.filter + '/detail/' : '';
+                var suffix = this.filter ? this.filter + '/lines/' : '';
                 var uri = this.route + '/' + suffix + obj.id;
                 axios.delete(uri).then(function (response) {
                     var res = response.data;
@@ -37330,7 +37330,7 @@ var funcHelp = new __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__["a" 
             var _this5 = this;
 
             this.resetAlert();
-            var suffix = this.filter ? this.filter + '/detail/' : '';
+            var suffix = this.filter ? this.filter + '/lines/' : '';
             var uri = this.route + '/' + suffix + 'removeBulk';
             if (this.multiSelection.length) {
                 axios.post(uri, this.multiSelection).then(function (response) {

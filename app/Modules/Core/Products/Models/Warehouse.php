@@ -51,7 +51,7 @@ class Warehouse extends Model
 
     public function inventories()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryDetail');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryLine');
     }
 
     public function stockLimits()
@@ -61,21 +61,21 @@ class Warehouse extends Model
 
     public function orders()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\OrderDetail');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\OrderLine');
     }
 
     public function inouts()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\InoutDetail');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InoutLine');
     }
 
     public function movementsFrom()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementDetail', 'warehouse_from_id');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementLine', 'warehouse_from_id');
     }
 
     public function movementsTo()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementDetail', 'warehouse_to_id');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementLine', 'warehouse_to_id');
     }
 }

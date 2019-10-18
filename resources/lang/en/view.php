@@ -69,6 +69,8 @@ return [
     'general' => 'General',
     'color' => 'Color',
     'formula' => 'Formula',
+    'invoice' => 'Factura',
+    'number' => 'Number',
     'menu' => [
         'company' => 'Company',
     	'security' => 'Security',
@@ -121,6 +123,7 @@ return [
         'mercado_libre' => 'Mercado libre',
         'update_prices' => 'Update prices',
         'login' => 'Login',
+        'invoices' => 'Invoices',
     ],
     'profile' => [
         'profile' => 'Profile',

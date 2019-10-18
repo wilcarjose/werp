@@ -4,7 +4,7 @@ namespace Werp\Modules\Core\Purchases\Builders;
 
 use Werp\Builders\Main\MainList;
 
-class PurchaseOrderDetailList extends MainList
+class PurchaseOrderLinesList extends MainList
 {
     public function __construct($empty = false, $filter = null, $disable = false)
     {

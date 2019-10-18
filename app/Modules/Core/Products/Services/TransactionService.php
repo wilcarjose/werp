@@ -4,9 +4,9 @@ namespace Werp\Modules\Core\Products\Services;
 
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Products\Models\Transaction;
-use Werp\Modules\Core\Products\Models\InoutDetail;
-use Werp\Modules\Core\Products\Models\MovementDetail;
-use Werp\Modules\Core\Products\Models\InventoryDetail;
+use Werp\Modules\Core\Products\Models\InoutLine;
+use Werp\Modules\Core\Products\Models\MovementLine;
+use Werp\Modules\Core\Products\Models\InventoryLine;
 
 class TransactionService
 {
@@ -34,29 +34,29 @@ class TransactionService
 
     	if ($this->document->getType() == Basedoc::IN_DOC) {
 
-    		foreach ($this->document->detail as $detail) {
-    			$this->makeInventory($detail);
+    		foreach ($this->document->lines as $line) {
+    			$this->makeInventory($line);
     		}
     	}
 
         if ($this->document->getType() == Basedoc::IE_DOC) {
 
-            foreach ($this->document->detail as $detail) {
-                $this->makeEntry($detail);
+            foreach ($this->document->lines as $line) {
+                $this->makeEntry($line);
             }
         }
 
         if ($this->document->getType() == Basedoc::IO_DOC) {
 
-            foreach ($this->document->detail as $detail) {
-                $this->makeOutput($detail);
+            foreach ($this->document->lines as $line) {
+                $this->makeOutput($line);
             }
         }
 
         if ($this->document->getType() == Basedoc::IM_DOC) {
 
-            foreach ($this->document->detail as $detail) {
-                $this->makeMovement($detail);
+            foreach ($this->document->lines as $line) {
+                $this->makeMovement($line);
             }
         }
     }
@@ -69,32 +69,32 @@ class TransactionService
 
         if ($this->document->getType() == Basedoc::IN_DOC) {
 
-            foreach ($this->document->detail as $detail) {
-                $this->revertInventory($detail);
+            foreach ($this->document->lines as $line) {
+                $this->revertInventory($line);
             }
         }
     }
 
-    protected function makeInventory(InventoryDetail $detail)
+    protected function makeInventory(InventoryLine $line)
     {
-    	$stock = $this->stockService->setProductId($detail->product_id)
-    		->setWarehouseId($detail->warehouse_id);
-    	
+    	$stock = $this->stockService->setProductId($line->product_id)
+    		->setWarehouseId($line->warehouse_id);
+
     	$currentQty = $stock->getQty();
 
-    	$sign = $detail->qty < $currentQty ? 'sub' : 'add';
-    	$txQty = $detail->qty - $currentQty;
+    	$sign = $line->qty < $currentQty ? 'sub' : 'add';
+    	$txQty = $line->qty - $currentQty;
 
     	$data = [
-    		'reference' => $detail->reference,
-	        'type' => $detail->inventory->getType(),
-	        'date' => $detail->date,
-	        'description' => $detail->description,
+    		'reference' => $line->reference,
+	        'type' => $line->inventory->getType(),
+	        'date' => $line->date,
+	        'description' => $line->description,
 	        'qty' => $txQty,
 	        'sign' => $sign,
-	        'product_id' => $detail->product_id,
-	        'warehouse_id' => $detail->warehouse_id,
-            'process_id' => $detail->id,
+	        'product_id' => $line->product_id,
+	        'warehouse_id' => $line->warehouse_id,
+            'process_id' => $line->id,
     	];
 
     	$this->entity->create($data);
@@ -102,107 +102,107 @@ class TransactionService
     	$stock->add($txQty);
     }
 
-    protected function makeEntry(InoutDetail $detail)
+    protected function makeEntry(InoutLine $line)
     {
-        $stock = $this->stockService->setProductId($detail->product_id)
-            ->setWarehouseId($detail->warehouse_id)
-            ->add($detail->qty);
+        $stock = $this->stockService->setProductId($line->product_id)
+            ->setWarehouseId($line->warehouse_id)
+            ->add($line->qty);
 
         $data = [
-            'reference' => $detail->reference,
-            'type' => $detail->inout->getType(),
-            'date' => $detail->date,
+            'reference' => $line->reference,
+            'type' => $line->inout->getType(),
+            'date' => $line->date,
             'description' => '',
-            'qty' => $detail->qty,
+            'qty' => $line->qty,
             'sign' => 'add',
-            'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_id,
-            'process_id' => $detail->id,
+            'product_id' => $line->product_id,
+            'warehouse_id' => $line->warehouse_id,
+            'process_id' => $line->id,
         ];
 
         $this->entity->create($data);
     }
 
-    protected function makeOutput(InoutDetail $detail)
+    protected function makeOutput(InoutLine $line)
     {
-        $stock = $this->stockService->setProductId($detail->product_id)
-            ->setWarehouseId($detail->warehouse_id)
-            ->sub($detail->qty);
+        $stock = $this->stockService->setProductId($line->product_id)
+            ->setWarehouseId($line->warehouse_id)
+            ->sub($line->qty);
 
         $data = [
-            'reference' => $detail->reference,
-            'type' => $detail->inout->getType(),
-            'date' => $detail->date,
+            'reference' => $line->reference,
+            'type' => $line->inout->getType(),
+            'date' => $line->date,
             'description' => '',
-            'qty' => (-1) * $detail->qty,
+            'qty' => (-1) * $line->qty,
             'sign' => 'sub',
-            'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_id,
-            'process_id' => $detail->id,
+            'product_id' => $line->product_id,
+            'warehouse_id' => $line->warehouse_id,
+            'process_id' => $line->id,
         ];
 
         $this->entity->create($data);
     }
 
-    protected function makeMovement(MovementDetail $detail)
+    protected function makeMovement(MovementLine $line)
     {
         // move from
-        $this->stockService->setProductId($detail->product_id)
-            ->setWarehouseId($detail->warehouse_from_id)
-            ->sub($detail->qty);
+        $this->stockService->setProductId($line->product_id)
+            ->setWarehouseId($line->warehouse_from_id)
+            ->sub($line->qty);
 
         $this->entity->create([
-            'reference' => $detail->reference,
-            'type' => $detail->movement->getType(),
-            'date' => $detail->date,
+            'reference' => $line->reference,
+            'type' => $line->movement->getType(),
+            'date' => $line->date,
             'description' => '',
-            'qty' => (-1) * $detail->qty,
+            'qty' => (-1) * $line->qty,
             'sign' => 'sub',
-            'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_from_id,
-            'process_id' => $detail->id,
+            'product_id' => $line->product_id,
+            'warehouse_id' => $line->warehouse_from_id,
+            'process_id' => $line->id,
         ]);
 
         // move to
-        $this->stockService->setProductId($detail->product_id)
-            ->setWarehouseId($detail->warehouse_to_id)
-            ->add($detail->qty);
+        $this->stockService->setProductId($line->product_id)
+            ->setWarehouseId($line->warehouse_to_id)
+            ->add($line->qty);
 
         $this->entity->create([
-            'reference' => $detail->reference,
-            'type' => $detail->movement->getType(),
-            'date' => $detail->date,
+            'reference' => $line->reference,
+            'type' => $line->movement->getType(),
+            'date' => $line->date,
             'description' => '',
-            'qty' => $detail->qty,
+            'qty' => $line->qty,
             'sign' => 'add',
-            'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_to_id,
-            'process_id' => $detail->id,
+            'product_id' => $line->product_id,
+            'warehouse_id' => $line->warehouse_to_id,
+            'process_id' => $line->id,
         ]);
 
     }
 
-    protected function revertInventory(InventoryDetail $detail)
+    protected function revertInventory(InventoryLine $line)
     {
-        $transaction = $this->entity->where('process_id', $detail->id)->firstOrFail();
+        $transaction = $this->entity->where('process_id', $line->id)->firstOrFail();
 
         $qty = (-1) * $transaction->qty;
         $sign = $qty > 0 ? 'add' : 'sub';
 
         $data = [
-            'reference' => $detail->reference,
-            'type' => $detail->inventory->getType(),
-            'date' => $detail->date,
-            'description' => $detail->description,
+            'reference' => $line->reference,
+            'type' => $line->inventory->getType(),
+            'date' => $line->date,
+            'description' => $line->description,
             'qty' => $qty,
             'sign' => $sign,
-            'product_id' => $detail->product_id,
-            'warehouse_id' => $detail->warehouse_id,
-            'process_id' => $detail->id,
+            'product_id' => $line->product_id,
+            'warehouse_id' => $line->warehouse_id,
+            'process_id' => $line->id,
         ];
 
-        $this->stockService->setProductId($detail->product_id)
-            ->setWarehouseId($detail->warehouse_id)
+        $this->stockService->setProductId($line->product_id)
+            ->setWarehouseId($line->warehouse_id)
             ->add($qty);
 
         $this->entity->create($data);

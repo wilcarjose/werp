@@ -4,13 +4,13 @@
 	Route::put('/price_lists/status','PriceListController@switchStatus')->name('price_list_status');
 	Route::post('/price_lists/removeBulk','PriceListController@destroyBulk');
 	Route::put('/price_lists/statusBulk','PriceListController@switchStatusBulk');
-	Route::get('/price_lists/{id}/detail', 'PriceListController@indexDetail')->name('price_lists.detail.index');
+	Route::get('/price_lists/{id}/lines', 'PriceListController@indexLine')->name('price_lists.lines.index');
 	Route::resource('/price_lists','PriceListController');
-	Route::get('/price_lists/{id}/detail/{detail}', 'PriceListController@showDetail')->name('price_lists.detail.show');
-	Route::put('/price_lists/{id}/detail/{detail}', 'PriceListController@updateDetail')->name('price_lists.detail.update');
-	Route::post('/price_lists/{id}/detail', 'PriceListController@storeDetail')->name('price_lists.detail.update');
-	Route::delete('/price_lists/{id}/detail/{detail}', 'PriceListController@destroyDetail')->name('price_lists.detail.update');
-	Route::post('/price_lists/{id}/detail/removeBulk','PriceListController@destroyDetailBulk');
+	Route::get('/price_lists/{id}/lines/{line_id}', 'PriceListController@showLine')->name('price_lists.lines.show');
+	Route::put('/price_lists/{id}/lines/{line_id}', 'PriceListController@updateLine')->name('price_lists.lines.update');
+	Route::post('/price_lists/{id}/lines', 'PriceListController@storeLine')->name('price_lists.lines.update');
+	Route::delete('/price_lists/{id}/lines/{line_id}', 'PriceListController@destroyLine')->name('price_lists.lines.update');
+	Route::post('/price_lists/{id}/lines/removeBulk','PriceListController@destroyLinesBulk');
 
 	Route::get('/price_lists/{id}/process', 'PriceListController@process')->name('price_lists.process');
 	Route::get('/price_lists/{id}/reverse', 'PriceListController@reverse')->name('price_lists.reverse');
@@ -59,11 +59,11 @@
 
 	// Sales orders
 	Route::post('/orders/removeBulk','SaleOrderController@destroyBulk');
-	Route::get('/orders/{id}/detail', 'SaleOrderController@indexDetail')->name('orders.detail.index');
-	Route::get('/orders/{id}/detail/{detail}', 'SaleOrderController@showDetail')->name('orders.detail.show');
-	Route::put('/orders/{id}/detail/{detail}', 'SaleOrderController@updateDetail')->name('orders.detail.update');
-	Route::post('/orders/{id}/detail', 'SaleOrderController@storeDetail')->name('orders.detail.update');
-	Route::delete('/orders/{id}/detail/{detail}', 'SaleOrderController@destroyDetail')->name('orders.detail.update');
+	Route::get('/orders/{id}/lines', 'SaleOrderController@indexLine')->name('orders.lines.index');
+	Route::get('/orders/{id}/lines/{line_id}', 'SaleOrderController@showLine')->name('orders.lines.show');
+	Route::put('/orders/{id}/lines/{line_id}', 'SaleOrderController@updateLine')->name('orders.lines.update');
+	Route::post('/orders/{id}/lines', 'SaleOrderController@storeLine')->name('orders.lines.update');
+	Route::delete('/orders/{id}/lines/{line_id}', 'SaleOrderController@destroyLine')->name('orders.lines.update');
 	Route::get('/orders/{id}/process', 'SaleOrderController@process')->name('orders.process');
 	Route::get('/orders/{id}/reverse', 'SaleOrderController@reverse')->name('orders.reverse');
 	Route::get('/orders/{id}/cancel', 'SaleOrderController@cancel')->name('orders.cancel');

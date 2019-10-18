@@ -3,18 +3,18 @@
 namespace Werp\Modules\Core\Purchases\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Modules\Core\Purchases\Builders\PurchaseOrderForm;
-use Werp\Modules\Core\Purchases\Builders\PurchaseOrderList;
+use Werp\Modules\Core\Purchases\Builders\InvoiceForm;
+use Werp\Modules\Core\Purchases\Builders\InvoiceList;
 use Werp\Modules\Core\Base\Controllers\BaseController;
-use Werp\Modules\Core\Purchases\Services\PurchaseOrderService;
+use Werp\Modules\Core\Purchases\Services\InvoiceService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Products\Exceptions\NotLinesException;
-use Werp\Modules\Core\Purchases\Transformers\PurchaseOrderTransformer;
+use Werp\Modules\Core\Purchases\Transformers\InvoiceTransformer;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
-use Werp\Modules\Core\Purchases\Transformers\PurchaseOrderLineTransformer;
+use Werp\Modules\Core\Purchases\Transformers\InvoiceLineTransformer;
 
-class PurchaseOrderController extends BaseController
+class InvoiceController extends BaseController
 {
     protected $entityLine;
     protected $entityTransformer;
@@ -27,32 +27,34 @@ class PurchaseOrderController extends BaseController
     protected $showSuccess = false;
 
     protected $inputs = [
-        'description',
-        'total_price',
-        'total_tax',
-        'total_discount',
-        'total',
-        'doctype_id',
-        'warehouse_id',
-        'partner_id',
+        'number',
+        'control_number',
+        'order_code',
         'date',
+        'description',
+        'alter_code',
+        //'reference',
         'currency_id',
+        'partner_id',
+        'doctype_id',
+        'price_list_type_id',
+        'order_id',
         'tax_id',
         'discount_id',
         'payment_method_id',
     ];
 
     protected $storeRules = [
+        'number' => 'required',
         'doctype_id' => 'required',
-        'warehouse_id'    => 'required',
         'partner_id'    => 'required|not_in:new',
         'currency_id'    => 'required',
         'date'  => 'required|date',
     ];
 
     protected $updateRules = [
+        'number' => 'required',
         'doctype_id' => 'required',
-        'warehouse_id'    => 'required',
         'partner_id'    => 'required|not_in:new',
         'date'  => 'required|date',
         'currency_id'    => 'required',
@@ -78,22 +80,21 @@ class PurchaseOrderController extends BaseController
         'total_discount',
         'total',
         'product_id',
-        'warehouse_id',
         'tax_id',
         'discount_id',
     ];
 
-    protected $relatedField = 'order_id';
+    protected $relatedField = 'invoice_id';
 
-    protected $routeBase = 'admin.purchases.orders';
+    protected $routeBase = 'admin.purchases.invoices';
 
     public function __construct(
-        PurchaseOrderForm $entityForm,
-        PurchaseOrderList $entityList,
-        PurchaseOrderService $entityService,
+        InvoiceForm $entityForm,
+        InvoiceList $entityList,
+        InvoiceService $entityService,
         ConfigService $configService,
-        PurchaseOrderTransformer $entityTransformer,
-        PurchaseOrderLineTransformer $entityLineTransformer
+        InvoiceTransformer $entityTransformer,
+        InvoiceLineTransformer $entityLineTransformer
     ) {
         $this->entityForm         = $entityForm;
         $this->entityList         = $entityList;

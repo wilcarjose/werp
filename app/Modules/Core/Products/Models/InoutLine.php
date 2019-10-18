@@ -4,9 +4,9 @@ namespace Werp\Modules\Core\Products\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
-class InoutDetail extends Model
+class InoutLine extends Model
 {
-    protected $table = 'inout_detail';
+    protected $table = 'inout_lines';
 
     /**
      * The attributes that are mass assignable.
@@ -29,7 +29,7 @@ class InoutDetail extends Model
         'inout_id',
         'product_id',
         'warehouse_id',
-        'order_detail_id',
+        'order_line_id',
         'discount_id',
         'tax_id',
     ];
@@ -59,7 +59,7 @@ class InoutDetail extends Model
         'product_id',
         'warehouse_id',
         'currency_id',
-        'order_detail_id',
+        'order_line_id',
         'discount_id',
         'tax_id',
     ];
@@ -75,7 +75,7 @@ class InoutDetail extends Model
         'total_discount',
         'total',
     ];
-    
+
     public function toArray()
     {
         return [
@@ -95,7 +95,7 @@ class InoutDetail extends Model
             'total_discount' => $this->total_discount,
             'total' => $this->total,
             'currency_id' => $this->currency_id,
-            'order_detail_id' => $this->order_detail_id,
+            'order_line_id' => $this->order_line_id,
             'tax_id' => $this->tax_id,
             'discount_id' => $this->discount_id,
             'created_at' => $this->created_at,
@@ -108,9 +108,9 @@ class InoutDetail extends Model
         return $this->belongsTo('Werp\Modules\Core\Products\Models\Inout');
     }
 
-    public function orderDetail()
+    public function orderLine()
     {
-        return $this->hasOne('Werp\Modules\Core\Products\Models\OrderDetail', 'id', 'order_detail_id');
+        return $this->hasOne('Werp\Modules\Core\Products\Models\OrderLine', 'id', 'order_line_id');
     }
 
     public function cancelableData()

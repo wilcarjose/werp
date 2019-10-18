@@ -3,7 +3,7 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Modules\Core\Products\Models\MovementDetail;
+use Werp\Modules\Core\Products\Models\MovementLine;
 use Werp\Modules\Core\Products\Builders\MovementForm;
 use Werp\Modules\Core\Products\Builders\MovementList;
 use Werp\Modules\Core\Base\Controllers\BaseController;
@@ -11,21 +11,21 @@ use Werp\Modules\Core\Products\Services\MovementService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Products\Services\TransactionService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Transformers\MovementTransformer;
-use Werp\Modules\Core\Products\Transformers\MovementDetailTransformer;
+use Werp\Modules\Core\Products\Transformers\MovementLineTransformer;
 
 class MovementController extends BaseController
 {
     protected $entityForm;
     protected $entityList;
-    protected $entityDetail;
+    protected $entityLine;
     protected $configService;
     protected $entityService;
     protected $doctypeService;
     protected $entityTransformer;
-    protected $entityDetailTransformer;
+    protected $entityLineTransformer;
     protected $showSuccess = false;
 
     protected $inputs = [
@@ -50,17 +50,17 @@ class MovementController extends BaseController
         'date'  => 'required|date',
     ];
 
-    protected $storeDetailRules = [
+    protected $storeLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $updateDetailRules = [
+    protected $updateLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $detailInputs = [
+    protected $lineInputs = [
         'qty',
         'product_id',
         'warehouse_from_id',
@@ -74,21 +74,21 @@ class MovementController extends BaseController
     public function __construct(
         MovementForm $entityForm,
         MovementList $entityList,
-        MovementDetail $entityDetail,
+        MovementLine $entityLine,
         ConfigService $configService,
         MovementService $entityService,
         MovementTransformer $entityTransformer,
         TransactionService $transactionService,
-        MovementDetailTransformer $entityDetailTransformer
+        MovementLineTransformer $entityLineTransformer
     ) {
         $this->entityForm         = $entityForm;
         $this->entityList         = $entityList;
-        $this->entityDetail       = $entityDetail;
+        $this->entityLine       = $entityLine;
         $this->configService      = $configService;
         $this->entityService      = $entityService;
         $this->entityTransformer  = $entityTransformer;
         $this->transactionService = $transactionService;
-        $this->entityDetailTransformer = $entityDetailTransformer;
+        $this->entityLineTransformer = $entityLineTransformer;
     }
 
     /**
@@ -97,7 +97,7 @@ class MovementController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
 
@@ -135,7 +135,7 @@ class MovementController extends BaseController
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
             return redirect(route($this->routeBase.'.edit', $id));
-        } catch (NotDetailException $e) {
+        } catch (NotLinesException $e) {
             flash($e->getMessage(), 'error', 'error');
             return redirect(route($this->routeBase.'.edit', $id));
         } catch (CanNotProcessException $e) {

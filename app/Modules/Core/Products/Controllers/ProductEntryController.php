@@ -3,7 +3,7 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Modules\Core\Products\Models\InoutDetail;
+use Werp\Modules\Core\Products\Models\InoutLine;
 use Werp\Modules\Core\Products\Services\InoutService;
 use Werp\Modules\Core\Base\Controllers\BaseController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -11,16 +11,16 @@ use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Products\Builders\ProductEntryForm;
 use Werp\Modules\Core\Products\Builders\ProductEntryList;
 use Werp\Modules\Core\Products\Services\TransactionService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Transformers\InoutTransformer;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
-use Werp\Modules\Core\Products\Transformers\InoutDetailTransformer;
+use Werp\Modules\Core\Products\Transformers\InoutLineTransformer;
 
 class ProductEntryController extends BaseController
 {
-    protected $entityDetail;
+    protected $entityLine;
     protected $entityTransformer;
-    protected $entityDetailTransformer;
+    protected $entityLineTransformer;
     protected $entityForm;
     protected $entityList;
     protected $configService;
@@ -53,17 +53,17 @@ class ProductEntryController extends BaseController
         'date'  => 'required|date',
     ];
 
-    protected $storeDetailRules = [
+    protected $storeLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $updateDetailRules = [
+    protected $updateLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $detailInputs = [
+    protected $lineInputs = [
         'qty',
         'product_id',
         'warehouse_id'
@@ -74,23 +74,23 @@ class ProductEntryController extends BaseController
     protected $routeBase = 'admin.products.product_entry';
 
     public function __construct(
-        InoutDetail $entityDetail,
+        InoutLine $entityLine,
         InoutService $entityService,
         ProductEntryForm $entityForm,
         ProductEntryList $entityList,
         ConfigService $configService,
         InoutTransformer $entityTransformer,
         TransactionService $transactionService,
-        InoutDetailTransformer $entityDetailTransformer        
+        InoutLineTransformer $entityLineTransformer
     ) {
-        $this->entityDetail        = $entityDetail;
+        $this->entityLine        = $entityLine;
         $this->entityForm         = $entityForm;
         $this->entityList         = $entityList;
         $this->configService      = $configService;
         $this->entityService      = $entityService;
         $this->entityTransformer  = $entityTransformer;
         $this->transactionService = $transactionService;
-        $this->entityDetailTransformer = $entityDetailTransformer;
+        $this->entityLineTransformer = $entityLineTransformer;
     }
 
     public function create()
@@ -114,7 +114,7 @@ class ProductEntryController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $entity = $this->entityService->getById($id, false);
 
@@ -141,7 +141,7 @@ class ProductEntryController extends BaseController
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
             return redirect(route('admin.products.product_entry.edit', $id));
-        } catch (NotDetailException $e) {
+        } catch (NotLinesException $e) {
             flash($e->getMessage(), 'error', 'error');
             return redirect(route('admin.products.product_entry.edit', $id));
         } catch (CanNotProcessException $e) {

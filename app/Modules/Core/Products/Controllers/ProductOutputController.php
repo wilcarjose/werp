@@ -3,24 +3,24 @@
 namespace Werp\Modules\Core\Products\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Modules\Core\Products\Models\InoutDetail;
+use Werp\Modules\Core\Products\Models\InoutLine;
 use Werp\Modules\Core\Base\Controllers\BaseController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Products\Builders\ProductOutputForm;
 use Werp\Modules\Core\Products\Builders\ProductOutputList;
 use Werp\Modules\Core\Products\Services\TransactionService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Services\ProductOutputService;
 use Werp\Modules\Core\Products\Transformers\InoutTransformer;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
-use Werp\Modules\Core\Products\Transformers\InoutDetailTransformer;
+use Werp\Modules\Core\Products\Transformers\InoutLineTransformer;
 
 class ProductOutputController extends BaseController
 {
-    protected $entityDetail;
+    protected $entityLine;
     protected $entityTransformer;
-    protected $entityDetailTransformer;
+    protected $entityLineTransformer;
     protected $entityForm;
     protected $entityList;
     protected $configService;
@@ -53,17 +53,17 @@ class ProductOutputController extends BaseController
         'date'  => 'required|date',
     ];
 
-    protected $storeDetailRules = [
+    protected $storeLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $updateDetailRules = [
+    protected $updateLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $detailInputs = [
+    protected $lineInputs = [
         'qty',
         'product_id',
         'warehouse_id'
@@ -74,23 +74,23 @@ class ProductOutputController extends BaseController
     protected $routeBase = 'admin.products.product_output';
 
     public function __construct(
-        InoutDetail $entityDetail,
+        InoutLine $entityLine,
         ProductOutputForm $entityForm,
         ProductOutputList $entityList,
         ConfigService $configService,
         ProductOutputService $entityService,
         InoutTransformer $entityTransformer,
         TransactionService $transactionService,
-        InoutDetailTransformer $entityDetailTransformer        
+        InoutLineTransformer $entityLineTransformer
     ) {
-        $this->entityDetail        = $entityDetail;
+        $this->entityLine        = $entityLine;
         $this->entityForm         = $entityForm;
         $this->entityList         = $entityList;
         $this->configService      = $configService;
         $this->entityService      = $entityService;
         $this->entityTransformer  = $entityTransformer;
         $this->transactionService = $transactionService;
-        $this->entityDetailTransformer = $entityDetailTransformer;
+        $this->entityLineTransformer = $entityLineTransformer;
     }
 
     public function create()
@@ -114,7 +114,7 @@ class ProductOutputController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
 
@@ -152,7 +152,7 @@ class ProductOutputController extends BaseController
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
             return redirect(route('admin.products.product_output.edit', $id));
-        } catch (NotDetailException $e) {
+        } catch (NotLinesException $e) {
             flash($e->getMessage(), 'error', 'error');
             return redirect(route('admin.products.product_output.edit', $id));
         } catch (CanNotProcessException $e) {
@@ -205,7 +205,7 @@ class ProductOutputController extends BaseController
 
             $pdf = \PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])
                 ->loadView('admin.pdf.product-output', compact('entity'));
-                
+
             return $pdf->download('product-output.pdf');
 
         } catch (\Exception $e) {

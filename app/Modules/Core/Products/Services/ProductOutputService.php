@@ -8,10 +8,10 @@ use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
-use Werp\Modules\Core\Products\Models\InoutDetail;
+use Werp\Modules\Core\Products\Models\InoutLine;
 //use Werp\Modules\Core\Sales\Services\SaleOrderService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 
@@ -24,13 +24,13 @@ class ProductOutputService extends BaseService
 
     public function __construct(
         Inout $entity,
-        InoutDetail $entityDetail,
+        InoutLine $entityLine,
         DoctypeService $doctypeService,
         //SaleOrderService $orderService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
-        $this->entityDetail         = $entityDetail;
+        $this->entityLine         = $entityLine;
         //$this->orderService         = $orderService;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
@@ -88,8 +88,8 @@ class ProductOutputService extends BaseService
             throw new CanNotProcessException("No se puede procesar este registro");
         }
 
-        if ($entity->hasNotDetail()) {
-            throw new NotDetailException("Debe agregar al menos un producto");
+        if ($entity->hasNotLines()) {
+            throw new NotLinesException("Debe agregar al menos un producto");
         }
 
         try {
@@ -125,31 +125,31 @@ class ProductOutputService extends BaseService
                 $order->save();
                 $entity->orders()->attach($order->id);
 
-                foreach ($entity->detail as $detail) {
+                foreach ($entity->lines as $line) {
 
-                    $detailData = [
+                    $lineData = [
                         'reference' => $order->code,
-                        'date' => $detail->date,
-                        'qty' => $detail->qty,
-                        'qty_delivered' => $detail->qty,
+                        'date' => $line->date,
+                        'qty' => $line->qty,
+                        'qty_delivered' => $line->qty,
                         'qty_invoiced' => 0,
-                        'product_id' => $detail->product_id,
-                        'warehouse_id' => $detail->warehouse_id,
-                        'price' => $detail->price,
-                        'tax' => $detail->tax,
-                        'discount' => $detail->discount,
-                        'full_price' => $detail->full_price,
-                        'total_price' => $detail->total_price,
-                        'total_tax' => $detail->total_tax,
-                        'total_discount' => $detail->total_discount,
-                        'total' => $detail->total,
-                        'currency' => $detail->currency,
+                        'product_id' => $line->product_id,
+                        'warehouse_id' => $line->warehouse_id,
+                        'price' => $line->price,
+                        'tax' => $line->tax,
+                        'discount' => $line->discount,
+                        'full_price' => $line->full_price,
+                        'total_price' => $line->total_price,
+                        'total_tax' => $line->total_tax,
+                        'total_discount' => $line->total_discount,
+                        'total' => $line->total,
+                        'currency' => $line->currency,
                     ];
-                    
-                    $orderDetail = $order->detail()->create($detailData);
 
-                    $detail->order_detail_id = $orderDetail->id;
-                    $detail->save();
+                    $orderLine = $order->lines()->create($lineData);
+
+                    $line->order_line_id = $orderLine->id;
+                    $line->save();
                 }
 
                 $entity->order_code = $order->code;
@@ -167,7 +167,7 @@ class ProductOutputService extends BaseService
             DB::rollBack();
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
-        
+
     }
 
     protected function canNotProcess($entity)
@@ -186,7 +186,7 @@ class ProductOutputService extends BaseService
         $data['warehouse_id'] = isset($data['warehouse_id']) && $data['warehouse_id'] ?
             $data['warehouse_id'] :
             $entity->warehouse_id;
-        
+
         return $data;
     }
 
@@ -209,13 +209,13 @@ class ProductOutputService extends BaseService
 
             $newEntity = $this->entity->create($entity->cancelableData());
 
-            foreach ($entity->detail as $detail) {
-                $newEntity->detail()->create($detail->cancelableData());
-                $orderDetail = $detail->orderDetail;
-                $orderDetail->qty_delivered = $orderDetail->qty_delivered - $detail->qty;
-                $orderDetail->save();
-                $orderDetail->order->is_delivery_pending = 'y';
-                $orderDetail->order->save();
+            foreach ($entity->lines as $line) {
+                $newEntity->lines()->create($line->cancelableData());
+                $orderLine = $line->orderLine;
+                $orderLine->qty_delivered = $orderLine->qty_delivered - $line->qty;
+                $orderLine->save();
+                $orderLine->order->is_delivery_pending = 'y';
+                $orderLine->order->save();
             }
 
             $entity->state = Basedoc::CA_STATE;
@@ -244,7 +244,7 @@ class ProductOutputService extends BaseService
         return !in_array($entity->state, $stateArray['actions_from']);
     }
 
-    public function createDetail($id, $data)
+    public function createLine($id, $data)
     {
         $entity = $this->getById($id);
 
@@ -255,25 +255,25 @@ class ProductOutputService extends BaseService
             $data = $this->makeData($data, $entity);
 
             $data['discount'] = 0;
-            $data['tax'] = 0; 
+            $data['tax'] = 0;
             $data['full_price'] = $data['price'] + $data['tax'] + $data['discount'];
             $data['total_price'] = $data['price'] * $data['qty'];
             $data['total_discount'] = $data['discount'] * $data['qty'];
             $data['total_tax'] = $data['tax'] * $data['qty'];
             $data['total'] = $data['full_price'] * $data['qty'];
 
-            $entityDetail = $entity->detail()->create($data);
+            $entityLine = $entity->lines()->create($data);
 
             $total_price = 0;
             $total_tax = 0;
             $total_discount = 0;
             $total = 0;
 
-            foreach ($entity->detail as $detail) {
-                $total_price = $total_price + $detail->total_price;
-                $total_tax = $total_tax + $detail->total_tax;
-                $total_discount = $total_discount + $detail->total_discount;
-                $total = $total + $detail->total;
+            foreach ($entity->lines as $line) {
+                $total_price = $total_price + $line->total_price;
+                $total_tax = $total_tax + $line->total_tax;
+                $total_discount = $total_discount + $line->total_discount;
+                $total = $total + $line->total;
             }
 
             $entity->update([
@@ -285,7 +285,7 @@ class ProductOutputService extends BaseService
 
             DB::commit();
 
-            return $entityDetail;
+            return $entityLine;
 
         } catch (\Exception $e) {
 
@@ -295,37 +295,37 @@ class ProductOutputService extends BaseService
         }
     }
 
-    public function updateDetail($data, $detailId)
+    public function updateLine($data, $lineId)
     {
-        $entityDetail = $this->entityDetail->findOrFail($detailId);
+        $entityLine = $this->entityLine->findOrFail($lineId);
 
         try {
 
             DB::beginTransaction();
 
-            $data['discount'] = 0; 
-            $data['tax'] = 0; 
+            $data['discount'] = 0;
+            $data['tax'] = 0;
             $data['full_price'] = $data['price'] + $data['tax'] + $data['discount'];
             $data['total_price'] = $data['price'] * $data['qty'];
             $data['total_discount'] = $data['discount'] * $data['qty'];
             $data['total_tax'] = $data['tax'] * $data['qty'];
             $data['total'] = $data['full_price'] * $data['qty'];
 
-            $entityDetail->update($data);
+            $entityLine->update($data);
 
             $total_price = 0;
             $total_tax = 0;
             $total_discount = 0;
             $total = 0;
 
-            foreach ($entityDetail->inout->detail as $detail) {
-                $total_price = $total_price + $detail->total_price;
-                $total_tax = $total_tax + $detail->total_tax;
-                $total_discount = $total_discount + $detail->total_discount;
-                $total = $total + $detail->total;
+            foreach ($entityLine->inout->lines as $line) {
+                $total_price = $total_price + $line->total_price;
+                $total_tax = $total_tax + $line->total_tax;
+                $total_discount = $total_discount + $line->total_discount;
+                $total = $total + $line->total;
             }
 
-            $entityDetail->inout->update([
+            $entityLine->inout->update([
                 'total_price' => $total_price,
                 'total_tax' => $total_tax,
                 'total_discount' => $total_discount,
@@ -334,7 +334,7 @@ class ProductOutputService extends BaseService
 
             DB::commit();
 
-            return $entityDetail;
+            return $entityLine;
 
         } catch (\Exception $e) {
 
@@ -344,27 +344,27 @@ class ProductOutputService extends BaseService
         }
     }
 
-    public function deleteDetail($id, $detailId)
+    public function deleteLine($id, $lineId)
     {
         $entity = $this->entity->findOrFail($id);
-        $entityDetail = $this->entityDetail->findOrFail($detailId);
+        $entityLine = $this->entityLine->findOrFail($lineId);
 
         try {
 
             DB::beginTransaction();
-    
-            $entityDetail->delete();
+
+            $entityLine->delete();
 
             $total_price = 0;
             $total_tax = 0;
             $total_discount = 0;
             $total = 0;
 
-            foreach ($entity->detail as $detail) {
-                $total_price = $total_price + $detail->total_price;
-                $total_tax = $total_tax + $detail->total_tax;
-                $total_discount = $total_discount + $detail->total_discount;
-                $total = $total + $detail->total;
+            foreach ($entity->lines as $line) {
+                $total_price = $total_price + $line->total_price;
+                $total_tax = $total_tax + $line->total_tax;
+                $total_discount = $total_discount + $line->total_discount;
+                $total = $total + $line->total;
             }
 
             $entity->update([

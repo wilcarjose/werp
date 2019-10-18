@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrderDetailTable extends Migration
+class CreateInoutLinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOrderDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_detail', function (Blueprint $table) {
+        Schema::create('inout_lines', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->timestamp('date');
             $table->string('reference');
@@ -25,17 +25,15 @@ class CreateOrderDetailTable extends Migration
             $table->double('total_tax', 20, 4)->default(0.0000);
             $table->double('total_discount', 20, 4)->default(0.0000);
             $table->double('total', 20, 4)->default(0.0000);
-            $table->uuid('currency_id');
+            $table->uuid('currency_id')->nullable();
             $table->foreign('currency_id')
                 ->references('id')
                 ->on('currencies');
             $table->double('qty');
-            $table->double('qty_delivered')->default(0);
-            $table->double('qty_invoiced')->default(0);
-            $table->uuid('order_id');
-            $table->foreign('order_id')
+            $table->uuid('inout_id');
+            $table->foreign('inout_id')
                 ->references('id')
-                ->on('orders');
+                ->on('inouts');
             $table->uuid('warehouse_id');
             $table->foreign('warehouse_id')
                 ->references('id')
@@ -44,6 +42,10 @@ class CreateOrderDetailTable extends Migration
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
+            $table->uuid('order_line_id')->nullable();
+            $table->foreign('order_line_id')
+                ->references('id')
+                ->on('order_lines');
             $table->uuid('tax_id')->nullable();
             $table->foreign('tax_id')
                 ->references('id')
@@ -52,10 +54,6 @@ class CreateOrderDetailTable extends Migration
             $table->foreign('discount_id')
                 ->references('id')
                 ->on('taxs_discounts');
-            $table->uuid('price_id')->nullable();
-            $table->foreign('price_id')
-                ->references('id')
-                ->on('prices');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
@@ -72,6 +70,6 @@ class CreateOrderDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_detail');
+        Schema::dropIfExists('inout_lines');
     }
 }

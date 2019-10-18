@@ -102,7 +102,7 @@ class PurchaseOrderForm extends SimplePage
         }
 
         return $this
-            ->addList(new PurchaseOrderDetailList(false, $data['id'], $disable))
+            ->addList(new PurchaseOrderLinesList(false, $data['id'], $disable))
             ->setListsWidth('s10 push-m1')
             ->setMessagesWidth('s10 push-m1')
             ->setShortAction($this->editTitle)

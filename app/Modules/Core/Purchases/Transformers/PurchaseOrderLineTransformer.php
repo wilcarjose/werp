@@ -6,13 +6,13 @@ use Werp\Transformers\Transformer;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Products\Models\Warehouse;
 
-class PurchaseOrderDetailTransformer extends Transformer
+class PurchaseOrderLineTransformer extends Transformer
 {
     protected $products = [];
     protected $warehouses = [];
 
     public function __construct()
-    {        
+    {
         if (empty($this->products)) {
             $this->setProducts(Product::all());
         }
@@ -52,7 +52,7 @@ class PurchaseOrderDetailTransformer extends Transformer
     public function setProducts($products = [])
     {
         foreach ($products as $product) {
-            $this->products[$product['id']] = $product['code'] .' - '.$product['name'];    
+            $this->products[$product['id']] = $product['code'] .' - '.$product['name'];
         }
 
         return $this;
@@ -66,7 +66,7 @@ class PurchaseOrderDetailTransformer extends Transformer
     public function setWarehouses($warehouses = [])
     {
         foreach ($warehouses as $warehouse) {
-            $this->warehouses[$warehouse['id']] = $warehouse['name'];    
+            $this->warehouses[$warehouse['id']] = $warehouse['name'];
         }
 
         return $this;

@@ -1,14 +1,14 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Services;
+namespace Werp\Modules\Core\Purchases\Services;
 
 use Illuminate\Support\Facades\DB;
-use Werp\Modules\Core\Products\Models\Order;
+use Werp\Modules\Core\Maintenance\Models\Invoice;
 use Werp\Modules\Core\Sales\Models\Price;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Sales\Services\TaxService;
-use Werp\Modules\Core\Products\Models\OrderLine;
+use Werp\Modules\Core\Maintenance\Models\InvoiceLine;
 use Werp\Modules\Core\Sales\Services\DiscountService;
 use Werp\Modules\Core\Sales\Services\PriceListService;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
@@ -20,23 +20,23 @@ use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 use Werp\Modules\Core\Products\Services\InoutService;
 use Werp\Modules\Core\Sales\Services\PriceListTypeService;
 
-class OrderService extends BaseService
+class InvoiceService extends BaseService
 {
     protected $entity;
     protected $taxService;
     protected $entityLine;
     protected $inoutService;
     protected $configService;
-    protected $inventoryObject;
+    protected $doctypeService;
     protected $discountService;
     protected $priceListService;
     protected $transactionService;
     protected $priceListTypeService;
 
     public function __construct(
-        Order $entity,
+        Invoice $entity,
         TaxService $taxService,
-        OrderLine $entityLine,
+        InvoiceLine $entityLine,
         InoutService $inoutService,
         ConfigService $configService,
         DoctypeService $doctypeService,
@@ -75,16 +75,22 @@ class OrderService extends BaseService
         }
 
         try {
-
-            $this->transactionService->setDocument($entity)->process();
-
             $entity->state = Basedoc::PR_STATE;
             $entity->save();
 
         } catch (\Exception $e) {
             throw new \Exception("Error Processing Request: ".$e->getMessage());
         }
+    }
 
+    protected function makeCreateData($data)
+    {
+        $data['number'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
+        $data['price_list_type_id'] = $this->priceListTypeService->getOrCreatePriceList($data['currency_id'], 'purchases')->id;
+        $data['type'] = Invoice::PURCHASE_TYPE;
+        $data['state'] = Basedoc::PE_STATE;
+
+        return $data;
     }
 
     protected function canNotProcess($entity)
@@ -92,11 +98,6 @@ class OrderService extends BaseService
         $stateArray = $entity->getState(Basedoc::PR_STATE);
 
         return !in_array($entity->state, $stateArray['actions_from']);
-    }
-
-    public function getByCode($code)
-    {
-        return $this->entity->where('number', $code)->first();
     }
 
     public function cancel($id)
@@ -109,17 +110,15 @@ class OrderService extends BaseService
 
         try {
 
-            $newEntity = $this->entity->create($entity->cancelableData());
+            //$newEntity = $this->entity->create($entity->cancelableData());
 
-            foreach ($entity->lines as $line) {
-                $newEntity->lines()->create($line->cancelableData());
-            }
+            //foreach ($entity->lines as $line) {
+            //    $newEntity->lines()->create($line->cancelableData());
+            //}
 
-            $entity->state = Basedoc::CA_STATE;
-            $entity->reference = $entity->code . '-R';
-            $entity->save();
-
-            $this->transactionService->setDocument($newEntity)->process();
+            //$entity->state = Basedoc::CA_STATE;
+            //$entity->reference = $entity->code . '-R';
+            //$entity->save();
 
         } catch (\Exception $e) {
             throw new \Exception("Error Processing Request: " . $e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
@@ -135,14 +134,11 @@ class OrderService extends BaseService
 
     protected function makeData($data, $entity = null)
     {
-        $data['reference'] = $entity->code;
+        $data['reference'] = $entity->number;
         $data['date'] = $entity->date;
         $data['currency_id'] = $entity->currency_id;
-        $data['warehouse_id'] = isset($data['warehouse_id']) ? $data['warehouse_id'] : $entity->warehouse_id;
         $data['tax_id'] = isset($data['tax_id']) && $data['tax_id'] ? $data['tax_id'] : null;
         $data['discount_id'] = isset($data['discount_id']) && $data['discount_id'] ? $data['discount_id'] : null;
-        $data['qty_delivered'] = 0;
-        $data['qty_invoiced'] = 0;
 
         return $data;
     }
@@ -161,7 +157,7 @@ class OrderService extends BaseService
 
             $this->updateLineAmounts($entityLine, $entity);
 
-            $totalAmountData = $this->getTotalAmounts($entityLine->order);
+            $totalAmountData = $this->getTotalAmounts($entityLine->invoice);
 
             $entity->update($totalAmountData);
 
@@ -185,14 +181,14 @@ class OrderService extends BaseService
 
             $entityLine = $this->getlines($lineId);
 
-            $entity = $entityLine->order;
+            $entity = $entityLine->invoice;
 
             $data = $this->makeData($data, $entity);
             $entityLine->update($data);
 
             $this->updateLineAmounts($entityLine);
 
-            $totalAmountData = $this->getTotalAmounts($entityLine->order);
+            $totalAmountData = $this->getTotalAmounts($entityLine->invoice);
 
             $entity->update($totalAmountData);
 
@@ -259,14 +255,14 @@ class OrderService extends BaseService
         return $amountData;
     }
 
-    protected function getTotalAmounts($order)
+    protected function getTotalAmounts($invoice)
     {
         $total_price = 0;
         $total_tax = 0;
         $total_discount = 0;
         $total = 0;
 
-        foreach ($order->lines as $line) {
+        foreach ($invoice->lines as $line) {
             $total_price = $total_price + $line->total_price;
             $total_tax = $total_tax + $line->total_tax;
             $total_discount = $total_discount + $line->total_discount;
@@ -284,7 +280,7 @@ class OrderService extends BaseService
     protected function updateLineAmounts($entityLine, $entity = null)
     {
         if (!$entity) {
-            $entity = $entityLine->order;
+            $entity = $entityLine->invoice;
         }
 
         $price = $entityLine->product->currentPriceObject($entity->price_list_type_id);

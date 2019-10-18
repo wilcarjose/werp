@@ -1,16 +1,15 @@
 <?php
 
-namespace Werp\Modules\Core\Products\Models;
+namespace Werp\Modules\Core\Maintenance\Models;
 
-use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
-class Inout extends Model
+class Invoice extends Model
 {
-    const OUT_TYPE = 'OUT';
-    const IN_TYPE = 'IN';
+    const PURCHASE_TYPE = 'PURC';
+    const SALE_TYPE = 'SALE';
 
-    protected $table = 'inouts';
+    protected $table = 'invoices';
 
     /**
      * The attributes that are mass assignable.
@@ -18,50 +17,34 @@ class Inout extends Model
      * @var array
      */
     protected $fillable = [
-        'code',
+        'number',
+        'control_number',
         'order_code',
+        'date',
         'description',
+        'alter_code',
+        'reference',
         'total_price',
         'total_tax',
         'total_discount',
         'total',
         'currency_id',
-        'doctype_id',
-        'warehouse_id',
-        'partner_id',
-        'date',
         'type',
-        'state',
-        'reference',
-        'alternate_code'
+        'partner_id',
+        'doctype_id',
+        'price_list_type_id',
+        'order_id',
+        'tax_id',
+        'discount_id',
+        'company_id',
+        'payment_method_id',
+        'state'
     ];
 
     protected $copyable = [
-        'code',
-        'description',
-        'doctype_id',
-        'warehouse_id',
-        'date',
-        'type',
-        'currency_id',
-        'total_price',
-        'total_tax',
-        'total_discount',
-        'total',
-        'partner_id',
-        'alternate_code'
     ];
 
     protected $cancelable = [
-        'description',
-        'doctype_id',
-        'warehouse_id',
-        'date',
-        'type',
-        'currency_id',
-        'order_code',
-        'partner_id',
-        'alternate_code'
     ];
 
     protected $invertible = [
@@ -76,7 +59,7 @@ class Inout extends Model
      */
     public function lines()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\InoutLine', 'inout_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Maintenance\Models\InvoiceLine', 'invoice_id', 'id');
     }
 
     public function getTotals()
@@ -116,24 +99,30 @@ class Inout extends Model
     {
         return [
             'id' => $this->id,
-            'code' => $this->code,
-            'description' => $this->description,
-            'doctype_id' => $this->doctype_id,
-            'warehouse_id' => $this->warehouse_id,
-            'date' => $this->date,
-            'type' => $this->type,
-            'state' => $this->state,
-            'reference' => $this->reference,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'number' => $this->number,
+            'control_number' => $this->control_number,
             'order_code' => $this->order_code,
+            'date' => $this->date,
+            'description' => $this->description,
+            'alter_code' => $this->alter_code,
+            'reference' => $this->reference,
             'total_price' => $this->total_price,
             'total_tax' => $this->total_tax,
             'total_discount' => $this->total_discount,
             'total' => $this->total,
             'currency_id' => $this->currency_id,
+            'type' => $this->type,
             'partner_id' => $this->partner_id,
-            'alternate_code' => $this->alternate_code,
+            'doctype_id' => $this->doctype_id,
+            'price_list_type_id' => $this->price_list_type_id,
+            'order_id' => $this->order_id,
+            'tax_id' => $this->tax_id,
+            'discount_id' => $this->discount_id,
+            'company_id' => $this->company_id,
+            'payment_method_id' => $this->payment_method_id,
+            'state' => $this->state,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 
@@ -149,25 +138,25 @@ class Inout extends Model
             $data[$invert] = (-1) * $this->toArray()[$invert];
         }
 
-        $data['code'] = $this->code . '-R';
-        $data['reference'] = $this->code;
-        $data['state'] = Basedoc::CA_STATE;
+        //$data['code'] = $this->code . '-R';
+        //$data['reference'] = $this->code;
+        //$data['state'] = Basedoc::CA_STATE;
 
         return $data;
     }
 
     public function getType()
     {
-        return $this->type == self::OUT_TYPE ? Basedoc::IO_DOC : Basedoc::IE_DOC;
+        return $this->type == self::SALE_TYPE ? Basedoc::SI_DOC : Basedoc::PI_DOC;
     }
 
     public function getState($state = null)
     {
         if ($state) {
-            return config('products.document.actions.'.$this->getType().'.'.$state);
+            return config('purchases.document.actions.'.$this->getType().'.'.$state);
         }
 
-        return config('products.document.actions.'.$this->getType().'.'.$this->state);
+        return config('purchases.document.actions.'.$this->getType().'.'.$this->state);
     }
 
     public function partner()
@@ -178,5 +167,10 @@ class Inout extends Model
     public function currency()
     {
         return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\Currency');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo('Werp\Modules\Core\Products\Models\Order');
     }
 }

@@ -49,8 +49,8 @@ class PriceListForm extends SimplePage
         //$inputs[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
         //$inputs[] = (new DescriptionInput)->advancedOption();
         //$inputs[] = (new OperationSelect)->advancedOption();
-        
-        
+
+
 
         return $inputs;
     }
@@ -84,15 +84,15 @@ class PriceListForm extends SimplePage
         ;
     }
 
-    public function editListPage($data, $hasDetail)
+    public function editListPage($data, $hasLines)
     {
         $disable = $data['state'] != Basedoc::PE_STATE;
         $noProcessed = $data['state'] == Basedoc::PE_STATE;
         $isManually = old('type') == PriceListModel::MANUALLY || $data['type'] == PriceListModel::MANUALLY;
         $isFormula = old('type') == PriceListModel::FORMULA || $data['type'] == PriceListModel::FORMULA;
         $isExchange = old('type') == PriceListModel::EXCHANGE || $data['type'] == PriceListModel::EXCHANGE;
-        $showDetail = $hasDetail ?: $isManually;
-        $active = $noProcessed && !$showDetail;
+        $showLines = $hasLines ?: $isManually;
+        $active = $noProcessed && !$showLines;
 
         $inputs1[] = (new DateInput('starting_at', 'Válida a partir de'));
         $inputs1[] = (new PriceListTypeSelect)->setText('Lista a generar');
@@ -147,7 +147,7 @@ class PriceListForm extends SimplePage
         ;
 
         if ($noProcessed) {
-            $hasDetail ? 
+            $hasLines ?
                 $form->addAction(new ActionBuilder('generate', ActionBuilder::TYPE_BUTTON, trans('view.generate'))) :
                 $form->addAction(new ContinueAction);
         }
@@ -160,14 +160,14 @@ class PriceListForm extends SimplePage
 
         $actionKeys = config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$data['state'].'.new_actions');
 
-        if ($hasDetail) {
+        if ($hasLines) {
             foreach ($actionKeys as $key) {
                 $action = config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$key);
                 $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.sales.price_lists.'.$action['key'], $data['id'])));
             }
         }
 
-        if ($showDetail) {
+        if ($showLines) {
             $this->addList(new PriceList(false, $data['id'], $disable));
         }
 

@@ -11,7 +11,7 @@ class BaseService
 {
 	protected $entity;
 
-    protected $entityDetail;
+    protected $entityLine;
 
     public function begin()
     {
@@ -41,7 +41,7 @@ class BaseService
     protected function filters($entity)
     {
         return $entity;
-    } 
+    }
 
     public function getResults($sort, $order, $search, $paginate)
     {
@@ -81,7 +81,7 @@ class BaseService
     public function create(array $data)
     {
         $data = $this->makeCreateData($data);
-        
+
         $entity = $this->entity->create($data);
 
         $entity = $this->postCreate($entity);
@@ -109,7 +109,7 @@ class BaseService
     public function delete($id)
     {
         try {
-            
+
             $this->begin();
 
             $ids = is_array($id) ? $id : [$id];
@@ -126,7 +126,7 @@ class BaseService
         } catch (\Exception $e) {
 
             $this->rollback();
-            throw new \Exception($e->getMessage());            
+            throw new \Exception($e->getMessage());
         }
     }
 
@@ -181,35 +181,35 @@ class BaseService
         return false;
     }
 
-    public function createDetail($id, $data)
+    public function createLine($id, $data)
     {
         $entity = $this->getById($id);
 
         $data = $this->makeData($data, $entity);
-        
-        return $entity->detail()->create($data);
+
+        return $entity->lines()->create($data);
     }
 
-    public function updateDetail($data, $detailId)
+    public function updateLine($data, $lineId)
     {
-        $entityDetail = $this->entityDetail->findOrFail($detailId);
+        $entityLine = $this->entityLine->findOrFail($lineId);
 
-        $data = $this->makeData($data, $entityDetail->getMaster());
+        $data = $this->makeData($data, $entityLine->getMaster());
 
-        $entityDetail->update($data);
+        $entityLine->update($data);
 
-        return $entityDetail;
+        return $entityLine;
     }
 
-    public function deleteDetail($id, $detailId)
+    public function deleteLine($id, $lineId)
     {
-        $ids = is_array($detailId) ? $detailId : [$detailId];
+        $ids = is_array($lineId) ? $lineId : [$lineId];
 
         foreach ($ids as $id) {
-            $entity = $this->entityDetail->findOrFail($id);
+            $entity = $this->entityLine->findOrFail($id);
             $entity->delete();
         }
-        
+
         return true;
     }
 

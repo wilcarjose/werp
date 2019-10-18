@@ -41,17 +41,17 @@ class PriceListController extends BaseController
         'doctype_id' => 'required',
     ];
 
-    protected $storeDetailRules = [
+    protected $storeLineRules = [
         'price'  => 'numeric',
         //'product_id' => 'required',
     ];
 
-    protected $updateDetailRules = [
+    protected $updateLineRules = [
         'price'  => 'numeric',
         //'product_id' => 'required',
     ];
 
-    protected $detailInputs = [
+    protected $lineInputs = [
         'product_id',
         'price',
         'all',
@@ -66,25 +66,25 @@ class PriceListController extends BaseController
     protected $relatedField = 'price_list_id';
 
     protected $routeBase = 'admin.sales.price_lists';
-    
+
     protected $showSuccess = false;
 
     public function __construct(
         PriceList $entity,
-        Price $entityDetail,
+        Price $entityLine,
         PriceListForm $entityForm,
         PriceListList $entityList,
         PriceListService $entityService,
         PriceListTransformer $entityTransformer,
-        PriceTransformer $entityDetailTransformer
+        PriceTransformer $entityLineTransformer
     ) {
         $this->entity            = $entity;
         $this->entityTransformer = $entityTransformer;
         $this->entityForm        = $entityForm;
         $this->entityList        = $entityList;
-        $this->entityDetail      = $entityDetail;
+        $this->entityLine      = $entityLine;
         $this->entityService     = $entityService;
-        $this->entityDetailTransformer      = $entityDetailTransformer;
+        $this->entityLineTransformer      = $entityLineTransformer;
     }
 
     /**
@@ -97,7 +97,7 @@ class PriceListController extends BaseController
         try {
 
             return $this->entityForm->createPage($this->getDependencies(), $this->getDefaultsDependencies());
-        
+
         } catch (ModelNotFoundException $e) {
 
             $message = 'Ítem no encontrado, id: '.implode(', ', $e->getIds());
@@ -118,7 +118,7 @@ class PriceListController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
 
@@ -129,7 +129,7 @@ class PriceListController extends BaseController
                 return back();
             }
 
-            $hasProducts = $entity->detail->isNotEmpty();
+            $hasProducts = $entity->lines->isNotEmpty();
             return $this->entityForm->editListPage($entity->toArray(), $hasProducts);
 
         } catch (ModelNotFoundException $e) {
@@ -177,19 +177,19 @@ class PriceListController extends BaseController
     }
 
     /*
-    public function storeDetail(Request $request, $id)
-    {   
-        $validator = validator()->make($request->all(), $this->getStoreDetailRules());
-        
+    public function storeLine(Request $request, $id)
+    {
+        $validator = validator()->make($request->all(), $this->getStoreLineRules());
+
         if ($validator->fails()) {
             return response(['error' => trans($this->getFailValidationKey())], 422);
         }
 
         try {
 
-            $data = array_only($request->all(), $this->getDetailInputs());
+            $data = array_only($request->all(), $this->getLineInputs());
 
-            $entityDetail = $this->entityService->createDetail($id, $data);
+            $entityLine = $this->entityService->createLine($id, $data);
 
             if ($request->wantsJson()) {
                 return response([
@@ -198,7 +198,7 @@ class PriceListController extends BaseController
                     'status_code' => 201
                 ], 201);
             }
-            
+
             flash(trans($this->getUpdatedKey()), 'success', 'success');
             return back();
 
@@ -232,7 +232,7 @@ class PriceListController extends BaseController
             flash($message, 'error', 'error');
             return back();
         }
-        
+
     }
     */
 
@@ -241,7 +241,7 @@ class PriceListController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function indexDetail($id)
+    public function indexLine($id)
     {
         $sort   = request()->has('sort')?request()->get('sort'):'id';
         $order  = request()->has('order')?request()->get('order'):'asc';
@@ -249,15 +249,15 @@ class PriceListController extends BaseController
 
         $entity = $this->entityService->getById($id);
 
-        $detail = $entity->detail->sortBy(function($price, $key) {
+        $line = $entity->lines->sortBy(function($price, $key) {
           return $price->product->code;
         })->values()->all();
 
         $totals = $entity->getTotals();
 
-        $data = $this->entityDetailTransformer
-            ->transformCollection($detail);
-       
+        $data = $this->entityLineTransformer
+            ->transformCollection($line);
+
         return response([
             'data'        => $data,
             'totals'   => $totals,

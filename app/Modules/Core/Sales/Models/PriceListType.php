@@ -22,7 +22,7 @@ class PriceListType extends Model
     ];
 
     /**
-     * Get the detail for the inventory.
+     * Get the lines for the inventory.
      */
     public function prices()
     {

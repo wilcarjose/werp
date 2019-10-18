@@ -10,7 +10,7 @@ namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\Main\MainList;
 
-class ProductEntryDetailList extends MainList
+class ProductEntryLinesList extends MainList
 {
     public function __construct($empty = false, $filter = null, $disable = false)
     {

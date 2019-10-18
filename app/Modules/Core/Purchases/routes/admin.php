@@ -18,11 +18,11 @@
 
 	// Purchases orders
 	Route::post('/orders/removeBulk','PurchaseOrderController@destroyBulk');
-	Route::get('/orders/{id}/detail', 'PurchaseOrderController@indexDetail')->name('orders.detail.index');
-	Route::get('/orders/{id}/detail/{detail}', 'PurchaseOrderController@showDetail')->name('orders.detail.show');
-	Route::put('/orders/{id}/detail/{detail}', 'PurchaseOrderController@updateDetail')->name('orders.detail.update');
-	Route::post('/orders/{id}/detail', 'PurchaseOrderController@storeDetail')->name('orders.detail.update');
-	Route::delete('/orders/{id}/detail/{detail}', 'PurchaseOrderController@destroyDetail')->name('orders.detail.update');
+	Route::get('/orders/{id}/lines', 'PurchaseOrderController@indexLine')->name('orders.lines.index');
+	Route::get('/orders/{id}/lines/{line_id}', 'PurchaseOrderController@showLine')->name('orders.lines.show');
+	Route::put('/orders/{id}/lines/{line_id}', 'PurchaseOrderController@updateLine')->name('orders.lines.update');
+	Route::post('/orders/{id}/lines', 'PurchaseOrderController@storeLine')->name('orders.lines.update');
+	Route::delete('/orders/{id}/lines/{line_id}', 'PurchaseOrderController@destroyLine')->name('orders.lines.update');
 	Route::get('/orders/{id}/process', 'PurchaseOrderController@process')->name('orders.process');
 	Route::get('/orders/{id}/reverse', 'PurchaseOrderController@reverse')->name('orders.reverse');
 	Route::get('/orders/{id}/cancel', 'PurchaseOrderController@cancel')->name('orders.cancel');
@@ -33,6 +33,18 @@
 	Route::post('/price_list_types/removeBulk','PriceListTypeController@destroyBulk');
 	Route::put('/price_list_types/statusBulk','PriceListTypeController@switchStatusBulk');
 	Route::resource('/price_list_types','PriceListTypeController');
+
+    // Purchases orders
+    Route::post('/invoices/removeBulk','InvoiceController@destroyBulk');
+    Route::get('/invoices/{id}/lines', 'InvoiceController@indexLine')->name('invoices.lines.index');
+    Route::get('/invoices/{id}/lines/{line_id}', 'InvoiceController@showLine')->name('invoices.lines.show');
+    Route::put('/invoices/{id}/lines/{line_id}', 'InvoiceController@updateLine')->name('invoices.lines.update');
+    Route::post('/invoices/{id}/lines', 'InvoiceController@storeLine')->name('invoices.lines.update');
+    Route::delete('/invoices/{id}/lines/{line_id}', 'InvoiceController@destroyLine')->name('invoices.lines.update');
+    Route::get('/invoices/{id}/process', 'InvoiceController@process')->name('invoices.process');
+    Route::get('/invoices/{id}/reverse', 'InvoiceController@reverse')->name('invoices.reverse');
+    Route::get('/invoices/{id}/cancel', 'InvoiceController@cancel')->name('invoices.cancel');
+    Route::resource('/invoices','InvoiceController');
 
 
 

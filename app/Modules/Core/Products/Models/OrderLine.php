@@ -4,9 +4,9 @@ namespace Werp\Modules\Core\Products\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
-class OrderDetail extends Model
+class OrderLine extends Model
 {
-    protected $table = 'order_detail';
+    protected $table = 'order_lines';
 
     /**
      * The attributes that are mass assignable.

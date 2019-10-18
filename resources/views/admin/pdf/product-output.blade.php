@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Nota de entrega</title>
         <style type="text/css">
-            
+
             @page {
                 margin-top: 1cm;
                 margin-bottom: 3cm;
@@ -247,13 +247,13 @@
         <table class="order-data-addresses">
             <tr>
                 <td class="address billing-address">
-                    {{-- 
+                    {{--
                     <h3>Billing Address:</h3>
                     N/A
                      --}}
                 </td>
                 <td class="address shipping-address">
-                    {{-- 
+                    {{--
                     <h3>Shipping Address:</h3>
                     N/A
                      --}}
@@ -288,12 +288,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($entity->detail as $detail)
+                @foreach($entity->lines as $line)
                 <tr>
-                    <td> {{ $detail->product->name }} </td>
-                    <td> {{ $detail->qty }} </td>
-                    <td style="text-align: right;"> {{ number_format((float)round($detail->full_price, 2, PHP_ROUND_HALF_DOWN),2,',','.')}} </td>
-                    <td style="text-align: right;"> {{ number_format((float)round($detail->total, 2, PHP_ROUND_HALF_DOWN),2,',','.')}} </td>
+                    <td> {{ $line->product->name }} </td>
+                    <td> {{ $line->qty }} </td>
+                    <td style="text-align: right;"> {{ number_format((float)round($line->full_price, 2, PHP_ROUND_HALF_DOWN),2,',','.')}} </td>
+                    <td style="text-align: right;"> {{ number_format((float)round($line->total, 2, PHP_ROUND_HALF_DOWN),2,',','.')}} </td>
                 </tr>
                 @endforeach
             </tbody>

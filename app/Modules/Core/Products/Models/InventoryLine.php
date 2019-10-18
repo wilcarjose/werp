@@ -4,9 +4,9 @@ namespace Werp\Modules\Core\Products\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
-class InventoryDetail extends Model
+class InventoryLine extends Model
 {
-    protected $table = 'inventory_detail';
+    protected $table = 'inventory_lines';
 
     /**
      * The attributes that are mass assignable.

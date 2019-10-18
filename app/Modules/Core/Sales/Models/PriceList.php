@@ -45,9 +45,9 @@ class PriceList extends Model
     }
 
     /**
-     * Get the detail for the inventory.
+     * Get the lines for the inventory.
      */
-    public function detail()
+    public function lines()
     {
         return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'price_list_id', 'id');
     }

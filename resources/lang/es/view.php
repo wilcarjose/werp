@@ -71,6 +71,8 @@ return [
     'general' => 'General',
     'color' => 'Color',
     'formula' => 'Fórmula',
+    'invoice' => 'Factura',
+    'number' => 'Número',
     'menu' => [
         'company' => 'Empresa',
         'security' => 'Seguridad',
@@ -121,6 +123,7 @@ return [
         'mercado_libre' => 'Mercado libre',
         'update_prices' => 'Actualizar precios',
         'login' => 'Login',
+        'invoices' => 'Facturas',
     ],
     'profile' => [
         'profile' => 'Perfil',

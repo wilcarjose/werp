@@ -10,19 +10,12 @@ namespace Werp\Modules\Core\Products\Builders;
 
 use Werp\Builders\Main\MainList;
 
-class MovementDetailList extends MainList
+class InventoryLinesList extends MainList
 {
     public function __construct($empty = false, $filter = null, $disable = false)
     {
         $modal = [
               'object' => [
-                /*
-                'id' => 'Number',
-                'product_id' => 'Number',
-                'warehouse_from_id' => 'Number',
-                'warehouse_to_id' => 'Number',
-                'qty' => 'Number',
-                */
               ],
               'fields' => [
                 [
@@ -44,46 +37,42 @@ class MovementDetailList extends MainList
                   'id' => 'qty',
                   'label' => 'Cantidad',
                   'required' => true,
-                ],                
+                ],
               ],
               'advanced_fields' => [
                 [
-                  'key' => 'warehouses_from',
+                  'key' => 'warehouses',
                   'type' => 'select',
-                  'name' => 'warehouse_from_id',
-                  'id' => 'warehouses_from',
-                  'items' => 'warehouses_from',
-                  'label' => 'Almacén desde',
+                  'name' => 'warehouse_id',
+                  'id' => 'warehouses',
+                  'items' => 'warehouses',
+                  'label' => 'Almacén',
                   'id_key' => 'id',
                   'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses',
                   'required' => false,
+                  'endpoint' => '/admin/products/warehouses',
                 ],
                 [
-                  'key' => 'warehouses_to',
-                  'type' => 'select',
-                  'name' => 'warehouse_to_id',
-                  'id' => 'warehouses_to',
-                  'items' => 'warehouses_to',
-                  'label' => 'Almacén hasta',
-                  'id_key' => 'id',
-                  'value_key' => 'name',
-                  'endpoint' => '/admin/products/warehouses',
+                  'key' => 'description',
+                  'type' => 'text',
+                  'name' => 'description',
+                  'id' => 'description',
+                  'label' => 'Descripción',
                   'required' => false,
-                ]
-              ]
+                ],
+              ],
            ];
 
         $this->setTitle('Productos')
-            ->setRoute('admin.products.movements')
+            ->setRoute('admin.products.inventories')
             ->setShowStatus(false)
             ->setShowSearch(false)
             ->setUseModal(true)
             ->setDeleteMultiple(false)
             ->setShowMessages(false)
             ->setFields([
-              ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'], 
-              ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'text']
+              ['field' => 'product_name', 'name' => 'Producto' , 'type' => 'text'],
+              ['field' => 'qty', 'name' => 'Cantidad' , 'type' => 'qty']
             ])
             ->setFilter($filter)
             ->setEmptyList($empty)

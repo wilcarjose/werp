@@ -8,9 +8,9 @@ use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
-use Werp\Modules\Core\Products\Models\MovementDetail;
+use Werp\Modules\Core\Products\Models\MovementLine;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 
@@ -22,12 +22,12 @@ class MovementService extends BaseService
 
     public function __construct(
         Movement $entity,
-        MovementDetail $entityDetail,
+        MovementLine $entityLine,
         DoctypeService $doctypeService,
         TransactionService $transactionService
     ) {
         $this->entity               = $entity;
-        $this->entityDetail         = $entityDetail;
+        $this->entityLine         = $entityLine;
         $this->doctypeService       = $doctypeService;
         $this->transactionService   = $transactionService;
     }
@@ -47,8 +47,8 @@ class MovementService extends BaseService
             throw new CanNotProcessException("No se puede procesar este registro");
         }
 
-        if ($entity->hasNotDetail()) {
-            throw new NotDetailException("Debe agregar al menos un producto");
+        if ($entity->hasNotLines()) {
+            throw new NotLinesException("Debe agregar al menos un producto");
         }
 
         try {
@@ -67,7 +67,7 @@ class MovementService extends BaseService
             DB::rollBack();
             throw new \Exception("Error Processing Request: ".$e->getMessage() . ' - ' . $e->getFile() . ' - ' . $e->getLine());
         }
-        
+
     }
 
     protected function canNotProcess($entity)
@@ -87,7 +87,7 @@ class MovementService extends BaseService
         $data['warehouse_to_id'] = isset($data['warehouse_to_id']) ?
             $data['warehouse_to_id'] :
             $entity->warehouse_to_id;
-        
+
         return $data;
     }
 
@@ -110,8 +110,8 @@ class MovementService extends BaseService
 
             $newEntity = $this->entity->create($entity->cancelableData());
 
-            foreach ($entity->detail as $detail) {
-                $newEntity->detail()->create($detail->cancelableData());
+            foreach ($entity->lines as $line) {
+                $newEntity->lines()->create($line->cancelableData());
             }
 
             $entity->state = Basedoc::CA_STATE;
@@ -136,7 +136,7 @@ class MovementService extends BaseService
         return !in_array($entity->state, $stateArray['actions_from']);
     }
 
-    public function createDetail($id, $data)
+    public function createLine($id, $data)
     {
         $entity = $this->getById($id);
 
@@ -145,11 +145,11 @@ class MovementService extends BaseService
             DB::beginTransaction();
 
             $data = $this->makeData($data, $entity);
-            $entityDetail = $entity->detail()->create($data);
+            $entityLine = $entity->lines()->create($data);
 
             DB::commit();
 
-            return $entityDetail;
+            return $entityLine;
 
         } catch (\Exception $e) {
 
@@ -159,20 +159,20 @@ class MovementService extends BaseService
         }
     }
 
-    public function updateDetail($data, $detailId)
+    public function updateLine($data, $lineId)
     {
-        $entityDetail = $this->entityDetail->findOrFail($detailId);
+        $entityLine = $this->entityLine->findOrFail($lineId);
 
         try {
 
             DB::beginTransaction();
 
-            $data = $this->makeData($data, $entityDetail->movement);
-            $entityDetail = $entityDetail->update($data);
+            $data = $this->makeData($data, $entityLine->movement);
+            $entityLine = $entityLine->update($data);
 
             DB::commit();
 
-            return $entityDetail;
+            return $entityLine;
 
         } catch (\Exception $e) {
 
@@ -182,15 +182,15 @@ class MovementService extends BaseService
         }
     }
 
-    public function deleteDetail($id, $detailId)
+    public function deleteLine($id, $lineId)
     {
-        $entityDetail = $this->entityDetail->findOrFail($detailId);
+        $entityLine = $this->entityLine->findOrFail($lineId);
 
         try {
 
             DB::beginTransaction();
-    
-            $entityDetail->delete();
+
+            $entityLine->delete();
 
             DB::commit();
 

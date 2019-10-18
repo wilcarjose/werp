@@ -22,7 +22,7 @@ class PriceListService extends BaseService
     public function __construct(
         Product $product,
     	PriceList $entity,
-        Price $entityDetail,
+        Price $entityLine,
         ConfigService $configService,
     	DoctypeService $doctypeService,
         //ExchangeRateService $exchangeService,
@@ -31,7 +31,7 @@ class PriceListService extends BaseService
     ) {
         $this->entity           = $entity;
         $this->product          = $product;
-        $this->entityDetail     = $entityDetail;
+        $this->entityLine     = $entityLine;
         $this->doctypeService   = $doctypeService;
         $this->configService    = $configService;
         //$this->exchangeService  = $exchangeService;
@@ -64,7 +64,7 @@ class PriceListService extends BaseService
     public function createPriceList(array $data)
     {
         $data['code'] = $this->doctypeService->nextDocNumber($data['doctype_id']);
-        
+
         $useExchange = isset($data['type']) && $data['type'] == PriceList::EXCHANGE;
 
         $data = $this->makeUpdateData($data);
@@ -118,7 +118,7 @@ class PriceListService extends BaseService
         $data['currency_id'] = $priceListType->currency_id;
         $data['active'] = BaseModel::STATUS_INACTIVE;
         $data['price_list_type_id'] = $priceListType->id;
-        
+
         return $data;
     }
 
@@ -156,7 +156,7 @@ class PriceListService extends BaseService
         $entity->state = Basedoc::PR_STATE;
         $entity->save();
 
-        $entity->detail()->update(['active' => BaseModel::STATUS_ACTIVE]);
+        $entity->lines()->update(['active' => BaseModel::STATUS_ACTIVE]);
     }
 
     public function reverse($id)
@@ -165,7 +165,7 @@ class PriceListService extends BaseService
         $entity->state = Basedoc::PE_STATE;
         $entity->save();
 
-        $entity->detail()->update(['active' => BaseModel::STATUS_INACTIVE]);
+        $entity->lines()->update(['active' => BaseModel::STATUS_INACTIVE]);
     }
 
     public function generatePrices($entity, $products = [])
@@ -191,7 +191,7 @@ class PriceListService extends BaseService
         if ($entity->referencePriceListType) {
 
             $prices = $entity->referencePriceListType->currentPrices();
-            
+
             foreach($prices as $price) {
 
                 $amount = $this->getPrice($entity, $price, true);
@@ -251,13 +251,15 @@ class PriceListService extends BaseService
         return $price->price;
     }
 
-    public function createDetail($id, $data)
+    public function createLine($id, $data)
     {
         try {
 
             $this->begin();
 
             $entity = $this->getById($id);
+
+            $result = true;
 
             // to do: refactorice
             if (!(!isset($data['product_id']) || (isset($data['product_id']) && $data['product_id'] === "0"))) {
@@ -286,15 +288,15 @@ class PriceListService extends BaseService
             }
 
             if (isset($data['warehouse_id']) && $data['warehouse_id']) {
-                
+
             }
 
             if (isset($data['category_id']) && $data['category_id']) {
-                
+
             }
 
             if (isset($data['brand_id']) && $data['brand_id']) {
-                
+
             }
 
             $this->commit();
@@ -307,13 +309,15 @@ class PriceListService extends BaseService
         }
     }
 
-    public function updateDetail($data, $detailId)
+    public function updateLine($data, $lineId)
     {
         try {
 
             $this->begin();
 
-            $entity = $this->entityDetail->findOrFail($detailId)->priceList;
+            $entity = $this->entityLine->findOrFail($lineId)->priceList;
+
+            $result = true;
 
             // to do: refactorice
             if (!(!isset($data['product_id']) || (isset($data['product_id']) && $data['product_id'] === "0"))) {
@@ -349,7 +353,7 @@ class PriceListService extends BaseService
 
     protected function deletePrice($entity, $product)
     {
-        $entity->detail()->inactive()->where('product_id', $product->id)->delete();
+        $entity->lines()->inactive()->where('product_id', $product->id)->delete();
 
         return $this;
     }
@@ -364,7 +368,7 @@ class PriceListService extends BaseService
 
         $operationName = $entity->operation ? $entity->operation->name : null;
         $operationCalc = $entity->operation ? $entity->operation->operation : null;
-        $operationValue = $entity->operation ? 
+        $operationValue = $entity->operation ?
             ($entity->operation->config_key ? $this->configService->getValue($entity->operation->config_key) : $entity->operation->value) :
             null;
 
@@ -391,7 +395,7 @@ class PriceListService extends BaseService
             'exchange_rate_id' => $entity->exchange_rate_id,
         ];
 
-        return $entity->detail()->create($priceData);
+        return $entity->lines()->create($priceData);
     }
 
     public function generateFromExchange($exchange)

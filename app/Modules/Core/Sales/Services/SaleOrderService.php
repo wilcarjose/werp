@@ -9,13 +9,13 @@ use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Sales\Models\PriceListType;
-use Werp\Modules\Core\Products\Models\OrderDetail;
+use Werp\Modules\Core\Products\Models\OrderLine;
 use Werp\Modules\Core\Products\Services\OrderService;
 use Werp\Modules\Core\Sales\Services\DiscountService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Services\TransactionService;
 use Werp\Modules\Core\Products\Services\ProductOutputService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 
@@ -27,12 +27,12 @@ class SaleOrderService extends OrderService
     protected $inventoryObject;
     protected $transactionService;
     protected $outputService;
-    protected $entityDetail;
+    protected $entityLine;
 
     public function __construct(
         Order $entity,
         TaxService $taxService,
-        OrderDetail $entityDetail,
+        OrderLine $entityLine,
         DoctypeService $doctypeService,
         DiscountService $discountService,
         ProductOutputService $outputService,
@@ -40,7 +40,7 @@ class SaleOrderService extends OrderService
     ) {
         $this->entity             = $entity;
         $this->taxService         = $taxService;
-        $this->entityDetail       = $entityDetail;
+        $this->entityLine       = $entityLine;
         $this->outputService      = $outputService;
         $this->doctypeService     = $doctypeService;
         $this->discountService    = $discountService;
@@ -81,8 +81,8 @@ class SaleOrderService extends OrderService
 
             $this->entity->where('id', $id)->update($data);
 
-            foreach ($entity->fresh()->detail as $detail) {
-                $this->updateDetailAmounts($detail);
+            foreach ($entity->fresh()->lines as $line) {
+                $this->updateLineAmounts($line);
             }
 
             $totalAmountData = $this->getTotalAmounts($entity);
@@ -118,8 +118,8 @@ class SaleOrderService extends OrderService
             throw new CanNotProcessException("No se puede procesar este registro");
         }
 
-        if ($entity->hasNotDetail()) {
-            throw new NotDetailException("Debe agregar al menos un producto");
+        if ($entity->hasNotLines()) {
+            throw new NotLinesException("Debe agregar al menos un producto");
         }
 
         try {
@@ -152,33 +152,33 @@ class SaleOrderService extends OrderService
                 ];
 
                 $output = $this->outputService->create($data);
-                
+
                 $entity->inouts()->attach($output->id);
 
-                foreach ($entity->detail as $detail) {
+                foreach ($entity->lines as $line) {
 
-                    $detailData = [
+                    $lineData = [
                         'reference' => $output->code,
-                        'date' => $detail->date,
-                        'qty' => $detail->qty,
-                        'product_id' => $detail->product_id,
-                        'warehouse_id' => $detail->warehouse_id,
-                        'price' => $detail->price,
-                        'tax' => $detail->tax,
-                        'discount' => $detail->discount,
-                        'full_price' => $detail->full_price,
-                        'total_price' => $detail->total_price,
-                        'total_tax' => $detail->total_tax,
-                        'total_discount' => $detail->total_discount,
-                        'total' => $detail->total,
-                        'currency_id' => $detail->currency_id,
-                        'order_detail_id' => $detail->id,
+                        'date' => $line->date,
+                        'qty' => $line->qty,
+                        'product_id' => $line->product_id,
+                        'warehouse_id' => $line->warehouse_id,
+                        'price' => $line->price,
+                        'tax' => $line->tax,
+                        'discount' => $line->discount,
+                        'full_price' => $line->full_price,
+                        'total_price' => $line->total_price,
+                        'total_tax' => $line->total_tax,
+                        'total_discount' => $line->total_discount,
+                        'total' => $line->total,
+                        'currency_id' => $line->currency_id,
+                        'order_line_id' => $line->id,
                     ];
-                    
-                    $outputDetail = $output->detail()->create($detailData);
 
-                    $detail->qty_delivered = $detail->qty;
-                    $detail->save();
+                    $outputLine = $output->lines()->create($lineData);
+
+                    $line->qty_delivered = $line->qty;
+                    $line->save();
                 }
 
                 $output->order_code = $entity->code;

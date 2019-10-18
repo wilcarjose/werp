@@ -118,7 +118,7 @@ class Product extends Model
 
     public function inventories()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryDetail');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryLine');
     }
 
     public function categories()
@@ -148,16 +148,16 @@ class Product extends Model
 
     public function orders()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\OrderDetail');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\OrderLine');
     }
 
     public function inouts()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\InoutDetail');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InoutLine');
     }
 
     public function movements()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementDetail');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementLine');
     }
 }

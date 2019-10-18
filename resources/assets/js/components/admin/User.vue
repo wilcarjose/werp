@@ -9,7 +9,7 @@
         <div class="card-panel">
           <div style="text-align: center;">
             <p style="color: #ea4869; font-size: 20px; font-weight: 300; margin-bottom: 0; text-align: center;"> No hay registros aún </p>
-            <h5 class="content-headline" style="font-size: 2rem;" v-show="showAdd"> Agregar {{ title }}</h5> 
+            <h5 class="content-headline" style="font-size: 2rem;" v-show="showAdd"> Agregar {{ title }}</h5>
             <a class="btn btn-default pull-right btn-floating" :href="route + '/create'" v-show="showAdd" v-if="!use_modal" style="width: 60px; height: 60px;">
                 <i class="material-icons" style="line-height: 60px; font-size: 2.2rem;">add</i>
             </a>
@@ -135,7 +135,7 @@
                                 {{ runningData[cols.field] }}
                             </span>
                         </span>
-                        
+
                         <span v-if="cols.type == 'amount'" style="float: right;">
                             <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
                                 {{ numberFormat(runningData[cols.field]) }}
@@ -147,7 +147,7 @@
                                 {{ numberFormat(runningData[cols.field]) }}
                             </span>
                         </span>
-                        
+
                         <span v-if="cols.type == 'text'">
                             <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
                                 {{ runningData[cols.field] }}
@@ -159,7 +159,7 @@
                                 {{ runningData[cols.field] }}
                             </span>
                         </span>
-                        
+
                         <span v-if="cols.type == 'date'">
                             <a v-if="cols.link && !use_modal" :href="route + '/' + runningData.id + '/edit'" style="font-weight: 600;">
                                 {{ dateFormat(runningData[cols.field]) }}
@@ -208,19 +208,19 @@
 
                     <th v-if="show_multi_actions && delete_multiple">
                     </th>
-                    <td v-for="(cols,index) in columns"> 
+                    <td v-for="(cols,index) in columns">
                         <span v-if="cols.total" style="float: right;">
                           <strong style="font-size: 15px;"> {{ numberFormat(totals[cols.field]) }} </strong>
                         </span>
                     </td>
                     <td v-if="show_state">
-                      
+
                     </td>
                     <td v-if="show_status">
                     </td>
                     <td v-if="show_actions && !disable">
                     </td>
-                  
+
                   </tr>
 
                 </tbody>
@@ -279,7 +279,7 @@
                       <option :value="item[field.id_key]" v-for="item in dependencies[field.items]">{{ item[field.value_key] }}</option>
                   </select>
                   <!-- selects -->
-                  
+
                   <!-- texts inputs -->
                   <input v-if="field.type == 'text'" type="text" :name="field.name" :id="'modal-'+field.id" v-model="modal.object[field.name]" :required="field.required">
                   <label v-if="field.type == 'text'" :for="'modal-'+field.id">{{ field.label }}</label>
@@ -338,7 +338,7 @@
                   </span>
 
               </div>
-              
+
           </form>
         </div>
         <div class="modal-footer">
@@ -355,7 +355,7 @@ $(document).ready(function() {
 
 
 })
-  
+
 import { tableData } from '../../mixins/tableMixin';
 import FunctionHelper from '../../helpers/FunctionHelper.js';
 //import AutoNumeric from '../../../../../node_modules/autonumeric/src/main';
@@ -437,12 +437,12 @@ export default {
     },
     mounted() {
         this.all();
-        
+
         //this.showAdd = true;
         let vm = this;
 
         if (vm.use_modal) {
-            
+
             $('#componentDataModal').modal({
               dismissible: false,
               ready: function(modal, trigger) {
@@ -451,7 +451,7 @@ export default {
               complete: function() { vm.resetSingleObj(); } // Callback for Modal close
 
             });
-          
+
             if (vm.modal.fields.length > 0) {
 
                 vm.modal.fields.forEach(function(item, index) {
@@ -516,17 +516,17 @@ export default {
         all(page = 1) {
             this.resetAlert();
             if (!this.empty_list) {
-              let suffix = this.filter ? `/${this.filter}/detail` : '';
+              let suffix = this.filter ? `/${this.filter}/lines` : '';
               let uri = `${this.route}${suffix}?page=${page}&sort=${this.sortOrder.field}&order=${this.sortOrder.order}&fields=${this.fieldList}`;
               axios.get(uri).then((response) => {
                       let res = response.data;
-                      if (res.status_code == 200) {
+                      if (res.status_code === 200) {
                           this.componentData = res.data;
                           this.pagination = res.paginator;
                           this.totals = res.totals;
                       }
                   })
-                  .catch(error => { 
+                  .catch(error => {
                     //this.alertHandler('info', `No hay registros aún`, true);
                     this.componentData = [];
                   });
@@ -534,7 +534,7 @@ export default {
         },
 
         show(obj) {
-            
+
             if (this.disable) {
                 return false;
             }
@@ -588,7 +588,7 @@ export default {
 
         update() {
             if (this.filter) {
-              let suffix = `${this.filter}/detail/`;
+              let suffix = `${this.filter}/lines/`;
               let uri = `${this.route}/${suffix}${this.modal.object.id}`;
               //this.unformatNumerics();
               axios.put(uri, this.modal.object).then((response) => {
@@ -611,7 +611,7 @@ export default {
                         this.errors = error.response.data.errors;
                     }
 
-                    console.log(error.response.data) 
+                    console.log(error.response.data)
                 });
             }
 
@@ -621,13 +621,13 @@ export default {
         },
 
         create(event) {
-            
+
             this.resetSingleObj();
             this.resetAlert();
             this.pupupMod = 'add';
             this.modalAction = 'Agregar';
             this.errors = null;
-            
+
             this.modal.fields.forEach((item, index) => {
 
                 if (item.type == 'select') {
@@ -637,7 +637,7 @@ export default {
 
                 if (item.type == 'amount') {
                     //var input = $('#modal-' + item.id);
-                    
+
                     // clear the amount input on new
                     //$(input).next().next().removeClass('active');
                 }
@@ -664,9 +664,9 @@ export default {
 
         store() {
             this.showLoader = true;
-            
+
             if (this.filter) {
-              let suffix = `${this.filter}/detail`;
+              let suffix = `${this.filter}/lines`;
               let uri = `${this.route}/${suffix}`;
               //this.unformatNumerics();
               axios.post(uri, this.modal.object).then((response) => {
@@ -689,28 +689,28 @@ export default {
                         location.reload();
                       }
                   })
-                  .catch((error) => { 
+                  .catch((error) => {
                     this.alertHandler('error', error.response.data.message, true);
                     if (typeof error.response.data.errors !== 'undefined') {
                         this.errors = error.response.data.errors;
                     }
 
-                    console.log(error.response.data) 
+                    console.log(error.response.data)
                   });
-              
+
             }
 
             if (!this.filter) {
               $('#componentDataModal').modal('close'); // Hide modal
             }
-            
+
         },
 
         remove(obj) {
             this.resetAlert();
             var index = this.componentData.indexOf(obj);
             if (!this.empty_list) {
-              let suffix = this.filter ? `${this.filter}/detail/` : '';
+              let suffix = this.filter ? `${this.filter}/lines/` : '';
               let uri = `${this.route}/${suffix}${obj.id}`;
               axios.delete(uri).then((response) => {
                       let res = response.data;
@@ -720,23 +720,23 @@ export default {
                       } else {
                           this.alertHandler('error', res.message, true);
                       }
-                      
+
                       this.componentData.splice(index, 1);
 
                       if (this.reloadOnSave) {
                         location.reload();
                       }
                   })
-                  .catch((error) => { 
+                  .catch((error) => {
                       this.alertHandler('error', error.response.data.message, true);
-                      console.log(error.response.data.message) 
+                      console.log(error.response.data.message)
                    });
             }
         },
 
         removeMultiple() {
             this.resetAlert();
-            let suffix = this.filter ? `${this.filter}/detail/` : '';
+            let suffix = this.filter ? `${this.filter}/lines/` : '';
             let uri = `${this.route}/${suffix}removeBulk`;
             if (this.multiSelection.length) {
                 axios.post(uri, this.multiSelection).then((response) => {
@@ -750,7 +750,7 @@ export default {
                             this.alertHandler('error', res.message, true);
                         }
                     })
-                    .catch((error) => { 
+                    .catch((error) => {
                         this.alertHandler('error', error.response.data.message, true);
                         console.log(error.response.data.message)
                     });
@@ -803,18 +803,18 @@ export default {
                         this.pagination = res.paginator;
                     }
                 })
-                .catch((error) => { 
+                .catch((error) => {
                     this.alertHandler('error', error.response.data.message, true);
                     console.log(error)
                 });
         },
-        
+
         numberFormat(num, decimal_point = ',', thousands_sep = '.') {
 
             if ( typeof num === 'undefined' || num === null ) {
                 return '0' + decimal_point + '00';
             }
-           
+
             var strArray = num.toString().split(".");
 
             var unit = strArray[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousands_sep);
@@ -870,7 +870,7 @@ export default {
                 if (item.type == 'amount') {
                     if ( typeof this.modal.object[item.name] !== 'undefined') {
                         this.modal.object[item.name] = this.numericInputs.unformatOther(this.modal.object[item.name]);
-                    }                     
+                    }
                 }
 
           });
@@ -880,7 +880,7 @@ export default {
                 if (item.type == 'amount') {
                     if ( typeof this.modal.object[item.name] !== 'undefined') {
                         this.modal.object[item.name] = this.numericInputs.unformatOther(this.modal.object[item.name]);
-                    }                     
+                    }
                 }
 
           });
@@ -894,7 +894,7 @@ export default {
                 if (item.type == 'amount') {
                     if ( typeof this.modal.object[item.name] !== 'undefined') {
                         this.modal.object[item.name] = this.numericInputs.formatOther(this.modal.object[item.name], 'commaDecimalCharDotSeparator');
-                    }                     
+                    }
                 }
 
           });
@@ -904,7 +904,7 @@ export default {
                 if (item.type == 'amount') {
                     if ( typeof this.modal.object[item.name] !== 'undefined') {
                         this.modal.object[item.name] = this.numericInputs.formatOther(this.modal.object[item.name], 'commaDecimalCharDotSeparator');
-                    }                     
+                    }
                 }
 
           });

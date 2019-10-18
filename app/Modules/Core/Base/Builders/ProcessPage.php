@@ -30,7 +30,7 @@ class ProcessPage extends PageBuilder
         return [];
     }
 
-    public function getDetailList()
+    public function getLinesList()
     {
         return null;
     }
@@ -71,7 +71,7 @@ class ProcessPage extends PageBuilder
         }
 
         $form
-            ->setList($this->getDetailList())
+            ->setList($this->getLinesList())
             //->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IM_DOC.'.'.$data['state'].'.color'));
@@ -82,7 +82,7 @@ class ProcessPage extends PageBuilder
         foreach ($actionKeys as $key) {
             $action = config('products.document.actions.'.Basedoc::IM_DOC.'.'.$key);
             $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->moduleRoute.'.'.$action['key'], $data['id'])));
-        }        
+        }
 
         return $this
             ->setShortAction($this->editTitle)

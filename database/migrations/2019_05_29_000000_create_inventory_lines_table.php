@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMovementDetailTable extends Migration
+class CreateInventoryLinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,27 +13,24 @@ class CreateMovementDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('movement_detail', function (Blueprint $table) {
+        Schema::create('inventory_lines', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->timestamp('date');
             $table->string('reference');
+            $table->timestamp('date');
+            $table->text('description')->nullable();
             $table->double('qty');
-            $table->uuid('movement_id');
-            $table->foreign('movement_id')
+            $table->uuid('inventory_id');
+            $table->foreign('inventory_id')
                 ->references('id')
-                ->on('movements');
-            $table->uuid('warehouse_from_id');
-            $table->foreign('warehouse_from_id')
-                ->references('id')
-                ->on('warehouses');
-            $table->uuid('warehouse_to_id');
-            $table->foreign('warehouse_to_id')
-                ->references('id')
-                ->on('warehouses');
+                ->on('inventories');
             $table->uuid('product_id');
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products');
+            $table->uuid('warehouse_id');
+            $table->foreign('warehouse_id')
+                ->references('id')
+                ->on('warehouses');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
@@ -50,6 +47,6 @@ class CreateMovementDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movement_detail');
+        Schema::dropIfExists('inventory_lines');
     }
 }

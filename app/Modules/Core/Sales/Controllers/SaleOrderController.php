@@ -9,16 +9,16 @@ use Werp\Modules\Core\Base\Controllers\BaseController;
 use Werp\Modules\Core\Sales\Services\SaleOrderService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
-use Werp\Modules\Core\Products\Exceptions\NotDetailException;
+use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Sales\Transformers\SaleOrderTransformer;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
-use Werp\Modules\Core\Sales\Transformers\SaleOrderDetailTransformer;
+use Werp\Modules\Core\Sales\Transformers\SaleOrderLineTransformer;
 
 class SaleOrderController extends BaseController
 {
-    protected $entityDetail;
+    protected $entityLine;
     protected $entityTransformer;
-    protected $entityDetailTransformer;
+    protected $entityLineTransformer;
     protected $entityForm;
     protected $entityList;
     protected $configService;
@@ -59,17 +59,17 @@ class SaleOrderController extends BaseController
         'price_list_type_id'    => 'required',
     ];
 
-    protected $storeDetailRules = [
+    protected $storeLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $updateDetailRules = [
+    protected $updateLineRules = [
         'qty'  => 'required|numeric',
         'product_id' => 'required',
     ];
 
-    protected $detailInputs = [
+    protected $lineInputs = [
         'qty',
         'price',
         'total_price',
@@ -92,14 +92,14 @@ class SaleOrderController extends BaseController
         SaleOrderService $entityService,
         ConfigService $configService,
         SaleOrderTransformer $entityTransformer,
-        SaleOrderDetailTransformer $entityDetailTransformer        
+        SaleOrderLineTransformer $entityLineTransformer
     ) {
         $this->entityForm         = $entityForm;
         $this->entityList         = $entityList;
         $this->configService      = $configService;
         $this->entityService      = $entityService;
         $this->entityTransformer  = $entityTransformer;
-        $this->entityDetailTransformer = $entityDetailTransformer;
+        $this->entityLineTransformer = $entityLineTransformer;
     }
 
     /**
@@ -108,7 +108,7 @@ class SaleOrderController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $entity = $this->entityService->getById($id, false);
 
@@ -135,7 +135,7 @@ class SaleOrderController extends BaseController
         } catch (ModelNotFoundException $e) {
             flash('Ítem no encontrado, id: '.implode(', ', $e->getIds()), 'error', 'error');
             return redirect(route($this->routeBase.'.edit', $id));
-        } catch (NotDetailException $e) {
+        } catch (NotLinesException $e) {
             flash($e->getMessage(), 'error', 'error');
             return redirect(route($this->routeBase.'.edit', $id));
         } catch (CanNotProcessException $e) {

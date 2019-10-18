@@ -98,7 +98,7 @@ class ProductEntryForm extends SimplePage
         }
 
         $form
-            ->setList(new ProductEntryDetailList(false, $data['id'], $disable))
+            ->setList(new ProductEntryLinesList(false, $data['id'], $disable))
             ->setMaxWidth()
             ->setState(trans(config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.after_name')))
             ->setStateColor(config('products.document.actions.'.Basedoc::IE_DOC.'.'.$data['state'].'.color'));
@@ -112,7 +112,7 @@ class ProductEntryForm extends SimplePage
         }        
 
         return $this
-            ->addList(new ProductEntryDetailList(false, $data['id'], $disable))
+            ->addList(new ProductEntryLinesList(false, $data['id'], $disable))
             ->setListsWidth('s10 push-m1')
             ->setShortAction('Editar')
             ->editConfig()

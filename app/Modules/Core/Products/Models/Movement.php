@@ -36,11 +36,11 @@ class Movement extends Model
     ];
 
     /**
-     * Get the detail for the inventory.
+     * Get the lines for the inventory.
      */
-    public function detail()
+    public function lines()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementDetail', 'movement_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\MovementLine', 'movement_id', 'id');
     }
 
     public function getTotals()
@@ -48,19 +48,19 @@ class Movement extends Model
         return [];
     }
 
-    public function getDetail()
+    public function getlines()
     {
-        return $this->detail()->get(); 
+        return $this->lines()->get();
     }
 
-    public function hasDetail()
+    public function hasLines()
     {
-        return $this->detail()->count() > 0;
-    }    
+        return $this->lines()->count() > 0;
+    }
 
-    public function hasNotDetail()
+    public function hasNotLines()
     {
-        return !$this->hasDetail();
+        return !$this->hasLines();
     }
 
     public function toArray()

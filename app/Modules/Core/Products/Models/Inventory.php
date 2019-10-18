@@ -36,11 +36,11 @@ class Inventory extends Model
     ];
 
     /**
-     * Get the detail for the inventory.
+     * Get the lines for the inventory.
      */
-    public function detail()
+    public function lines()
     {
-        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryDetail', 'inventory_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Products\Models\InventoryLine', 'inventory_id', 'id');
     }
 
     public function getTotals()
@@ -48,9 +48,9 @@ class Inventory extends Model
         return [];
     }
 
-    public function getDetail()
+    public function getlines()
     {
-        return $this->detail()->get(); 
+        return $this->lines()->get();
     }
 
     public function toArray()
