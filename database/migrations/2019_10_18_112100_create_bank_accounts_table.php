@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
-use Werp\Modules\Core\Maintenance\Models\BankAccount;
+use Werp\Modules\Core\Payments\Models\BankAccount;
 
 class CreateBankAccountsTable extends Migration
 {

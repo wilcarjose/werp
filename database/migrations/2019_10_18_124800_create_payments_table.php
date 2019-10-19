@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Maintenance\Models\Invoice;
 use Illuminate\Database\Migrations\Migration;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
-use Werp\Modules\Core\Maintenance\Models\Payment;
+use Werp\Modules\Core\Payments\Models\Payment;
 
 class CreatePaymentsTable extends Migration
 {

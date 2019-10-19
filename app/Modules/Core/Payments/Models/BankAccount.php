@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Maintenance\Models;
+namespace Werp\Modules\Core\Payments\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
