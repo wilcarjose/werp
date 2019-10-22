@@ -95,7 +95,7 @@ class PriceList extends MainList
            ];
 
         $this->setTitle('Productos')
-            ->setRoute('admin.sales.price_lists')
+            ->setRoute('admin.maintenance.price_lists')
             ->setShowStatus(false)
             ->setShowSearch(false)
             ->setUseModal(true)

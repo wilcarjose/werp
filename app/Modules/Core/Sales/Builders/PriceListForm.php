@@ -32,7 +32,7 @@ use Werp\Modules\Core\Sales\Models\PriceList as PriceListModel;
 
 class PriceListForm extends SimplePage
 {
-    protected $moduleRoute = 'admin.sales.price_lists';
+    protected $moduleRoute = 'admin.maintenance.price_lists';
     protected $mainTitle = 'Listas de precios';
     protected $newTitle = 'Nuevo';
     protected $editTitle = 'Editar';
@@ -44,7 +44,7 @@ class PriceListForm extends SimplePage
         }
 
         $inputs[] = new DateInput('starting_at', 'Válida a partir de');
-        $inputs[] = (new PriceListTypeSelect)->setText('Lista a generar');
+        $inputs[] = (new PriceListTypeSelect('all'))->setText('Lista a generar');
         //$inputs[] = new PriceListTypeSelect('sales', null, 'reference_price_list_type_id', 'Lista precio base', true);
         //$inputs[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked($useExchange);
         //$inputs[] = (new DescriptionInput)->advancedOption();
@@ -95,7 +95,7 @@ class PriceListForm extends SimplePage
         $active = $noProcessed && !$showLines;
 
         $inputs1[] = (new DateInput('starting_at', 'Válida a partir de'));
-        $inputs1[] = (new PriceListTypeSelect)->setText('Lista a generar');
+        $inputs1[] = (new PriceListTypeSelect('all'))->setText('Lista a generar');
         //$inputs2[] = (new CheckBuilder('use_exchange_rate', '¿Usar tasa de cambio?'))->setChecked(true);
 
         $inputs2[] = (new RadioBuilder('type'))
@@ -163,7 +163,7 @@ class PriceListForm extends SimplePage
         if ($hasLines) {
             foreach ($actionKeys as $key) {
                 $action = config('sales.document.actions.'.Basedoc::PL_DOC.'.'.$key);
-                $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.sales.price_lists.'.$action['key'], $data['id'])));
+                $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route('admin.maintenance.price_lists.'.$action['key'], $data['id'])));
             }
         }
 

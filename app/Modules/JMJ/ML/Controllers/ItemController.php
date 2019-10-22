@@ -29,9 +29,12 @@ class ItemController extends Controller
                 return back()->withErrors($validator)->withInput();
             }
 
-            $data = array_only($request->all(), ['ml_enabled', 'ml_item_id']);
+            $inputs = [
+                'ml_enabled' => $request->input('ml_enabled', 'off'),
+                'ml_item_id' => $request->input('ml_item_id', ''),
+            ];
 
-            $this->itemService->update($id, $data) ?
+            $this->itemService->update($id, $inputs) ?
                 flash('Registro actualizado exitosamente', 'success', 'success') :
                 flash('Ocurrió un error al actualizar', 'error', 'error');
 

@@ -42,3 +42,24 @@
 	Route::put('/general_config/company', 'GeneralConfigController@updateCompany')->name('general_config.company');
 	Route::put('/general_config/currency', 'GeneralConfigController@updateCurrency')->name('general_config.currency');
 	Route::put('/general_config/warehouse', 'GeneralConfigController@updateWarehouse')->name('general_config.warehouse');
+
+	// Prices
+	Route::put('/price_lists/status','PriceListController@switchStatus')->name('price_list_status');
+	Route::post('/price_lists/removeBulk','PriceListController@destroyBulk');
+	Route::put('/price_lists/statusBulk','PriceListController@switchStatusBulk');
+	Route::get('/price_lists/{id}/lines', 'PriceListController@indexLine')->name('price_lists.lines.index');
+	Route::resource('/price_lists','PriceListController');
+	Route::get('/price_lists/{id}/lines/{line_id}', 'PriceListController@showLine')->name('price_lists.lines.show');
+	Route::put('/price_lists/{id}/lines/{line_id}', 'PriceListController@updateLine')->name('price_lists.lines.update');
+	Route::post('/price_lists/{id}/lines', 'PriceListController@storeLine')->name('price_lists.lines.update');
+	Route::delete('/price_lists/{id}/lines/{line_id}', 'PriceListController@destroyLine')->name('price_lists.lines.update');
+	Route::post('/price_lists/{id}/lines/removeBulk','PriceListController@destroyLinesBulk');
+
+	Route::get('/price_lists/{id}/process', 'PriceListController@process')->name('price_lists.process');
+	Route::get('/price_lists/{id}/reverse', 'PriceListController@reverse')->name('price_lists.reverse');
+
+	// Price list type
+	Route::put('/price_list_types/status','PriceListTypeController@switchStatus');
+	Route::post('/price_list_types/removeBulk','PriceListTypeController@destroyBulk');
+	Route::put('/price_list_types/statusBulk','PriceListTypeController@switchStatusBulk');
+	Route::resource('/price_list_types','PriceListTypeController');

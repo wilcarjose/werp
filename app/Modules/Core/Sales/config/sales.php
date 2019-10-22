@@ -9,8 +9,6 @@ return [
             'icon' => 'local_offer',
             'route' => 'admin.sales',
             'routes' => [
-                'admin.sales.price_lists',
-                'admin.sales.price_list_types',
                 'admin.sales.customers',
                 'admin.sales.categories',
                 'admin.products.product_output',
@@ -20,11 +18,7 @@ return [
                 'admin.sales.discounts',
                 'admin.sales.orders',
             ],
-            'items' => [
-                [
-                    'name' => 'view.menu.price_list',
-                    'route' => 'admin.sales.price_lists.index',
-                ],
+            'items' => [                
                 [
                     'name' => 'view.menu.sales_orders',
                     'route' => 'admin.sales.orders.index',
@@ -40,7 +34,6 @@ return [
                     'icon' => '',
                     'route' => 'admin.sales.general',
                     'routes' => [
-                        'admin.sales.price_list_types',
                         'admin.sales.customers',
                         'admin.sales.categories',
                         'admin.sales.payment_methods',
@@ -72,10 +65,6 @@ return [
                         [
                             'name' => 'view.menu.discounts',
                             'route' => 'admin.sales.discounts.index',
-                        ],
-                        [
-                            'name' => 'view.menu.price_list_types',
-                            'route' => 'admin.sales.price_list_types.index',
                         ],
                     ],
                 ],

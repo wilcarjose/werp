@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Controllers;
+namespace Werp\Modules\Core\Maintenance\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Modules\Core\Sales\Models\Price;
@@ -65,7 +65,7 @@ class PriceListController extends BaseController
 
     protected $relatedField = 'price_list_id';
 
-    protected $routeBase = 'admin.sales.price_lists';
+    protected $routeBase = 'admin.maintenance.price_lists';
 
     protected $showSuccess = false;
 

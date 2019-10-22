@@ -17,7 +17,7 @@ use Werp\Modules\Core\Base\Builders\SimplePage;
 
 class PriceListTypeForm extends SimplePage
 {
-    protected $moduleRoute = 'admin.sales.price_list_types';
+    protected $moduleRoute = 'admin.maintenance.price_list_types';
     protected $mainTitle = 'Lista de precios de ventas';
     protected $newTitle = 'Nueva';
     protected $editTitle = 'Editar';

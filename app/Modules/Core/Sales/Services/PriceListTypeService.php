@@ -18,7 +18,8 @@ class PriceListTypeService extends BaseService
 
     protected function filters($entity)
     {
-        return $entity->sales();
+        //return $entity->sales();
+        return $entity;
     }
 
     protected function makeUpdateData($id, $data)
@@ -45,8 +46,10 @@ class PriceListTypeService extends BaseService
         
         $currency = Currency::find($currencyId);
 
+        $typeName = trans('view.menu.' . $type);
+
         return PriceListType::create([
-            'name' => 'Lista de precios en ' . $currency->name . ' (' . $type . ')',
+            'name' => 'Lista de ' . $typeName . ' en ' . $currency->name,
             'currency_abbr' => $currency->abbr,
             'currency_id' => $currencyId,
             'type' => $type

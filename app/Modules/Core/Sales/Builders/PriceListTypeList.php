@@ -15,7 +15,7 @@ class PriceListTypeList extends MainList
     public function __construct()
     {
         $this->setTitle('Listas de precios de ventas')
-            ->setRoute('admin.sales.price_list_types')
+            ->setRoute('admin.maintenance.price_list_types')
             ->setShowStatus(true)
             ->setFields([
               ['field' => 'name', 'name' => trans('view.name') , 'type' => 'text'],

@@ -29,10 +29,12 @@
 	Route::resource('/orders','PurchaseOrderController');
 
 	// Price list type
+	/*
 	Route::put('/price_list_types/status','PriceListTypeController@switchStatus');
 	Route::post('/price_list_types/removeBulk','PriceListTypeController@destroyBulk');
 	Route::put('/price_list_types/statusBulk','PriceListTypeController@switchStatusBulk');
 	Route::resource('/price_list_types','PriceListTypeController');
+	*/
 
     // Purchases orders
     Route::post('/invoices/removeBulk','InvoiceController@destroyBulk');

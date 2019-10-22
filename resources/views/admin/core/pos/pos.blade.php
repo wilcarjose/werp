@@ -29,6 +29,8 @@
 @stack('extra-css')
 
 @section('content')
+
+    {{-- 
     <div class="main-header">
         <div class="sec-page">
           <div class="page-title">
@@ -57,6 +59,8 @@
           </nav>
         </div>
     </div>
+
+     --}}
 
     <div class="main-container">
         <pos headline='Pos'></pos>

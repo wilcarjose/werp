@@ -20,7 +20,7 @@ class UpdatePricesService extends BaseService
     public function getPricesByList($listId)
     {
         $prices = [];
-        $products = $this->product->where('ml_enabled', true)->active()->get();
+        $products = $this->product->where('ml_enabled', 'on')->active()->get();
 
         foreach ($products as $product) {
             $prices[] = [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Controllers;
+namespace Werp\Modules\Core\Maintenance\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Modules\Core\Base\Controllers\BaseController;
@@ -27,7 +27,7 @@ class PriceListTypeController extends BaseController
         'currency_id' => 'required',
     ];
 
-    protected $routeBase = 'admin.sales.price_list_types';
+    protected $routeBase = 'admin.maintenance.price_list_types';
 
     public function __construct(
         PriceListTypeForm $entityForm,

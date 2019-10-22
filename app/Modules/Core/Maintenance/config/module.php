@@ -16,8 +16,14 @@ return [
                 'admin.maintenance.exchange_rates',
                 'admin.maintenance.db_backups',
                 'admin.maintenance.db_test',
+                'admin.maintenance.price_lists',
+                'admin.maintenance.price_list_types',
             ],
             'items' => [
+                [
+                    'name' => 'view.menu.price_list',
+                    'route' => 'admin.maintenance.price_lists.index',
+                ],
             ],
             'submodules' => [
                 [
@@ -30,6 +36,7 @@ return [
                         'admin.maintenance.amount_operations',
                         'admin.maintenance.currencies',
                         'admin.maintenance.exchange_rates',
+                        'admin.maintenance.price_list_types',
                     ],
                     'items' => [
                         [
@@ -51,6 +58,10 @@ return [
                         [
                             'name' => 'view.menu.exchange_rates',
                             'route' => 'admin.maintenance.exchange_rates.index',
+                        ],
+                        [
+                            'name' => 'view.menu.price_list_types',
+                            'route' => 'admin.maintenance.price_list_types.index',
                         ],
                     ],
                 ],
