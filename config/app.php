@@ -175,7 +175,7 @@ return [
          * Core Purchases module
          */
         Werp\Modules\Core\Purchases\Providers\ModuleServiceProvider::class,
-        
+
         /**
          * Core Products module
          */
@@ -192,9 +192,14 @@ return [
         Werp\Modules\Core\Maintenance\Providers\ModuleServiceProvider::class,
 
         /**
-         * Core Maintenance module
+         * Core Mercado Libre module
          */
         Werp\Modules\JMJ\ML\Providers\ModuleServiceProvider::class,
+
+        /**
+         * Core POS module
+         */
+        Werp\Modules\JMJ\POS\Providers\ModuleServiceProvider::class,
 
     ],
 

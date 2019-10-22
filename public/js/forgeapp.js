@@ -1266,6 +1266,123 @@ exports.stopEventPropagation = stopEventPropagation;
 
 /***/ }),
 /* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return tableData; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__ = __webpack_require__(72);
+
+
+var tableData = {
+    props: ['headline'],
+    data: function data() {
+        return {
+            componentData: [],
+            multiSelection: [],
+            isAll: '',
+            showAlert: false,
+            pagination: {},
+            alertType: '',
+            alertText: '',
+            searchQuery: '',
+            showpages: 10,
+            showLoader: false
+        };
+    },
+
+    methods: {
+        resetAlert: function resetAlert() {
+            this.alertType = '';
+            this.alertText = '';
+            this.showAlert = false;
+        },
+        alertHandler: function alertHandler(type, text, isShow) {
+            this.alertType = type;
+            this.alertText = text;
+            this.showAlert = isShow;
+        },
+        toggleAll: function toggleAll() {
+            var _this = this;
+
+            if (this.isAll == true) {
+                this.componentData.map(function (ele) {
+                    _this.multiSelection.push(ele.id);
+                });
+            } else {
+                this.componentData.map(function (ele) {
+                    _this.multiSelection.pop(ele.id);
+                });
+            }
+        },
+        resetMultiSelection: function resetMultiSelection() {
+            this.multiSelection = [];
+            this.isAll = false;
+        },
+        removeConfirm: function removeConfirm(obj) {
+            var confirmBox = new __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__["a" /* default */](this);
+            confirmBox.removeBox(this.headline, 'You will not be able to recover this ' + this.headline + '!', obj);
+        },
+        removeBulkConfirm: function removeBulkConfirm() {
+            var confirmBox = new __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__["a" /* default */](this);
+            confirmBox.bulkRemoveBox(this.headline, 'You will not be able to recover this ' + this.headline + '!');
+        },
+        switchStatusBulkConfirm: function switchStatusBulkConfirm() {
+            var confirmBox = new __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__["a" /* default */](this);
+            confirmBox.bulkStatusBox(this.headline, 'You will be able to restore selected ' + this.headline + ' state!');
+        },
+        nextPage: function nextPage() {
+            var pagination = this.pagination;
+            if (pagination.current_page < pagination.total_pages) {
+                var reqPage = pagination.current_page + 1;
+                this.all(reqPage);
+            }
+        },
+        prevPage: function prevPage() {
+            var pagination = this.pagination;
+            if (pagination.current_page > 1) {
+                var reqPage = pagination.current_page - 1;
+                this.all(reqPage);
+            }
+        },
+        sortBy: function sortBy(cols) {
+            if (this.escapeSort.indexOf(cols) < 0) {
+                if (cols == this.sortOrder.field) {
+                    this.sortOrder.order = this.sortOrder.order == 'asc' ? 'desc' : 'asc';
+                } else {
+                    this.sortOrder = { field: cols, order: 'asc' };
+                }
+                this.all(this.pagination.current_page);
+            }
+        },
+        searchChanges: function searchChanges() {
+            var searchQuery = this.searchQuery;
+            if (searchQuery == "") {
+                this.all();
+            }
+        }
+    },
+    computed: {
+        paginationList: function paginationList() {
+
+            var last = this.pagination.total_pages;
+            var current = this.pagination.current_page;
+            var showing = this.showpages;
+            var canShow = this.pagination.current_page + this.showpages - 1;
+            if (canShow < last) {
+                return canShow;
+            }
+            return last;
+        }
+    },
+    filters: {
+        capitalize: function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    }
+};
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1344,7 +1461,7 @@ exports.logStr = logStr;
 exports.colorLuminance = colorLuminance;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1356,7 +1473,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _hexToRgb = __webpack_require__(11);
+var _hexToRgb = __webpack_require__(12);
 
 var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(10);
 
@@ -1515,123 +1632,6 @@ exports.openModal = openModal;
 exports.resetInput = resetInput;
 exports.resetInputError = resetInputError;
 exports.fixVerticalPosition = fixVerticalPosition;
-
-/***/ }),
-/* 13 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return tableData; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__ = __webpack_require__(72);
-
-
-var tableData = {
-    props: ['headline'],
-    data: function data() {
-        return {
-            componentData: [],
-            multiSelection: [],
-            isAll: '',
-            showAlert: false,
-            pagination: {},
-            alertType: '',
-            alertText: '',
-            searchQuery: '',
-            showpages: 10,
-            showLoader: false
-        };
-    },
-
-    methods: {
-        resetAlert: function resetAlert() {
-            this.alertType = '';
-            this.alertText = '';
-            this.showAlert = false;
-        },
-        alertHandler: function alertHandler(type, text, isShow) {
-            this.alertType = type;
-            this.alertText = text;
-            this.showAlert = isShow;
-        },
-        toggleAll: function toggleAll() {
-            var _this = this;
-
-            if (this.isAll == true) {
-                this.componentData.map(function (ele) {
-                    _this.multiSelection.push(ele.id);
-                });
-            } else {
-                this.componentData.map(function (ele) {
-                    _this.multiSelection.pop(ele.id);
-                });
-            }
-        },
-        resetMultiSelection: function resetMultiSelection() {
-            this.multiSelection = [];
-            this.isAll = false;
-        },
-        removeConfirm: function removeConfirm(obj) {
-            var confirmBox = new __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__["a" /* default */](this);
-            confirmBox.removeBox(this.headline, 'You will not be able to recover this ' + this.headline + '!', obj);
-        },
-        removeBulkConfirm: function removeBulkConfirm() {
-            var confirmBox = new __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__["a" /* default */](this);
-            confirmBox.bulkRemoveBox(this.headline, 'You will not be able to recover this ' + this.headline + '!');
-        },
-        switchStatusBulkConfirm: function switchStatusBulkConfirm() {
-            var confirmBox = new __WEBPACK_IMPORTED_MODULE_0__helpers_ConfirmBox_js__["a" /* default */](this);
-            confirmBox.bulkStatusBox(this.headline, 'You will be able to restore selected ' + this.headline + ' state!');
-        },
-        nextPage: function nextPage() {
-            var pagination = this.pagination;
-            if (pagination.current_page < pagination.total_pages) {
-                var reqPage = pagination.current_page + 1;
-                this.all(reqPage);
-            }
-        },
-        prevPage: function prevPage() {
-            var pagination = this.pagination;
-            if (pagination.current_page > 1) {
-                var reqPage = pagination.current_page - 1;
-                this.all(reqPage);
-            }
-        },
-        sortBy: function sortBy(cols) {
-            if (this.escapeSort.indexOf(cols) < 0) {
-                if (cols == this.sortOrder.field) {
-                    this.sortOrder.order = this.sortOrder.order == 'asc' ? 'desc' : 'asc';
-                } else {
-                    this.sortOrder = { field: cols, order: 'asc' };
-                }
-                this.all(this.pagination.current_page);
-            }
-        },
-        searchChanges: function searchChanges() {
-            var searchQuery = this.searchQuery;
-            if (searchQuery == "") {
-                this.all();
-            }
-        }
-    },
-    computed: {
-        paginationList: function paginationList() {
-
-            var last = this.pagination.total_pages;
-            var current = this.pagination.current_page;
-            var showing = this.showpages;
-            var canShow = this.pagination.current_page + this.showpages - 1;
-            if (canShow < last) {
-                return canShow;
-            }
-            return last;
-        }
-    },
-    filters: {
-        capitalize: function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-    }
-};
 
 /***/ }),
 /* 14 */
@@ -31589,11 +31589,14 @@ Vue.component('permissions', __webpack_require__(74));
 Vue.component('assign-permission', __webpack_require__(77));
 Vue.component('administrator', __webpack_require__(80));
 Vue.component('users', __webpack_require__(83));
+Vue.component('pos', __webpack_require__(86));
 
 var app = new Vue({
     el: '#app',
     mounted: function mounted() {
-        var forge = new __WEBPACK_IMPORTED_MODULE_0__forge__["default"]('vertical', 'default');
+        var sideBar = this.$el.attributes.sidebar.value;
+        console.log(sideBar);
+        var forge = new __WEBPACK_IMPORTED_MODULE_0__forge__["default"]('vertical', sideBar); // vertical/horizontal - default/iconized
         forge.init();
     }
 });
@@ -31681,13 +31684,13 @@ var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide$isDescendant
  * Handy utilities
  */
 
-var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(11);
+var _extend$hexToRgb$isIE8$logStr$colorLuminance = __webpack_require__(12);
 
 /*
  *  Handle sweetAlert's DOM elements
  */
 
-var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(12);
+var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$resetInput$fixVerticalPosition = __webpack_require__(13);
 
 // Handle button events and keyboard events
 
@@ -32023,9 +32026,9 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _colorLuminance = __webpack_require__(11);
+var _colorLuminance = __webpack_require__(12);
 
-var _getModal = __webpack_require__(12);
+var _getModal = __webpack_require__(13);
 
 var _hasClass$isDescendant = __webpack_require__(10);
 
@@ -32166,7 +32169,7 @@ Object.defineProperty(exports, '__esModule', {
 
 var _stopEventPropagation$fireClick = __webpack_require__(10);
 
-var _setFocusStyle = __webpack_require__(12);
+var _setFocusStyle = __webpack_require__(13);
 
 var handleKeyDown = function handleKeyDown(event, params, modal) {
   var e = event || window.event;
@@ -32249,9 +32252,9 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _isIE8 = __webpack_require__(11);
+var _isIE8 = __webpack_require__(12);
 
-var _getModal$getInput$setFocusStyle = __webpack_require__(12);
+var _getModal$getInput$setFocusStyle = __webpack_require__(13);
 
 var _hasClass$addClass$removeClass$escapeHtml$_show$show$_hide$hide = __webpack_require__(10);
 
@@ -33007,7 +33010,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(11);
 //
 //
 //
@@ -33982,7 +33985,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(11);
 //
 //
 //
@@ -35276,7 +35279,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__ = __webpack_require__(39);
 //
 //
@@ -36595,7 +36598,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_FunctionHelper_js__ = __webpack_require__(39);
 //
 //
@@ -39548,6 +39551,1116 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-53a69a82", module.exports)
+  }
+}
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(87)
+/* template */
+var __vue_template__ = __webpack_require__(88)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/admin/Pos.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2594116d", Component.options)
+  } else {
+    hotAPI.reload("data-v-2594116d", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__ = __webpack_require__(11);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__["a" /* tableData */]],
+    data: function data() {
+        return {
+            invoice: {
+                client: {
+                    id: '',
+                    name: ''
+                },
+                lines: [{
+                    product: {
+                        id: 'dsdsdsd',
+                        name: 'Lubricante 1'
+                    },
+                    price: 45216.55,
+                    qty: 2,
+                    subtotal: 845236.10
+                }, {
+                    product: {
+                        id: '74596',
+                        name: 'Liga de Frenos'
+                    },
+                    price: 452.55,
+                    qty: 2,
+                    subtotal: 5236.10
+                }, {
+                    product: {
+                        id: 'dsdsd',
+                        name: 'Grasa 1'
+                    },
+                    price: 4525.55,
+                    qty: 1,
+                    subtotal: 4525.55
+                }]
+            },
+            clients: [{
+                id: '1',
+                name: '16323242 - Jose Perez'
+            }, {
+                id: '2',
+                name: '7569842 - Robert Perez'
+            }, {
+                id: '3',
+                name: '12589321 - José Altuve'
+            }, {
+                id: '4',
+                name: '9632145 - Luisa Rodríguez'
+            }],
+            categories: [{
+                id: '',
+                name: 'Todos'
+            }, {
+                id: '',
+                name: 'Lubricantes'
+            }, {
+                id: '',
+                name: 'Liga de frenos'
+            }, {
+                id: '',
+                name: 'Hidraulico'
+            }],
+            products: [{
+                id: '',
+                name: 'Aceite 15-40 semisintetico',
+                price: '420054540',
+                image: '/images/products/img1.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite de pipa',
+                price: '420',
+                image: '/images/products/img1.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite Shell 20-50',
+                price: '4204747825,00',
+                image: '/images/products/img1.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Liga de frenos',
+                price: '4207452',
+                image: '/images/products/img2.jpeg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Maxi diesel',
+                price: '428520',
+                image: '/images/products/img3.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: '15-40 mineral',
+                price: '496320',
+                image: '/images/products/img4.jpeg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Paila 20-50',
+                price: '424520',
+                image: '/images/products/img5.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: '25-10',
+                price: '85420',
+                image: '/images/products/img6.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Lubricante PDV 25-50 litro tren en uno para camionetas y camiones pesados',
+                price: '420',
+                image: '/images/products/img7.png',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Liga de frenos PDV',
+                price: '420',
+                image: '/images/products/img8.png',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite 25-10 Mineral',
+                price: '40',
+                image: '/images/products/img9.jpeg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite 10',
+                price: '42045',
+                image: '/images/products/img10.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite 11',
+                price: '452020',
+                image: '/images/products/img11.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite 15-40 semisintetico',
+                price: '452320',
+                image: '/images/products/img1.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite de pipa',
+                price: '425220',
+                image: '/images/products/img1.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite Shell 20-50',
+                price: '420',
+                image: '/images/products/img1.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Liga de frenos',
+                price: '4240',
+                image: '/images/products/img2.jpeg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Maxi diesel',
+                price: '0',
+                image: '/images/products/img3.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: '15-40 mineral',
+                price: '42960',
+                image: '/images/products/img4.jpeg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Paila 20-50',
+                price: '44120',
+                image: '/images/products/img5.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: '25-10',
+                price: '42580',
+                image: '/images/products/img6.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Lubricante PDV 25-50 litro tren en uno para camionetas y camiones pesados',
+                price: '4240',
+                image: '/images/products/img7.png',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Liga de frenos PDV',
+                price: '42085278624',
+                image: '/images/products/img8.png',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite 25-10 Mineral',
+                price: '432420',
+                image: '/images/products/img9.jpeg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite 10',
+                price: '45520',
+                image: '/images/products/img10.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }, {
+                id: '',
+                name: 'Aceite 11',
+                price: '20',
+                image: '/images/products/img11.jpg',
+                description: '',
+                category: {
+                    id: '',
+                    name: ''
+                }
+            }]
+        };
+    },
+    mounted: function mounted() {
+        var vm = this;
+        $('#componentDataModal').modal({
+            dismissible: false,
+            ready: function ready(modal, trigger) {
+                // Callback for Modal open. Modal and trigger parameters available.
+            },
+            complete: function complete() {} // Callback for Modal close
+        });
+
+        $('#client-box').select2();
+
+        $('#client-box2').select2({
+            templateResult: formatState
+        });
+    },
+
+    methods: {
+        show: function show(obj) {
+            $('#componentDataModal').modal('open');
+        }
+    },
+    computed: {}
+});
+
+function formatState(state) {
+    if (state.id != 'new') {
+        return state.name;
+    }
+    var $state = $('<span><img src="/images/icons/new.png" class="img-flag" /> ' + state.name + ' </span>');
+    return $state;
+};
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "s12 col" }, [
+      _vm.showAlert
+        ? _c(
+            "div",
+            [
+              _c("alert", { attrs: { type: _vm.alertType } }, [
+                _vm._v(_vm._s(_vm.alertText))
+              ])
+            ],
+            1
+          )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col m4 s12 mr-top-10" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "select2-input col s12",
+              attrs: { id: "client-main-box" }
+            },
+            [
+              _c(
+                "label",
+                {
+                  staticStyle: { top: "-22px", "font-size": "0.8rem" },
+                  attrs: { for: "client-box" }
+                },
+                [_vm._v("Cliente")]
+              ),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.invoice.client,
+                      expression: "invoice.client"
+                    }
+                  ],
+                  staticClass: "select2_select",
+                  attrs: {
+                    id: "client-box",
+                    name: "client-box",
+                    required: "required"
+                  },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.invoice,
+                        "client",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _vm._v("=>Seleccione..."),
+                  _vm._v(" "),
+                  _vm._l(_vm.clients, function(c) {
+                    return _c("option", { domProps: { value: c.id } }, [
+                      _vm._v(_vm._s(c.name))
+                    ])
+                  })
+                ],
+                2
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12" }, [
+            _c(
+              "table",
+              {
+                staticClass: "bordered highlight responsive-table invoice-lines"
+              },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.invoice.lines, function(line) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(line.product.name))]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "right" }, [
+                        _vm._v(_vm._s(line.price))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "center" }, [
+                        _vm._v(_vm._s(line.qty))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(3, true),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "right" }, [
+                        _vm._v(_vm._s(line.subtotal))
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(4, true)
+                    ])
+                  })
+                ),
+                _vm._v(" "),
+                _vm._m(5)
+              ]
+            )
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col m8 s12 mr-top-10" }, [
+      _c("div", { staticClass: "card-panel" }, [
+        _vm._m(6),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col s12" },
+            _vm._l(_vm.categories, function(category) {
+              return _c(
+                "a",
+                {
+                  staticClass: "waves-effect waves-light btn",
+                  staticStyle: {
+                    "margin-right": "10px",
+                    "margin-bottom": "10px"
+                  }
+                },
+                [_vm._v(" " + _vm._s(category.name) + " ")]
+              )
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _vm._m(7),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "row" },
+            _vm._l(_vm.products, function(product) {
+              return _c("div", { staticClass: "col s6 m4 l3 xl2" }, [
+                _c("div", { staticClass: "card z-depth-5" }, [
+                  _c("div", { staticClass: "card-image" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "img-gallary-section",
+                        staticStyle: { "margin-bottom": "0px", padding: "5px" }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "materialboxed responsive-img",
+                          staticStyle: { height: "190px" },
+                          attrs: { src: product.image }
+                        })
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "card-content",
+                      staticStyle: { padding: "5px 10px", height: "55px" }
+                    },
+                    [
+                      _c(
+                        "span",
+                        {
+                          staticClass:
+                            "card-title activator grey-text text-darken-4",
+                          staticStyle: {
+                            "font-size": "15px",
+                            "font-weight": "400",
+                            "line-height": "16px",
+                            "text-align": "center"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    " +
+                              _vm._s(product.name) +
+                              "\n                                "
+                          )
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "card-action",
+                      staticStyle: { padding: "10px 10px" }
+                    },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col s12" }, [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "primary-text right",
+                              staticStyle: {
+                                "font-weight": "bold",
+                                "line-height": "0.5rem"
+                              }
+                            },
+                            [_vm._v(_vm._s(product.price))]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(8, true)
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-reveal" }, [
+                    _c(
+                      "span",
+                      { staticClass: "card-title grey-text text-darken-4" },
+                      [
+                        _vm._v(_vm._s(product.name)),
+                        _c("i", { staticClass: "material-icons right" }, [
+                          _vm._v("close")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(product.description))])
+                  ])
+                ])
+              ])
+            })
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(9)
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row box-title" }, [
+      _c("div", { staticClass: "col s12" }, [
+        _c("h5", { staticClass: "content-headline" }, [_vm._v("Factura")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12" }, [
+      _c("h5", [_vm._v("Número # 000021478")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Producto")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "right" }, [_vm._v("Precio")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "center" }, [_vm._v("Cantidad")]),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th", { staticClass: "right" }, [_vm._v("Subtotal")]),
+        _vm._v(" "),
+        _c("th")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c(
+        "button",
+        {
+          staticClass: "btn waves-effect waves-light green btn-invoice-line",
+          attrs: { type: "button", name: "action" }
+        },
+        [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "btn waves-effect waves-light orange btn-invoice-line",
+          attrs: { type: "button", name: "action" }
+        },
+        [_c("i", { staticClass: "material-icons" }, [_vm._v("remove")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c(
+        "button",
+        {
+          staticClass: "btn waves-effect waves-light red btn-invoice-line",
+          attrs: { type: "button", name: "action" }
+        },
+        [_c("i", { staticClass: "material-icons" }, [_vm._v("clear")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tfoot", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticStyle: { "font-weight": "300", "font-size": "16px" } },
+          [_vm._v("Subtotal")]
+        ),
+        _vm._v(" "),
+        _c("th", { staticClass: "right" }, [_vm._v("54585.52")]),
+        _vm._v(" "),
+        _c("th")
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticStyle: { "font-weight": "300", "font-size": "16px" } },
+          [_vm._v("Impuesto")]
+        ),
+        _vm._v(" "),
+        _c("th", { staticClass: "right" }, [_vm._v("585.52")]),
+        _vm._v(" "),
+        _c("th")
+      ]),
+      _vm._v(" "),
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticStyle: { "font-weight": "300", "font-size": "16px" } },
+          [_vm._v("Total")]
+        ),
+        _vm._v(" "),
+        _c("th", { staticClass: "right" }, [_vm._v("4554585.52")]),
+        _vm._v(" "),
+        _c("th")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row box-title" }, [
+      _c("div", { staticClass: "col s12" }, [
+        _c("h5", { staticClass: "content-headline" }, [_vm._v("Productos")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "input-field col s6" }, [
+          _c("input", {
+            staticClass: "validate",
+            attrs: { id: "icon_prefix", type: "text" }
+          }),
+          _vm._v(" "),
+          _c("label", { attrs: { for: "icon_prefix" } }, [
+            _vm._v("Código / Nombre")
+          ])
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col s12", staticStyle: { "text-align": "center" } },
+        [
+          _c(
+            "button",
+            {
+              staticClass: "btn waves-effect waves-light green responsive",
+              staticStyle: {
+                height: "23px",
+                "line-height": "14px",
+                padding: "5px",
+                "font-size": "13px",
+                "font-weight": "600"
+              },
+              attrs: { type: "button", name: "action" }
+            },
+            [
+              _vm._v(
+                "\n                                            Agregar\n                                        "
+              )
+            ]
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col s3" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "col s9" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2594116d", module.exports)
   }
 }
 

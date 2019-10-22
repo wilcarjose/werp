@@ -124,6 +124,8 @@ return [
         'update_prices' => 'Actualizar precios',
         'login' => 'Login',
         'invoices' => 'Facturas',
+        'pos' => 'POS',
+        'point_of_sale' => 'Punto de venta',
     ],
     'profile' => [
         'profile' => 'Perfil',

@@ -124,6 +124,8 @@ return [
         'update_prices' => 'Update prices',
         'login' => 'Login',
         'invoices' => 'Invoices',
+        'pos' => 'POS',
+        'point_of_sale' => 'Point of sale',
     ],
     'profile' => [
         'profile' => 'Profile',

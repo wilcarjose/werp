@@ -46,7 +46,7 @@
     </head>
     <body>
         @yield('appPre')
-        <div id="app">
+        <div id="app" sidebar="{{ Route::currentRouteName() == 'admin.pos.pos.view' ? 'iconized' : 'default' }}">
             <div id="preloader">
               <div class="preloader-center">
                 <div class="dots-loader dot-circle"></div>
@@ -66,7 +66,7 @@
         @yield('appPost')
         <!-- Scripts -->
         <script type="text/javascript" src="{{ asset('js/all.js') }}"></script>
-        
+
         @yield('jsPreApp')
         {{-- APP AND INIT --}}
         <script src="{{ asset('js/forgeapp.js') }}"></script>
@@ -74,8 +74,8 @@
         <script src="{{ asset('plugins/datatable/jquery.dataTables.min.js') }}" type="text/javascript"></script>
         @yield('jsPostApp')
 
-        
-        @if (session('test_bd', false)) 
+
+        @if (session('test_bd', false))
             <script>
                 $(document).ready(function(){
                     $('.full-top-nav').attr('style', 'height: 93px !important; ');
