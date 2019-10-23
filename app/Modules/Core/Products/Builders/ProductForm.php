@@ -23,7 +23,7 @@ use Werp\Builders\Actions\SaveAndEditAction;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Builders\Selects\ProductCategorySelect;
 use Werp\Builders\Selects\SupplierSelectBuilder;
-use Werp\Modules\Core\Sales\Models\PriceList as PriceListModel;
+use Werp\Modules\Core\Maintenance\Models\PriceList as PriceListModel;
 
 class ProductForm extends SimplePage
 {

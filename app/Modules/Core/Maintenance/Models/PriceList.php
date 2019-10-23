@@ -1,6 +1,6 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Models;
+namespace Werp\Modules\Core\Maintenance\Models;
 
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
@@ -11,6 +11,8 @@ class PriceList extends Model
     const EXCHANGE = 'exchange';
     const MANUALLY = 'manually';
     const FORMULA = 'formula';
+    const IMPORT = 'import';
+
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +51,7 @@ class PriceList extends Model
      */
     public function lines()
     {
-        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price', 'price_list_id', 'id');
+        return $this->hasMany('Werp\Modules\Core\Maintenance\Models\Price', 'price_list_id', 'id');
     }
 
     public function getTotals()
@@ -59,12 +61,12 @@ class PriceList extends Model
 
     public function priceListType()
     {
-        return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'price_list_type_id');
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\PriceListType', 'price_list_type_id');
     }
 
     public function referencePriceListType()
     {
-        return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'reference_price_list_type_id');
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\PriceListType', 'reference_price_list_type_id');
     }
 
     public function operation()

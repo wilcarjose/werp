@@ -103,7 +103,7 @@ class Product extends Model
 
     public function prices()
     {
-        return $this->hasMany('Werp\Modules\Core\Sales\Models\Price');
+        return $this->hasMany('Werp\Modules\Core\Maintenance\Models\Price');
     }
 
     public function transactions()

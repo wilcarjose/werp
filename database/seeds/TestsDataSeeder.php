@@ -10,7 +10,7 @@ use Werp\Modules\Core\Sales\Models\TaxDiscount;
 use Werp\Modules\Core\Purchases\Models\Partner;
 use Werp\Modules\Core\Products\Models\Warehouse;
 use Werp\Modules\Core\Maintenance\Models\Company;
-use Werp\Modules\Core\Sales\Models\PriceListType;
+use Werp\Modules\Core\Maintenance\Models\PriceListType;
 use Werp\Modules\Core\Sales\Models\PaymentMethod;
 use Werp\Modules\Core\Maintenance\Models\Currency;
 use Werp\Modules\Core\Maintenance\Models\AmountOperation;

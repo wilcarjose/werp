@@ -129,7 +129,7 @@ class Order extends Model
 
     public function priceListType()
     {
-        return $this->belongsTo('Werp\Modules\Core\Sales\Models\PriceListType', 'price_list_type_id');
+        return $this->belongsTo('Werp\Modules\Core\Maintenance\Models\PriceListType', 'price_list_type_id');
     }
 
     public function currency()

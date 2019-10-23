@@ -8,7 +8,7 @@
 
 namespace Werp\Builders\Selects;
 
-use Werp\Modules\Core\Sales\Models\PriceListType;
+use Werp\Modules\Core\MaintenanceModels\PriceListType;
 
 class SalePriceListSelect extends SelectBuilder
 {

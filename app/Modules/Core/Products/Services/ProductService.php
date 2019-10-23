@@ -6,7 +6,7 @@ use Werp\Modules\Core\Products\Models\Stock;
 use Werp\Modules\Core\Products\Models\Product;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Products\Models\Warehouse;
-use Werp\Modules\Core\Sales\Models\PriceListType;
+use Werp\Modules\Core\Maintenance\Models\PriceListType;
 use Werp\Modules\Core\Products\Models\Transaction;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 

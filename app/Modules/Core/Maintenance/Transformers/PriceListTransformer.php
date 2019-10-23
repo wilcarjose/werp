@@ -1,10 +1,10 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Transformers;
+namespace Werp\Modules\Core\Maintenance\Transformers;
 
 use Werp\Transformers\Transformer;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
-use Werp\Modules\Core\Sales\Models\PriceListType;
+use Werp\Modules\Core\Maintenance\Models\PriceListType;
 
 class PriceListTransformer extends Transformer
 {

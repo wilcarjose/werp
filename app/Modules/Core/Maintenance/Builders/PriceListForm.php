@@ -6,9 +6,10 @@
  * Time: 05:40 PM
  */
 
-namespace Werp\Modules\Core\Sales\Builders;
+namespace Werp\Modules\Core\Maintenance\Builders;
 
 use Werp\Builders\FormBuilder;
+use Werp\Builders\Files\ExcelFile;
 use Werp\Builders\Inputs\DateInput;
 use Werp\Builders\Inputs\CodeInput;
 use Werp\Builders\InputGroupBuilder;
@@ -28,7 +29,7 @@ use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Builders\Selects\ProductCategorySelect;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
-use Werp\Modules\Core\Sales\Models\PriceList as PriceListModel;
+use Werp\Modules\Core\Maintenance\Models\PriceList as PriceListModel;
 
 class PriceListForm extends SimplePage
 {
@@ -91,6 +92,7 @@ class PriceListForm extends SimplePage
         $isManually = old('type') == PriceListModel::MANUALLY || $data['type'] == PriceListModel::MANUALLY;
         $isFormula = old('type') == PriceListModel::FORMULA || $data['type'] == PriceListModel::FORMULA;
         $isExchange = old('type') == PriceListModel::EXCHANGE || $data['type'] == PriceListModel::EXCHANGE;
+        $isImport = old('type') == PriceListModel::IMPORT || $data['type'] == PriceListModel::IMPORT;
         $showLines = $hasLines ?: $isManually;
         $active = $noProcessed && !$showLines;
 
@@ -101,18 +103,25 @@ class PriceListForm extends SimplePage
         $inputs2[] = (new RadioBuilder('type'))
             ->addOption(new RadioOptionBuilder('¿Usando tasa de cambio?', PriceListModel::EXCHANGE, $isExchange, $disable))
             ->addOption(new RadioOptionBuilder('¿Usando fórmula?', PriceListModel::FORMULA, $isFormula, $disable))
+            ->addOption(new RadioOptionBuilder('¿Importar desde Excel?', PriceListModel::IMPORT, $isImport, $disable))
             ->addOption(new RadioOptionBuilder('¿Colocar precios manualmente?', PriceListModel::MANUALLY, $isManually, $disable))
             ;
 
         $inputs2[] = (new PriceListTypeSelect('all', null, 'reference_price_list_type_id', 'Lista precio base', true))
             ->setHide(!$isFormula && !$isExchange)
             ->setShowInputs([PriceListModel::FORMULA, PriceListModel::EXCHANGE])
-            ->setHideInputs(PriceListModel::MANUALLY);
+            ->setHideInputs([PriceListModel::MANUALLY, PriceListModel::IMPORT]);
 
         $inputs2[] = (new OperationSelect)
             ->setHide(!$isFormula)
             ->setShowInputs(PriceListModel::FORMULA)
-            ->setHideInputs([PriceListModel::MANUALLY, PriceListModel::EXCHANGE]);
+            ->setHideInputs([PriceListModel::MANUALLY, PriceListModel::EXCHANGE, PriceListModel::IMPORT]);
+
+        $inputs2[] = (new ExcelFile)->setWidth('l6')
+            ->setHide(!$isImport)
+            ->setShowInputs(PriceListModel::IMPORT)
+            ->setHideInputs([PriceListModel::MANUALLY, PriceListModel::EXCHANGE, PriceListModel::FORMULA])
+            ;
 
 
         $inputs3[] = (new DescriptionInput)->advancedOption()->setWidth('s11 push-s1');

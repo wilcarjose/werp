@@ -6,7 +6,7 @@
  * Time: 06:33 PM
  */
 
-namespace Werp\Modules\Core\Sales\Builders;
+namespace Werp\Modules\Core\Maintenance\Builders;
 
 use Werp\Builders\Main\MainList;
 

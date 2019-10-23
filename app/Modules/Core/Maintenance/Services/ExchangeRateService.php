@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Currency;
 use Werp\Modules\Core\Maintenance\Models\ExchangeRate;
-use Werp\Modules\Core\Sales\Services\PriceListService;
+use Werp\Modules\Core\Maintenance\Services\PriceListService;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;
 
 class ExchangeRateService extends BaseService

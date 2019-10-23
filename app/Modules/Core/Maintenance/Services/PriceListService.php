@@ -1,17 +1,19 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Services;
+namespace Werp\Modules\Core\Maintenance\Services;
 
-use Werp\Modules\Core\Sales\Models\Price;
+use Maatwebsite\Excel\Facades\Excel;
 use Werp\Modules\Core\Base\Models\BaseModel;
-use Werp\Modules\Core\Sales\Models\PriceList;
 use Werp\Modules\Core\Products\Models\Product;
+use Werp\Modules\Core\Maintenance\Models\Price;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
+use Werp\Modules\Core\Maintenance\Models\PriceList;
 use Werp\Modules\Core\Maintenance\Models\ExchangeRate;
+use Werp\Modules\Core\Maintenance\Imports\PricesImport;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
-use Werp\Modules\Core\Sales\Services\PriceListTypeService;
+use Werp\Modules\Core\Maintenance\Services\PriceListTypeService;
 use Werp\Modules\Core\Maintenance\Services\ExchangeRateService;
 use Werp\Modules\Core\Maintenance\Services\AmountOperationService;
 
@@ -90,13 +92,18 @@ class PriceListService extends BaseService
 
             $data = $this->makeUpdateData($data, $id);
 
-            $useExchange = isset($data['type']) && $data['type'] == PriceList::EXCHANGE;
+            $type = $data['type'] ?? null;
+
+            $useExchange = $type == PriceList::EXCHANGE;
 
             $entity->update($data);
 
             $entity = $this->setExchange($entity, $useExchange);
 
-            $this->generatePrices($entity);
+            $type == PriceList::IMPORT ?
+                $this->importPrices($entity, $data['file']) :
+                $this->generatePrices($entity)
+                ;
 
             $this->commit();
 
@@ -429,5 +436,11 @@ class PriceListService extends BaseService
 
             throw new \Exception($e->getMessage().' - '.$e->getFile() . ' - ' .$e->getLine());
         }
+    }
+
+    protected function importPrices($entity, $data)
+    {
+        $pricesImport = (new PricesImport)->setPriceList($entity);
+        Excel::import($pricesImport, $data);
     }
 }

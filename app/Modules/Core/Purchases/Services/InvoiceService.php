@@ -4,13 +4,13 @@ namespace Werp\Modules\Core\Purchases\Services;
 
 use Illuminate\Support\Facades\DB;
 use Werp\Modules\Core\Maintenance\Models\Invoice;
-use Werp\Modules\Core\Sales\Models\Price;
+use Werp\Modules\Core\Maintenance\Models\Price;
 use Werp\Modules\Core\Base\Services\BaseService;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Sales\Services\TaxService;
 use Werp\Modules\Core\Maintenance\Models\InvoiceLine;
 use Werp\Modules\Core\Sales\Services\DiscountService;
-use Werp\Modules\Core\Sales\Services\PriceListService;
+use Werp\Modules\Core\Maintenance\Services\PriceListService;
 use Werp\Modules\Core\Maintenance\Services\ConfigService;
 use Werp\Modules\Core\Maintenance\Services\DoctypeService;
 use Werp\Modules\Core\Products\Services\TransactionService;
@@ -18,7 +18,7 @@ use Werp\Modules\Core\Products\Exceptions\NotLinesException;
 use Werp\Modules\Core\Products\Exceptions\CanNotProcessException;
 use Werp\Modules\Core\Products\Exceptions\CanNotReverseException;
 use Werp\Modules\Core\Products\Services\InoutService;
-use Werp\Modules\Core\Sales\Services\PriceListTypeService;
+use Werp\Modules\Core\Maintenance\Services\PriceListTypeService;
 
 class InvoiceService extends BaseService
 {

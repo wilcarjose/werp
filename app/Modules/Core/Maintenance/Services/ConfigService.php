@@ -5,7 +5,7 @@ namespace Werp\Modules\Core\Maintenance\Services;
 use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Currency;
-use Werp\Modules\Core\Sales\Services\PriceListTypeService;
+use Werp\Modules\Core\Maintenance\Services\PriceListTypeService;
 
 class ConfigService
 {

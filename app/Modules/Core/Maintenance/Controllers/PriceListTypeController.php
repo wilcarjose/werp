@@ -4,10 +4,10 @@ namespace Werp\Modules\Core\Maintenance\Controllers;
 
 use Illuminate\Http\Request;
 use Werp\Modules\Core\Base\Controllers\BaseController;
-use Werp\Modules\Core\Sales\Builders\PriceListTypeForm;
-use Werp\Modules\Core\Sales\Builders\PriceListTypeList;
-use Werp\Modules\Core\Sales\Services\PriceListTypeService;
-use Werp\Modules\Core\Sales\Transformers\PriceListTypeTransformer;
+use Werp\Modules\Core\Maintenance\Builders\PriceListTypeForm;
+use Werp\Modules\Core\Maintenance\Builders\PriceListTypeList;
+use Werp\Modules\Core\Maintenance\Services\PriceListTypeService;
+use Werp\Modules\Core\Maintenance\Transformers\PriceListTypeTransformer;
 
 class PriceListTypeController extends BaseController
 {

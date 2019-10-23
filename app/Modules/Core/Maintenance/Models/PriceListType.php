@@ -1,8 +1,8 @@
 <?php
 
-namespace Werp\Modules\Core\Sales\Models;
+namespace Werp\Modules\Core\Maintenance\Models;
 
-use Werp\Modules\Core\Sales\Models\Price;
+use Werp\Modules\Core\Maintenance\Models\Price;
 use Werp\Modules\Core\Base\Models\BaseModel as Model;
 
 class PriceListType extends Model

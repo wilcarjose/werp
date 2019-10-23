@@ -3,14 +3,14 @@
 namespace Werp\Modules\Core\Maintenance\Controllers;
 
 use Illuminate\Http\Request;
-use Werp\Modules\Core\Sales\Models\Price;
-use Werp\Modules\Core\Sales\Models\PriceList;
-use Werp\Modules\Core\Sales\Builders\PriceListForm;
-use Werp\Modules\Core\Sales\Builders\PriceListList;
+use Werp\Modules\Core\Maintenance\Models\Price;
+use Werp\Modules\Core\Maintenance\Models\PriceList;
+use Werp\Modules\Core\Maintenance\Builders\PriceListForm;
+use Werp\Modules\Core\Maintenance\Builders\PriceListList;
 use Werp\Modules\Core\Base\Controllers\BaseController;
-use Werp\Modules\Core\Sales\Services\PriceListService;
-use Werp\Modules\Core\Sales\Transformers\PriceTransformer;
-use Werp\Modules\Core\Sales\Transformers\PriceListTransformer;
+use Werp\Modules\Core\Maintenance\Services\PriceListService;
+use Werp\Modules\Core\Maintenance\Transformers\PriceTransformer;
+use Werp\Modules\Core\Maintenance\Transformers\PriceListTransformer;
 
 class PriceListController extends BaseController
 {
@@ -22,14 +22,13 @@ class PriceListController extends BaseController
         'doctype_id',
         'reference_price_list_type_id',
         'amount_operation_id',
-        'type'
+        'type',
+        'file',
     ];
 
     protected $storeRules = [
         'starting_at'        => 'required|date',
         'price_list_type_id' => 'required',
-        //'reference_price_list_type_id' => 'required_if:type,exchange',
-        //'amount_operation_id' => 'required_if:type,formula',
         'doctype_id' => 'required',
     ];
 
@@ -39,6 +38,7 @@ class PriceListController extends BaseController
         'reference_price_list_type_id' => 'required_if:type,exchange|required_if:type,formula',
         'amount_operation_id' => 'required_if:type,formula',
         'doctype_id' => 'required',
+        'file' => 'required_if:type,import|file|mimes:csv,xls,xlsx,doc,docx,ppt,pptx,ods,odt,odp',
     ];
 
     protected $storeLineRules = [

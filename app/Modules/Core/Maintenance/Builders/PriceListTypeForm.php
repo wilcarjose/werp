@@ -6,7 +6,7 @@
  * Time: 05:40 PM
  */
 
-namespace Werp\Modules\Core\Sales\Builders;
+namespace Werp\Modules\Core\Maintenance\Builders;
 
 use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Inputs\NameInput;
