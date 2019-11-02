@@ -40195,7 +40195,7 @@ var render = function() {
         : _vm._e()
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col m4 s12 mr-top-10" }, [
+    _c("div", { staticClass: "col s12 m6 l5 xl4 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
         _vm._m(0),
         _vm._v(" "),
@@ -40275,7 +40275,8 @@ var render = function() {
             _c(
               "table",
               {
-                staticClass: "bordered highlight responsive-table invoice-lines"
+                staticClass: "bordered highlight invoice-lines",
+                staticStyle: { "font-size": "12px", "font-weight": "500" }
               },
               [
                 _vm._m(2),
@@ -40290,9 +40291,16 @@ var render = function() {
                         _vm._v(_vm._s(line.price))
                       ]),
                       _vm._v(" "),
-                      _c("td", { staticClass: "center" }, [
-                        _vm._v(_vm._s(line.qty))
-                      ]),
+                      _c(
+                        "td",
+                        {
+                          staticStyle: {
+                            "text-align": "center",
+                            "vertical-align": "top"
+                          }
+                        },
+                        [_vm._v(_vm._s(line.qty))]
+                      ),
                       _vm._v(" "),
                       _vm._m(3, true),
                       _vm._v(" "),
@@ -40313,7 +40321,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col m8 s12 mr-top-10" }, [
+    _c("div", { staticClass: "col s12 m6 l7 xl8 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
         _vm._m(6),
         _vm._v(" "),
@@ -40344,7 +40352,7 @@ var render = function() {
             "div",
             { staticClass: "row" },
             _vm._l(_vm.products, function(product) {
-              return _c("div", { staticClass: "col s6 m4 l3 xl2" }, [
+              return _c("div", { staticClass: "col s6 m6 l4 xl2" }, [
                 _c("div", { staticClass: "card z-depth-5" }, [
                   _c("div", { staticClass: "card-image" }, [
                     _c(
@@ -40405,7 +40413,7 @@ var render = function() {
                           _c(
                             "p",
                             {
-                              staticClass: "primary-text right",
+                              staticClass: "primary-text center",
                               staticStyle: {
                                 "font-weight": "bold",
                                 "line-height": "0.5rem"
@@ -40474,7 +40482,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { staticClass: "right" }, [_vm._v("Precio")]),
         _vm._v(" "),
-        _c("th", { staticClass: "center" }, [_vm._v("Cantidad")]),
+        _c("th", { staticClass: "center" }, [_vm._v("Cant")]),
         _vm._v(" "),
         _c("th"),
         _vm._v(" "),
@@ -40488,40 +40496,48 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "button",
-        {
-          staticClass: "btn waves-effect waves-light green btn-invoice-line",
-          attrs: { type: "button", name: "action" }
-        },
-        [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn waves-effect waves-light orange btn-invoice-line",
-          attrs: { type: "button", name: "action" }
-        },
-        [_c("i", { staticClass: "material-icons" }, [_vm._v("remove")])]
-      )
-    ])
+    return _c(
+      "td",
+      { staticStyle: { "text-align": "center", "vertical-align": "top" } },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light green btn-invoice-line",
+            attrs: { type: "button", name: "action" }
+          },
+          [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light orange btn-invoice-line",
+            attrs: { type: "button", name: "action" }
+          },
+          [_c("i", { staticClass: "material-icons" }, [_vm._v("remove")])]
+        )
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c(
-        "button",
-        {
-          staticClass: "btn waves-effect waves-light red btn-invoice-line",
-          attrs: { type: "button", name: "action" }
-        },
-        [_c("i", { staticClass: "material-icons" }, [_vm._v("clear")])]
-      )
-    ])
+    return _c(
+      "td",
+      { staticStyle: { "text-align": "center", "vertical-align": "top" } },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "btn waves-effect waves-light red btn-invoice-line",
+            attrs: { type: "button", name: "action" }
+          },
+          [_c("i", { staticClass: "material-icons" }, [_vm._v("clear")])]
+        )
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -40624,7 +40640,8 @@ var staticRenderFns = [
           _c(
             "button",
             {
-              staticClass: "btn waves-effect waves-light green responsive",
+              staticClass:
+                "btn waves-effect waves-light green responsive center",
               staticStyle: {
                 height: "23px",
                 "line-height": "14px",

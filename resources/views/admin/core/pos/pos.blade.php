@@ -22,6 +22,13 @@
         .invoice-lines tfoot tr th {
             padding: 5px;
         }
+
+        .btn-invoice-line i {
+            font-size: 12px;
+            line-height: inherit;
+            font-weight: 700;
+        }
+
     </style>
 
 @endsection

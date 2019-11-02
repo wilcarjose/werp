@@ -106,7 +106,7 @@ class ModuleServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        Route::prefix('api/admin/products')
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('app/Modules/Core/Products/routes/api.php'));

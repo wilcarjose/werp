@@ -5,7 +5,7 @@
               <alert :type="alertType">{{ alertText }}</alert>
             </div>
         </div>
-        <div class="col m4 s12 mr-top-10">
+        <div class="col s12 m6 l5 xl4 mr-top-10">
             <div class="card-panel">
 
                 <div class="row box-title">
@@ -30,12 +30,12 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <table class="bordered highlight responsive-table invoice-lines">
+                        <table class="bordered highlight invoice-lines" style="font-size: 12px; font-weight: 500;">
                             <thead>
                                 <tr>
                                     <th>Producto</th>
                                     <th class="right">Precio</th>
-                                    <th class="center">Cantidad</th>
+                                    <th class="center">Cant</th>
                                     <th></th>
                                     <th class="right">Subtotal</th>
                                     <th></th>
@@ -46,8 +46,8 @@
                                 <tr v-for="line in invoice.lines">
                                     <td>{{ line.product.name }}</td>
                                     <td class="right">{{ line.price }}</td>
-                                    <td class="center">{{ line.qty }}</td>
-                                    <td>
+                                    <td style="text-align: center;vertical-align: top;">{{ line.qty }}</td>
+                                    <td style="text-align: center;vertical-align: top;">
                                         <button class="btn waves-effect waves-light green btn-invoice-line" type="button" name="action">
                                             <i class="material-icons">add</i>
                                         </button>
@@ -56,7 +56,7 @@
                                         </button>
                                     </td>
                                     <td class="right">{{ line.subtotal }}</td>
-                                    <td>
+                                    <td style="text-align: center;vertical-align: top;">
                                         <button class="btn waves-effect waves-light red btn-invoice-line" type="button" name="action">
                                             <i class="material-icons">clear</i>
                                         </button>
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <div class="col m8 s12 mr-top-10">
+        <div class="col s12 m6 l7 xl8 mr-top-10">
             <div class="card-panel">
 
                 <div class="row box-title">
@@ -124,7 +124,7 @@
                     </div>
 
                     <div class="row">
-                        <div v-for="product in products" class="col s6 m4 l3 xl2">
+                        <div v-for="product in products" class="col s6 m6 l4 xl2">
                             <div class="card z-depth-5">
                                 <div class="card-image">
                                     <div class="img-gallary-section" style="margin-bottom: 0px; padding: 5px;">
@@ -139,12 +139,12 @@
                                 <div class="card-action" style="padding: 10px 10px;">
                                     <div class="row">
                                         <div class="col s12">
-                                            <p class="primary-text right" style="font-weight: bold; line-height: 0.5rem;">{{ product.price }}</p>
+                                            <p class="primary-text center" style="font-weight: bold; line-height: 0.5rem;">{{ product.price }}</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col s12" style="text-align: center;">
-                                            <button class="btn waves-effect waves-light green responsive" type="button" name="action" style="height: 23px; line-height: 14px; padding: 5px; font-size: 13px; font-weight: 600;">
+                                            <button class="btn waves-effect waves-light green responsive center" type="button" name="action" style="height: 23px; line-height: 14px; padding: 5px; font-size: 13px; font-weight: 600;">
                                                 Agregar
                                             </button>
                                         </div>
