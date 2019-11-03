@@ -4,17 +4,18 @@ namespace Werp\Modules\Core\Products\Controllers\Api;
 
 use Werp\Modules\Core\Products\Services\CategoryService;
 use Werp\Modules\Core\Base\Controllers\BaseApiController;
-use Werp\Modules\Core\Products\Transformers\CategoryTransformer;
+use Werp\Modules\Core\Products\Resources\CategoryResource;
+use Werp\Modules\Core\Products\Resources\CategoryCollection;
 
 class CategoryController extends BaseApiController
 {
     protected $entityService;
-    protected $entityTransformer;
+    protected $resource = CategoryResource::class;
+    protected $collection = CategoryCollection::class;
 
-    public function __construct(CategoryService $entityService, CategoryTransformer $entityTransformer)
+    public function __construct(CategoryService $entityService)
     {
         $this->entityService     = $entityService;
-        $this->entityTransformer = $entityTransformer;
     }
 
     protected $inputs = [

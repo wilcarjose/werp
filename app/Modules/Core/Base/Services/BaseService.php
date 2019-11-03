@@ -43,13 +43,13 @@ class BaseService
         return $entity;
     }
 
-    public function getApiResults($sort, $order, $search, $paginate, $fields)
+    public function getApiResults($sort, $order, $search, $searchFields, $paginate)
     {
         return (new \Werp\Modules\Core\Base\Services\CollectionService)
             ->model($this->entity)
-            ->fields($fields)
             ->sort($sort, $order)
-            ->paginate('off')
+            ->search($search, $searchFields, false)
+            ->paginate($paginate)
             ->toArray();
     }
 

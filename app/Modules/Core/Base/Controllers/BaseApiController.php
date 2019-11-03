@@ -16,15 +16,16 @@ class BaseApiController extends Controller
      */
     public function index()
     {
-        $sort   = request()->has('sort')?request()->get('sort'):'name';
+        $sort   = request()->has('sort')?request()->get('sort'):'created_at';
         $order  = request()->has('order')?request()->get('order'):'asc';
-        $search = request()->has('searchQuery')?request()->get('searchQuery'):'';
+        $search = request()->has('q')?request()->get('q'):'';
+        $searchFields = request()->has('q-fields')?request()->get('q-fields'):'name';
         $paginate = request()->get('paginate', 'on');
         $fields = request()->get('fields', null);
 
-        list($data, $paginator) = $this->entityService->getApiResults($sort, $order, $search, $paginate, $fields);
+        $data = $this->entityService->getApiResults($sort, $order, $search, $searchFields, $paginate);
 
-        //$data = $this->entityTransformer->transformCollection($data);
+        return new $this->collection($data);
 
         return response([
             'data'        => $data,
