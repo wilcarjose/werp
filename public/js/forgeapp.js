@@ -39813,12 +39813,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+
     mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins_tableMixin__["a" /* tableData */]],
+
     data: function data() {
         return {
             invoice: {
@@ -39866,6 +39874,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: '9632145 - Luisa Rodríguez'
             }],
             categories: [],
+            mainCategories: [{
+                id: null,
+                name: 'Todos'
+            }],
             products: [{
                 id: '',
                 name: 'Aceite 15-40 semisintetico',
@@ -40130,6 +40142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     mounted: function mounted() {
+
         var vm = this;
         vm.getCategories();
         $('#componentDataModal').modal({
@@ -40147,6 +40160,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
     },
 
+
     methods: {
         show: function show(obj) {
             $('#componentDataModal').modal('open');
@@ -40154,7 +40168,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getCategories: function getCategories() {
             var _this = this;
 
-            var uri = '/api/admin/products/categories?fields=id,name&paginate=off';
+            var params = '?fields=id,name&paginate=off&sort=name&q=category_id:null';
+            var uri = '/api/admin/products/categories' + params;
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.success) {
@@ -40163,8 +40178,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 return console.log(error);
             });
+        },
+        categoryFilter: function categoryFilter(category) {
+            var _this2 = this;
+
+            if (category.id == null) {
+                this.resetMainCategories(category);
+                return;
+            }
+
+            this.updateMainCategories(category);
+
+            var params = '?fields=id,name,children';
+            var uri = '/api/admin/products/categories/' + category.id + params;
+            axios.get(uri).then(function (response) {
+                if (response.status == 200) {
+                    _this2.categories = response.data.data.children;
+                }
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        updateMainCategories: function updateMainCategories(category) {
+
+            var index = this.mainCategories.indexOf(category);
+
+            if (index < 0) {
+                this.mainCategories.push(category);
+                return;
+            }
+
+            this.mainCategories.length = index + 1;
+        },
+        resetMainCategories: function resetMainCategories() {
+            var category = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+
+            this.mainCategories = [];
+            this.mainCategories.push(category);
+            this.getCategories();
         }
     },
+
     computed: {}
 });
 
@@ -40333,9 +40388,42 @@ var render = function() {
           _c(
             "div",
             { staticClass: "col s12" },
+            _vm._l(_vm.mainCategories, function(category) {
+              return _c(
+                "button",
+                {
+                  staticClass: "waves-effect waves-light btn blue",
+                  staticStyle: {
+                    "margin-right": "10px",
+                    "margin-bottom": "10px",
+                    "font-size": "12px",
+                    height: "24px",
+                    "line-height": "24px"
+                  },
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.categoryFilter(category)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(category.name) +
+                      "\n                    "
+                  )
+                ]
+              )
+            })
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col s12" },
             _vm._l(_vm.categories, function(category) {
               return _c(
-                "a",
+                "button",
                 {
                   staticClass: "waves-effect waves-light btn",
                   staticStyle: {
@@ -40344,9 +40432,21 @@ var render = function() {
                     "font-size": "12px",
                     height: "24px",
                     "line-height": "24px"
+                  },
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.categoryFilter(category)
+                    }
                   }
                 },
-                [_vm._v(" " + _vm._s(category.name) + " ")]
+                [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(category.name) +
+                      "\n                    "
+                  )
+                ]
               )
             })
           )

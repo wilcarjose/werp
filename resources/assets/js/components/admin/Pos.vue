@@ -108,9 +108,15 @@
                 <div class="row">
 
                     <div class="col s12">
-                        <a v-for="category in categories" class="waves-effect waves-light btn" style="margin-right: 10px; margin-bottom: 10px; font-size: 12px;
-    height: 24px;
-    line-height: 24px;"> {{category.name}} </a>
+                        <button type="button" v-for="category in mainCategories" class="waves-effect waves-light btn blue" style="margin-right: 10px; margin-bottom: 10px; font-size: 12px; height: 24px; line-height: 24px;" @click="categoryFilter(category)">
+                            {{category.name}}
+                        </button>
+                    </div>
+
+                    <div class="col s12">
+                        <button type="button" v-for="category in categories" class="waves-effect waves-light btn" style="margin-right: 10px; margin-bottom: 10px; font-size: 12px; height: 24px; line-height: 24px;" @click="categoryFilter(category)">
+                            {{category.name}}
+                        </button>
                     </div>
 
                 </div>
@@ -208,7 +214,9 @@
 import { tableData } from '../../mixins/tableMixin';
 
 export default {
+
     mixins: [tableData],
+
     data() {
         return {
             invoice: {
@@ -265,6 +273,12 @@ export default {
                 }
             ],
             categories: [],
+            mainCategories: [
+                {
+                    id: null,
+                    name: 'Todos'
+                }
+            ],
             products: [
                 {
                     id: '',
@@ -555,7 +569,9 @@ export default {
             ]
         };
     },
+
     mounted() {
+
         let vm = this;
         vm.getCategories();
         $('#componentDataModal').modal({
@@ -572,12 +588,16 @@ export default {
             templateResult: formatState
         });
     },
+
     methods: {
+
         show(obj) {
             $('#componentDataModal').modal('open');
         },
+
         getCategories() {
-            let uri = `/api/admin/products/categories?fields=id,name&paginate=off`;
+            let params = '?fields=id,name&paginate=off&sort=name&q=category_id:null';
+            let uri = `/api/admin/products/categories` + params;
             axios.get(uri).then((response) => {
                     let res = response.data;
                     if (res.success) {
@@ -586,7 +606,48 @@ export default {
                 })
                 .catch(error => console.log(error));
         },
+
+        categoryFilter(category) {
+
+            if (category.id == null) {
+                this.resetMainCategories(category);
+                return;
+            } 
+
+            this.updateMainCategories(category);
+            
+            let params = '?fields=id,name,children';
+            let uri = `/api/admin/products/categories/` + category.id + params;
+            axios.get(uri).then((response) => {
+                    if (response.status == 200) {
+                        this.categories = response.data.data.children;
+                    }
+                })
+                .catch(error => console.log(error));
+            
+        },
+
+        updateMainCategories(category) {
+
+            var index = this.mainCategories.indexOf(category);
+
+            if (index < 0) {
+                this.mainCategories.push(category);
+                return;
+            }
+            
+            this.mainCategories.length = index + 1;
+        },
+
+        resetMainCategories(category = null) {
+
+            this.mainCategories = [];
+            this.mainCategories.push(category)
+            this.getCategories();
+        }
+
     },
+
     computed: {
 
     }
