@@ -8,7 +8,7 @@ class CollectionService
 {
 	protected $model;
 	protected $sort;
-	protected $order;
+	protected $direction;
 	protected $query = [];
 	protected $paginate = 15;
 	protected $fields = null;
@@ -20,10 +20,10 @@ class CollectionService
 		return $this;
 	}
 
-	public function sort($sort, $order = 'asc')
+	public function sort($sort, $direction = 'asc')
 	{
-		$this->sort = $sort;
-		$this->order = $order;
+		$this->sort = substr($sort, 0, 1) == '-' ? substr($sort, 1) : $sort;
+		$this->direction = substr($sort, 0, 1) == '-' ? 'desc' : 'asc';
 		return $this;
 	}
 
@@ -77,7 +77,7 @@ class CollectionService
         });
 
         if ($this->sort) {
-            $query = $query->orderBy($this->sort, $this->order);
+            $query = $query->orderBy($this->sort, $this->direction);
         }
 
         return $this->paginate == 'off' ? $query->get() : $query->paginate((int)$this->paginate);
