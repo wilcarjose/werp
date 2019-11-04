@@ -108,7 +108,9 @@
                 <div class="row">
 
                     <div class="col s12">
-                        <a v-for="category in categories" class="waves-effect waves-light btn" style="margin-right: 10px; margin-bottom: 10px;"> {{category.name}} </a>
+                        <a v-for="category in categories" class="waves-effect waves-light btn" style="margin-right: 10px; margin-bottom: 10px; font-size: 12px;
+    height: 24px;
+    line-height: 24px;"> {{category.name}} </a>
                     </div>
 
                 </div>
@@ -262,24 +264,7 @@ export default {
                     name: '9632145 - Luisa Rodríguez'
                 }
             ],
-            categories: [
-                {
-                    id: '',
-                    name: 'Todos'
-                },
-                {
-                    id: '',
-                    name: 'Lubricantes'
-                },
-                {
-                    id: '',
-                    name: 'Liga de frenos'
-                },
-                {
-                    id: '',
-                    name: 'Hidraulico'
-                }
-            ],
+            categories: [],
             products: [
                 {
                     id: '',
@@ -572,6 +557,7 @@ export default {
     },
     mounted() {
         let vm = this;
+        vm.getCategories();
         $('#componentDataModal').modal({
             dismissible: false,
             ready: function(modal, trigger) {
@@ -587,8 +573,18 @@ export default {
         });
     },
     methods: {
-         show(obj) {
+        show(obj) {
             $('#componentDataModal').modal('open');
+        },
+        getCategories() {
+            let uri = `/api/admin/products/categories?fields=id,name&paginate=off`;
+            axios.get(uri).then((response) => {
+                    let res = response.data;
+                    if (res.success) {
+                        this.categories = res.data;
+                    }
+                })
+                .catch(error => console.log(error));
         },
     },
     computed: {

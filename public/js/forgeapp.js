@@ -39811,6 +39811,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -39863,19 +39865,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: '4',
                 name: '9632145 - Luisa Rodríguez'
             }],
-            categories: [{
-                id: '',
-                name: 'Todos'
-            }, {
-                id: '',
-                name: 'Lubricantes'
-            }, {
-                id: '',
-                name: 'Liga de frenos'
-            }, {
-                id: '',
-                name: 'Hidraulico'
-            }],
+            categories: [],
             products: [{
                 id: '',
                 name: 'Aceite 15-40 semisintetico',
@@ -40141,6 +40131,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         var vm = this;
+        vm.getCategories();
         $('#componentDataModal').modal({
             dismissible: false,
             ready: function ready(modal, trigger) {
@@ -40159,6 +40150,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         show: function show(obj) {
             $('#componentDataModal').modal('open');
+        },
+        getCategories: function getCategories() {
+            var _this = this;
+
+            var uri = '/api/admin/products/categories?fields=id,name&paginate=off';
+            axios.get(uri).then(function (response) {
+                var res = response.data;
+                if (res.success) {
+                    _this.categories = res.data;
+                }
+            }).catch(function (error) {
+                return console.log(error);
+            });
         }
     },
     computed: {}
@@ -40336,7 +40340,10 @@ var render = function() {
                   staticClass: "waves-effect waves-light btn",
                   staticStyle: {
                     "margin-right": "10px",
-                    "margin-bottom": "10px"
+                    "margin-bottom": "10px",
+                    "font-size": "12px",
+                    height: "24px",
+                    "line-height": "24px"
                   }
                 },
                 [_vm._v(" " + _vm._s(category.name) + " ")]
