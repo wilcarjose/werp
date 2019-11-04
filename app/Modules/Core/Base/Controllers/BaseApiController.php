@@ -21,15 +21,13 @@ class BaseApiController extends Controller
         $sort   = request()->has('sort')?request()->get('sort'):'created_at';
         $order  = request()->has('order')?request()->get('order'):'asc';
         $query = request()->has('q')?request()->get('q'):'';
-        $searchFields = request()->has('q-fields')?request()->get('q-fields'):'name';
-        $paginate = request()->get('paginate', 'on');
-        $perPage = request()->get('per_page', 15);
+        $paginate = request()->get('paginate', 15);
 
         $data = (new CollectionService)
             ->model($this->entityService->getModel())
             ->sort($sort, $order)
             ->query($query)
-            ->paginate($paginate, $perPage)
+            ->paginate($paginate)
             ->get();
 
         //$this->collection::withoutWrapping();

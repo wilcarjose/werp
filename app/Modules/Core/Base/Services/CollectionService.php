@@ -10,8 +10,7 @@ class CollectionService
 	protected $sort;
 	protected $order;
 	protected $query = [];
-	protected $paginate;
-    protected $perPage;
+	protected $paginate = 15;
 	protected $fields = null;
 	protected $matchAll;
 
@@ -59,10 +58,9 @@ class CollectionService
 		return $this;
 	}
 
-	public function paginate($paginate, $perPage = 15)
+	public function paginate($paginate)
 	{
-		$this->paginate = $paginate;
-        $this->perPage = $perPage;
+		$this->paginate = $paginate == 'on' ? 15 : $paginate;
 		return $this;
 	}
 
@@ -82,7 +80,7 @@ class CollectionService
             $query = $query->orderBy($this->sort, $this->order);
         }
 
-        return $this->paginate == 'on' ? $query->paginate($this->perPage) : $query->get();
+        return $this->paginate == 'off' ? $query->get() : $query->paginate((int)$this->paginate);
     }
 
     protected function getCondition($condition)
