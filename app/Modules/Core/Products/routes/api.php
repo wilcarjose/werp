@@ -13,4 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
+// Categories
 Route::get('/categories','Api\CategoryController@index');
+Route::get('/categories/{id}','Api\CategoryController@show');

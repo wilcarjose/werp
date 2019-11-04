@@ -34,4 +34,17 @@ class BaseApiController extends Controller
         //return ResponseBuilder::success(new $this->collection($data));
         return new $this->collection($data);
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {   
+        $entity = $this->entityService->getById($id);
+
+        return new $this->resource($entity);
+    }
 }
