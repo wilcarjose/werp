@@ -49,7 +49,7 @@ class CollectionService
                 $this->query[] = [
                     'field' => $f,
                     'condition' => $qr[1],
-                    'value' => $qr[2]
+                    'value' => $qr[2] === 'null' ? null : $qr[2],
                 ];
             }
         }
