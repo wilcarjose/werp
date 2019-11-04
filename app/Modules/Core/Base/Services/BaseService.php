@@ -28,6 +28,11 @@ class BaseService
         DB::rollBack();
     }
 
+    public function getModel()
+    {
+        return $this->entity;
+    }
+
     public function getById($id, $exception = true)
     {
         return $exception ? $this->entity->findOrFail($id) : $this->entity->find($id);
@@ -41,16 +46,6 @@ class BaseService
     protected function filters($entity)
     {
         return $entity;
-    }
-
-    public function getApiResults($sort, $order, $search, $searchFields, $paginate)
-    {
-        return (new \Werp\Modules\Core\Base\Services\CollectionService)
-            ->model($this->entity)
-            ->sort($sort, $order)
-            ->search($search, $searchFields, false)
-            ->paginate($paginate)
-            ->toArray();
     }
 
     public function getResults($sort, $order, $search, $paginate)

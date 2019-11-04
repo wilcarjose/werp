@@ -42,7 +42,7 @@ class CollectionService
 		return $this;
 	}
 
-	public function toArray()
+	public function get()
     {
         $query = $this->model->where(function ($q) {
             if ($this->search) {
@@ -58,6 +58,6 @@ class CollectionService
             $query = $query->orderBy($this->sort, $this->order);
         }
 
-        return !$this->paginate || $this->paginate == 'off' ? $query->get() : $query->paginate(5);
+        return $this->paginate == 'on' ? $query->paginate(5) : $query->get();
     }
 }

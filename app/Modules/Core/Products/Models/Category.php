@@ -53,4 +53,9 @@ class Category extends Model
     {
         return $this->hasOne('Werp\Modules\Core\Products\Models\Category', 'id', 'category_id');
     }
+
+    public function categories()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Category');
+    }
 }

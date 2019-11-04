@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aaccb88f15e5f8cf7c248d23795671f6",
+    "content-hash": "76cf165b80149a4034852da7666e1912",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1300,6 +1300,69 @@
                 "phpspreadsheet"
             ],
             "time": "2019-07-16T08:40:48+00:00"
+        },
+        {
+            "name": "marcin-orlowski/laravel-api-response-builder",
+            "version": "4.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarcinOrlowski/laravel-api-response-builder.git",
+                "reference": "b44d605f1eac9ecdd1dea1c9be491948b90be7e0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarcinOrlowski/laravel-api-response-builder/zipball/b44d605f1eac9ecdd1dea1c9be491948b90be7e0",
+                "reference": "b44d605f1eac9ecdd1dea1c9be491948b90be7e0",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.1",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "codacy/coverage": "^1.0",
+                "marcin-orlowski/coding-standard": "^1.1",
+                "mockery/mockery": "^0.9.8",
+                "orchestra/testbench": "^3.1",
+                "phpunit/php-code-coverage": "^2.2.4",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MarcinOrlowski\\ResponseBuilder\\ResponseBuilderServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/",
+                    "tests/",
+                    "tests/Traits/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Orlowski",
+                    "homepage": "http://MarcinOrlowski.com/"
+                }
+            ],
+            "description": "Helps building nice, normalized and easy to consume Laravel REST API.",
+            "homepage": "https://github.com/MarcinOrlowski/laravel-api-response-builder",
+            "keywords": [
+                "api",
+                "builder",
+                "helper",
+                "json",
+                "laravel",
+                "rest"
+            ],
+            "time": "2019-09-08T19:43:42+00:00"
         },
         {
             "name": "markbaker/complex",

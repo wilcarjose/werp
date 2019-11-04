@@ -5,6 +5,8 @@ namespace Werp\Modules\Core\Base\Controllers;
 use Illuminate\Http\Request;
 use Werp\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
+use MarcinOrlowski\ResponseBuilder\ResponseBuilder;
+use Werp\Modules\Core\Base\Services\CollectionService;
 use Werp\Modules\Core\Base\Exceptions\DeleteRestrictionException;
 
 class BaseApiController extends Controller
@@ -21,16 +23,14 @@ class BaseApiController extends Controller
         $search = request()->has('q')?request()->get('q'):'';
         $searchFields = request()->has('q-fields')?request()->get('q-fields'):'name';
         $paginate = request()->get('paginate', 'on');
-        $fields = request()->get('fields', null);
 
-        $data = $this->entityService->getApiResults($sort, $order, $search, $searchFields, $paginate);
+        $data = (new CollectionService)
+            ->model($this->entityService->getModel())
+            ->sort($sort, $order)
+            ->search($search, $searchFields, false)
+            ->paginate($paginate)
+            ->get();
 
-        return new $this->collection($data);
-
-        return response([
-            'data'        => $data,
-            'paginator'   => $paginator,
-            'status_code' => 200
-        ], 200);
+        return ResponseBuilder::success(new $this->collection($data));
     }
 }

@@ -6,6 +6,7 @@ use Werp\User;
 use Werp\Observers\UserObserver;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+//use Illuminate\Http\Resources\Json\Resource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
                     ->with('current_route_name', $current_route_name);
             }
         });
+
+        //Resource::withoutWrapping();
     }
 
     /**
