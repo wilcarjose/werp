@@ -124,8 +124,8 @@
                 <div class="row">
                     <div class="col s12">
                         <div class="row">
-                            <div class="input-field col s6">
-                                <input id="icon_prefix" type="text" class="validate">
+                            <div class="input-field col s12 m12 l6">
+                                <input id="icon_prefix" type="text" class="" v-model="searchProduct">
                                 <label for="icon_prefix">Código / Nombre</label>
                             </div>
                         </div>
@@ -218,12 +218,16 @@ export default {
     mixins: [tableData],
 
     data() {
+
         return {
+            
             invoice: {
+            
                 client: {
                     id: '',
                     name: ''
                 },
+            
                 lines: [
                     {
                         product: {
@@ -253,7 +257,9 @@ export default {
                         subtotal: 4525.55
                     }
                 ]
+            
             },
+
             clients: [
                 {
                     id: '1',
@@ -272,17 +278,41 @@ export default {
                     name: '9632145 - Luisa Rodríguez'
                 }
             ],
+
             categories: [],
+
             mainCategories: [
                 {
                     id: null,
                     name: 'Todos'
                 }
             ],
+
             products: [
                 
-            ]
+            ],
+
+            searchProduct: ''
         };
+    },
+
+    watch: {
+            
+        searchProduct: function (value) {
+
+            var filter = value == '' ? '' : '&q-or=name|code:has:' + value;
+            let params = '?fields=id,name,price,image,description&paginate=off' + filter;
+            let uri = `/api/admin/products/products` + params;
+            
+            axios.get(uri).then((response) => {
+                    let res = response.data;
+                    if (res.success) {
+                        this.products = res.data;
+                    }
+                })
+                .catch(error => console.log(error));
+        }
+    
     },
 
     mounted() {
