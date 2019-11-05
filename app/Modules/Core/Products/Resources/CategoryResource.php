@@ -22,6 +22,8 @@ class CategoryResource extends BaseResource
             'active' => $this->when($this->show('active'), $this->active),
             'parent' => $this->when($this->show('parent') && !is_null($this->category_id), new CategoryResource($this->category)),
             'children' => $this->when($this->show('children'), CategoryResource::collection($this->categories)),
+            'products' => $this->when($this->show('products'), ProductResource::collection($this->products)),
+            'products_ids' => $this->when($this->show('products_ids'), $this->getProductsIds()),
             'created_at' => $this->when($this->show('created_at'), $this->created_at),
             'updated_at' => $this->when($this->show('updated_at'), $this->updated_at),
         ];

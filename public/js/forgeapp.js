@@ -39878,273 +39878,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: null,
                 name: 'Todos'
             }],
-            products: [{
-                id: '',
-                name: 'Aceite 15-40 semisintetico',
-                price: '420054540',
-                image: '/images/products/img1.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite de pipa',
-                price: '420',
-                image: '/images/products/img1.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite Shell 20-50',
-                price: '4204747825,00',
-                image: '/images/products/img1.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Liga de frenos',
-                price: '4207452',
-                image: '/images/products/img2.jpeg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Maxi diesel',
-                price: '428520',
-                image: '/images/products/img3.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: '15-40 mineral',
-                price: '496320',
-                image: '/images/products/img4.jpeg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Paila 20-50',
-                price: '424520',
-                image: '/images/products/img5.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: '25-10',
-                price: '85420',
-                image: '/images/products/img6.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Lubricante PDV 25-50 litro tren en uno para camionetas y camiones pesados',
-                price: '420',
-                image: '/images/products/img7.png',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Liga de frenos PDV',
-                price: '420',
-                image: '/images/products/img8.png',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite 25-10 Mineral',
-                price: '40',
-                image: '/images/products/img9.jpeg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite 10',
-                price: '42045',
-                image: '/images/products/img10.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite 11',
-                price: '452020',
-                image: '/images/products/img11.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite 15-40 semisintetico',
-                price: '452320',
-                image: '/images/products/img1.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite de pipa',
-                price: '425220',
-                image: '/images/products/img1.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite Shell 20-50',
-                price: '420',
-                image: '/images/products/img1.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Liga de frenos',
-                price: '4240',
-                image: '/images/products/img2.jpeg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Maxi diesel',
-                price: '0',
-                image: '/images/products/img3.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: '15-40 mineral',
-                price: '42960',
-                image: '/images/products/img4.jpeg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Paila 20-50',
-                price: '44120',
-                image: '/images/products/img5.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: '25-10',
-                price: '42580',
-                image: '/images/products/img6.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Lubricante PDV 25-50 litro tren en uno para camionetas y camiones pesados',
-                price: '4240',
-                image: '/images/products/img7.png',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Liga de frenos PDV',
-                price: '42085278624',
-                image: '/images/products/img8.png',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite 25-10 Mineral',
-                price: '432420',
-                image: '/images/products/img9.jpeg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite 10',
-                price: '45520',
-                image: '/images/products/img10.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }, {
-                id: '',
-                name: 'Aceite 11',
-                price: '20',
-                image: '/images/products/img11.jpg',
-                description: '',
-                category: {
-                    id: '',
-                    name: ''
-                }
-            }]
+            products: []
         };
     },
     mounted: function mounted() {
 
         var vm = this;
         vm.getCategories();
+        vm.getProducts();
         $('#componentDataModal').modal({
             dismissible: false,
             ready: function ready(modal, trigger) {
@@ -40179,21 +39920,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return console.log(error);
             });
         },
-        categoryFilter: function categoryFilter(category) {
+        getProducts: function getProducts() {
             var _this2 = this;
+
+            var ids = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+
+            var filter = '';
+
+            if (ids) {
+                var productsIds = this.getIdsString(ids);
+                console.log(productsIds);
+                filter = '&q=id:in:' + productsIds;
+            }
+
+            var params = '?fields=id,name,price,image,description&paginate=off' + filter;
+            var uri = '/api/admin/products/products' + params;
+            axios.get(uri).then(function (response) {
+                var res = response.data;
+                if (res.success) {
+                    _this2.products = res.data;
+                }
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+        categoryFilter: function categoryFilter(category) {
+            var _this3 = this;
 
             if (category.id == null) {
                 this.resetMainCategories(category);
+                this.getProducts();
                 return;
             }
 
             this.updateMainCategories(category);
 
-            var params = '?fields=id,name,children';
+            var params = '?fields=id,name,children,products_ids';
             var uri = '/api/admin/products/categories/' + category.id + params;
             axios.get(uri).then(function (response) {
                 if (response.status == 200) {
-                    _this2.categories = response.data.data.children;
+                    _this3.categories = response.data.data.children;
+                    _this3.getProducts(response.data.data.products_ids);
                 }
             }).catch(function (error) {
                 return console.log(error);
@@ -40217,6 +39985,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.mainCategories = [];
             this.mainCategories.push(category);
             this.getCategories();
+        },
+        getIdsString: function getIdsString(ids) {
+            var idsString = '';
+            ids.forEach(function (item, index) {
+                idsString = idsString == '' ? item : idsString + '|' + item;
+            });
+
+            return idsString;
         }
     },
 

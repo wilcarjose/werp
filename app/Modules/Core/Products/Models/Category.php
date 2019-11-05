@@ -58,4 +58,28 @@ class Category extends Model
     {
         return $this->hasMany('Werp\Modules\Core\Products\Models\Category');
     }
+
+    public function products()
+    {
+        return $this->hasMany('Werp\Modules\Core\Products\Models\Product');
+    }
+
+    public function getProductsIds($category = null)
+    {
+        $ids = [];
+
+        $category = $category ?? $this;
+
+        foreach ($category->products as $product) {
+            $ids[] = $product->id;
+        }
+
+        if ($category->categories->isNotEmpty()) {
+            foreach ($category->categories as $cat) {
+                $ids = array_merge($ids, $this->getProductsIds($cat));
+            }
+        }
+
+        return $ids;
+    }
 }

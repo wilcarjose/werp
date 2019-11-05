@@ -69,6 +69,13 @@ class CollectionService
         $query = $this->model->where(function ($q) {
             if (!empty($this->query)) {
             	foreach ($this->query as $condition) {
+
+                    if ($condition['condition'] == 'in') {
+                        $values = explode('|', $condition['value']);
+                        $q->whereIn($condition['field'], $values);
+                        continue;
+                    }
+
             		$this->matchAll ?
                 		$q->where($condition['field'] , $this->getCondition($condition['condition']), $this->getValue($condition['value'], $condition['condition'])) :
                 		$q->orWhere($condition['field'] , $this->getCondition($condition['condition']), $this->getValue($condition['value'], $condition['condition']));

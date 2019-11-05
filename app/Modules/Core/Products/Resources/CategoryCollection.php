@@ -2,26 +2,9 @@
 
 namespace Werp\Modules\Core\Products\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Werp\Modules\Core\Base\Resources\BaseCollection;
 
-class CategoryCollection extends ResourceCollection
+class CategoryCollection extends BaseCollection
 {
     public $collects = 'Werp\Modules\Core\Products\Resources\CategoryResource';
-    
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function toArray($request)
-    {
-        return [
-            "success" => true,
-            "code" => 0,
-            "locale" => "es",
-            "message" => "OK",
-            "data" => $this->collection,
-        ];
-    }
 }
