@@ -18,14 +18,15 @@ class BaseApiController extends Controller
      */
     public function index()
     {
-        $sort   = request()->has('sort')?request()->get('sort'):'created_at';
-        $query = request()->has('q')?request()->get('q'):'';
+        $sort   = request()->has('sort') ? request()->get('sort') : 'created_at';
+        $query = request()->has('q-or') ? request()->get('q-or') : request()->get('q', '');
         $paginate = request()->get('paginate', 15);
+        $strict = !request()->has('q-or');
 
         $data = (new CollectionService)
             ->model($this->entityService->getModel())
             ->sort($sort)
-            ->query($query)
+            ->query($query, $strict)
             ->paginate($paginate)
             ->get();
 
