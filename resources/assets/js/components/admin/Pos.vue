@@ -49,10 +49,10 @@
                                     <td class="right">{{ line.price }}</td>
                                     <td style="text-align: center;vertical-align: top;">{{ line.qty }}</td>
                                     <td style="text-align: center;vertical-align: top;">
-                                        <button class="btn waves-effect waves-light green btn-invoice-line" type="button" name="action">
+                                        <button class="btn waves-effect waves-light green btn-invoice-line" type="button" name="action" @click="increaseQty(index)">
                                             <i class="material-icons">add</i>
                                         </button>
-                                        <button class="btn waves-effect waves-light orange btn-invoice-line" type="button" name="action">
+                                        <button class="btn waves-effect waves-light orange btn-invoice-line" type="button" name="action" @click="decreaseQty(index)">
                                             <i class="material-icons">remove</i>
                                         </button>
                                     </td>
@@ -419,8 +419,7 @@ export default {
                 return;
             }
 
-            this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
-            this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * product.price;
+            this.increaseQty(index);
         },
 
         findLine(product) {
@@ -438,6 +437,18 @@ export default {
 
         removeLine(index) {
             this.invoice.lines.splice(index, 1);
+        },
+
+        increaseQty(index) {
+            this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
+            this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+        },
+
+        decreaseQty(index) {
+            if (this.invoice.lines[index].qty > 0) {
+                this.invoice.lines[index].qty = this.invoice.lines[index].qty - 1;
+                this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+            }
         }
 
     },

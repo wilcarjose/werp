@@ -39957,8 +39957,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
-            this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * product.price;
+            this.increaseQty(index);
         },
         findLine: function findLine(product) {
 
@@ -39974,6 +39973,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         removeLine: function removeLine(index) {
             this.invoice.lines.splice(index, 1);
+        },
+        increaseQty: function increaseQty(index) {
+            this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
+            this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+        },
+        decreaseQty: function decreaseQty(index) {
+            if (this.invoice.lines[index].qty > 0) {
+                this.invoice.lines[index].qty = this.invoice.lines[index].qty - 1;
+                this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+            }
         }
     },
 
@@ -40144,7 +40153,54 @@ var render = function() {
                         [_vm._v(_vm._s(line.qty))]
                       ),
                       _vm._v(" "),
-                      _vm._m(3, true),
+                      _c(
+                        "td",
+                        {
+                          staticStyle: {
+                            "text-align": "center",
+                            "vertical-align": "top"
+                          }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn waves-effect waves-light green btn-invoice-line",
+                              attrs: { type: "button", name: "action" },
+                              on: {
+                                click: function($event) {
+                                  _vm.increaseQty(index)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "material-icons" }, [
+                                _vm._v("add")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn waves-effect waves-light orange btn-invoice-line",
+                              attrs: { type: "button", name: "action" },
+                              on: {
+                                click: function($event) {
+                                  _vm.decreaseQty(index)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "material-icons" }, [
+                                _vm._v("remove")
+                              ])
+                            ]
+                          )
+                        ]
+                      ),
                       _vm._v(" "),
                       _c("td", { staticClass: "right" }, [
                         _vm._v(_vm._s(line.subtotal))
@@ -40183,7 +40239,7 @@ var render = function() {
                   })
                 ),
                 _vm._v(" "),
-                _vm._m(4)
+                _vm._m(3)
               ]
             )
           ])
@@ -40193,7 +40249,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col s12 m6 l7 xl8 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
-        _vm._m(5),
+        _vm._m(4),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c(
@@ -40430,7 +40486,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(6)
+        _vm._m(5)
       ])
     ])
   ])
@@ -40473,34 +40529,6 @@ var staticRenderFns = [
         _c("th")
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "td",
-      { staticStyle: { "text-align": "center", "vertical-align": "top" } },
-      [
-        _c(
-          "button",
-          {
-            staticClass: "btn waves-effect waves-light green btn-invoice-line",
-            attrs: { type: "button", name: "action" }
-          },
-          [_c("i", { staticClass: "material-icons" }, [_vm._v("add")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn waves-effect waves-light orange btn-invoice-line",
-            attrs: { type: "button", name: "action" }
-          },
-          [_c("i", { staticClass: "material-icons" }, [_vm._v("remove")])]
-        )
-      ]
-    )
   },
   function() {
     var _vm = this
