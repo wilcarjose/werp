@@ -39939,7 +39939,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return idsString;
         },
-        addProduct: function addProduct(product) {
+        addLine: function addLine(product) {
 
             var index = this.findLine(product);
 
@@ -39971,6 +39971,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
 
             return found;
+        },
+        removeLine: function removeLine(index) {
+            this.invoice.lines.splice(index, 1);
         }
     },
 
@@ -40118,7 +40121,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(_vm.invoice.lines, function(line) {
+                  _vm._l(_vm.invoice.lines, function(line, index) {
                     return _c("tr", [
                       _c("td", [
                         _vm._v(
@@ -40147,12 +40150,40 @@ var render = function() {
                         _vm._v(_vm._s(line.subtotal))
                       ]),
                       _vm._v(" "),
-                      _vm._m(4, true)
+                      _c(
+                        "td",
+                        {
+                          staticStyle: {
+                            "text-align": "center",
+                            "vertical-align": "top"
+                          }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn waves-effect waves-light red btn-invoice-line",
+                              attrs: { type: "button", name: "action" },
+                              on: {
+                                click: function($event) {
+                                  _vm.removeLine(index)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "material-icons" }, [
+                                _vm._v("clear")
+                              ])
+                            ]
+                          )
+                        ]
+                      )
                     ])
                   })
                 ),
                 _vm._v(" "),
-                _vm._m(5)
+                _vm._m(4)
               ]
             )
           ])
@@ -40162,7 +40193,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col s12 m6 l7 xl8 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
-        _vm._m(6),
+        _vm._m(5),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c(
@@ -40363,7 +40394,7 @@ var render = function() {
                                 attrs: { type: "button", name: "action" },
                                 on: {
                                   click: function($event) {
-                                    _vm.addProduct(product)
+                                    _vm.addLine(product)
                                   }
                                 }
                               },
@@ -40399,7 +40430,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(7)
+        _vm._m(6)
       ])
     ])
   ])
@@ -40467,25 +40498,6 @@ var staticRenderFns = [
             attrs: { type: "button", name: "action" }
           },
           [_c("i", { staticClass: "material-icons" }, [_vm._v("remove")])]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "td",
-      { staticStyle: { "text-align": "center", "vertical-align": "top" } },
-      [
-        _c(
-          "button",
-          {
-            staticClass: "btn waves-effect waves-light red btn-invoice-line",
-            attrs: { type: "button", name: "action" }
-          },
-          [_c("i", { staticClass: "material-icons" }, [_vm._v("clear")])]
         )
       ]
     )

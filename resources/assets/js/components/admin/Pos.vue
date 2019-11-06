@@ -44,7 +44,7 @@
                             </thead>
 
                             <tbody>
-                                <tr v-for="line in invoice.lines">
+                                <tr v-for="(line, index) in invoice.lines">
                                     <td>{{ line.product.code + ' - ' + line.product.name }}</td>
                                     <td class="right">{{ line.price }}</td>
                                     <td style="text-align: center;vertical-align: top;">{{ line.qty }}</td>
@@ -58,7 +58,7 @@
                                     </td>
                                     <td class="right">{{ line.subtotal }}</td>
                                     <td style="text-align: center;vertical-align: top;">
-                                        <button class="btn waves-effect waves-light red btn-invoice-line" type="button" name="action">
+                                        <button class="btn waves-effect waves-light red btn-invoice-line" type="button" name="action" @click="removeLine(index)">
                                             <i class="material-icons">clear</i>
                                         </button>
                                     </td>
@@ -153,7 +153,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s12" style="text-align: center;">
-                                            <button class="btn waves-effect waves-light green responsive center" type="button" name="action" style="height: 23px; line-height: 14px; padding: 5px; font-size: 13px; font-weight: 600;" @click="addProduct(product)">
+                                            <button class="btn waves-effect waves-light green responsive center" type="button" name="action" style="height: 23px; line-height: 14px; padding: 5px; font-size: 13px; font-weight: 600;" @click="addLine(product)">
                                                 Agregar
                                             </button>
                                         </div>
@@ -401,7 +401,7 @@ export default {
             return idsString;
         },
 
-        addProduct(product) {
+        addLine(product) {
 
             var index = this.findLine(product);
 
@@ -434,6 +434,10 @@ export default {
             });
 
             return found;
+        },
+
+        removeLine(index) {
+            this.invoice.lines.splice(index, 1);
         }
 
     },
