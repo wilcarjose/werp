@@ -30,7 +30,8 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <table class="bordered highlight invoice-lines" style="font-size: 12px; font-weight: 500;">
+                        <p v-show="invoice.lines.length == 0">No hay productos en la factura</p>
+                        <table class="bordered highlight invoice-lines" v-show="invoice.lines.length > 0">
                             <thead>
                                 <tr>
                                     <th>Producto</th>
@@ -44,7 +45,7 @@
 
                             <tbody>
                                 <tr v-for="line in invoice.lines">
-                                    <td>{{ line.product.name }}</td>
+                                    <td>{{ line.product.code + ' - ' + line.product.name }}</td>
                                     <td class="right">{{ line.price }}</td>
                                     <td style="text-align: center;vertical-align: top;">{{ line.qty }}</td>
                                     <td style="text-align: center;vertical-align: top;">
@@ -69,7 +70,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th style="font-weight: 300; font-size: 16px;">Subtotal</th>
+                                    <th>Subtotal</th>
                                     <th class="right">54585.52</th>
                                     <th></th>
                                 </tr>
@@ -77,7 +78,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th style="font-weight: 300; font-size: 16px;">Impuesto</th>
+                                    <th>Impuesto</th>
                                     <th class="right">585.52</th>
                                     <th></th>
                                 </tr>
@@ -85,7 +86,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th style="font-weight: 300; font-size: 16px;">Total</th>
+                                    <th>Total</th>
                                     <th class="right">4554585.52</th>
                                     <th></th>
                                 </tr>
@@ -125,8 +126,8 @@
                     <div class="col s12">
                         <div class="row">
                             <div class="input-field col s12 m12 l6">
-                                <input id="icon_prefix" type="text" class="" v-model="searchProduct">
-                                <label for="icon_prefix">Código / Nombre</label>
+                                <input id="searchProduct" type="text" class="" v-model="searchProduct">
+                                <label for="searchProduct">Código / Nombre</label>
                             </div>
                         </div>
                     </div>
@@ -152,7 +153,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s12" style="text-align: center;">
-                                            <button class="btn waves-effect waves-light green responsive center" type="button" name="action" style="height: 23px; line-height: 14px; padding: 5px; font-size: 13px; font-weight: 600;">
+                                            <button class="btn waves-effect waves-light green responsive center" type="button" name="action" style="height: 23px; line-height: 14px; padding: 5px; font-size: 13px; font-weight: 600;" @click="addProduct(product)">
                                                 Agregar
                                             </button>
                                         </div>
@@ -228,35 +229,7 @@ export default {
                     name: ''
                 },
             
-                lines: [
-                    {
-                        product: {
-                            id: 'dsdsdsd',
-                            name: 'Lubricante 1'
-                        },
-                        price: 45216.55,
-                        qty: 2,
-                        subtotal: 845236.10
-                    },
-                    {
-                        product: {
-                            id: '74596',
-                            name: 'Liga de Frenos'
-                        },
-                        price: 452.55,
-                        qty: 2,
-                        subtotal: 5236.10
-                    },
-                    {
-                        product: {
-                            id: 'dsdsd',
-                            name: 'Grasa 1'
-                        },
-                        price: 4525.55,
-                        qty: 1,
-                        subtotal: 4525.55
-                    }
-                ]
+                lines: []
             
             },
 
@@ -288,9 +261,7 @@ export default {
                 }
             ],
 
-            products: [
-                
-            ],
+            products: [],
 
             searchProduct: ''
         };
@@ -301,9 +272,9 @@ export default {
         searchProduct: function (value) {
 
             var filter = value == '' ? '' : '&q-or=name|code:has:' + value;
-            let params = '?fields=id,name,price,image,description&paginate=off' + filter;
+            let params = '?fields=id,code,name,price,image,description&paginate=off' + filter;
             let uri = `/api/admin/products/products` + params;
-            
+
             axios.get(uri).then((response) => {
                     let res = response.data;
                     if (res.success) {
@@ -333,6 +304,12 @@ export default {
         $('#client-box2' ).select2({
             templateResult: formatState
         });
+
+        $('.materialboxed').materialbox();
+    },
+
+    created() {
+
     },
 
     methods: {
@@ -362,7 +339,7 @@ export default {
                 filter = '&q=id:in:' + productsIds;
             }
 
-            let params = '?fields=id,name,price,image,description&paginate=off' + filter;
+            let params = '?fields=id,code,name,price,image,description&paginate=off' + filter;
             let uri = `/api/admin/products/products` + params;
             axios.get(uri).then((response) => {
                     let res = response.data;
@@ -415,12 +392,48 @@ export default {
         },
 
         getIdsString(ids) {
+
             var idsString = '';
             ids.forEach(function(item, index) {
                     idsString = idsString == '' ? item : idsString + '|' + item;
             });
 
             return idsString;
+        },
+
+        addProduct(product) {
+
+            var index = this.findLine(product);
+
+            if (index < 0) {
+                
+                var line = {
+                    product: product,
+                    price: product.price,
+                    qty: 1,
+                    subtotal: product.price
+                };
+
+                this.invoice.lines.push(line);    
+                
+                return;
+            }
+
+            this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
+            this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * product.price;
+        },
+
+        findLine(product) {
+
+            let found = -1;
+
+            this.invoice.lines.some(function(item, index) {
+                if (item.product.id == product.id) {
+                    found = index;
+                }
+            });
+
+            return found;
         }
 
     },

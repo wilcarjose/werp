@@ -39750,6 +39750,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -39769,31 +39770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     name: ''
                 },
 
-                lines: [{
-                    product: {
-                        id: 'dsdsdsd',
-                        name: 'Lubricante 1'
-                    },
-                    price: 45216.55,
-                    qty: 2,
-                    subtotal: 845236.10
-                }, {
-                    product: {
-                        id: '74596',
-                        name: 'Liga de Frenos'
-                    },
-                    price: 452.55,
-                    qty: 2,
-                    subtotal: 5236.10
-                }, {
-                    product: {
-                        id: 'dsdsd',
-                        name: 'Grasa 1'
-                    },
-                    price: 4525.55,
-                    qty: 1,
-                    subtotal: 4525.55
-                }]
+                lines: []
 
             },
 
@@ -39831,9 +39808,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             var filter = value == '' ? '' : '&q-or=name|code:has:' + value;
-
-            var params = '?fields=id,name,price,image,description&paginate=off' + filter;
+            var params = '?fields=id,code,name,price,image,description&paginate=off' + filter;
             var uri = '/api/admin/products/products' + params;
+
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.success) {
@@ -39864,7 +39841,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         $('#client-box2').select2({
             templateResult: formatState
         });
+
+        $('.materialboxed').materialbox();
     },
+    created: function created() {},
 
 
     methods: {
@@ -39898,7 +39878,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 filter = '&q=id:in:' + productsIds;
             }
 
-            var params = '?fields=id,name,price,image,description&paginate=off' + filter;
+            var params = '?fields=id,code,name,price,image,description&paginate=off' + filter;
             var uri = '/api/admin/products/products' + params;
             axios.get(uri).then(function (response) {
                 var res = response.data;
@@ -39951,12 +39931,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.getCategories();
         },
         getIdsString: function getIdsString(ids) {
+
             var idsString = '';
             ids.forEach(function (item, index) {
                 idsString = idsString == '' ? item : idsString + '|' + item;
             });
 
             return idsString;
+        },
+        addProduct: function addProduct(product) {
+
+            var index = this.findLine(product);
+
+            if (index < 0) {
+
+                var line = {
+                    product: product,
+                    price: product.price,
+                    qty: 1,
+                    subtotal: product.price
+                };
+
+                this.invoice.lines.push(line);
+
+                return;
+            }
+
+            this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
+            this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * product.price;
+        },
+        findLine: function findLine(product) {
+
+            var found = -1;
+
+            this.invoice.lines.some(function (item, index) {
+                if (item.product.id == product.id) {
+                    found = index;
+                }
+            });
+
+            return found;
         }
     },
 
@@ -40072,10 +40086,32 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col s12" }, [
             _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.invoice.lines.length == 0,
+                    expression: "invoice.lines.length == 0"
+                  }
+                ]
+              },
+              [_vm._v("No hay productos en la factura")]
+            ),
+            _vm._v(" "),
+            _c(
               "table",
               {
-                staticClass: "bordered highlight invoice-lines",
-                staticStyle: { "font-size": "12px", "font-weight": "500" }
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.invoice.lines.length > 0,
+                    expression: "invoice.lines.length > 0"
+                  }
+                ],
+                staticClass: "bordered highlight invoice-lines"
               },
               [
                 _vm._m(2),
@@ -40084,7 +40120,11 @@ var render = function() {
                   "tbody",
                   _vm._l(_vm.invoice.lines, function(line) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(line.product.name))]),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(line.product.code + " - " + line.product.name)
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "right" }, [
                         _vm._v(_vm._s(line.price))
@@ -40205,7 +40245,7 @@ var render = function() {
                       expression: "searchProduct"
                     }
                   ],
-                  attrs: { id: "icon_prefix", type: "text" },
+                  attrs: { id: "searchProduct", type: "text" },
                   domProps: { value: _vm.searchProduct },
                   on: {
                     input: function($event) {
@@ -40217,7 +40257,7 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("label", { attrs: { for: "icon_prefix" } }, [
+                _c("label", { attrs: { for: "searchProduct" } }, [
                   _vm._v("Código / Nombre")
                 ])
               ])
@@ -40300,7 +40340,42 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _vm._m(7, true)
+                      _c("div", { staticClass: "row" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col s12",
+                            staticStyle: { "text-align": "center" }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn waves-effect waves-light green responsive center",
+                                staticStyle: {
+                                  height: "23px",
+                                  "line-height": "14px",
+                                  padding: "5px",
+                                  "font-size": "13px",
+                                  "font-weight": "600"
+                                },
+                                attrs: { type: "button", name: "action" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.addProduct(product)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                            Agregar\n                                        "
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ])
                     ]
                   ),
                   _vm._v(" "),
@@ -40324,7 +40399,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(8)
+        _vm._m(7)
       ])
     ])
   ])
@@ -40427,11 +40502,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th"),
         _vm._v(" "),
-        _c(
-          "th",
-          { staticStyle: { "font-weight": "300", "font-size": "16px" } },
-          [_vm._v("Subtotal")]
-        ),
+        _c("th", [_vm._v("Subtotal")]),
         _vm._v(" "),
         _c("th", { staticClass: "right" }, [_vm._v("54585.52")]),
         _vm._v(" "),
@@ -40445,11 +40516,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th"),
         _vm._v(" "),
-        _c(
-          "th",
-          { staticStyle: { "font-weight": "300", "font-size": "16px" } },
-          [_vm._v("Impuesto")]
-        ),
+        _c("th", [_vm._v("Impuesto")]),
         _vm._v(" "),
         _c("th", { staticClass: "right" }, [_vm._v("585.52")]),
         _vm._v(" "),
@@ -40463,11 +40530,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th"),
         _vm._v(" "),
-        _c(
-          "th",
-          { staticStyle: { "font-weight": "300", "font-size": "16px" } },
-          [_vm._v("Total")]
-        ),
+        _c("th", [_vm._v("Total")]),
         _vm._v(" "),
         _c("th", { staticClass: "right" }, [_vm._v("4554585.52")]),
         _vm._v(" "),
@@ -40483,39 +40546,6 @@ var staticRenderFns = [
       _c("div", { staticClass: "col s12" }, [
         _c("h5", { staticClass: "content-headline" }, [_vm._v("Productos")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c(
-        "div",
-        { staticClass: "col s12", staticStyle: { "text-align": "center" } },
-        [
-          _c(
-            "button",
-            {
-              staticClass:
-                "btn waves-effect waves-light green responsive center",
-              staticStyle: {
-                height: "23px",
-                "line-height": "14px",
-                padding: "5px",
-                "font-size": "13px",
-                "font-weight": "600"
-              },
-              attrs: { type: "button", name: "action" }
-            },
-            [
-              _vm._v(
-                "\n                                            Agregar\n                                        "
-              )
-            ]
-          )
-        ]
-      )
     ])
   },
   function() {

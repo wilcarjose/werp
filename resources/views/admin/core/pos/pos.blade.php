@@ -11,6 +11,8 @@
     <style>
         .invoice-lines {
             padding: 8px 5px;
+            font-size: 12px;
+            font-weight: 500;
         }
 
         .btn-invoice-line {
@@ -20,13 +22,19 @@
         }
 
         .invoice-lines tfoot tr th {
-            padding: 5px;
+            padding: 0px;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         .btn-invoice-line i {
             font-size: 12px;
             line-height: inherit;
             font-weight: 700;
+        }
+
+        .invoice-lines tbody tr td {
+            padding: 5px 5px;
         }
 
     </style>
