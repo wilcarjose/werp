@@ -13,6 +13,7 @@ class CollectionService
 	protected $paginate = 15;
 	protected $fields = null;
 	protected $matchAll;
+    protected $limit;
 
 	public function model(Model $model)
 	{
@@ -64,6 +65,12 @@ class CollectionService
 		return $this;
 	}
 
+    public function limit($limit)
+    {
+        $this->limit = $limit;
+        return $this;
+    }
+
 	public function get()
     {
         $query = $this->model->where(function ($q) {
@@ -82,6 +89,10 @@ class CollectionService
                 }
             }
         });
+
+        if ($this->limit) {
+            $query = $query->limit($this->limit);
+        }
 
         if ($this->sort) {
             $query = $query->orderBy($this->sort, $this->direction);

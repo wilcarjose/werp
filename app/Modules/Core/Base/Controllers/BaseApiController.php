@@ -22,12 +22,14 @@ class BaseApiController extends Controller
         $query = request()->has('q-or') ? request()->get('q-or') : request()->get('q', '');
         $paginate = request()->get('paginate', 15);
         $strict = !request()->has('q-or');
+        $limit   = request()->get('limit', null);
 
         $data = (new CollectionService)
             ->model($this->entityService->getModel())
             ->sort($sort)
             ->query($query, $strict)
             ->paginate($paginate)
+            ->limit($limit)
             ->get();
 
         //$this->collection::withoutWrapping();
