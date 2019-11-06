@@ -16,7 +16,7 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <h5>Número # 000021478</h5>
+                        <h5>Número # {{ invoice.number }}</h5>
                     </div>
 
                     <div class="select2-input col s12" id="client-main-box">
@@ -71,7 +71,7 @@
                                     <th></th>
                                     <th></th>
                                     <th>Subtotal</th>
-                                    <th class="right">54585.52</th>
+                                    <th class="right">{{ invoice.subtotal }}</th>
                                     <th></th>
                                 </tr>
                                 <tr>
@@ -79,7 +79,7 @@
                                     <th></th>
                                     <th></th>
                                     <th>Impuesto</th>
-                                    <th class="right">585.52</th>
+                                    <th class="right">{{ invoice.tax }}</th>
                                     <th></th>
                                 </tr>
                                 <tr>
@@ -87,7 +87,7 @@
                                     <th></th>
                                     <th></th>
                                     <th>Total</th>
-                                    <th class="right">4554585.52</th>
+                                    <th class="right">{{ invoice.total }}</th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -224,13 +224,18 @@ export default {
             
             invoice: {
             
+                number: '005632485',
+
                 client: {
                     id: '',
                     name: ''
                 },
             
-                lines: []
-            
+                lines: [],
+
+                subtotal: 0.00,
+                tax: 0.00,
+                total: 0.00
             },
 
             clients: [
@@ -414,7 +419,9 @@ export default {
                     subtotal: product.price
                 };
 
-                this.invoice.lines.push(line);    
+                this.invoice.lines.push(line);
+
+                this.updateTotals()   
                 
                 return;
             }
@@ -437,18 +444,35 @@ export default {
 
         removeLine(index) {
             this.invoice.lines.splice(index, 1);
+            this.updateTotals()
         },
 
         increaseQty(index) {
             this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
             this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+            this.updateTotals()
         },
 
         decreaseQty(index) {
             if (this.invoice.lines[index].qty > 0) {
                 this.invoice.lines[index].qty = this.invoice.lines[index].qty - 1;
                 this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+                this.updateTotals()
             }
+        },
+
+        updateTotals() {
+
+            var subtotal = 0;
+            var tax = 0;
+            
+            this.invoice.lines.forEach(function(item, index) {
+                subtotal = subtotal + item.subtotal;
+            });
+
+            this.invoice.subtotal = subtotal;
+            this.invoice.tax = tax;
+            this.invoice.total = subtotal + tax;
         }
 
     },

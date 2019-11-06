@@ -39765,13 +39765,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             invoice: {
 
+                number: '005632485',
+
                 client: {
                     id: '',
                     name: ''
                 },
 
-                lines: []
+                lines: [],
 
+                subtotal: 0.00,
+                tax: 0.00,
+                total: 0.00
             },
 
             clients: [{
@@ -39954,6 +39959,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 this.invoice.lines.push(line);
 
+                this.updateTotals();
+
                 return;
             }
 
@@ -39973,16 +39980,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         removeLine: function removeLine(index) {
             this.invoice.lines.splice(index, 1);
+            this.updateTotals();
         },
         increaseQty: function increaseQty(index) {
             this.invoice.lines[index].qty = this.invoice.lines[index].qty + 1;
             this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+            this.updateTotals();
         },
         decreaseQty: function decreaseQty(index) {
             if (this.invoice.lines[index].qty > 0) {
                 this.invoice.lines[index].qty = this.invoice.lines[index].qty - 1;
                 this.invoice.lines[index].subtotal = this.invoice.lines[index].qty * this.invoice.lines[index].product.price;
+                this.updateTotals();
             }
+        },
+        updateTotals: function updateTotals() {
+
+            var subtotal = 0;
+            var tax = 0;
+
+            this.invoice.lines.forEach(function (item, index) {
+                subtotal = subtotal + item.subtotal;
+            });
+
+            this.invoice.subtotal = subtotal;
+            this.invoice.tax = tax;
+            this.invoice.total = subtotal + tax;
         }
     },
 
@@ -40025,7 +40048,9 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _vm._m(1),
+          _c("div", { staticClass: "col s12" }, [
+            _c("h5", [_vm._v("Número # " + _vm._s(_vm.invoice.number))])
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -40126,7 +40151,7 @@ var render = function() {
                 staticClass: "bordered highlight invoice-lines"
               },
               [
-                _vm._m(2),
+                _vm._m(1),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -40239,7 +40264,55 @@ var render = function() {
                   })
                 ),
                 _vm._v(" "),
-                _vm._m(3)
+                _c("tfoot", [
+                  _c("tr", [
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Subtotal")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "right" }, [
+                      _vm._v(_vm._s(_vm.invoice.subtotal))
+                    ]),
+                    _vm._v(" "),
+                    _c("th")
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Impuesto")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "right" }, [
+                      _vm._v(_vm._s(_vm.invoice.tax))
+                    ]),
+                    _vm._v(" "),
+                    _c("th")
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th", [_vm._v("Total")]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "right" }, [
+                      _vm._v(_vm._s(_vm.invoice.total))
+                    ]),
+                    _vm._v(" "),
+                    _c("th")
+                  ])
+                ])
               ]
             )
           ])
@@ -40249,7 +40322,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col s12 m6 l7 xl8 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
-        _vm._m(4),
+        _vm._m(2),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c(
@@ -40486,7 +40559,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(5)
+        _vm._m(3)
       ])
     ])
   ])
@@ -40506,14 +40579,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col s12" }, [
-      _c("h5", [_vm._v("Número # 000021478")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Producto")]),
@@ -40525,54 +40590,6 @@ var staticRenderFns = [
         _c("th"),
         _vm._v(" "),
         _c("th", { staticClass: "right" }, [_vm._v("Subtotal")]),
-        _vm._v(" "),
-        _c("th")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tfoot", [
-      _c("tr", [
-        _c("th"),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th", [_vm._v("Subtotal")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "right" }, [_vm._v("54585.52")]),
-        _vm._v(" "),
-        _c("th")
-      ]),
-      _vm._v(" "),
-      _c("tr", [
-        _c("th"),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th", [_vm._v("Impuesto")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "right" }, [_vm._v("585.52")]),
-        _vm._v(" "),
-        _c("th")
-      ]),
-      _vm._v(" "),
-      _c("tr", [
-        _c("th"),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th"),
-        _vm._v(" "),
-        _c("th", [_vm._v("Total")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "right" }, [_vm._v("4554585.52")]),
         _vm._v(" "),
         _c("th")
       ])
