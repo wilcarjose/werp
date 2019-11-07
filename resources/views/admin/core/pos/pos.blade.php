@@ -37,7 +37,7 @@
             padding: 5px 5px;
         }
 
-        .pos-invoice .material-icons {
+        .pos-invoice .mini-icons {
             height: 40px;
             line-height: 40px;
         }

@@ -37,7 +37,7 @@ class CustomerResource extends BaseResource
             'active' => $this->when($this->show('active'), $this->active),
             'created_at' => $this->when($this->show('created_at'), $this->created_at),
             'updated_at' => $this->when($this->show('updated_at'), $this->updated_at),
-            'address' => $this->when($this->show('address') && !is_null($this->address_id), new AddressResource($this->address)),
+            'address' => $this->when($this->show('address'), is_null($this->address_id) ? [] : new AddressResource($this->address)),
         ];
     }    
 }

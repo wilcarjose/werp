@@ -11,18 +11,18 @@
                 <div class="nav-wrapper">
                   <a href="#!" class="brand-logo" style="padding-left: 15px;">Factura</a>
                   <ul class="right hide-on-med-and-down">
-                    <li><a href="#" @click.prevent="showSearch('client')"><i class="material-icons">search</i></a></li>
-                    <li><a href="#"><i class="material-icons">view_module</i></a></li>
-                    <li><a href="#"><i class="material-icons">refresh</i></a></li>
-                    <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+                    <li><a href="#" @click.prevent="showSearch('client')"><i class="material-icons mini-icons">search</i></a></li>
+                    <li><a href="#"><i class="material-icons mini-icons">view_module</i></a></li>
+                    <li><a href="#"><i class="material-icons mini-icons">refresh</i></a></li>
+                    <li><a href="#"><i class="material-icons mini-icons">more_vert</i></a></li>
                   </ul>
                 </div>
                 <div class="nav-wrapper" style="margin: 0 auto; padding: 0 24px;">
                   <form>
                     <div class="input-field">
                       <input id="searchCustomer" placeholder="buscar..." type="search" v-model="searchCustomer" ref="searchCustomer" v-on:blur="searchBlur" v-bind:class="{'active-search': activeSearch}">
-                      <label class="label-icon" for="searchCustomer"><i class="material-icons" v-bind:class="{'active-icon-search': activeSearch}">search</i></label>
-                      <i class="material-icons" @click="hideSearch()" v-bind:class="{'active-icon-search': activeSearch}">close</i>
+                      <label class="label-icon" for="searchCustomer"><i class="material-icons mini-icons" v-bind:class="{'active-icon-search': activeSearch}">search</i></label>
+                      <i class="material-icons mini-icons" @click="hideSearch()" v-bind:class="{'active-icon-search': activeSearch}">close</i>
                     </div>
                   </form>
                 </div>
@@ -49,7 +49,11 @@
                     </div>
 
                     <div class="col s12 m6" style="padding-top: 15px;">
-                        <h6><strong>Fecha:</strong> {{ invoice.date }}</h6>
+                        <h6>
+                            <strong>Fecha:</strong> {{ invoice.date }}
+                            <br>
+                            <strong>Hora:</strong> {{ invoice.time }}
+                        </h6>
                     </div>
 
                 </div>
@@ -280,7 +284,9 @@ export default {
             
                 number: '005632485',
 
-                date: '06/11/2019 14:06:03',
+                date: '06/11/2019',
+
+                time: '14:06:03',
 
                 client: {
                     address: {}
@@ -547,7 +553,7 @@ export default {
 
         selectCustomer(customer) {
             this.invoice.client = customer;
-            this.activeSearch = false; 
+            //this.activeSearch = false; 
         }        
 
     },
