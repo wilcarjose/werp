@@ -37,6 +37,49 @@
             padding: 5px 5px;
         }
 
+        .pos-invoice .material-icons {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .pos-invoice .brand-logo {
+            font-size: 20px;
+        }
+
+        .pos-invoice nav {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .pos-invoice .input-field input[type=search]:focus {
+            background-color: #eeeeee;
+            border: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            color: #444;
+        }
+
+        .pos-invoice .input-field input[type=search]::placeholder {
+            color: #fff;
+        }
+
+        .active-search {
+            background-color: #eeeeee !important;
+            border: 0 !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            color: #444 !important;
+        }
+
+        .active-search .input-field input[type=search]::placeholder {
+            color: #ececec;
+        }
+
+        .active-icon-search {
+            color: #444 !important;
+        }
+}
+
     </style>
 
 @endsection

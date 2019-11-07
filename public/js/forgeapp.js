@@ -39751,6 +39751,60 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -39767,9 +39821,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 number: '005632485',
 
+                date: '06/11/2019 14:06:03',
+
                 client: {
-                    id: '',
-                    name: ''
+                    address: {}
                 },
 
                 lines: [],
@@ -39779,19 +39834,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 total: 0.00
             },
 
-            clients: [{
-                id: '1',
-                name: '16323242 - Jose Perez'
-            }, {
-                id: '2',
-                name: '7569842 - Robert Perez'
-            }, {
-                id: '3',
-                name: '12589321 - José Altuve'
-            }, {
-                id: '4',
-                name: '9632145 - Luisa Rodríguez'
-            }],
+            clients: [],
 
             categories: [],
 
@@ -39802,7 +39845,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             products: [],
 
-            searchProduct: ''
+            searchProduct: '',
+
+            searchCustomer: '',
+
+            activeSearch: false
         };
     },
 
@@ -39820,6 +39867,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var res = response.data;
                 if (res.success) {
                     _this.products = res.data;
+                }
+            }).catch(function (error) {
+                return console.log(error);
+            });
+        },
+
+        searchCustomer: function searchCustomer(value) {
+            var _this2 = this;
+
+            var filter = value == '' ? '' : '&q-or=document|name:has:' + value;
+            var params = '?paginate=off&fields=id,document,name,phone,address,address_1&limit=4' + filter;
+            var uri = '/api/admin/sales/customers' + params;
+            axios.get(uri).then(function (response) {
+                var res = response.data;
+                if (res.success) {
+                    _this2.clients = res.data;
                 }
             }).catch(function (error) {
                 return console.log(error);
@@ -39857,21 +39920,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $('#componentDataModal').modal('open');
         },
         getCategories: function getCategories() {
-            var _this2 = this;
+            var _this3 = this;
 
             var params = '?fields=id,name&paginate=off&sort=name&q=category_id:null';
             var uri = '/api/admin/products/categories' + params;
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.success) {
-                    _this2.categories = res.data;
+                    _this3.categories = res.data;
                 }
             }).catch(function (error) {
                 return console.log(error);
             });
         },
         getProducts: function getProducts() {
-            var _this3 = this;
+            var _this4 = this;
 
             var ids = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
@@ -39888,14 +39951,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.get(uri).then(function (response) {
                 var res = response.data;
                 if (res.success) {
-                    _this3.products = res.data;
+                    _this4.products = res.data;
                 }
             }).catch(function (error) {
                 return console.log(error);
             });
         },
         categoryFilter: function categoryFilter(category) {
-            var _this4 = this;
+            var _this5 = this;
 
             if (category.id == null) {
                 this.resetMainCategories(category);
@@ -39909,8 +39972,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var uri = '/api/admin/products/categories/' + category.id + params;
             axios.get(uri).then(function (response) {
                 if (response.status == 200) {
-                    _this4.categories = response.data.data.children;
-                    _this4.getProducts(response.data.data.products_ids);
+                    _this5.categories = response.data.data.children;
+                    _this5.getProducts(response.data.data.products_ids);
                 }
             }).catch(function (error) {
                 return console.log(error);
@@ -40006,6 +40069,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.invoice.subtotal = subtotal;
             this.invoice.tax = tax;
             this.invoice.total = subtotal + tax;
+        },
+        showSearch: function showSearch(type) {
+            //this.$refs.searchCustomer.focus();
+            this.activeSearch = true;
+        },
+        searchBlur: function searchBlur() {
+            this.activeSearch = true;
+        },
+        hideSearch: function hideSearch() {
+            this.activeSearch = false;
+        },
+        selectCustomer: function selectCustomer(customer) {
+            this.invoice.client = customer;
+            this.activeSearch = false;
         }
     },
 
@@ -40043,87 +40120,247 @@ var render = function() {
         : _vm._e()
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col s12 m6 l5 xl4 mr-top-10" }, [
+    _c("div", { staticClass: "col s12 m6 l5 xl4 mr-top-10 pos-invoice" }, [
+      _c("nav", [
+        _c("div", { staticClass: "nav-wrapper" }, [
+          _c(
+            "a",
+            {
+              staticClass: "brand-logo",
+              staticStyle: { "padding-left": "15px" },
+              attrs: { href: "#!" }
+            },
+            [_vm._v("Factura")]
+          ),
+          _vm._v(" "),
+          _c("ul", { staticClass: "right hide-on-med-and-down" }, [
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.showSearch("client")
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "material-icons" }, [_vm._v("search")])]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _vm._m(2)
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "nav-wrapper",
+            staticStyle: { margin: "0 auto", padding: "0 24px" }
+          },
+          [
+            _c("form", [
+              _c("div", { staticClass: "input-field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.searchCustomer,
+                      expression: "searchCustomer"
+                    }
+                  ],
+                  ref: "searchCustomer",
+                  class: { "active-search": _vm.activeSearch },
+                  attrs: {
+                    id: "searchCustomer",
+                    placeholder: "buscar...",
+                    type: "search"
+                  },
+                  domProps: { value: _vm.searchCustomer },
+                  on: {
+                    blur: _vm.searchBlur,
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.searchCustomer = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    staticClass: "label-icon",
+                    attrs: { for: "searchCustomer" }
+                  },
+                  [
+                    _c(
+                      "i",
+                      {
+                        staticClass: "material-icons",
+                        class: { "active-icon-search": _vm.activeSearch }
+                      },
+                      [_vm._v("search")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "i",
+                  {
+                    staticClass: "material-icons",
+                    class: { "active-icon-search": _vm.activeSearch },
+                    on: {
+                      click: function($event) {
+                        _vm.hideSearch()
+                      }
+                    }
+                  },
+                  [_vm._v("close")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "card-panel" }, [
-        _vm._m(0),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.activeSearch,
+                expression: "activeSearch"
+              }
+            ],
+            staticClass: "row",
+            staticStyle: { "margin-top": "12px !important" }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "col s12", staticStyle: { padding: "0" } },
+              [
+                _c(
+                  "ul",
+                  { staticClass: "collection with-header" },
+                  [
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _vm._l(_vm.clients, function(c) {
+                      return _c("li", { staticClass: "collection-item" }, [
+                        _c("div", [
+                          _vm._v(_vm._s(c.document + " - " + c.name)),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "secondary-content",
+                              attrs: { href: "#!" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.selectCustomer(c)
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "material-icons" }, [
+                                _vm._v("send")
+                              ])
+                            ]
+                          )
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ]
+            )
+          ]
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col s12" }, [
+          _c("div", { staticClass: "col s12 m6" }, [
             _c("h5", [_vm._v("Número # " + _vm._s(_vm.invoice.number))])
           ]),
           _vm._v(" "),
           _c(
             "div",
             {
-              staticClass: "select2-input col s12",
-              attrs: { id: "client-main-box" }
+              staticClass: "col s12 m6",
+              staticStyle: { "padding-top": "15px" }
             },
             [
-              _c(
-                "label",
-                {
-                  staticStyle: { top: "-22px", "font-size": "0.8rem" },
-                  attrs: { for: "client-box" }
-                },
-                [_vm._v("Cliente")]
-              ),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.invoice.client,
-                      expression: "invoice.client"
-                    }
-                  ],
-                  staticClass: "select2_select",
-                  attrs: {
-                    id: "client-box",
-                    name: "client-box",
-                    required: "required"
-                  },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.invoice,
-                        "client",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _vm._v("=>Seleccione..."),
-                  _vm._v(" "),
-                  _vm._l(_vm.clients, function(c) {
-                    return _c("option", { domProps: { value: c.id } }, [
-                      _vm._v(_vm._s(c.name))
-                    ])
-                  })
-                ],
-                2
-              )
+              _c("h6", [
+                _c("strong", [_vm._v("Fecha:")]),
+                _vm._v(" " + _vm._s(_vm.invoice.date))
+              ])
             ]
           )
         ]),
         _vm._v(" "),
+        _c("div", { staticClass: "divider" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col s12 m6" }, [
+            _c("h6", [
+              _c("strong", [_vm._v("Cédula/Rif:")]),
+              _vm._v(" " + _vm._s(_vm.invoice.client.document))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col s12 m6" }, [
+            _c("h6", [
+              _c("strong", [_vm._v("Nombre:")]),
+              _vm._v(" " + _vm._s(_vm.invoice.client.name))
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col s12 m6" },
+            [
+              _c("H6", [
+                _c("strong", [_vm._v("Dirección:")]),
+                _vm._v(" " + _vm._s(_vm.invoice.client.address.address_1))
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col s12 m6" },
+            [
+              _c("H6", [
+                _c("strong", [_vm._v("Teléfono:")]),
+                _vm._v(" " + _vm._s(_vm.invoice.client.phone))
+              ])
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "divider" }),
+        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col s12" }, [
             _c(
-              "p",
+              "h5",
               {
                 directives: [
                   {
@@ -40151,7 +40388,7 @@ var render = function() {
                 staticClass: "bordered highlight invoice-lines"
               },
               [
-                _vm._m(1),
+                _vm._m(4),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -40322,7 +40559,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col s12 m6 l7 xl8 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
-        _vm._m(2),
+        _vm._m(5),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c(
@@ -40559,7 +40796,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(3)
+        _vm._m(6)
       ])
     ])
   ])
@@ -40569,10 +40806,38 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row box-title" }, [
-      _c("div", { staticClass: "col s12" }, [
-        _c("h5", { staticClass: "content-headline" }, [_vm._v("Factura")])
+    return _c("li", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "material-icons" }, [_vm._v("view_module")])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "material-icons" }, [_vm._v("refresh")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "#" } }, [
+        _c("i", { staticClass: "material-icons" }, [_vm._v("more_vert")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "collection-header" }, [
+      _c("h6", [_vm._v("Crear nuevo")])
     ])
   },
   function() {

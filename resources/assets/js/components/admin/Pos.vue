@@ -5,32 +5,86 @@
               <alert :type="alertType">{{ alertText }}</alert>
             </div>
         </div>
-        <div class="col s12 m6 l5 xl4 mr-top-10">
+        <div class="col s12 m6 l5 xl4 mr-top-10 pos-invoice">
+
+            <nav>
+                <div class="nav-wrapper">
+                  <a href="#!" class="brand-logo" style="padding-left: 15px;">Factura</a>
+                  <ul class="right hide-on-med-and-down">
+                    <li><a href="#" @click.prevent="showSearch('client')"><i class="material-icons">search</i></a></li>
+                    <li><a href="#"><i class="material-icons">view_module</i></a></li>
+                    <li><a href="#"><i class="material-icons">refresh</i></a></li>
+                    <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+                  </ul>
+                </div>
+                <div class="nav-wrapper" style="margin: 0 auto; padding: 0 24px;">
+                  <form>
+                    <div class="input-field">
+                      <input id="searchCustomer" placeholder="buscar..." type="search" v-model="searchCustomer" ref="searchCustomer" v-on:blur="searchBlur" v-bind:class="{'active-search': activeSearch}">
+                      <label class="label-icon" for="searchCustomer"><i class="material-icons" v-bind:class="{'active-icon-search': activeSearch}">search</i></label>
+                      <i class="material-icons" @click="hideSearch()" v-bind:class="{'active-icon-search': activeSearch}">close</i>
+                    </div>
+                  </form>
+                </div>
+            </nav>
+
             <div class="card-panel">
 
-                <div class="row box-title">
-                    <div class="col s12">
-                        <h5 class="content-headline">Factura</h5>
+                <div class="row" v-show="activeSearch"  style="margin-top: 12px !important;">
+
+                    <div class="col s12" style="padding: 0;">
+
+                        <ul class="collection with-header">
+                            <li class="collection-header"><h6>Crear nuevo</h6></li>
+                            <li class="collection-item" v-for="c in clients"><div>{{ c.document + ' - ' + c.name }}<a href="#!" @click.prevent="selectCustomer(c)" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                        </ul>
+
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col s12">
+
+                    <div class="col s12 m6">
                         <h5>Número # {{ invoice.number }}</h5>
                     </div>
 
-                    <div class="select2-input col s12" id="client-main-box">
-                        <label for="client-box" style="top: -22px; font-size: 0.8rem;">Cliente</label>
-                        <select class="select2_select" id="client-box" name="client-box" v-model="invoice.client" required="required">
-                            <option value="" disabled=>Seleccione...</option>
-                            <option :value="c.id" v-for="c in clients">{{ c.name }}</option>
-                        </select>
+                    <div class="col s12 m6" style="padding-top: 15px;">
+                        <h6><strong>Fecha:</strong> {{ invoice.date }}</h6>
                     </div>
+
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="row">
+
+                    <div class="col s12 m6">
+                        <h6><strong>Cédula/Rif:</strong> {{ invoice.client.document }}</h6>
+                    </div>
+
+                    <div class="col s12 m6">
+                        <h6><strong>Nombre:</strong> {{ invoice.client.name }}</h6>
+                    </div>
+
                 </div>
 
                 <div class="row">
+
+                    <div class="col s12 m6">
+                        <H6><strong>Dirección:</strong> {{ invoice.client.address.address_1 }}</H6>
+                    </div>
+
+                    <div class="col s12 m6">
+                        <H6><strong>Teléfono:</strong> {{ invoice.client.phone }}</H6>
+                    </div>
+                    
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="row">
                     <div class="col s12">
-                        <p v-show="invoice.lines.length == 0">No hay productos en la factura</p>
+                        <h5 v-show="invoice.lines.length == 0">No hay productos en la factura</h5>
                         <table class="bordered highlight invoice-lines" v-show="invoice.lines.length > 0">
                             <thead>
                                 <tr>
@@ -226,9 +280,10 @@ export default {
             
                 number: '005632485',
 
+                date: '06/11/2019 14:06:03',
+
                 client: {
-                    id: '',
-                    name: ''
+                    address: {}
                 },
             
                 lines: [],
@@ -238,24 +293,7 @@ export default {
                 total: 0.00
             },
 
-            clients: [
-                {
-                    id: '1',
-                    name: '16323242 - Jose Perez'
-                },
-                {
-                    id: '2',
-                    name: '7569842 - Robert Perez'
-                },
-                {
-                    id: '3',
-                    name: '12589321 - José Altuve'
-                },
-                {
-                    id: '4',
-                    name: '9632145 - Luisa Rodríguez'
-                }
-            ],
+            clients: [],
 
             categories: [],
 
@@ -268,7 +306,11 @@ export default {
 
             products: [],
 
-            searchProduct: ''
+            searchProduct: '',
+
+            searchCustomer: '',
+
+            activeSearch: false
         };
     },
 
@@ -287,7 +329,21 @@ export default {
                     }
                 })
                 .catch(error => console.log(error));
-        }
+        },
+
+        searchCustomer: function (value) {
+
+            var filter = value == '' ? '' : '&q-or=document|name:has:' + value;
+            let params = '?paginate=off&fields=id,document,name,phone,address,address_1&limit=4' + filter;
+            let uri = `/api/admin/sales/customers` + params;
+            axios.get(uri).then((response) => {
+                    let res = response.data;
+                    if (res.success) {
+                        this.clients = res.data;
+                    }
+                })
+                .catch(error => console.log(error));
+        },
     
     },
 
@@ -473,7 +529,26 @@ export default {
             this.invoice.subtotal = subtotal;
             this.invoice.tax = tax;
             this.invoice.total = subtotal + tax;
-        }
+        },
+
+        showSearch(type) {
+            //this.$refs.searchCustomer.focus();
+            this.activeSearch = true;
+
+        },
+
+        searchBlur() {
+            this.activeSearch = true;
+        },
+
+        hideSearch() {
+            this.activeSearch = false;  
+        },
+
+        selectCustomer(customer) {
+            this.invoice.client = customer;
+            this.activeSearch = false; 
+        }        
 
     },
 
