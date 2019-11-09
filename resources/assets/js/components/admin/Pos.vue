@@ -35,8 +35,24 @@
                     <div class="col s12" style="padding: 0;">
 
                         <ul class="collection with-header">
-                            <li class="collection-header"><h6>Crear nuevo</h6></li>
-                            <li class="collection-item" v-for="c in clients"><div>{{ c.document + ' - ' + c.name }}<a href="#!" @click.prevent="selectCustomer(c)" class="secondary-content"><i class="material-icons">send</i></a></div></li>
+                            <li class="collection-header">
+                                <a class="waves-effect waves-light btn" style="height: 30px; line-height: 30px; padding: 0 20px;" href="#!" @click.prevent="openCustomer()">
+                                    <i class="material-icons right" style="height: 30px; line-height: 30px;">add</i>
+                                    Nuevo
+                                </a>
+                            </li>
+
+                            <li class="collection-item" v-for="c in clients">
+                                <div>
+                                    <a href="#!" @click.prevent="openCustomer(c)" class="secondary-content" style="float: left;">
+                                        <i class="material-icons" style="font-size: 16px; margin-right: 8px;">edit</i>
+                                    </a>
+                                    {{ c.document + ' - ' + c.name }}
+                                    <a href="#!" @click.prevent="selectCustomer(c)" class="secondary-content">
+                                        <i class="material-icons" style="color: #4faf4f;">check</i>
+                                    </a>
+                                </div>
+                            </li>
                         </ul>
 
                     </div>
@@ -242,30 +258,38 @@
         </div>
 
       <!-- Modal Structure -->
-        <!--
-      <div id="componentDataModal" class="modal modal-fixed-footer medium">
+   
+      <div id="customer-modal" class="modal modal-fixed-footer medium">
         <div class="modal-content">
           <div class="col s12">
-            <h5>Rol</h5>
+            <h5>Cliente</h5>
           </div>
-          <form @submit.prevent="isNotValidateForm" name="callback" class="col s12">
+          <form @submit.prevent="isNotValidateCustomer" name="callback" class="col s12">
             <div class="input-field">
-              <input type="text" id="role-name" name="role-name" v-model="singleObj.name">
+              <input type="text" id="customer-document" name="customer-document" v-model="client.document">
+              <label for="role-name" v-bind:class="{'active': editingCustomer || creatingCustomer}">Cédula/Rif</label>
+            </div>
+            <div class="input-field">
+              <input type="text" id="customer-name" name="customer-name" v-model="client.name">
               <label for="role-name">Nombre</label>
             </div>
             <div class="input-field">
-              <input type="text" id="label-text" name="role-label" v-model="singleObj.label">
-              <label for="role-label">Descripción</label>
+              <input type="text" id="customer-phone" name="customer-phone" v-model="client.phone">
+              <label for="role-label">Teléfono</label>
+            </div>
+            <div class="input-field">
+              <input type="text" id="customer-address" name="customer-address" v-model="client.address.address_1">
+              <label for="role-name">Dirección</label>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Cerrar</a>
-          <a href="#!" class="btn-flat" :disabled="isNotValidateForm" @click="update()" v-if="pupupMod=='edit'">Editar</a>
-          <a href="#!" class="btn-flat" :disabled="isNotValidateForm" @click="store()" v-else>Añadir</a>
+          <a href="#!" class="btn-flat" :disabled="isNotValidateCustomer" @click="updateCustomer()" v-show="editingCustomer">Editar</a>
+          <a href="#!" class="btn-flat" :disabled="isNotValidateCustomer" @click="createCustomer()" v-show="creatingCustomer">Crear</a>
         </div>
       </div>
-        -->
+
     </div>
 </template>
 <script>
@@ -299,6 +323,15 @@ export default {
                 total: 0.00
             },
 
+            client: {
+                document: '',
+                name: '',
+                phone: '',
+                address: {
+                    address_1: ''
+                }
+            }, 
+
             clients: [],
 
             categories: [],
@@ -316,7 +349,11 @@ export default {
 
             searchCustomer: '',
 
-            activeSearch: false
+            activeSearch: false,
+
+            editingCustomer: false,
+
+            creatingCustomer: false,
         };
     },
 
@@ -358,7 +395,7 @@ export default {
         let vm = this;
         vm.getCategories();
         vm.getProducts();
-        $('#componentDataModal').modal({
+        $('#customer-modal').modal({
             dismissible: false,
             ready: function(modal, trigger) {
                 // Callback for Modal open. Modal and trigger parameters available.
@@ -366,11 +403,13 @@ export default {
             complete: function() {  } // Callback for Modal close
         });
 
+        /*
         $('#client-box' ).select2();
 
         $('#client-box2' ).select2({
             templateResult: formatState
         });
+        */
 
         $('.materialboxed').materialbox();
     },
@@ -380,10 +419,6 @@ export default {
     },
 
     methods: {
-
-        show(obj) {
-            $('#componentDataModal').modal('open');
-        },
 
         getCategories() {
             let params = '?fields=id,name&paginate=off&sort=name&q=category_id:null';
@@ -554,12 +589,58 @@ export default {
         selectCustomer(customer) {
             this.invoice.client = customer;
             //this.activeSearch = false; 
-        }        
+        },
+
+        openCustomer(customer = null) {
+
+            if (customer) {
+
+                this.updatingCustomer = true;
+                this.client.document = customer.document;
+                this.client.name = customer.name;
+                this.client.phone = customer.phone;
+                this.client.address.address_1 = customer.address.address_1;
+                $('#customer-modal').modal('open');
+                return;
+            }
+
+            this.creatingCustomer = true;
+            this.client.document = this.searchCustomer;
+            $('#customer-modal').modal('open');
+        },
+
+        updateCustomer() {
+
+        },
+
+        createCustomer() {
+          
+        }
 
     },
 
     computed: {
 
+        isNotValidateCustomer() {
+            
+            if (this.client.document == '') {
+                return true;
+            }
+
+            if (this.client.name == '') {
+                return true;
+            }
+
+            if (this.client.address.address_1 == '') {
+                return true;
+            }
+
+            if (this.client.phone == '') {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
 

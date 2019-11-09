@@ -39878,6 +39878,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -39909,6 +39933,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 total: 0.00
             },
 
+            client: {
+                document: '',
+                name: '',
+                phone: '',
+                address: {
+                    address_1: ''
+                }
+            },
+
             clients: [],
 
             categories: [],
@@ -39924,7 +39957,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             searchCustomer: '',
 
-            activeSearch: false
+            activeSearch: false,
+
+            editingCustomer: false,
+
+            creatingCustomer: false
         };
     },
 
@@ -39971,7 +40008,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var vm = this;
         vm.getCategories();
         vm.getProducts();
-        $('#componentDataModal').modal({
+        $('#customer-modal').modal({
             dismissible: false,
             ready: function ready(modal, trigger) {
                 // Callback for Modal open. Modal and trigger parameters available.
@@ -39979,11 +40016,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             complete: function complete() {} // Callback for Modal close
         });
 
-        $('#client-box').select2();
-
-        $('#client-box2').select2({
+        /*
+        $('#client-box' ).select2();
+         $('#client-box2' ).select2({
             templateResult: formatState
         });
+        */
 
         $('.materialboxed').materialbox();
     },
@@ -39991,9 +40029,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     methods: {
-        show: function show(obj) {
-            $('#componentDataModal').modal('open');
-        },
         getCategories: function getCategories() {
             var _this3 = this;
 
@@ -40158,10 +40193,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         selectCustomer: function selectCustomer(customer) {
             this.invoice.client = customer;
             //this.activeSearch = false; 
-        }
+        },
+        openCustomer: function openCustomer() {
+            var customer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+
+            if (customer) {
+
+                this.updatingCustomer = true;
+                this.client.document = customer.document;
+                this.client.name = customer.name;
+                this.client.phone = customer.phone;
+                this.client.address.address_1 = customer.address.address_1;
+                $('#customer-modal').modal('open');
+                return;
+            }
+
+            this.creatingCustomer = true;
+            this.client.document = this.searchCustomer;
+            $('#customer-modal').modal('open');
+        },
+        updateCustomer: function updateCustomer() {},
+        createCustomer: function createCustomer() {}
     },
 
-    computed: {}
+    computed: {
+        isNotValidateCustomer: function isNotValidateCustomer() {
+
+            if (this.client.document == '') {
+                return true;
+            }
+
+            if (this.client.name == '') {
+                return true;
+            }
+
+            if (this.client.address.address_1 == '') {
+                return true;
+            }
+
+            if (this.client.phone == '') {
+                return true;
+            }
+
+            return false;
+        }
+    }
 });
 
 function formatState(state) {
@@ -40335,12 +40412,78 @@ var render = function() {
                   "ul",
                   { staticClass: "collection with-header" },
                   [
-                    _vm._m(3),
+                    _c("li", { staticClass: "collection-header" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "waves-effect waves-light btn",
+                          staticStyle: {
+                            height: "30px",
+                            "line-height": "30px",
+                            padding: "0 20px"
+                          },
+                          attrs: { href: "#!" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.openCustomer()
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "i",
+                            {
+                              staticClass: "material-icons right",
+                              staticStyle: {
+                                height: "30px",
+                                "line-height": "30px"
+                              }
+                            },
+                            [_vm._v("add")]
+                          ),
+                          _vm._v(
+                            "\n                                Nuevo\n                            "
+                          )
+                        ]
+                      )
+                    ]),
                     _vm._v(" "),
                     _vm._l(_vm.clients, function(c) {
                       return _c("li", { staticClass: "collection-item" }, [
                         _c("div", [
-                          _vm._v(_vm._s(c.document + " - " + c.name)),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "secondary-content",
+                              staticStyle: { float: "left" },
+                              attrs: { href: "#!" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.openCustomer(c)
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "i",
+                                {
+                                  staticClass: "material-icons",
+                                  staticStyle: {
+                                    "font-size": "16px",
+                                    "margin-right": "8px"
+                                  }
+                                },
+                                [_vm._v("edit")]
+                              )
+                            ]
+                          ),
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(c.document + " - " + c.name) +
+                              "\n                                "
+                          ),
                           _c(
                             "a",
                             {
@@ -40354,9 +40497,14 @@ var render = function() {
                               }
                             },
                             [
-                              _c("i", { staticClass: "material-icons" }, [
-                                _vm._v("send")
-                              ])
+                              _c(
+                                "i",
+                                {
+                                  staticClass: "material-icons",
+                                  staticStyle: { color: "#4faf4f" }
+                                },
+                                [_vm._v("check")]
+                              )
                             ]
                           )
                         ])
@@ -40475,7 +40623,7 @@ var render = function() {
                 staticClass: "bordered highlight invoice-lines"
               },
               [
-                _vm._m(4),
+                _vm._m(3),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -40646,7 +40794,7 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "col s12 m6 l7 xl8 mr-top-10" }, [
       _c("div", { staticClass: "card-panel" }, [
-        _vm._m(5),
+        _vm._m(4),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c(
@@ -40883,9 +41031,226 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(6)
+        _vm._m(5)
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal modal-fixed-footer medium",
+        attrs: { id: "customer-modal" }
+      },
+      [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(6),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              staticClass: "col s12",
+              attrs: { name: "callback" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  _vm.isNotValidateCustomer($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "input-field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.client.document,
+                      expression: "client.document"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    id: "customer-document",
+                    name: "customer-document"
+                  },
+                  domProps: { value: _vm.client.document },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.client, "document", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "label",
+                  {
+                    class: {
+                      active: _vm.editingCustomer || _vm.creatingCustomer
+                    },
+                    attrs: { for: "role-name" }
+                  },
+                  [_vm._v("Cédula/Rif")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.client.name,
+                      expression: "client.name"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    id: "customer-name",
+                    name: "customer-name"
+                  },
+                  domProps: { value: _vm.client.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.client, "name", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "role-name" } }, [_vm._v("Nombre")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.client.phone,
+                      expression: "client.phone"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    id: "customer-phone",
+                    name: "customer-phone"
+                  },
+                  domProps: { value: _vm.client.phone },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.client, "phone", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "role-label" } }, [
+                  _vm._v("Teléfono")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "input-field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.client.address.address_1,
+                      expression: "client.address.address_1"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    id: "customer-address",
+                    name: "customer-address"
+                  },
+                  domProps: { value: _vm.client.address.address_1 },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.client.address,
+                        "address_1",
+                        $event.target.value
+                      )
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "role-name" } }, [
+                  _vm._v("Dirección")
+                ])
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "modal-footer" }, [
+          _c(
+            "a",
+            {
+              staticClass:
+                "modal-action modal-close waves-effect waves-green btn-flat",
+              attrs: { href: "#!" }
+            },
+            [_vm._v("Cerrar")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.editingCustomer,
+                  expression: "editingCustomer"
+                }
+              ],
+              staticClass: "btn-flat",
+              attrs: { href: "#!", disabled: _vm.isNotValidateCustomer },
+              on: {
+                click: function($event) {
+                  _vm.updateCustomer()
+                }
+              }
+            },
+            [_vm._v("Editar")]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.creatingCustomer,
+                  expression: "creatingCustomer"
+                }
+              ],
+              staticClass: "btn-flat",
+              attrs: { href: "#!", disabled: _vm.isNotValidateCustomer },
+              on: {
+                click: function($event) {
+                  _vm.createCustomer()
+                }
+              }
+            },
+            [_vm._v("Crear")]
+          )
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -40929,14 +41294,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "collection-header" }, [
-      _c("h6", [_vm._v("Crear nuevo")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Producto")]),
@@ -40971,6 +41328,14 @@ var staticRenderFns = [
       _c("div", { staticClass: "col s3" }),
       _vm._v(" "),
       _c("div", { staticClass: "col s9" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col s12" }, [
+      _c("h5", [_vm._v("Cliente")])
     ])
   }
 ]
