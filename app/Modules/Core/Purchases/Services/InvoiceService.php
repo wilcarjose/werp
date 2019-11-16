@@ -283,12 +283,12 @@ class InvoiceService extends BaseService
             $entity = $entityLine->invoice;
         }
 
-        $price = $entityLine->product->currentPriceObject($entity->price_list_type_id);
+        //$price = $entityLine->product->currentPriceObject($entity->price_list_type_id);
 
         $taxId = $entityLine->tax_id ? $entityLine->tax_id : $entity->tax_id;
         $descountId = $entityLine->discount_id ? $entityLine->discount_id : $entity->discount_id;
 
-        $amountData = $this->getAmounts($price, $entityLine->qty, $taxId, $descountId);
+        $amountData = $this->getAmounts($entityLine->price, $entityLine->qty, $taxId, $descountId);
 
         $entityLine->update($amountData);
     }
