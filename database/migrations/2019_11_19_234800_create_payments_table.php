@@ -59,6 +59,10 @@ class CreatePaymentsTable extends Migration
             $table->foreign('payment_method_id')
                 ->references('id')
                 ->on('payment_methods');
+            $table->uuid('payment_order_id')->nullable();
+            $table->foreign('payment_order_id')
+                ->references('id')
+                ->on('payment_orders');
             $table->timestamps();
             $table->softDeletes();
         });

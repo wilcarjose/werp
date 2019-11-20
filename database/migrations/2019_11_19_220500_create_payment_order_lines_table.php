@@ -13,15 +13,16 @@ class CreateInvoicePaymentTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoice_payment', function (Blueprint $table) {
+        Schema::create('payment_order_lines', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->uuid('invoice_id');
             $table->foreign('invoice_id')
                 ->references('id')
                 ->on('invoices');
-            $table->uuid('payment_id');
-            $table->foreign('payment_id')
+            $table->uuid('payment_order_id');
+            $table->foreign('payment_order_id')
                 ->references('id')
-                ->on('payments');
+                ->on('payment_orders');
             $table->softDeletes();
         });
     }
@@ -33,6 +34,6 @@ class CreateInvoicePaymentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_payment');
+        Schema::dropIfExists('payment_order_lines');
     }
 }

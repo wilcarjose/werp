@@ -28,6 +28,8 @@ class CreateInvoicesTable extends Migration
             $table->double('total_tax', 20, 4)->default(0.0000);
             $table->double('total_discount', 20, 4)->default(0.0000);
             $table->double('total', 20, 4)->default(0.0000);
+            $table->double('total_paid', 20, 4)->default(0.0000);
+            $table->enum('paid',['y','n'])->default('n');
             $table->uuid('currency_id');
             $table->foreign('currency_id')
                 ->references('id')
