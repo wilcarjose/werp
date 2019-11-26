@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTaxsDiscountsTable extends Migration
+class CreateTurnoverLevelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,21 +14,24 @@ class CreateTaxsDiscountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('taxs_discounts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+        Schema::create('turnover_levels', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->primary('id');
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->uuid('amount_operation_id')->nullable();
-            $table->foreign('amount_operation_id')
+            $table->string('abbr');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
+            $table->uuid('warehouse_id')->nullable();
+            $table->foreign('warehouse_id')
                 ->references('id')
-                ->on('amount_operations');
-            $table->enum('is_tax',['y','n'])->default('y');
-            $table->string('type')->nullable();
+                ->on('warehouses');
+            $table->uuid('branch_office_id')->nullable();
+            $table->foreign('branch_office_id')
+                ->references('id')
+                ->on('branch_offices');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies');
-            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -41,6 +44,6 @@ class CreateTaxsDiscountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxs_discounts');
+        Schema::dropIfExists('turnover_levels');
     }
 }

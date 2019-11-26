@@ -17,14 +17,25 @@ class CreatePartnersTable extends Migration
         Schema::create('partners', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('document');
-            $table->string('name');
+            $table->string('document_2');
+            $table->string('document_3');
+            $table->string('document_type')->nullable();
+            $table->string('name')->nullable();
+            $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
+            $table->string('middle_name')->nullable();
+            $table->string('title')->nullable();
+            $table->string('suffix')->nullable();
+            $table->string('nickname')->nullable();
             $table->string('phone')->nullable();
             $table->string('mobile')->nullable();
             $table->string('email')->nullable();
             $table->string('web')->nullable();
             $table->string('photo')->nullable();
             $table->string('type')->nullable();
+            $table->string('height')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('marital_status')->nullable();
             $table->enum('is_supplier',['y','n'])->default('n');
             $table->enum('is_customer',['y','n'])->default('n');
             $table->text('description')->nullable();

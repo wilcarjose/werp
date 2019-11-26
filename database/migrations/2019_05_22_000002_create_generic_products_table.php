@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateGenericProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,21 +14,14 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->primary('id');
-            $table->string('code')->nullable();
+        Schema::create('generic_products', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('type');
-            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
-            $table->uuid('category_id')->nullable();
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -41,6 +34,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('generic_products');
     }
 }

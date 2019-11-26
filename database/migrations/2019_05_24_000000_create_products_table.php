@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('alternate_code')->nullable();
             $table->string('part_number')->nullable();
+            $table->string('model')->nullable();
             $table->text('description')->nullable();
             $table->string('barcode')->nullable();
             $table->string('qrcode')->nullable();
@@ -28,12 +29,30 @@ class CreateProductsTable extends Migration
             $table->foreign('uom_id')
                 ->references('id')
                 ->on('uom');
-            $table->uuid('category_id')->nullable();
+            $table->string('single_unit_code')->nullable();
+            $table->string('pack_code')->nullable();
             $table->string('image')->nullable();
-            $table->enum('is_service', ['y','n'])->default('n');
+            $table->string('size')->nullable();
+            $table->string('weight')->nullable();
+            $table->string('type'); // storable, asset, service
+            $table->enum('has_lots', ['y','n'])->default('n');
+            $table->enum('has_instances', ['y','n'])->default('n');
+            $table->enum('has_attributes', ['y','n'])->default('n');
+            $table->double('unit_cost', 20, 4)->default(0.0000);
+            $table->text('warranty_terms')->nullable();
+            $table->text('notes')->nullable();
+            $table->uuid('generic_product_id')->nullable();
+            $table->foreign('generic_product_id')
+                ->references('id')
+                ->on('generic_products');
+            $table->uuid('category_id')->nullable();
             $table->foreign('category_id')
                 ->references('id')
                 ->on('categories');
+            $table->uuid('product_group_id')->nullable();
+            $table->foreign('product_group_id')
+                ->references('id')
+                ->on('product_groups');
             $table->uuid('brand_id')->nullable();
             $table->foreign('brand_id')
                 ->references('id')

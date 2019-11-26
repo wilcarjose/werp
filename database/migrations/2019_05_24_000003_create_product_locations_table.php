@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateProductLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +14,22 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('product_locations', function (Blueprint $table) {
             $table->uuid('id');
             $table->primary('id');
-            $table->string('code')->nullable();
-            $table->string('name');
-            $table->string('type');
             $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
-            $table->uuid('category_id')->nullable();
-            $table->foreign('category_id')
+            $table->uuid('warehouse_id');
+            $table->foreign('warehouse_id')
                 ->references('id')
-                ->on('categories');
+                ->on('warehouses');
+            $table->uuid('product_id');
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products');
+            $table->uuid('warehouse_location_id');
+            $table->foreign('warehouse_location_id')
+                ->references('id')
+                ->on('warehouse_locations');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
@@ -41,6 +46,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('product_locations');
     }
 }

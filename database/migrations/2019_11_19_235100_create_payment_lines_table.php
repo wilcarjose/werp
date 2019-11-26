@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInvoicePaymentTable extends Migration
+class CreatePaymentLinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class CreateInvoicePaymentTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoice_payment', function (Blueprint $table) {
+        Schema::create('payment_lines', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->uuid('invoice_id');
             $table->foreign('invoice_id')
                 ->references('id')
@@ -38,6 +39,6 @@ class CreateInvoicePaymentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_payment');
+        Schema::dropIfExists('payment_lines');
     }
 }

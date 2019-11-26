@@ -4,9 +4,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
-use Werp\Modules\Core\Payments\Models\BankAccount;
 
-class CreateBankAccountsTable extends Migration
+class CreateProductAttributesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,18 +14,21 @@ class CreateBankAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bank_accounts', function (Blueprint $table) {
+        Schema::create('product_attributes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name')->nullable();
-            $table->string('number');
-            $table->string('routing_number')->nullable();
-            $table->enum('type',[BankAccount::CHECK_TYPE, BankAccount::SAVINGS_TYPE])->default(BankAccount::CHECK_TYPE);
-            $table->string('account_holder');
-            $table->string('holder_id')->nullable();
-            $table->uuid('bank_id');
-            $table->foreign('bank_id')
+            $table->string('value');
+            $table->uuid('product_id');
+            $table->foreign('product_id')
                 ->references('id')
-                ->on('banks');
+                ->on('products');
+            $table->uuid('product_lot_id')->nullable();
+            $table->foreign('product_lot_id')
+                ->references('id')
+                ->on('product_lots');
+            $table->uuid('attribute_id');
+            $table->foreign('attribute_id')
+                ->references('id')
+                ->on('attributes');
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
@@ -44,6 +46,6 @@ class CreateBankAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_accounts');
+        Schema::dropIfExists('product_attributes');
     }
 }

@@ -16,8 +16,10 @@ class CreateWarehousesTable extends Migration
     {
         Schema::create('warehouses', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('code');
             $table->string('name');
             $table->uuid('address_id')->nullable();
+            $table->string('color')->nullable();
             $table->foreign('address_id')
                 ->references('id')
                 ->on('addresses');

@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBrandsTable extends Migration
+class CreateManufacturersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,10 @@ class CreateBrandsTable extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('manufacturers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('country')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('logo')->nullable();
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
@@ -37,6 +36,6 @@ class CreateBrandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('manufacturers');
     }
 }

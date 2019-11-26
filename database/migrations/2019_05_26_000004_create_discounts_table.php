@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Werp\Modules\Core\Base\Models\BaseModel;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCategoriesTable extends Migration
+class CreateDiscountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,21 +14,20 @@ class CreateCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->primary('id');
-            $table->string('code')->nullable();
+        Schema::create('discounts', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->string('name');
-            $table->string('type');
-            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
-            $table->uuid('category_id')->nullable();
-            $table->foreign('category_id')
+            $table->text('description')->nullable();
+            $table->uuid('amount_operation_id')->nullable();
+            $table->foreign('amount_operation_id')
                 ->references('id')
-                ->on('categories');
+                ->on('amount_operations');
+            $table->string('type')->nullable();
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies');
+            $table->enum('active',[BaseModel::STATUS_ACTIVE, BaseModel::STATUS_INACTIVE])->default(BaseModel::STATUS_ACTIVE);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -41,6 +40,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('discounts');
     }
 }
