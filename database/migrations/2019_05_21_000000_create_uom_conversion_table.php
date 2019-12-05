@@ -18,6 +18,7 @@ class CreateUomConversionTable extends Migration
             $table->uuid('id')->primary();
             $table->double('amount_from');
             $table->double('amount_to');
+            $table->double('conversion_factor')->nullable();
             $table->uuid('uom_from_id');
             $table->foreign('uom_from_id')
                 ->references('id')

@@ -19,11 +19,14 @@ mix.js('resources/assets/js/app.js', 'public/js/app.js')
     .js('resources/assets/js/forge.js', 'public/js/forge.js')
     .js('resources/assets/js/signin.js', 'public/js/signin.js')
     .js('resources/assets/js/init.js', 'public/js/init.js')
+    .js('resources/assets/js/ecommerce-app.js', 'public/js/ecommerce-app.js')
+    .js('resources/assets/js/ecommerce.js', 'public/js/ecommerce.js')
     .copy('resources/assets/js/jquery-ui.min.js', 'public/js')
     .copy('node_modules/sweetalert/dist/sweetalert.css', 'public/plugins/sweetalert/sweetalert.css')
-    .sass('resources/assets/sass/dynamic.scss', 'public/css')
-    .sass('resources/assets/sass/app.scss', 'public/css')
-    .sass('resources/assets/sass/admin-app.scss', 'public/css/admin/app.css');
+    //.sass('resources/assets/sass/dynamic.scss', 'public/css')
+    //.sass('resources/assets/sass/app.scss', 'public/css')
+    //.sass('resources/assets/sass/admin-app.scss', 'public/css/admin/app.css')
+    .sass('resources/assets/sass/store-app.scss', 'public/css/ecommerce/store-app.css');
 
 mix.scripts([
     'node_modules/jquery/dist/jquery.min.js',
@@ -32,3 +35,10 @@ mix.scripts([
     'public/plugins/scrollbar/perfect-scrollbar.min.js',
     'public/plugins/select2/select2.min.js'
 ], 'public/js/all.js');
+
+mix.scripts([
+    'node_modules/jquery/dist/jquery.min.js',
+    'public/js/jquery-ui.min.js',
+    'node_modules/materialize-css/bin/materialize.js',
+    'public/plugins/scrollbar/perfect-scrollbar.min.js'
+], 'public/js/libs.js');

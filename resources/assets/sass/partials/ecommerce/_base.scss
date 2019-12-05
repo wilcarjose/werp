@@ -1,0 +1,37 @@
+// Base .. Defining based on Theme Style
+
+/*------------------------------------------------------------------
+[Table of contents]
+1. html
+2. Body
+	+ signin
+	+ error-page
+------------------------------------------------------------------*/
+
+html {
+    width: 100%;
+    line-height: 1.5;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+    color: rgba(0, 0, 0, 0.87);
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    body {
+        height: 100%;
+        width: 100%;
+        background-color: $body-color;
+        // display: none;
+        &.error-page {
+            position: relative;
+            background: #424242;
+            background-repeat: no-repeat;
+            background-position: center top;
+            background-attachment: fixed;
+            background-size: cover;
+            z-index: -1;
+        }
+        .logofonts {
+            font-family: "anuratiregular";
+        }
+    }
+}

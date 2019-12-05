@@ -12,7 +12,8 @@
 */
 
 Route::get('/', function () {
-    return redirect(route('login')); //view('welcome');
+  //return redirect(route('login')); //view('welcome');
+  return view('ecommerce.pages.home');
 });
 
 Route::group(['prefix' => 'admin'], function () {
