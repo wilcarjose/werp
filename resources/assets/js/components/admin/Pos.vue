@@ -11,9 +11,12 @@
                 <div class="nav-wrapper">
                   <a href="#!" class="brand-logo" style="padding-left: 15px;">Factura</a>
                   <ul class="right hide-on-med-and-down">
-                    <li><a href="#" @click.prevent="showSearch('client')"><i class="material-icons mini-icons">search</i></a></li>
-                    <li><a href="#"><i class="material-icons mini-icons">view_module</i></a></li>
-                    <li><a href="#"><i class="material-icons mini-icons">refresh</i></a></li>
+                    <li><a href="#" @click.prevent="showSearch('client')"><i class="material-icons mini-icons">account_circle</i></a></li>
+                    <li><a href="#"><i class="material-icons mini-icons">search</i></a></li>
+                    <li><a href="#" @click.prevent="save()"><i class="material-icons mini-icons">save</i></a></li>
+                    <li><a href="#"><i class="material-icons mini-icons">payment</i></a></li>
+                    <li><a href="#"><i class="material-icons mini-icons">list</i></a></li>
+                    <li><a href="#"><i class="material-icons mini-icons">print</i></a></li>
                     <li><a href="#"><i class="material-icons mini-icons">more_vert</i></a></li>
                   </ul>
                 </div>
@@ -267,19 +270,19 @@
           <form @submit.prevent="isNotValidateCustomer" name="callback" class="col s12">
             <div class="input-field">
               <input type="text" id="customer-document" name="customer-document" v-model="client.document">
-              <label for="role-name" v-bind:class="{'active': editingCustomer || creatingCustomer}">Cédula/Rif</label>
+              <label for="customer-document" v-bind:class="{'active': editingCustomer || creatingCustomer}">Cédula/Rif</label>
             </div>
             <div class="input-field">
               <input type="text" id="customer-name" name="customer-name" v-model="client.name">
-              <label for="role-name">Nombre</label>
+              <label for="customer-name" v-bind:class="{'active': editingCustomer}">Nombre</label>
             </div>
             <div class="input-field">
               <input type="text" id="customer-phone" name="customer-phone" v-model="client.phone">
-              <label for="role-label">Teléfono</label>
+              <label for="customer-phone" v-bind:class="{'active': editingCustomer}">Teléfono</label>
             </div>
             <div class="input-field">
               <input type="text" id="customer-address" name="customer-address" v-model="client.address.address_1">
-              <label for="role-name">Dirección</label>
+              <label for="customer-address" v-bind:class="{'active': editingCustomer}">Dirección</label>
             </div>
           </form>
         </div>
@@ -419,6 +422,22 @@ export default {
     },
 
     methods: {
+
+        save() {
+            console.log('guardando');
+
+            axios.post('/api/admin/sales/invoices', this.invoice)
+                .then((response) => {
+                    let res = response.data;
+                    if (response.status) {
+                        this.invoice = {};
+                        this.alertHandler('success', res.message, true);
+                    } else {
+                        this.alertHandler('error', res.message, true);
+                    }
+                })
+                .catch((error) => { console.log(error) });
+        },
 
         getCategories() {
             let params = '?fields=id,name&paginate=off&sort=name&q=category_id:null';
@@ -573,9 +592,8 @@ export default {
         },
 
         showSearch(type) {
-            //this.$refs.searchCustomer.focus();
+            this.$refs.searchCustomer.focus();  
             this.activeSearch = true;
-
         },
 
         searchBlur() {
@@ -594,8 +612,8 @@ export default {
         openCustomer(customer = null) {
 
             if (customer) {
-
-                this.updatingCustomer = true;
+                this.editingCustomer = true;
+                this.creatingCustomer = false;
                 this.client.document = customer.document;
                 this.client.name = customer.name;
                 this.client.phone = customer.phone;
@@ -604,8 +622,12 @@ export default {
                 return;
             }
 
+            this.editingCustomer = false;
             this.creatingCustomer = true;
             this.client.document = this.searchCustomer;
+            this.client.name = '';
+            this.client.phone = '';
+            this.client.address.address_1 = '';
             $('#customer-modal').modal('open');
         },
 

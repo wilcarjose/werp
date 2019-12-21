@@ -60,12 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 89);
+/******/ 	return __webpack_require__(__webpack_require__.s = 88);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 38:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -715,10 +715,10 @@ var Forge = function () {
 
 /***/ }),
 
-/***/ 89:
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(38);
+module.exports = __webpack_require__(37);
 
 
 /***/ })
