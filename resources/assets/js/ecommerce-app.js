@@ -29,6 +29,8 @@ window.Event = new class {
 
 Vue.component('e-product', require('./components/ecommerce/Product.vue'));
 
+Vue.component('e-products', require('./components/ecommerce/Products.vue'));
+
 const app = new Vue({
     el: '#app',
     mounted() {

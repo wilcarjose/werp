@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 93);
+/******/ 	return __webpack_require__(__webpack_require__.s = 92);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -579,6 +579,10 @@ var defaults = {
     return data;
   }],
 
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
   timeout: 0,
 
   xsrfCookieName: 'XSRF-TOKEN',
@@ -902,7 +906,7 @@ var _hexToRgb = __webpack_require__(5);
 
 var _removeClass$getTopMargin$fadeIn$show$addClass = __webpack_require__(4);
 
-var _defaultParams = __webpack_require__(37);
+var _defaultParams = __webpack_require__(36);
 
 var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 
@@ -910,7 +914,7 @@ var _defaultParams2 = _interopRequireWildcard(_defaultParams);
  * Add modal + overlay to DOM
  */
 
-var _injectedHTML = __webpack_require__(41);
+var _injectedHTML = __webpack_require__(40);
 
 var _injectedHTML2 = _interopRequireWildcard(_injectedHTML);
 
@@ -1279,7 +1283,6 @@ var buildURL = __webpack_require__(22);
 var parseHeaders = __webpack_require__(23);
 var isURLSameOrigin = __webpack_require__(24);
 var createError = __webpack_require__(10);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(25);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1291,22 +1294,6 @@ module.exports = function xhrAdapter(config) {
     }
 
     var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
 
     // HTTP basic authentication
     if (config.auth) {
@@ -1321,8 +1308,8 @@ module.exports = function xhrAdapter(config) {
     request.timeout = config.timeout;
 
     // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
+    request.onreadystatechange = function handleLoad() {
+      if (!request || request.readyState !== 4) {
         return;
       }
 
@@ -1339,9 +1326,8 @@ module.exports = function xhrAdapter(config) {
       var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
       var response = {
         data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/axios/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        status: request.status,
+        statusText: request.statusText,
         headers: responseHeaders,
         config: config,
         request: request
@@ -1376,7 +1362,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(26);
+      var cookies = __webpack_require__(25);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -18699,14 +18685,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(12);
-axios.CancelToken = __webpack_require__(32);
+axios.CancelToken = __webpack_require__(31);
 axios.isCancel = __webpack_require__(11);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(33);
+axios.spread = __webpack_require__(32);
 
 module.exports = axios;
 
@@ -18725,19 +18711,9 @@ module.exports.default = axios;
  * @license  MIT
  */
 
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
@@ -18750,8 +18726,8 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(27);
-var dispatchRequest = __webpack_require__(28);
+var InterceptorManager = __webpack_require__(26);
+var dispatchRequest = __webpack_require__(27);
 
 /**
  * Create a new instance of Axios
@@ -18780,7 +18756,7 @@ Axios.prototype.request = function request(config) {
     }, arguments[1]);
   }
 
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+  config = utils.merge(defaults, {method: 'get'}, this.defaults, config);
   config.method = config.method.toLowerCase();
 
   // Hook up interceptors middleware
@@ -18955,9 +18931,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
       if (utils.isArray(val)) {
         key = key + '[]';
-      }
-
-      if (!utils.isArray(val)) {
+      } else {
         val = [val];
       }
 
@@ -19124,49 +19098,6 @@ module.exports = (
 "use strict";
 
 
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 var utils = __webpack_require__(0);
 
 module.exports = (
@@ -19221,7 +19152,7 @@ module.exports = (
 
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19280,18 +19211,18 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(29);
+var transformData = __webpack_require__(28);
 var isCancel = __webpack_require__(11);
 var defaults = __webpack_require__(3);
-var isAbsoluteURL = __webpack_require__(30);
-var combineURLs = __webpack_require__(31);
+var isAbsoluteURL = __webpack_require__(29);
+var combineURLs = __webpack_require__(30);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -19373,7 +19304,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19400,7 +19331,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19421,7 +19352,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19442,7 +19373,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19506,7 +19437,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19540,7 +19471,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30354,10 +30285,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(35).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(34).setImmediate))
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var apply = Function.prototype.apply;
@@ -30410,7 +30341,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(36);
+__webpack_require__(35);
 // On some exotic environments, it's not clear which object `setimmeidate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -30424,7 +30355,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -30617,7 +30548,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(8)))
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30655,8 +30586,8 @@ exports['default'] = defaultParams;
 module.exports = exports['default'];
 
 /***/ }),
-/* 38 */,
-/* 39 */
+/* 37 */,
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 window._ = __webpack_require__(13);
@@ -30678,7 +30609,7 @@ try {
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
-__webpack_require__(40);
+__webpack_require__(39);
 window.axios = __webpack_require__(15);
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -30713,7 +30644,7 @@ if (token) {
 // });
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30748,19 +30679,19 @@ var _sweetAlertInitialize$getModal$getOverlay$getInput$setFocusStyle$openModal$r
 
 // Handle button events and keyboard events
 
-var _handleButton$handleConfirm$handleCancel = __webpack_require__(42);
+var _handleButton$handleConfirm$handleCancel = __webpack_require__(41);
 
-var _handleKeyDown = __webpack_require__(43);
+var _handleKeyDown = __webpack_require__(42);
 
 var _handleKeyDown2 = _interopRequireWildcard(_handleKeyDown);
 
 // Default values
 
-var _defaultParams = __webpack_require__(37);
+var _defaultParams = __webpack_require__(36);
 
 var _defaultParams2 = _interopRequireWildcard(_defaultParams);
 
-var _setParameters = __webpack_require__(44);
+var _setParameters = __webpack_require__(43);
 
 var _setParameters2 = _interopRequireWildcard(_setParameters);
 
@@ -31022,7 +30953,7 @@ if (typeof window !== 'undefined') {
 module.exports = exports['default'];
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31070,7 +31001,7 @@ exports["default"] = injectedHTML;
 module.exports = exports["default"];
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31211,7 +31142,7 @@ exports['default'] = {
 module.exports = exports['default'];
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31296,7 +31227,7 @@ exports['default'] = handleKeyDown;
 module.exports = exports['default'];
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31527,9 +31458,9 @@ exports['default'] = setParameters;
 module.exports = exports['default'];
 
 /***/ }),
+/* 44 */,
 /* 45 */,
-/* 46 */,
-/* 47 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32178,6 +32109,7 @@ var Forge = function () {
 /* harmony default export */ __webpack_exports__["default"] = (Forge);
 
 /***/ }),
+/* 47 */,
 /* 48 */,
 /* 49 */,
 /* 50 */,
@@ -32222,20 +32154,19 @@ var Forge = function () {
 /* 89 */,
 /* 90 */,
 /* 91 */,
-/* 92 */,
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(94);
+module.exports = __webpack_require__(93);
 
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ecommerce__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ecommerce__ = __webpack_require__(46);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32246,10 +32177,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(39);
+__webpack_require__(38);
 
 
-window.Vue = __webpack_require__(34);
+window.Vue = __webpack_require__(33);
 window.Event = new (function () {
     function _class() {
         _classCallCheck(this, _class);
@@ -32279,7 +32210,9 @@ window.Event = new (function () {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('e-product', __webpack_require__(95));
+Vue.component('e-product', __webpack_require__(94));
+
+Vue.component('e-products', __webpack_require__(97));
 
 var app = new Vue({
     el: '#app',
@@ -32290,15 +32223,15 @@ var app = new Vue({
 });
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(96)
+var __vue_script__ = __webpack_require__(95)
 /* template */
-var __vue_template__ = __webpack_require__(97)
+var __vue_template__ = __webpack_require__(96)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -32337,7 +32270,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32543,7 +32476,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -32742,6 +32675,462 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-576a920e", module.exports)
+  }
+}
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(98)
+/* template */
+var __vue_template__ = __webpack_require__(99)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ecommerce/Products.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8e906d6c", Component.options)
+  } else {
+    hotAPI.reload("data-v-8e906d6c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['type'],
+
+    data: function data() {
+
+        return {
+
+            show_prices: true,
+
+            short_description: true,
+
+            product: {
+
+                id: 1,
+                name: 'Xiaomi Mi 9 Lite',
+                slug: 'xiaomi-mi-9-lite',
+                description: 'El Xiaomi Mi 9 Lite es una variante del flagship de Xiaomi, con una pantalla Super AMOLED FHD+ de 6.39 pulgadas y potenciado por un procesador Snapdragon 710 de ocho núcleos, acompañado de 6GB de memoria RAM y 64GB o 128GB de almacenamiento interno. La cámara posterior del Xiaomi Mi 9 Lite es triple, con sensores de 48 MP + 8 MP + 2 MP, mientras que su cámara selfie es de 32 MP, integrada mediante un notch en el borde superior de la pantalla. Completando las características del Xiaomi Mi 9 Lite encontramos un lector de huellas integrado en la pantalla, una batería de 4030 mAh con carga rápida, y corre MIUI 10 basado en Android 9 Pie.',
+                images: [{
+                    order: 1,
+                    title: '',
+                    url: '/images/products/xiaomi-mi-9-lite.jpg'
+                }, {
+                    order: 2,
+                    title: '',
+                    url: '/images/products/xiaomi-mi-9-lite2.jpg'
+                }, {
+                    order: 3,
+                    title: '',
+                    url: '/images/products/xiaomi-mi-9-lite3.jpg'
+                }, {
+                    order: 4,
+                    title: '',
+                    url: '/images/products/xiaomi-mi-9-lite4.jpg'
+                }],
+
+                main_features: [{
+                    icon: 'stay_current_portrait',
+                    name: 'Pantalla',
+                    value: '6.39", 1080 x 2340 pixels'
+                }, {
+                    icon: 'show_chart',
+                    name: 'Procesador',
+                    value: 'Snapdragon 710 2.2GHz'
+                }, {
+                    icon: 'settings',
+                    name: 'RAM',
+                    value: '6GB'
+                }, {
+                    icon: 'storage',
+                    name: 'Almacenamiento',
+                    value: '64GB/128GB'
+                }, {
+                    icon: 'sd_storage',
+                    name: 'Expansión',
+                    value: 'microSD'
+                }, {
+                    icon: 'camera_alt',
+                    name: 'Cámara',
+                    value: 'Triple, 48MP+8MP+2MP'
+                }, {
+                    icon: 'battery_charging_full',
+                    name: 'Batería',
+                    value: '4030 mAh'
+                }, {
+                    icon: 'android',
+                    name: 'OS',
+                    value: 'Android 9.0'
+                }, {
+                    icon: 'aspect_ratio',
+                    name: 'Perfil',
+                    value: '8.7 mm'
+                }, {
+                    icon: 'clear_all',
+                    name: 'Peso',
+                    value: '179 g'
+                }, {
+                    icon: 'attach_money',
+                    name: 'Precio',
+                    value: '319$'
+                }],
+
+                stores: [{
+                    id: 1,
+                    branch_id: 1,
+                    logo: '/images/parties/logos/daka.png',
+                    name: 'Tiendas Daka',
+                    state: 'Lara',
+                    address: 'Avenida Venezuela, Barquisimeto 3001, Lara',
+                    available: true,
+                    price: 310.00
+                }, {
+                    id: 2,
+                    branch_id: 2,
+                    logo: '/images/parties/logos/ivoo.png',
+                    name: 'Ivoo',
+                    state: 'Miranda',
+                    address: 'Tienda de electrodomésticos en Naguanagua, Venezuela',
+                    available: true,
+                    price: 320.00
+                }, {
+                    id: 3,
+                    branch_id: 3,
+                    logo: '/images/parties/logos/townrecord.jpg',
+                    name: 'Town Record',
+                    state: 'Lara',
+                    address: 'Centro Comercial Arca, Barquisimeto, Lara',
+                    available: true,
+                    price: 305.00
+                }]
+            }
+        };
+    },
+
+
+    computed: {}
+
+});
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c(
+      "div",
+      {
+        staticClass: "col m10 push-m1 s12",
+        staticStyle: { "margin-top": "3rem!important" }
+      },
+      [
+        _c("div", { staticClass: "card-panel z-depth-2 br-6" }, [
+          _c("h4", { staticClass: "card-title" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-contents" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col m6 s12" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "carousel carousel-slider",
+                    attrs: { "data-indicators": "true" }
+                  },
+                  _vm._l(_vm.product.images, function(image) {
+                    return _c(
+                      "a",
+                      {
+                        staticClass: "carousel-item",
+                        attrs: { href: "#" + image.order + "!" }
+                      },
+                      [_c("img", { attrs: { src: image.url } })]
+                    )
+                  })
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col m6 s12" }, [
+                _c("div", { staticClass: "row no-mp" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "col s12 hoverable br-6",
+                      staticStyle: { padding: "30px" }
+                    },
+                    [
+                      _c("h3", { staticClass: "no-mp black-text" }, [
+                        _vm._v(_vm._s(_vm.product.name))
+                      ]),
+                      _vm._v(" "),
+                      _c("blockquote", [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "caption clamp-line-2 black-text",
+                            class: { truncate: _vm.short_description }
+                          },
+                          [_vm._v(_vm._s(_vm.product.description))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn",
+                            on: {
+                              click: function($event) {
+                                _vm.short_description = _vm.short_description
+                                  ? false
+                                  : true
+                              }
+                            }
+                          },
+                          [_vm._v("Ver más")]
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "col s12 hoverable br-6",
+                      staticStyle: {
+                        padding: "30px",
+                        "margin-top": "1rem!important"
+                      }
+                    },
+                    [
+                      _c("h5", { staticClass: "no-mp black-text" }, [
+                        _vm._v("Características principales")
+                      ]),
+                      _vm._v(" "),
+                      _c("blockquote", [
+                        _c("i", { staticClass: "fa-li fa fa-mobile fa-lg" }),
+                        _vm._v(" "),
+                        _c(
+                          "ul",
+                          { staticClass: "collection" },
+                          _vm._l(_vm.product.main_features, function(feature) {
+                            return _c(
+                              "li",
+                              { staticClass: "collection-item dismissable" },
+                              [
+                                _c("div", [
+                                  _c(
+                                    "i",
+                                    {
+                                      staticClass: "setting-icon material-icons"
+                                    },
+                                    [_vm._v(_vm._s(feature.icon))]
+                                  ),
+                                  _vm._v(
+                                    _vm._s(feature.name) +
+                                      ": " +
+                                      _vm._s(feature.value)
+                                  )
+                                ])
+                              ]
+                            )
+                          })
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "col m10 push-m1 s12",
+        staticStyle: { "margin-top": "3rem!important" }
+      },
+      [
+        _c("div", { staticClass: "card-panel z-depth-2 br-6" }, [
+          _c("h5", { staticClass: "card-title" }, [
+            _vm._v(
+              "\n            \tDisponible en las siguientes tiendas:\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-contents" }, [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col s12" }, [
+                _c("table", [
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.product.stores, function(store) {
+                      return _c("tr", { staticClass: "hoverable br-10" }, [
+                        _c("td", { staticStyle: { padding: "20px" } }, [
+                          _c("img", {
+                            staticClass: "circle responsive-img",
+                            staticStyle: { height: "90px" },
+                            attrs: { src: store.logo, alt: "" }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_c("h5", [_vm._v(_vm._s(store.name))])]),
+                        _vm._v(" "),
+                        _c("td", { staticStyle: { "font-size": "18px" } }, [
+                          _vm._v(_vm._s(store.state))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(store.address))]),
+                        _vm._v(" "),
+                        _vm.show_prices
+                          ? _c("td", [
+                              _c("span", { staticClass: "product-amount" }, [
+                                _vm._v("$" + _vm._s(store.price))
+                              ])
+                            ])
+                          : _vm._e()
+                      ])
+                    })
+                  )
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8e906d6c", module.exports)
   }
 }
 

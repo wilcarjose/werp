@@ -16,6 +16,16 @@ Route::get('/', function () {
   return view('ecommerce.pages.home');
 });
 
+Route::get('/products', function () {
+  //return redirect(route('login')); //view('welcome');
+  return view('ecommerce.pages.products');
+});
+
+Route::get('/product', function () {
+  //return redirect(route('login')); //view('welcome');
+  return view('ecommerce.pages.product');
+});
+
 Route::group(['prefix' => 'admin'], function () {
   Route::get('/', 'AdminAuth\LoginController@showLoginForm')->name('login');
   Route::post('/login', 'AdminAuth\LoginController@login');
