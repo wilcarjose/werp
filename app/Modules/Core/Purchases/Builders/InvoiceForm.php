@@ -47,7 +47,7 @@ class InvoiceForm extends SimplePage
         $inputs[] = new DiscountSelect;
         $inputs[] = (new PaymentMethodSelect)->setNone(true);
         $inputs[] = (new DescriptionInput)->advancedOption();
-        $inputs[] = (new DoctypeSelect(Basedoc::PI_DOC, Config::INV_DEFAULT_PI_DOC))->advancedOption();
+        $inputs[] = (new DoctypeSelect(Basedoc::PI_DOC, Config::PUR_DEFAULT_PI_DOC))->advancedOption();
 
         return $inputs;
     }

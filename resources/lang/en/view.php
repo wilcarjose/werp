@@ -177,4 +177,10 @@ return [
     'texts' => [
         'associated_to_item' => 'This item can not be deleted, because it has another existing item connected to it. Please delete the connecting items first!',
     ],
+    'sales' => [
+        'default_si_doc' => 'Default sale invoice doctype',
+    ],
+    'purchases' => [
+        'default_pi_doc' => 'Default purchase invoice doctype',
+    ]
 ];
