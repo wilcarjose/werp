@@ -48,3 +48,15 @@
 	Route::get('/orders/{id}/cancel', 'SaleOrderController@cancel')->name('orders.cancel');
 	Route::resource('/orders','SaleOrderController');
 
+
+	// Sale invoices
+	Route::post('/invoices/removeBulk','InvoiceController@destroyBulk');
+	Route::get('/invoices/{id}/lines', 'InvoiceController@indexLine')->name('invoices.lines.index');
+	Route::get('/invoices/{id}/lines/{line_id}', 'InvoiceController@showLine')->name('invoices.lines.show');
+	Route::put('/invoices/{id}/lines/{line_id}', 'InvoiceController@updateLine')->name('invoices.lines.update');
+	Route::post('/invoices/{id}/lines', 'InvoiceController@storeLine')->name('invoices.lines.update');
+	Route::delete('/invoices/{id}/lines/{line_id}', 'InvoiceController@destroyLine')->name('invoices.lines.update');
+	Route::get('/invoices/{id}/process', 'InvoiceController@process')->name('invoices.process');
+	Route::get('/invoices/{id}/reverse', 'InvoiceController@reverse')->name('invoices.reverse');
+	Route::get('/invoices/{id}/cancel', 'InvoiceController@cancel')->name('invoices.cancel');
+	Route::resource('/invoices','InvoiceController');

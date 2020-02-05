@@ -36,7 +36,7 @@
 	Route::resource('/price_list_types','PriceListTypeController');
 	*/
 
-    // Purchases orders
+    // Purchases invoices
     Route::post('/invoices/removeBulk','InvoiceController@destroyBulk');
     Route::get('/invoices/{id}/lines', 'InvoiceController@indexLine')->name('invoices.lines.index');
     Route::get('/invoices/{id}/lines/{line_id}', 'InvoiceController@showLine')->name('invoices.lines.show');
