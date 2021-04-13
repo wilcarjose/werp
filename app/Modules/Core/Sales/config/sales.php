@@ -17,11 +17,16 @@ return [
                 'admin.sales.taxs',
                 'admin.sales.discounts',
                 'admin.sales.orders',
+                'admin.sales.invoices',
             ],
             'items' => [                
                 [
                     'name' => 'view.menu.sales_orders',
                     'route' => 'admin.sales.orders.index',
+                ],
+                [
+                    'name' => 'view.menu.invoices',
+                    'route' => 'admin.sales.invoices.index',
                 ],
                 [
                     'name' => 'view.menu.product_output',
@@ -68,44 +73,6 @@ return [
                         ],
                     ],
                 ],
-        /*
-                [
-                    'name' => 'view.menu.processes',
-                    'icon' => '',
-                    'route' => 'admin.sales.processes',
-                    'routes' => [
-                        'admin.sales.price_lists',
-                        'admin.products.product_output',
-                        'admin.sales.orders',
-                    ],
-                    'items' => [                        
-                        [
-                            'name' => 'view.menu.price_list',
-                            'route' => 'admin.sales.price_lists.index',
-                        ],
-                        [
-                            'name' => 'view.menu.sales_orders',
-                            'route' => 'admin.sales.orders.index',
-                        ],
-                        [
-                            'name' => 'view.menu.product_output',
-                            'route' => 'admin.products.product_output.index',
-                        ],                        
-                    ],
-                ],
-        */
-        /*      [
-                    'name' => 'view.menu.reports',
-                    'icon' => '',
-                    'route' => 'admin.sales.reports',
-                    'routes' => [
-                        
-                    ],
-                    'items' => [
-                        
-                    ],
-                ],
-        */
             ]
     ],
 
@@ -180,6 +147,40 @@ return [
                 ]
             ],
             Basedoc::PO_DOC => [
+                Basedoc::PE_STATE => [
+                    'key' => 'pending',
+                    'name' => 'view.pending',
+                    'after_name' => 'view.pending',
+                    'new_actions' => [Basedoc::PR_STATE],
+                    'actions_from' => [],
+                    'color' => 'gold',
+                ],
+                Basedoc::PR_STATE => [
+                    'key' => 'process',
+                    'name' => 'view.process',
+                    'after_name' => 'view.processed',
+                    'new_actions' => [Basedoc::CA_STATE],
+                    'actions_from' => [Basedoc::PE_STATE],
+                    'color' => '#4caf50',
+                ],
+                Basedoc::CA_STATE => [
+                    'key' => 'cancel',
+                    'name' => 'view.cancel',
+                    'after_name' => 'view.canceled',
+                    'new_actions' => [],
+                    'actions_from' => [Basedoc::PR_STATE],
+                    'color' => 'tomato',
+                ],
+                Basedoc::RE_STATE => [ // reverse document at the same date
+                    'key' => 'reverse',
+                    'name' => 'view.reverse',
+                    'after_name' => 'view.reversed',
+                    'new_actions' => [],
+                    'actions_from' => [],
+                    'color' => 'wheat',
+                ]
+            ],
+            Basedoc::SI_DOC => [
                 Basedoc::PE_STATE => [
                     'key' => 'pending',
                     'name' => 'view.pending',

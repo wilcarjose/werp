@@ -3,12 +3,18 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Werp\Modules\Core\Base\Models\BaseModel;
+use Werp\Modules\Core\Maintenance\Models\Config;
 use Werp\Modules\Core\Maintenance\Models\Basedoc;
 use Werp\Modules\Core\Maintenance\Models\Doctype;
 use Werp\Modules\Core\Maintenance\Models\Company;
 
 class InvoiceDoctypeTableSeeder extends Seeder
 {
+    protected $configs = [
+        ['view.purchases.default_pi_doc', Config::PUR_DEFAULT_PI_DOC, null, 'pur', 'view.purchases.default_pi_doc', 'doctype'],
+        ['view.sales.default_si_doc', Config::SAL_DEFAULT_SI_DOC, null, 'sal', 'view.sales.default_si_doc', 'doctype'],
+    ];
+
     protected function getBasedocs()
     {
         return [
@@ -78,6 +84,22 @@ class InvoiceDoctypeTableSeeder extends Seeder
         foreach ($this->getDoctypes() as $doctype) {
             $doctype['company_id']  = $company->id;
             Doctype::create($doctype);
+        }
+
+        foreach ($this->configs as $config) {
+            Config::create(
+                [
+                    'name'          => $config[0],
+                    'key'           => $config[1],
+                    'value'         => $config[2],
+                    'module'        => $config[3],
+                    'translate_key' => $config[4],
+                    'type'          => $config[5],
+                    'created_at'    => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at'    => Carbon::now()->format('Y-m-d H:i:s'),
+                    'company_id'    => $company->id,
+                ]
+            );
         }
     }
 }

@@ -1,26 +1,19 @@
 <?php
 
-namespace Werp\Modules\Core\Purchases\Builders;
+namespace Werp\Modules\Core\Sales\Builders;
 
 use Werp\Builders\FormBuilder;
 use Werp\Builders\Inputs\InputBuilder;
 use Werp\Builders\Selects\TaxSelect;
-use Werp\Builders\Selects\FormSelect;
 use Werp\Builders\Inputs\DateInput;
-use Werp\Builders\Selects\SelectBuilder;
 use Werp\Builders\Actions\ActionBuilder;
 use Werp\Builders\Selects\DiscountSelect;
-use Werp\Builders\Inputs\TextInput;
-use Werp\Builders\Inputs\CodeInput;
-use Werp\Builders\Actions\SaveAction;
-use Werp\Builders\Inputs\AmountInput;
 use Werp\Builders\Actions\UpdateAction;
 use Werp\Builders\Selects\PaymentMethodSelect;
 use Werp\Builders\Selects\DoctypeSelect;
-use Werp\Builders\Selects\SupplierSelectBuilder;
+use Werp\Builders\Selects\CustomerSelectBuilder;
 use Werp\Builders\Actions\ContinueAction;
 use Werp\Builders\Selects\CurrencySelect;
-use Werp\Builders\Selects\WarehouseSelect;
 use Werp\Builders\Inputs\DescriptionInput;
 use Werp\Modules\Core\Base\Builders\SimplePage;
 use Werp\Modules\Core\Maintenance\Models\Config;
@@ -28,8 +21,8 @@ use Werp\Modules\Core\Maintenance\Models\Basedoc;
 
 class InvoiceForm extends SimplePage
 {
-    protected $moduleRoute = 'admin.purchases.invoices';
-    protected $mainTitle = 'Factura de compra';
+    protected $moduleRoute = 'admin.sales.invoices';
+    protected $mainTitle = 'Factura de venta';
     protected $newTitle = 'Nueva';
     protected $editTitle = 'Editar';
 
@@ -42,12 +35,15 @@ class InvoiceForm extends SimplePage
         $inputs[] = new InputBuilder('number', trans('view.number'));
         $inputs[] = new DateInput;
         $inputs[] = new CurrencySelect;
-        $inputs[] = new SupplierSelectBuilder;
+        $inputs[] = new CustomerSelectBuilder;
         $inputs[] = new TaxSelect;
         $inputs[] = new DiscountSelect;
         $inputs[] = (new PaymentMethodSelect)->setNone(true);
         $inputs[] = (new DescriptionInput)->advancedOption();
-        $inputs[] = (new DoctypeSelect(Basedoc::PI_DOC, Config::PUR_DEFAULT_PI_DOC))->advancedOption();
+        $inputs[] = (new DoctypeSelect(
+            Basedoc::SI_DOC,
+            Config::SAL_DEFAULT_SI_DOC
+        ))->advancedOption();
 
         return $inputs;
     }
@@ -91,14 +87,14 @@ class InvoiceForm extends SimplePage
 
         $form
             ->setWidth('s10 push-m1')
-            ->setState(trans(config('purchases.document.actions.'.Basedoc::PI_DOC.'.'.$data['state'].'.after_name')))
-            ->setStateColor(config('purchases.document.actions.'.Basedoc::PI_DOC.'.'.$data['state'].'.color'));
+            ->setState(trans(config('sales.document.actions.'.Basedoc::SI_DOC.'.'.$data['state'].'.after_name')))
+            ->setStateColor(config('sales.document.actions.'.Basedoc::SI_DOC.'.'.$data['state'].'.color'));
             ;
 
-        $actionKeys = config('purchases.document.actions.'.Basedoc::PI_DOC.'.'.$data['state'].'.new_actions');
+        $actionKeys = config('sales.document.actions.'.Basedoc::SI_DOC.'.'.$data['state'].'.new_actions');
 
         foreach ($actionKeys as $key) {
-            $action = config('purchases.document.actions.'.Basedoc::PI_DOC.'.'.$key);
+            $action = config('sales.document.actions.'.Basedoc::SI_DOC.'.'.$key);
             $form->addAction(new ActionBuilder($action['key'], ActionBuilder::TYPE_LINK, trans($action['name']), '', 'button', route($this->getRoute().'.'.$action['key'], $data['id'])));
         }
 

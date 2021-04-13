@@ -14,11 +14,11 @@ class Config extends Model
     const INV_DEFAULT_PO_DOC = 'inv_default_po_doc';
     const INV_DEFAULT_IO_DOC = 'inv_default_io_doc';
     const INV_DEFAULT_SO_DOC = 'inv_default_so_doc';
-    const INV_DEFAULT_PI_DOC = 'inv_default_pi_doc';
-    const INV_DEFAULT_SI_DOC = 'inv_default_si_doc';
     const INV_DEFAULT_IM_DOC = 'inv_default_im_doc';
     const MAI_DEFAULT_CURRENCY = 'mai_default_currency';
     const MAI_BASE_CURRENCY = 'mai_base_currency';
+    const PUR_DEFAULT_PI_DOC = 'pur_default_pi_doc';
+    const SAL_DEFAULT_SI_DOC = 'sal_default_si_doc';
 
     protected $table = 'config';
 

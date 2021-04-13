@@ -177,5 +177,11 @@ return [
     'texts' => [
         'associated_to_item' => 'Este ítem tiene asociado lo siguiente:',
         'associated_to_item' => 'Este ítem no puede ser eliminado, porque tiene otro registro asociado. Por favor, elimine primero los registros asociados',
+    ],
+    'sales' => [
+        'default_si_doc' => 'Documento de factra de venta por defecto',
+    ],
+    'purchases' => [
+        'default_pi_doc' => 'Documento de factra de compra por defecto',
     ]
 ];

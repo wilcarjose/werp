@@ -30,6 +30,8 @@ class ConfigService
             Basedoc::IO_DOC => Config::INV_DEFAULT_IO_DOC,
             Basedoc::SO_DOC => Config::INV_DEFAULT_SO_DOC,
             Basedoc::IM_DOC => Config::INV_DEFAULT_IM_DOC,
+            Basedoc::PI_DOC => Config::PUR_DEFAULT_PI_DOC,
+            Basedoc::SI_DOC => Config::SAL_DEFAULT_SI_DOC,
         ];
 
         $this->productsConfig = [

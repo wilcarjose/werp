@@ -150,13 +150,13 @@ class Invoice extends Model
         return $this->type == self::SALE_TYPE ? Basedoc::SI_DOC : Basedoc::PI_DOC;
     }
 
-    public function getState($state = null)
+    public function getState($state = null, $pursal = 'purchases')
     {
         if ($state) {
-            return config('purchases.document.actions.'.$this->getType().'.'.$state);
+            return config($pursal . '.document.actions.'.$this->getType().'.'.$state);
         }
 
-        return config('purchases.document.actions.'.$this->getType().'.'.$this->state);
+        return config($pursal . '.document.actions.'.$this->getType().'.'.$this->state);
     }
 
     public function partner()
